@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home v2 · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+.unit .unit-pic img { transition: transform 1.2s cubic-bezier(.2, .7, .2, 1), opacity .6s ease; }
+.unit .unit-alt { opacity: 0; }
+.unit:hover .unit-pic img, .unit:focus-visible .unit-pic img { transform: scale(1.04); }
+.unit:hover .unit-alt, .unit:focus-visible .unit-alt { opacity: 1; }
+.unit-price { opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .7, .2, 1); }
+.unit:hover .unit-price, .unit:focus-visible .unit-price { opacity: 1; transform: none; }
+@media (hover: none) { .unit-price { opacity: 1; transform: none; } }
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<div id="top" style="position: relative; height: {{wrapH}};">
+  <section style="position: sticky; top: 0; height: {{heroH}}; overflow: hidden; background: var(--bg);">
+    <header style="position: absolute; z-index: 5; top: 0; left: 0; right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter);">
+      <div style="display: flex; align-items: center;">
+        <a href="Menu-list.dc.html" class="soft-pill" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 18px 0 14px; background: {{chipBg}}; color: {{headColor}}; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .4s, background-color .4s;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a>
+      </div>
+      <a href="#top" aria-label="Amour Relax Hotel, home" style="position: relative; display: block; height: 44px; width: 248px;">
+        <img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="position: absolute; left: 0; top: 0; height: 76px; margin: -16px 0; opacity: {{logoDarkO}}; transition: opacity .4s;">
+        <img src="/_blob/2901163e35c220801b42aced9684d164" alt="" aria-hidden="true" style="position: absolute; left: 0; top: 0; height: 76px; margin: -16px 0; opacity: {{logoLightO}}; transition: opacity .4s;">
+      </a>
+      <div style="display: flex; align-items: center; justify-content: flex-end; gap: 16px;">
+        <a href="#top" class="soft-pill" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: {{chipBg}}; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: {{headColor}}; text-decoration: none; transition: color .4s, background-color .4s;">EN</a>
+        <x-import component-from-global-scope="Amour.Button" variant="{{bookVariant}}" href="#book">Book</x-import>
+      </div>
+    </header>
+
+    <div style="position: absolute; z-index: 3; left: var(--gutter); top: {{sideTop}}; width: {{sideLW}}; display: flex; flex-direction: column; gap: 16px; opacity: {{sideO}};">
+      <h1 style="margin: 0; font-family: var(--font-body); font-size: 18px; font-weight: 500; line-height: 1.5; color: var(--text);">A nine-room hotel with its own court, among olive groves above Almyrida bay, Crete.</h1>
+    </div>
+    <div style="position: absolute; z-index: 3; right: var(--gutter); top: {{sideTop}}; width: 240px; display: {{sideRD}}; flex-direction: column; gap: 16px; text-align: right; align-items: flex-end; opacity: {{sideO}};">
+      <p style="margin: 0; font-size: 16px; color: var(--text-2);">Open from March to October.</p>
+      <x-import component-from-global-scope="Amour.Button" variant="primary" href="#book">Check dates</x-import>
+    </div>
+
+    <div style="position: absolute; z-index: 1; left: 50%; top: {{archTop}}; width: {{archW}}; height: {{archH}}; transform: translateX(-50%); border-radius: {{archR}}; overflow: hidden; background: var(--c-dark);">
+      <video src="/_blob/b0bf041382d31b29afb9ccc9eb79bcef" poster="/_blob/e9a2a1196453b8875bd0d496802f1fb9" autoPlay="{{yes}}" muted="{{yes}}" loop="{{yes}}" playsInline="{{yes}}" aria-label="Drone view of Amour Relax Hotel among olive groves above Almyrida bay" style="display: block; width: 100%; height: 100%; object-fit: cover;"></video>
+      <div style="position: absolute; inset: 0; background: var(--c-dark); opacity: {{scrimO}};"></div>
+      <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 240px; pointer-events: none; background: linear-gradient(to bottom, rgba(42, 36, 32, 0.4), rgba(42, 36, 32, 0.14) 55%, rgba(42, 36, 32, 0)); opacity: {{topScrimO}};"></div>
+      <div class="pblur pblur--top fade-in" aria-hidden="true" style="height: 180px; display: {{pbShow}};"><span></span><span></span><span></span></div>
+    </div>
+
+    <img src="/_blob/05ae0d622457c2e5109b65d5ef84befc" alt="" aria-hidden="true" style="position: absolute; z-index: 2; left: var(--gutter); bottom: 40px; width: calc(100% - 2 * var(--gutter)); height: auto; display: block; opacity: {{wmDarkO}}; transform: translateY({{wmShift}});">
+    <img src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true" style="position: absolute; z-index: 2; left: var(--gutter); bottom: 40px; width: calc(100% - 2 * var(--gutter)); height: auto; display: block; opacity: {{wmLightO}};">
+  </section>
+</div>
+
+<div id="book" style="position: relative; z-index: 2; background: var(--bg); padding: 56px var(--gutter) 64px;">
+  <div style="max-width: var(--container); margin: 0 auto;">
+    <!-- the same search as on the booking page: each field opens the English calendar there -->
+    <div class="bk-search" style="display: grid; grid-template-columns: 1fr 1fr 1.2fr auto; gap: 12px; align-items: stretch;">
+      <a href="Book.dc.html" onClick="{{askCal}}" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Arrive</span><span style="font-size: 18px;">Add date</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Leave</span><span style="font-size: 18px;">Add date</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" class="bk-guests" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Guests</span><span style="font-size: 18px;">2 adults</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" class="am-btn bk-go" style="min-height: 76px; padding: 0 36px; border-radius: 16px; box-sizing: border-box;">Check dates</a>
+    </div>
+  </div>
+</div>
+
+<section ref="{{setPhrase}}" style="display: flex; align-items: center; min-height: {{phMinH}}; box-sizing: border-box; background: var(--deep); color: var(--on-deep); padding: 160px var(--gutter); margin: 0 calc(var(--gutter) * {{phIn}}); border-radius: {{phR}};">
+  <div style="width: 100%; max-width: 1180px; margin: 0 auto;">
+    <p class="stmt" style="margin: 0; font-family: var(--font-head); font-size: clamp(36px, 5.3vw, 76px); line-height: 1.18; letter-spacing: -0.03em;"><sc-for list="{{words}}" as="w" hint-placeholder-count="16"><span style="opacity: {{w.op}}; transition: opacity .5s;">{{w.text}} </span></sc-for></p>
+  </div>
+</section>
+
+<section ref="{{setEstate}}" style="padding: var(--sec-l) var(--gutter) max(24px, calc(var(--sec-m) - 100px)); overflow-x: clip;">
+  <div style="position: relative; max-width: var(--container); margin: 0 auto; padding-top: 270px;">
+    <div style="position: absolute; left: 0; top: 0; max-width: 1240px; display: flex; flex-direction: column; gap: 20px; transform: translateY({{estTitleY}});">
+      <p class="am-eyebrow" style="margin: 0; color: var(--accent);">The estate</p>
+      <h2 class="am-h1" style="margin: 0;">Stone terraces among olive groves</h2>
+    </div>
+    <div class="soft-zoom" style="margin: 0 0 0 {{estML}}; width: {{estW}}; height: {{estH}}; border-radius: {{estR}}; overflow: hidden;">
+      <img src="/_blob/c7c14ed99aa8d9c4132d959c37050de9" alt="The hotel from the air: room blocks on terraces, the court and pool, olive groves all around" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+    </div>
+  </div>
+</section>
+
+<section id="day" ref="{{setDay}}" aria-labelledby="day-title" style="position: relative; height: {{dy.h}};">
+  <div style="position: {{dy.pos}}; top: 0; height: {{dy.sh}}; overflow: hidden; box-sizing: border-box; padding: {{dy.pad}}; display: flex; flex-direction: column;">
+    <div data-reveal="letter" style="flex: none; width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); box-sizing: border-box; text-align: center;">
+      <h2 id="day-title" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: {{dy.headFs}}; line-height: 1; letter-spacing: -0.02em;"><span class="ln"><span>A day at Amour</span></span></h2>
+    </div>
+    <div data-nopar style="position: relative; flex: 1; min-height: 0;">
+      <sc-for list="{{dayCards}}" as="c" hint-placeholder-count="11">
+        <div aria-hidden="{{c.hid}}" style="position: absolute; left: 50%; top: 50%; width: {{c.w}}; height: {{c.h}}; transform: translate3d({{c.x}}, -50%, 0); border-radius: {{c.r}}; overflow: hidden; background: var(--line); visibility: {{c.vis}}; z-index: {{c.z}}; transition: {{c.tn}};">
+          <img src="{{c.src}}" alt="{{c.alt}}" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: {{c.pos}}; filter: {{c.fl}}; transform: scale({{c.s}}); transition: {{c.tn}};">
+        </div>
+      </sc-for>
+    </div>
+    <div style="position: relative; flex: none; height: {{dy.capH}};">
+      <sc-for list="{{dayCaps}}" as="c" hint-placeholder-count="5">
+        <div style="position: absolute; left: 0; right: 0; top: 0; padding: 0 var(--gutter); display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; opacity: {{c.o}}; transform: translateY({{c.y}}); transition: {{c.tn}};">
+          <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">{{c.label}}</p>
+          <p style="margin: 0; max-width: 560px; font-size: {{dy.lineFs}}; line-height: 1.32; color: var(--text); text-wrap: balance;">{{c.text}}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="rooms" ref="{{setRooms}}" aria-labelledby="rooms-title" style="position: relative; overflow-x: clip;">
+  <div ref="{{setRoomsIn}}" data-nopar style="position: {{rm.pos}}; top: {{rm.top}}; box-sizing: border-box; padding: {{rm.pad}};">
+    <div style="width: 100%; max-width: var(--container); margin: 0 auto;">
+      <div data-reveal="head" style="display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-bottom: 56px; opacity: {{rm.o}};">
+        <p class="rv-fade" style="margin: 0; display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="display: inline-flex; align-items: center; gap: 10px; padding: 5px 18px 5px 5px; border-radius: 999px; background: var(--surface); font-size: 15px; color: var(--text);"><span style="display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; background: var(--c-limestone); font-size: 15px; font-weight: 500;">3</span>Rooms</span>
+          <span style="display: inline-flex; align-items: center; gap: 10px; padding: 5px 18px 5px 5px; border-radius: 999px; background: var(--surface); font-size: 15px; color: var(--text);"><span style="display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 34px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; background: var(--c-limestone); font-size: 15px; font-weight: 500;">1</span>Villa</span>
+        </p>
+        <h2 id="rooms-title" style="margin: 0; text-align: right; font-family: var(--font-head); font-weight: 400; font-size: min(5.6vw, 9vh, 88px); line-height: 1; letter-spacing: -0.03em;"><span class="ln"><span>Stay like</span></span><span class="ln"><span>you live here</span></span></h2>
+      </div>
+      <div data-reveal="units" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; align-items: start;">
+        <div style="display: flex; flex-direction: column; gap: 64px;">
+        <sc-for list="{{unitsL}}" as="u" hint-placeholder-count="2">
+          <a class="unit rv-fade" href="{{u.href}}" data-theme="{{u.theme}}" aria-label="{{u.aria}}" style="display: flex; flex-direction: column; gap: 18px; color: var(--text); text-decoration: none; transition-delay: {{u.d}}; opacity: {{u.o}};">
+            <div class="unit-pic" ref="{{u.ref}}" style="position: relative; aspect-ratio: {{u.ar}}; border-radius: {{u.r}}; overflow: hidden; background: var(--line); opacity: {{u.picO}};">
+              <img src="{{u.src}}" alt="{{u.alt}}" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: {{u.pos}};">
+              <img class="unit-alt" src="{{u.src2}}" alt="" aria-hidden="true" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap;">
+              <span style="font-family: var(--font-head); font-size: clamp(19px, 1.9vw, 28px); line-height: 1.2; letter-spacing: -0.02em; white-space: nowrap; color: {{u.nameC}}; font-weight: 500;">{{u.name}}</span>
+              <span aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <sc-for list="{{u.facts}}" as="f" hint-placeholder-count="3">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; box-sizing: border-box; border-radius: 999px; background: var(--surface); font-size: 15px; line-height: 1; white-space: nowrap; color: var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display: {{f.show}}; flex: none;"><path d="{{f.d}}"></path></svg>{{f.t}}</span>
+                </sc-for>
+              </span>
+            </div>
+          </a>
+        </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 64px;">
+        <sc-for list="{{unitsR}}" as="u" hint-placeholder-count="2">
+          <a class="unit rv-fade" href="{{u.href}}" data-theme="{{u.theme}}" aria-label="{{u.aria}}" style="display: flex; flex-direction: column; gap: 18px; color: var(--text); text-decoration: none; transition-delay: {{u.d}}; opacity: {{u.o}};">
+            <div class="unit-pic" ref="{{u.ref}}" style="position: relative; aspect-ratio: {{u.ar}}; border-radius: {{u.r}}; overflow: hidden; background: var(--line); opacity: {{u.picO}};">
+              <img src="{{u.src}}" alt="{{u.alt}}" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: {{u.pos}};">
+              <img class="unit-alt" src="{{u.src2}}" alt="" aria-hidden="true" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap;">
+              <span style="font-family: var(--font-head); font-size: clamp(19px, 1.9vw, 28px); line-height: 1.2; letter-spacing: -0.02em; white-space: nowrap; color: {{u.nameC}}; font-weight: 500;">{{u.name}}</span>
+              <span aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <sc-for list="{{u.facts}}" as="f" hint-placeholder-count="3">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; box-sizing: border-box; border-radius: 999px; background: var(--surface); font-size: 15px; line-height: 1; white-space: nowrap; color: var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display: {{f.show}}; flex: none;"><path d="{{f.d}}"></path></svg>{{f.t}}</span>
+                </sc-for>
+              </span>
+            </div>
+          </a>
+        </sc-for>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" style="position: absolute; z-index: 3; left: {{rm.fl}}; top: {{rm.ft}}; width: {{rm.fw}}; height: {{rm.fh}}; border-radius: {{rm.fr}}; overflow: hidden; opacity: {{rm.fo}}; background: var(--c-depth);"><img src="/_blob/8c07121482921ffe3be6f861ce5e82fe" alt="" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; transform: scale({{rm.fs}});"></div>
+    <p aria-hidden="true" style="position: absolute; z-index: 2; left: var(--gutter); top: {{rm.cyL}}; margin: 0; font-family: var(--font-head); font-size: {{rm.wfs}}; line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); transform: translate({{rm.wl}}, -50%); opacity: {{rm.wo}};">Room for</p>
+    <p aria-hidden="true" style="position: absolute; z-index: 2; right: var(--gutter); top: {{rm.cyR}}; margin: 0; font-family: var(--font-head); font-size: {{rm.wfs}}; line-height: 1; letter-spacing: -0.02em; color: var(--c-ink); transform: translate({{rm.wr}}, -50%); opacity: {{rm.wo}};">everyone</p>
+    <p aria-hidden="true" style="position: absolute; z-index: 2; left: var(--gutter); top: {{rm.cy2}}; margin: 0; display: {{rm.capD}}; max-width: {{rm.capW}}; text-wrap: balance; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sea); transform: translateX({{rm.wl}}); opacity: {{rm.wo}}; font-family: var(--font-label);">The villa next door</p>
+    <p aria-hidden="true" style="position: absolute; z-index: 2; right: var(--gutter); top: {{rm.cy2}}; margin: 0; display: {{rm.capD}}; max-width: {{rm.capW}}; text-wrap: balance; text-align: right; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-sea); transform: translateX({{rm.wr}}); opacity: {{rm.wo}}; font-family: var(--font-label);">4 minutes from the hotel</p>
+  </div>
+  <div aria-hidden="true" style="height: {{rm.tail}};"></div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":7400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const now = new Date();
+    const m = now.getMonth();
+    const inSeason = m >= 2 && m <= 9;
+    const yr = now.getFullYear() + (m >= 10 ? 1 : 0);
+    const pad = (n) => String(n).padStart(2, '0');
+    this.state = {
+      y: 0, vh: 900, isStatic: true, tick: 0, room: 0, hoverRoom: null, hoverY: 0, tops: {},
+      gDate: inSeason ? now.getFullYear() + '-' + pad(m + 1) + '-' + pad(now.getDate()) : yr + '-05-15'
+    };
+    this.els = {};
+    this.raf = null;
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.refs2 = {};
+    ['phrase', 'estate', 'rooms', 'roomsIn', 'day', 'v4', 'ch0', 'ch1', 'ch2', 'ch3'].forEach((n) => { this.refs2[n] = (el) => { this.els[n] = el; }; });
+    this.measure = () => {
+      this.raf = null;
+      const vh = window.innerHeight || 900;
+      const tops = {};
+      const hs = {};
+      Object.keys(this.els).forEach((n) => { if (this.els[n]) { const r = this.els[n].getBoundingClientRect(); tops[n] = r.top; hs[n] = r.height; } });
+      const v4 = this.els.v4 ? this.els.v4.getBoundingClientRect() : null;
+      this.setState({ y: window.scrollY || 0, vh: vh, vw: window.innerWidth || 1440, isStatic: vh > 1600, tops: tops, hs: hs, v4: v4 ? { l: v4.left, t: v4.top, w: v4.width, h: v4.height } : null });
+    };
+    this.onScroll = () => { if (!this.raf) this.raf = window.requestAnimationFrame(this.measure); };
+    this.onDate = (e) => { this.setState({ gDate: e.target.value }); };
+    this.roomsLeave = () => { this.setState({ hoverRoom: null }); };
+    this.askCal = () => { try { window.sessionStorage.setItem('amour-cal', 'arr'); } catch (e) {} };
+    // A tab scrolls the page to the point where that unit is open
+    this.goRoom = (i) => { const el = this.els.rooms; if (!el || this.state.isStatic) { this.setState({ room: i }); return; } const top = el.getBoundingClientRect().top + window.scrollY; window.scrollTo({ top: top + i * 460 + 40, behavior: 'smooth' }); };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+    this.timer = window.setInterval(() => { if (this.state.isStatic) this.setState({ tick: (this.state.tick + 1) % 4 }); }, 4500);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+    window.clearInterval(this.timer);
+    if (this.pdRaf) window.cancelAnimationFrame(this.pdRaf);
+  }
+  sunTimes(iso) {
+    const parts = (iso || '').split('-').map(Number);
+    if (parts.length !== 3 || !parts[0]) return null;
+    const lat = 35.447, lon = 24.172, rad = Math.PI / 180;
+    const day0 = Date.UTC(parts[0], parts[1] - 1, parts[2]);
+    const n = Math.round((day0 - Date.UTC(parts[0], 0, 1)) / 86400000) + 1;
+    const g = 2 * Math.PI / 365 * (n - 1);
+    const eq = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = Math.acos(Math.cos(90.833 * rad) / (Math.cos(lat * rad) * Math.cos(dec)) - Math.tan(lat * rad) * Math.tan(dec)) / rad;
+    const setMin = 720 - 4 * (lon - ha) - eq;
+    const fmt = (min) => new Date(day0 + min * 60000).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Athens' });
+    return { sunset: fmt(setMin), golden: fmt(setMin - 60), court: fmt(setMin - 75) };
+  }
+  renderVals() {
+    const s = this.state;
+    const live = !s.isStatic;
+    const t = s.tops || {};
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    const ease = (v) => v * v * (3 - 2 * v);
+    const p = ease(live ? clamp(s.y / 520) : 0);
+    const H = live ? Math.max(520, Math.min(1100, s.vh)) : 920;
+    const phoneH = (s.vw || 1440) < 760;
+    // Phrase block: from a framed card to a full red screen as it comes up
+    const ph = live ? ease(clamp((s.vh - (t.phrase || 0)) / (s.vh * 0.7))) : 0;
+    // Rooms: pinned for 4 x 460px of scroll, one unit per step
+    const pinRooms = live && s.vh >= 520;
+    const pr = pinRooms ? clamp(-(t.rooms || 0) / 1840) : 0;
+    const scrollRoom = pinRooms ? Math.min(3, Math.floor(pr * 4)) : s.room;
+    // Hover (a real pointer move) opens a unit; scrolling on hands control back to the scroll
+    // Rooms: hold, then the villa card flies to the middle of the screen and becomes the villa's arch
+    const pinR = live && s.vh >= 480;
+    const Hin = (s.hs && s.hs.roomsIn) || s.vh;
+    const pinAt = Hin - s.vh;
+    const rk = pinR && t.rooms !== undefined ? clamp((-t.rooms - pinAt - 250) / 700) : 0;
+    const inTop = t.roomsIn !== undefined ? t.roomsIn : 0;
+    // the villa card's own size in the grid (same formula in both parts), so the arch only ever grows: grid card -> centre -> full screen
+    const docW = (document.documentElement && document.documentElement.clientWidth) || s.vw || 1440;
+    const gutD = Math.max(16, Math.min(56, (window.innerWidth || docW) * 0.04));
+    // on a phone the grid is one column, so the villa card is the full width
+    const phoneV = docW < 760;
+    const cardW = phoneV ? docW - 2 * gutD : (Math.min(docW - 2 * gutD, 1240) - 24) / 2, cardH = phoneV ? cardW * 5 / 4 : s.vh < 760 ? cardW : cardW * 7 / 6;
+    const wfs = phoneV ? Math.min(44, docW * 0.11) : Math.max(28, Math.min(84, s.vh * 0.09, ((docW - cardW) / 2 - gutD - 32) / 6.6));
+    const vw = s.vw || 1440, W0 = cardW, H0 = cardH;
+    const st = s.v4 || { l: vw - 300, t: s.vh / 2, w: W0, h: H0 }, fe = rk * rk * (3 - 2 * rk);
+    const lerp = (a, b, k) => a + (b - a) * k;
+    const rm = { pos: pinR ? 'sticky' : 'relative', top: pinR ? Math.round(s.vh - Hin) + 'px' : '0px', tail: pinR ? '950px' : '0px',
+      pad: pinR ? (s.vh < 720 ? 'var(--sec-l) var(--gutter) 24px' : 'var(--sec-l) var(--gutter) 40px') : 'var(--sec-l) var(--gutter) var(--sec-m)',
+      o: (1 - ease(clamp(rk / 0.4))).toFixed(3), fo: rk > 0 ? 1 : 0,
+      fl: lerp(st.l, (docW - W0) / 2, fe).toFixed(1) + 'px', ft: (lerp(st.t, (s.vh - H0) / 2, fe) - inTop).toFixed(1) + 'px', fw: lerp(st.w, W0, fe).toFixed(1) + 'px', fh: lerp(st.h, H0, fe).toFixed(1) + 'px',
+      fr: '999px 999px 24px 24px', fs: (1 + 0.12 * fe).toFixed(4), wfs: wfs.toFixed(1) + 'px', cy: Math.round(s.vh / 2 - inTop) + 'px', cyL: Math.round(s.vh / 2 - inTop - (phoneV ? cardH / 2 + wfs * 0.9 : 0)) + 'px', cyR: Math.round(s.vh / 2 - inTop + (phoneV ? cardH / 2 + wfs * 0.9 : 0)) + 'px', capD: phoneV ? 'none' : 'block', cy2: Math.round(s.vh / 2 - inTop + wfs * 0.62 + 18) + 'px', capW: Math.round((docW - cardW) / 2 - gutD - 28) + 'px',
+      wo: ease(clamp((rk - 0.6) / 0.4)).toFixed(3), wl: Math.round(-80 * (1 - ease(clamp((rk - 0.6) / 0.4)))) + 'px', wr: Math.round(80 * (1 - ease(clamp((rk - 0.6) / 0.4)))) + 'px' };
+    const room = s.hoverRoom !== null && (!pinRooms || Math.abs(s.y - s.hoverY) < 60) ? s.hoverRoom : scrollRoom;
+    // with reduced motion the whole phrase is shown at once
+    const q = this.reduce ? 1 : live ? clamp((s.vh * 0.85 - (t.phrase || 0)) / (s.vh * 0.75)) : 0.55;
+    const r = ease(live ? clamp((s.vh - (t.estate || 0)) / s.vh) : 0);
+    const onPhoto = p > 0.82;
+    const arch = Math.round(260 * (1 - p));
+    const low = Math.round(24 * (1 - p));
+    const estR = Math.round(170 - 146 * r);
+    const seen = (n) => !live || (t[n] !== undefined && t[n] < s.vh * 0.88);
+    const enter = (n) => (seen(n) ? { o: 1, y: '0px', b: 'none' } : { o: 0, y: '16px', b: 'blur(8px)' });
+    let active = s.tick;
+    if (live) {
+      active = 0;
+      ['ch0', 'ch1', 'ch2', 'ch3'].forEach((n, i) => { if (t[n] !== undefined && t[n] < s.vh * 0.6) active = i; });
+    }
+    // A day at Amour: the section is pinned; each 45vh of scroll moves the strip one frame along, with a short hold on every frame
+    const FR = [
+      ['/_blob/5cb390922657fafc5eb5043328074546', 'Coffee on a room terrace above the olive groves', '42% 50%', 'Morning', 'A basket from the village bakery at your door, coffee on your own terrace.'],
+      ['/_blob/16175242e07136a77226dd8cb574b487', 'Two guests on their terrace looking out over the hills to the sea', '50% 50%', 'Midday', 'Then the island: Seitan Limania, Arkadi, the White Mountains.'],
+      ['/_blob/deb2647ed7b0e40eb233a905c0be42ac', 'A serve on the hotel court at sunset', '50% 45%', 'Golden hour', 'Back when the light turns gold. The court is yours.'],
+      ['/_blob/3d4fe371301d6eb1243e6659e55b94e1', 'A daybed with white curtains on the terrace at dusk', '50% 50%', 'Sunset', 'The sky turns pink over the bay.'],
+      ['/_blob/3e03be045ef749e0d13cdb0ef58aa776', 'The pool at night beside the lit limestone wall', '50% 60%', 'Evening', 'The stone wall glows by the pool, and the wine is Cretan.']
+    ];
+    const NF = FR.length;
+    const pinD = live && s.vh >= 480;
+    const vwD = s.vw || 1440, vhD = pinD ? s.vh : 900;
+    const phoneD = vwD < 760;
+    const headPx = phoneD ? 34 : Math.min(vwD * 0.044, vhD * 0.07, 64);
+    const capPx = phoneD ? 118 : vhD < 700 ? 84 : 104;
+    const topPad = vhD < 700 ? 84 : 100;
+    const Hc = Math.max(200, Math.min(560, vhD - topPad - 24 - headPx - 28 - capPx - 24, phoneD ? vwD * 0.78 / 0.75 : 9999));
+    const Wc = Hc * 0.75, Hs = Hc * 0.6, Ws = Hs * 0.8, gapD = Math.max(18, Math.min(32, vwD * 0.02));
+    const stepPx = s.vh * 0.45;
+    const raw = pinD && t.day !== undefined ? Math.max(0, Math.min(NF - 1, -t.day / stepPx)) : 0;
+    const smooth = (v) => (v < 0.5 ? 4 * v * v * v : 1 - Math.pow(-2 * v + 2, 3) / 2);
+    let PD;
+    if (!pinD) PD = s.tick % NF;
+    else if (this.reduce) PD = Math.round(raw);
+    else {
+      // a gentle sine curve over most of each step, then a short rest on the frame
+      const fl = Math.min(NF - 2, Math.floor(raw)), u = clamp((raw - fl - 0.15) / 0.7);
+      const target = fl + (1 - Math.cos(Math.PI * u)) / 2;
+      // the picture follows the scroll with a little inertia, so a jerky wheel never makes the arch jump
+      if (this.pdS === null || this.pdS === undefined || Math.abs(target - this.pdS) > 1.5) this.pdS = target;
+      this.pdT = target;
+      if (Math.abs(target - this.pdS) > 0.0006 && !this.pdRaf) {
+        this.pdRaf = window.requestAnimationFrame(() => { this.pdRaf = null; this.pdS += (this.pdT - this.pdS) * 0.11; this.setState({ pdTick: ((this.state.pdTick || 0) + 1) % 1000 }); });
+      }
+      PD = this.pdS;
+    }
+    const dy = { h: pinD ? 'calc(100vh + ' + ((NF - 1) * 45 + 25) + 'vh)' : '900px', pos: pinD ? 'sticky' : 'relative', sh: pinD ? '100vh' : '900px',
+      pad: topPad + 'px 0 24px', headFs: headPx.toFixed(1) + 'px', capH: capPx + 'px', lineFs: phoneD ? '19px' : vhD < 700 ? '21px' : 'clamp(22px, 1.9vw, 28px)' };
+    const lerpD = (a, b, k) => a + (b - a) * k;
+    const ks = []; for (let k = -3; k <= NF + 2; k++) ks.push(k);
+    const geo = ks.map((k) => { const a = Math.min(1, Math.abs(k - PD)); return { k: k, a: a, w: lerpD(Wc, Ws, a), h: lerpD(Hc, Hs, a) }; });
+    const X = [0]; for (let j = 1; j < geo.length; j++) X.push(X[j - 1] + geo[j - 1].w / 2 + gapD + geo[j].w / 2);
+    const f0 = Math.floor(PD), i0 = f0 + 3, i1 = Math.min(geo.length - 1, i0 + 1);
+    const Xc = lerpD(X[i0], X[i1], PD - f0);
+    const still = !pinD;
+    const tnC = still ? 'transform 1.4s cubic-bezier(.65, 0, .35, 1), width 1.4s cubic-bezier(.65, 0, .35, 1), height 1.4s cubic-bezier(.65, 0, .35, 1), border-radius 1.4s ease, filter 1.4s ease' : 'none';
+    const dayCards = geo.map((g, j) => {
+      const f = FR[((g.k % NF) + NF) % NF], own = g.k >= 0 && g.k < NF, x = X[j] - Xc, a = g.a;
+      // the shape and the colour change on a soft S-curve, not in a straight line
+      const ea = a * a * (3 - 2 * a);
+      const R = lerpD(Wc / 2, 24, ea);
+      const off = Math.abs(x) - g.w / 2 > vwD / 2 + 40;
+      return { src: f[0], alt: own ? f[1] : '', pos: f[2], hid: own ? 'false' : 'true',
+        w: g.w.toFixed(1) + 'px', h: g.h.toFixed(1) + 'px', x: 'calc(-50% + ' + x.toFixed(1) + 'px)',
+        r: R.toFixed(1) + 'px ' + R.toFixed(1) + 'px 24px 24px', vis: off ? 'hidden' : 'visible', z: Math.round(10 - a * 5),
+        fl: a < 0.01 ? 'none' : 'grayscale(' + (0.88 * ea).toFixed(3) + ') sepia(' + (0.32 * ea).toFixed(3) + ') contrast(' + (1 - 0.08 * ea).toFixed(3) + ') brightness(' + (1 + 0.05 * ea).toFixed(3) + ')',
+        s: (1 + 0.06 * ea).toFixed(4), tn: tnC };
+    });
+    const dayCaps = FR.map((f, i) => { const d = Math.abs(i - PD), o = clamp(1.6 - d * 4);
+      return { label: f[3], text: f[4], o: o.toFixed(3), y: Math.round((i - PD) * 14) + 'px', tn: still ? 'opacity 1s ease, transform 1s ease' : 'none' }; });
+    // Rooms grid: stroke icons for the fact pills
+    const IC = {
+      area: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
+      guests: 'M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM5 20.5v-1A5.5 5.5 0 0 1 10.5 14h3a5.5 5.5 0 0 1 5.5 5.5v1',
+      bed: 'M3 19V6M3 15h18v4M21 15v-2a3 3 0 0 0-3-3h-8v5M6.5 12.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z',
+      water: 'M3 9c2 0 2-1.5 4.5-1.5S10 9 12 9s2-1.5 4.5-1.5S19 9 21 9M3 15c2 0 2-1.5 4.5-1.5S10 15 12 15s2-1.5 4.5-1.5S19 15 21 15'
+    };
+    // tall cards are square on short screens so the villa card fits under the header when the grid holds
+    const tallAr = live && s.vh < 760 ? '1 / 1' : '6 / 7';
+    const fct = (i, t) => ({ d: i ? IC[i] : '', show: i ? 'block' : 'none', t: t });
+    const U = [
+      { name: 'Standard', facts: [fct('area', '20 m²'), fct('guests', '2'), fct('', 'from €[price]')], say: '20 m², 2 guests, from €[price] a night', ar: tallAr, theme: 'amour', src: '/_blob/80e77fe1010b549279e89e9a35d5b698', src2: '/_blob/2b59c90b2750bdb3ac2476355da8d974', alt: 'A bright Standard Room with a queen bed and a sitting corner', href: 'Room-standard.dc.html' },
+      { name: 'Deluxe', facts: [fct('area', '32 m²'), fct('water', 'Pool view'), fct('', 'from €[price]')], say: '32 m², pool view, 2 guests, from €[price] a night', ar: '4 / 3', theme: 'amour', src: '/_blob/fd095be6630808380801bf1a11f4b2b1', src2: '/_blob/d727d557c1b81f70ef2da9c77753cec0', alt: 'Deluxe Room with a sitting corner and the door to the terrace', href: 'Room-deluxe.dc.html' },
+      { name: 'Superior', facts: [fct('water', 'Sea view'), fct('guests', '2'), fct('', 'from €[price]')], say: 'sea view, 2 guests, from €[price] a night', ar: '4 / 3', theme: 'amour', src: '/_blob/c52dc0b422d93e5648121425daaa19a4', src2: '/_blob/0b0dc5985e0129c7969b7aad231dd75f', alt: 'The terrace of a Superior Room looking out to the sea', href: 'Room-superior.dc.html' },
+      { name: 'Villa Eudora', facts: [fct('bed', '5'), fct('guests', '11'), fct('water', 'Own pool')], say: '5 bedrooms, up to 11 guests, own pool', ar: tallAr, theme: 'eudora', src: '/_blob/8c07121482921ffe3be6f861ce5e82fe', src2: '/_blob/2aac80822b69d3836096e30d8c7de6da', alt: 'Friends with wine on the villa terrace above the bay', href: '#villa' }
+    ].map((u, i) => Object.assign(u, {
+      aria: u.name + ', ' + u.say, d: (i % 2 * 0.12).toFixed(2) + 's', o: rm.o, picO: i === 3 && rm.fo > 0 ? 0 : 1, ref: i === 3 ? this.refs2.v4 : null,
+      pos: i === 3 ? '62% 40%' : '50% 50%', r: u.theme === 'eudora' ? '999px 999px 24px 24px' : '24px', nameC: u.theme === 'eudora' ? 'var(--c-sea)' : 'var(--text)'
+    }));
+    const labels = ['Morning', 'Day', 'Golden hour', 'Evening'];
+    const sun = this.sunTimes(s.gDate) || { sunset: '—', golden: '—', court: '—' };
+    const golden = sun.golden;
+    const phrase = 'Nine rooms among olive groves. Your own kitchen, your own terrace, your own slow morning.'.split(' ');
+    return {
+      askCal: this.askCal,
+      yes: true, icon: 22, two: 2,
+      wrapH: (H + 520) + 'px',
+      heroH: H + 'px',
+      sideTop: phoneH ? '92px' : Math.round(H * 0.315) + 'px', sideLW: phoneH ? 'calc(100% - 2 * var(--gutter))' : '260px', sideRD: phoneH ? 'none' : 'flex',
+      phMinH: live ? s.vh + 'px' : 'auto', phIn: (1 - ph).toFixed(4), phR: Math.round(24 * (1 - ph)) + 'px',
+      roomsH: pinRooms ? 'calc(100vh + 1840px)' : 'auto', roomsPos: pinRooms ? 'sticky' : 'relative', roomsStickyH: pinRooms ? '100vh' : 'auto',
+      roomsPad: pinRooms ? (s.vh < 720 ? '92px var(--gutter) 28px' : '104px var(--gutter) 40px') : '120px var(--gutter) 160px',
+      accH: pinRooms ? Math.max(240, Math.min(600, s.vh - (s.vh < 720 ? 340 : 372))) + 'px' : '560px',
+      roomsLeave: this.roomsLeave,
+      roomCols: [0, 1, 2, 3].map((i) => (i === room ? 3.2 : 1) + 'fr').join(' '),
+      archTop: Math.round((phoneH ? 200 : 128) * (1 - p)) + 'px',
+      archW: phoneH ? 'calc(100% - ' + Math.round(32 * (1 - p)) + 'px)' : 'calc(456px + (100% - 456px) * ' + p.toFixed(4) + ')',
+      archH: Math.round(phoneH ? H - 330 + 330 * p : H - 312 + 312 * p) + 'px',
+      archR: arch + 'px ' + arch + 'px ' + low + 'px ' + low + 'px',
+      scrimO: (0.36 * p).toFixed(3),
+      sideO: Math.max(0, 1 - p * 2.2).toFixed(3),
+      wmDarkO: Math.max(0, 1 - p * 1.6).toFixed(3),
+      wmLightO: clamp((p - 0.55) / 0.45).toFixed(3),
+      wmShift: Math.round(40 * p) + 'px',
+      logoDarkO: onPhoto ? 0 : 1,
+      logoLightO: onPhoto ? 1 : 0,
+      headColor: onPhoto ? 'var(--c-limestone)' : 'var(--text)',
+      chipBg: onPhoto ? 'rgba(42, 36, 32, 0.28)' : 'transparent',
+      bookVariant: onPhoto ? 'on-photo' : 'primary',
+      words: phrase.map((w, i) => ({ text: w, op: (0.18 + 0.82 * clamp(q * phrase.length - i)).toFixed(3) })),
+      facts: [
+        { label: '9 rooms' }, { label: 'Kitchen in every room' }, { label: 'Free tennis court' },
+        { label: 'Pool' }, { label: 'Pets welcome' }, { label: '1.2 km to the beach' }, { label: '23 km to Chania' }
+      ],
+      estTitleY: Math.round(-40 * r) + 'px',
+      estW: 'calc(48% + (100vw - 48%) * ' + r.toFixed(4) + ')',
+      // right-aligned at 48% of the container, then out to both screen edges
+      estML: 'calc(52% - (2% + 50vw) * ' + r.toFixed(4) + ')',
+      estH: Math.round(520 + 180 * r) + 'px',
+      estR: Math.round(170 * (1 - r)) + 'px ' + Math.round(170 * (1 - r)) + 'px ' + Math.round(24 * (1 - r)) + 'px ' + Math.round(24 * (1 - r)) + 'px',
+      setPhrase: this.refs2.phrase, setEstate: this.refs2.estate, setRooms: this.refs2.rooms, setRoomsIn: this.refs2.roomsIn,
+      setCh0: this.refs2.ch0, setCh1: this.refs2.ch1, setCh2: this.refs2.ch2, setCh3: this.refs2.ch3,
+      rooms: enter('rooms'),
+      stage: { s0: active === 0 ? 1 : 0, s1: active === 1 ? 1 : 0, s2: active === 2 ? 1 : 0, s3: active === 3 ? 1 : 0 },
+      stageLabel: labels[active],
+      stageTime: ['08:30', '10:00', golden, '21:30'][active],
+      stageBar: { b0: active === 0 ? 1 : 0.35, b1: active === 1 ? 1 : 0.35, b2: active === 2 ? 1 : 0.35, b3: active === 3 ? 1 : 0.35 },
+      chO: { c0: !live || active === 0 ? 1 : 0.45, c1: !live || active === 1 ? 1 : 0.45, c2: !live || active === 2 ? 1 : 0.55, c3: !live || active === 3 ? 1 : 0.55 },
+      dayPos: live ? 'sticky' : 'relative', dayH: live ? '100vh' : '900px', chH: live ? '86vh' : '520px',
+      gDate: s.gDate, onDate: this.onDate,
+      sunset: sun.sunset, golden: sun.golden, court: sun.court,
+      // Smooth gradient while the arch is still opening; the backdrop blur joins only once the corners are square
+      topScrimO: clamp((p - 0.55) / 0.45).toFixed(3),
+      pbShow: p > 0.995 ? 'block' : 'none',
+      setDay: this.refs2.day,
+      // A day at Amour: a strip of the day; the frame in the middle is the colour arch
+      dy: dy,
+      dayCards: dayCards,
+      dayCaps: dayCaps,
+      rm: rm,
+      unitsL: [U[0], U[2]],
+      unitsR: [U[1], U[3]],
+    };
+  }
+}
+</script>
+</body>
+</html>

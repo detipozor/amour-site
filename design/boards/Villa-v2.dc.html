@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Villa Eudora · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+.lbl{margin:0;font-size:13px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-label)}
+.giant{margin:0;font-family:var(--font-head);font-weight:400;font-size:120px;line-height:1;letter-spacing:-0.03em}
+.fig{margin:0;position:relative}
+.fig-pic{position:relative;overflow:hidden;background:rgba(242,234,219,.08)}
+.fig-pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s linear}
+.fig-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-size:14px;letter-spacing:.04em;color:rgba(242,234,219,.6);border:1px dashed rgba(242,234,219,.25);border-radius:inherit}
+.fig-cap{display:flex;justify-content:space-between;gap:16px;margin-top:12px;font-size:14px;color:rgba(242,234,219,.72)}
+.fig-cap b{font-weight:500;color:var(--c-limestone)}
+.feat{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:center;padding:16px 0;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.feat::after{display:none;content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.16;transform-origin:right center;transform:scaleX(var(--ln,1));transition:transform 1s cubic-bezier(.65,0,.25,1) var(--ld,0s)}
+.feat-v{text-align:right;opacity:.78;font-size:16px;line-height:1.45;text-wrap:pretty}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(42,36,32,.07);font-size:13px;font-weight:500;white-space:nowrap}
+.other{display:flex;flex-direction:column;gap:16px;color:var(--text);text-decoration:none}
+.other .pic{aspect-ratio:4/5;border-radius:24px;overflow:hidden}
+.other .pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.other:hover .pic img{transform:scale(1.05)}
+.other:hover{color:var(--text)}
+.cue{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 6px;border-radius:999px;background:rgba(242,234,219,.1);font-size:13px;color:rgba(242,234,219,.8)}
+.cue i{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(242,234,219,.14);font-style:normal;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.cue i{animation:none}.feat,.feat::after,.fig-pic img{transition:none}}
+/* phone, as at Casa Momo: the name stays in the middle of the screen, the photos rise over it one by one,
+   left and right in turn, each with its caption and number */
+@media (max-width:760px){
+#top{height:100svh!important}
+#top h1{font-size:13.5vw!important;line-height:.95!important}
+.stream{padding:0 var(--gutter) 96px!important}
+.fig{width:72vw!important;margin-left:0!important;margin-right:0!important;margin-top:88px!important}
+.fig:has(.fig-pic[style*="4 / 3"]),.fig:has(.fig-pic[style*="16 / 9"]),.fig:has(.fig-pic[style*="3 / 2"]){width:86vw!important}
+.stream>.fig:first-child,.stream>sc-for>.fig:first-child{margin-top:0!important}
+.fig-cap{font-size:13px}
+}
+</style>
+</helmet>
+<div class="v2" data-theme="eudora" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<div style="position: relative;">
+
+<section ref="{{setStage}}" style="position: relative; background: {{stageBg}}; color: var(--c-limestone);">
+  <header style="position: absolute; z-index: 6; top: 0; left: 0; right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter);">
+    <div><a href="Menu-list.dc.html" class="soft-pill" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 18px 0 14px; background: rgba(242, 234, 219, 0.1); color: var(--c-limestone); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+    <a href="Villa-v2.dc.html" aria-label="Eudora · Villa Almyrida, home" style="display: block; height: 44px;"><img src="/_blob/eb8582559f2d00dae3e431652377f8c0" alt="Eudora · Villa Almyrida" style="display: block; height: 88px; margin: -18px 0;"></a>
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+      <a href="#top" class="soft-pill" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: rgba(242, 234, 219, 0.1); font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--c-limestone); text-decoration: none;">EN</a>
+      <x-import component-from-global-scope="Amour.Button" variant="on-photo" href="#book">Book</x-import>
+    </div>
+  </header>
+
+  <div id="top" style="position: sticky; top: 0; z-index: 0; height: {{screenH}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 0 var(--gutter); text-align: center;">
+    <p class="lbl hero-rise" style="color: rgba(242, 234, 219, 0.78); animation-delay: .1s;">{{d.kicker}}</p>
+    <h1 class="hero-rise" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 184px; line-height: 0.98; letter-spacing: -0.03em; animation-delay: .2s;">{{d.title}}</h1>
+    <p class="hero-rise" style="margin: 0; font-size: 18px; color: rgba(242, 234, 219, 0.85); animation-delay: .35s;">{{d.meta}}</p>
+    <span class="cue hero-rise" style="margin-top: 12px; animation-delay: .5s;"><i>↓</i>{{d.cue}}</span>
+  </div>
+
+  <div class="stream" style="position: relative; z-index: 1; margin-top: {{streamMt}}; padding: 0 var(--gutter) 160px; display: flex; flex-direction: column;">
+    <sc-for list="{{figs}}" as="f" hint-placeholder-count="5">
+      <figure class="fig" data-fig="1" style="align-self: {{f.side}}; width: {{f.w}}; margin-top: {{f.mt}}; margin-left: {{f.ml}}; margin-right: {{f.mr}};">
+        <div class="fig-pic" style="aspect-ratio: {{f.ar}}; border-radius: {{f.r}};">
+          <img src="{{f.src}}" alt="{{f.alt}}" style="transform: scale({{f.s}}); opacity: {{f.imgO}};">
+          <div class="fig-ph" style="display: {{f.phD}};">{{f.ph}}</div>
+        </div>
+        <figcaption class="fig-cap"><span>{{f.cap}}</span><span><b>{{f.n}}</b> / {{f.total}}</span></figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<section ref="{{setDet}}" style="background: {{detBg}}; color: {{detFg}}; padding: var(--sec-l) var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto;">
+    <h2 class="giant enter" style="opacity: {{det.o}}; transform: translateY({{det.y}}); filter: {{det.b}};">{{d.detailsTitle}}</h2>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 96px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 10px; opacity: .7;">{{d.descLabel}}</p>
+      <p class="enter" style="grid-column: 5 / span 8; margin: 0; font-size: 28px; line-height: 1.45; opacity: {{det.o}}; transform: translateY({{det.y}}); filter: {{det.b}}; transition-delay: .1s;">{{d.desc}}</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 112px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 18px; opacity: .7;">Key facts</p>
+      <div style="grid-column: 5 / span 8; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-content: start;">
+        <sc-for list="{{feats}}" as="ft" hint-placeholder-count="12">
+          <div class="feat" style="--ln: {{ft.ln}}; --ld: {{ft.ld}}; opacity: {{ft.o}}; transform: translateY({{ft.y}}); transition-delay: {{ft.ld}};">
+            <span>{{ft.k}}</span>
+            <span class="feat-v">{{ft.v}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 48px;">
+      <div style="grid-column: 5 / span 8;">
+        <button type="button" onClick="{{toggleMore}}" aria-expanded="{{more.exp}}" aria-controls="all-details" style="display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 999px; background: rgba(42, 36, 32, 0.07); color: inherit; font-family: var(--font-body); font-size: 15px; font-weight: 500; cursor: pointer;">{{more.label}}<span aria-hidden="true" style="display: inline-block; font-size: 20px; line-height: 1; transform: rotate({{more.rot}}); transition: transform .3s;">+</span></button>
+      </div>
+    </div>
+    <div id="all-details" style="display: {{more.d}}; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 40px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 18px; opacity: .7;">All details</p>
+      <div style="grid-column: 5 / span 8; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-content: start;">
+        <sc-for list="{{moreRows}}" as="st" hint-placeholder-count="10">
+          <div class="feat">
+            <span>{{st.k}}</span>
+            <span class="feat-v">{{st.v}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section ref="{{setExtra}}" style="padding: 0 var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: 48px;">
+      <h2 class="giant enter" style="font-size: 96px; opacity: {{extraIn.o}}; transform: translateY({{extraIn.y}}); filter: {{extraIn.b}};">Five bedrooms</h2>
+      <p style="margin: 0 0 8px; max-width: 400px; color: var(--text-2);">Room for up to [11] guests: [two bedrooms with their own bathrooms] and three more for children or friends.</p>
+    </div>
+    <div class="beds" style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px;">
+      <sc-for list="{{d.bedrooms}}" as="br" hint-placeholder-count="5">
+        <div class="enter" style="display: flex; flex-direction: column; gap: 14px; opacity: {{extraIn.o}}; transform: translateY({{extraIn.y}}); filter: {{extraIn.b}}; transition-delay: {{br.d}};">
+          <div style="position: relative; aspect-ratio: 3 / 4; border-radius: 50% 50% 24px 24px / 30% 30% 24px 24px; overflow: hidden; background: var(--c-foam); display: flex; align-items: center; justify-content: center;">
+            <img src="{{br.src}}" alt="{{br.alt}}" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <div>
+            <p style="margin: 0; font-family: var(--font-head); font-size: 20px; letter-spacing: -0.01em; font-weight: 500;">{{br.n}}</p>
+            <p style="margin: 4px 0 0; font-size: 15px; line-height: 1.45; color: var(--text-2);">{{br.t}}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { vh: 900, isStatic: true, figs: [], det: null, map: null, oth: null, extra: null, floor: 0, more: false };
+    // Details: six key facts on show, the rest and the stay rules open with one button
+    this.toggleMore = () => { this.setState({ more: !this.state.more }); };
+    this.raf = null;
+    this.setStage = (el) => { this.stage = el; };
+    this.setDet = (el) => { this.detEl = el; };
+    this.setMap = (el) => { this.mapEl = el; };
+    this.setOth = (el) => { this.othEl = el; };
+    this.setExtra = (el) => { this.extraEl = el; };
+    this.measure = () => {
+      this.raf = null;
+      const vh = window.innerHeight || 900;
+      const top = (el) => (el ? el.getBoundingClientRect().top : null);
+      const figs = this.stage ? Array.prototype.map.call(this.stage.querySelectorAll('[data-fig]'), (e) => e.getBoundingClientRect().top) : [];
+      this.setState({ vh: vh, isStatic: vh > 1600, figs: figs, det: top(this.detEl), map: top(this.mapEl), oth: top(this.othEl), extra: top(this.extraEl) });
+    };
+    this.onScroll = () => { if (!this.raf) this.raf = window.requestAnimationFrame(this.measure); };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const D = {"deep": "var(--deep)", "deepRgb": [31, 58, 71], "bgRgb": [242, 234, 219], "blank": "/_blob/136a761c27b957778f5fa1fdbbe7982f", "title": "Eudora", "kicker": "Villa · Almyrida", "meta": "5 bedrooms · up to [11] guests · private pool · 256 m²", "cue": "Scroll to see the house", "detailsTitle": "The house", "descLabel": "The villa", "price": "From €[price] a night for the whole villa", "desc": "A stone villa on the hill above Almyrida, made for a family or friends travelling together. Five bedrooms, a private pool and a long terrace with a table that seats everyone, looking over the bay. The sea is about 250 m away, and our hotel’s court and pool are a four-minute drive.", "mapAlt": "Relief map of Apokoronas: the villa and the hotel above Almyrida bay, Chania and the airport to the north-west", "photos": [{"src": "/_blob/5a3bd934ace28fc571185ce354dcf308", "ar": "3 / 4", "cap": "The long table on the terrace", "alt": "A long table set on the villa terrace above the bay"}, {"src": "/_blob/8c07121482921ffe3be6f861ce5e82fe", "ar": "3 / 2", "cap": "Terrace above the bay", "alt": "Friends with wine on the terrace, the bay and the mountains behind"}, {"src": "/_blob/2aac80822b69d3836096e30d8c7de6da", "ar": "3 / 4", "cap": "Private pool at dusk", "alt": "Two guests by the villa pool at dusk"}, {"src": "/_blob/6a5a8a6835d7e53b392e87cee9ce7606", "ar": "3 / 2", "cap": "Friends on the terrace", "alt": "Four friends with wine on the villa terrace, the bay behind"}, {"src": "/_blob/9989fe9c7d128b11170156869f218802", "ar": "3 / 4", "cap": "Evenings with friends", "alt": "Guests raising glasses on the villa terrace at dusk"}, {"src": "/_blob/0ea0b22b4b66cdb9570c69b36d15f3c2", "ar": "3 / 2", "cap": "Dinner at sunset", "alt": "Friends at dinner on the terrace with the bay behind"}, {"src": "/_blob/7c609c20a8007c37f999624541c13116", "ar": "3 / 4", "cap": "The table is set", "alt": "A bottle of Cretan red and a glass on the dinner table"}], "feats": [{"icon": "area", "k": "House size", "v": "256 m²"}, {"icon": "villa", "k": "Bedrooms", "v": "5"}, {"icon": "bath", "k": "Bathrooms", "v": "[…]"}, {"icon": "guests", "k": "Guests", "v": "Up to [11], any age"}, {"icon": "bed", "k": "Beds", "v": "[… double, … single]"}, {"icon": "pool", "k": "Pool", "v": "Private, [size]"}, {"icon": "kitchen", "k": "Kitchen", "v": "Full kitchen, [dishwasher, oven]"}, {"icon": "terrace", "k": "Outside", "v": "Terrace with a table for [12]"}, {"icon": "sea-view", "k": "View", "v": "Over the bay"}, {"icon": "beach", "k": "Sea", "v": "About 250 m"}, {"icon": "air-conditioning", "k": "Air conditioning", "v": "[In every bedroom]"}, {"icon": "wifi", "k": "Wi-Fi", "v": "[Free]"}, {"icon": "parking", "k": "Parking", "v": "[Free, on site]"}, {"icon": "pets", "k": "Pets", "v": "[On request]"}, {"icon": "tennis", "k": "Hotel court and pool", "v": "Free, 4 min by car"}], "stay": [{"icon": "calendar", "k": "Check-in", "v": "[From 16:00]"}, {"icon": "calendar", "k": "Check-out", "v": "[By 10:00]"}, {"icon": "key", "k": "Minimum stay", "v": "[… nights]"}, {"icon": "check", "k": "Linen and cleaning", "v": "[Included]"}, {"icon": "breakfast-basket", "k": "Breakfast basket", "v": "[On request]"}, {"icon": "guests", "k": "Gatherings", "v": "Welcome, see below"}], "pins": [["Villa Eudora", 24.18, 35.454, "row", true], ["Amour Relax Hotel · 4 min", 24.172, 35.447, "row-reverse", false], ["Chania · 40 min", 24.018, 35.513, "row", false], ["Chania airport · [… min]", 24.149, 35.532, "row-reverse", false], ["Georgioupoli beach · [… min]", 24.259, 35.362, "row", false]], "others": [{"name": "Standard", "href": "Room-standard.dc.html", "src": "/_blob/2b59c90b2750bdb3ac2476355da8d974", "alt": "Standard Queen Room with fresh linen", "c1": "about 20 m²", "c2": "2 guests"}, {"name": "Deluxe", "href": "Room-deluxe.dc.html", "src": "/_blob/fd095be6630808380801bf1a11f4b2b1", "alt": "Deluxe Queen Room with a sitting corner", "c1": "32 m²", "c2": "pool view"}, {"name": "Superior", "href": "Room-superior.dc.html", "src": "/_blob/0b0dc5985e0129c7969b7aad231dd75f", "alt": "Superior Queen Room terrace over the bay", "c1": "sea view", "c2": "2 guests"}], "bedrooms": [{"n": "Bedroom 1", "t": "[King bed] · [own bathroom] · [sea view]", "d": "0.00s", "src": "/_blob/2b59c90b2750bdb3ac2476355da8d974", "alt": "A queen bed with fresh linen"}, {"n": "Bedroom 2", "t": "[King bed] · [own bathroom]", "d": "0.08s", "src": "/_blob/80e77fe1010b549279e89e9a35d5b698", "alt": "A bright bedroom with a sitting corner"}, {"n": "Bedroom 3", "t": "[Double bed] · [balcony]", "d": "0.16s", "src": "/_blob/1c8b6c14e093b7b1da7fc5f2887bcb7c", "alt": "A bedroom with a door to the terrace"}, {"n": "Bedroom 4", "t": "[Two singles]", "d": "0.24s", "src": "/_blob/fd095be6630808380801bf1a11f4b2b1", "alt": "A bedroom with a sofa by the window"}, {"n": "Bedroom 5", "t": "[Two singles] · [garden side]", "d": "0.32s", "src": "/_blob/32e28806b605d17f5d198c1110f270d3", "alt": "A guest on the bed in a bright room"}], "floors": [{"k": "Ground floor", "v": "[Living room], kitchen and dining room opening onto the terrace; [bedroom 1 with its own bathroom]."}, {"k": "Upper floor", "v": "[Bedrooms 2 to 5], [… bathrooms], [balconies with a sea view]."}, {"k": "Outside", "v": "Private pool with sunbeds, the long table [under a pergola], [barbecue], olive trees and parking."}], "near": [["Amour Relax Hotel", "4 min by car"], ["Almyrida beach", "[… min] on foot"], ["Chania old town", "40 min"], ["Chania airport", "[… min]"]], "events": [{"k": "Seated dinner", "v": "Up to [..] guests"}, {"k": "Music", "v": "Until [..]"}, {"k": "Partners", "v": "[Catering, flowers, photographer]"}], "seasons": [{"s": "Spring", "m": "March to May", "p": "from €[price]", "n": "[…] nights minimum", "d": "0s"}, {"s": "Summer", "m": "June to August", "p": "from €[price]", "n": "[…] nights minimum", "d": ".08s"}, {"s": "Autumn", "m": "September and October", "p": "from €[price]", "n": "[…] nights minimum", "d": ".16s"}], "footer": {"footerCols": [{"title": "The villa", "links": [{"label": "The house", "href": "Villa-v2.dc.html"}, {"label": "Weddings and gatherings", "href": "#events"}, {"label": "Check dates", "href": "#book"}]}, {"title": "Around", "links": [{"label": "Court and pool at the hotel", "href": "Estate.dc.html"}, {"label": "Crete guide", "href": "Guide.dc.html"}, {"label": "Questions", "href": "FAQ.dc.html"}, {"label": "Amour Relax Hotel", "href": "Main-v2.dc.html"}]}, {"title": "Contact", "links": [{"label": "[Phone]"}, {"label": "[Email]"}, {"label": "Almyrida, Crete", "href": "Contact.dc.html"}]}], "social": [{"label": "[Villa Instagram]", "href": "#top"}, {"label": "Booking.com · 9.5", "href": "#top"}], "legal": ["Villa Eudora · [Owner company] · [Address]", "Villa licence [MHTE or AMA number]"], "legalLinks": [{"label": "Privacy", "href": "Legal.dc.html#privacy"}, {"label": "Cookies", "href": "Legal.dc.html#cookies"}, {"label": "Terms", "href": "Legal.dc.html#terms"}]}};
+    const s = this.state;
+    const live = !s.isStatic;
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    const seen = (top, k) => !live || (top !== null && top !== undefined && top < s.vh * (k || 0.8));
+    const enter = (ok) => (ok ? { o: 1, y: '0px', b: 'none', zoom: 1 } : { o: 0, y: '16px', b: 'blur(8px)', zoom: 1.08 });
+    // Stage colour runs into the page colour as the details come up, like a sunset going out
+    const mix = (a, b, t) => 'rgb(' + a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(', ') + ')';
+    // on a phone the photos sit right above the details, so the colour turns only once they have gone
+    const phR = (window.innerWidth || 1440) < 760;
+    const t = live && s.det !== null ? clamp(phR ? (s.vh * 0.55 - s.det) / (s.vh * 0.3) : (s.vh * 0.95 - s.det) / (s.vh * 0.35)) : null;
+    const stageBg = t === null ? D.deep : mix(D.deepRgb, D.bgRgb, t);
+    const detBg = t === null ? 'var(--bg)' : mix(D.deepRgb, D.bgRgb, t);
+    const detFg = t !== null && t < 0.5 ? 'var(--c-limestone)' : 'var(--text)';
+    // Photo stream: arches open into soft rectangles as they rise through the screen
+    let prev = null;
+    const figs = D.photos.map((p, i) => {
+      const portrait = p.ar === '3 / 4' || p.ar === '4 / 5';
+      const w = portrait ? 34 : 52;
+      const side = i % 2 ? 'flex-end' : 'flex-start';
+      const indent = [0, 0, 6, 4, 2, 8, 0][i % 7];
+      // Neighbours on opposite sides may overlap in height when they clear each other with a 4% gap
+      const reach = w + indent;
+      const fits = prev !== null && prev + reach + 4 <= 100;
+      prev = reach;
+      const top = s.figs[i];
+      const k = live && top !== undefined ? clamp((s.vh * 0.98 - top) / (s.vh * 0.6)) : 0;
+      const hr = 'calc(50% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      const vr = 'calc(32% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      return {
+        src: p.src || D.blank, alt: p.alt || '', cap: p.cap, ph: p.ph || '', n: String(i + 1), total: String(D.photos.length),
+        imgO: p.src ? 1 : 0, phD: p.src ? 'none' : 'flex',
+        ar: p.ar, w: w + '%', side: side,
+        ml: i % 2 ? '0' : indent + '%', mr: i % 2 ? indent + '%' : '0',
+        mt: i === 0 ? '0px' : (fits ? '-240px' : '120px'),
+        r: hr + ' ' + hr + ' 24px 24px / ' + vr + ' ' + vr + ' 24px 24px',
+        s: (1.08 - 0.08 * k).toFixed(3)
+      };
+    });
+    const detIn = seen(s.det, 0.75);
+    const rows = (list, base) => list.map((r, i) => ({
+      icon: r.icon, k: r.k, v: r.v,
+      ln: detIn ? 1 : 0, ld: (base + i * 0.05).toFixed(2) + 's',
+      o: detIn ? 1 : 0, y: detIn ? '0px' : '12px'
+    }));
+    const PRI = ['Room size', 'House size', 'Guests', 'Bedrooms', 'Bed', 'View', 'Kitchen', 'Outside'];
+    const keyF = PRI.map((k) => D.feats.find((f) => f.k === k)).filter(Boolean).slice(0, 6);
+    const moreList = D.feats.filter((f) => keyF.indexOf(f) < 0).concat(D.stay || []);
+    const mapOk = seen(s.map, 0.7);
+    // Location: the whole island first; the pinned block zooms in on Almyrida as you scroll
+    const pinMap = live && s.vh >= 480;
+    const mk = pinMap && s.map !== null ? Math.max(0, Math.min(1, -s.map / 760)) : 1;
+    const me = mk * mk * (3 - 2 * mk);
+    // start: the island at 60% size, centred in the left part (clear of the card); end: Almyrida
+    // the zoom keeps the hotel in view all the way: its screen offset moves evenly while the scale grows
+    const mzz = Math.exp(Math.log(0.6) + (Math.log(6.2) - Math.log(0.6)) * me);
+    const hx = 25.73, hy = 33.62, ox = (hx - 72) * 0.6 + ((hx - 25) * 6.2 - (hx - 72) * 0.6) * me, oy = (hy - 50) * 0.6 + ((hy - 31) * 6.2 - (hy - 50) * 0.6) * me;
+    const mfx = hx - ox / mzz, mfy = hy - oy / mzz;
+    const mInv = 1 / mzz, u = 2400 / ((window.innerWidth || 1440) * mzz);
+    const mz = { h: pinMap ? 'calc(100vh + 760px)' : '900px', pos: pinMap ? 'sticky' : 'relative', sh: pinMap ? '100vh' : '900px',
+      z: mzz.toFixed(4), tx: (-mfx * mzz).toFixed(3) + '%', ty: (-mfy * mzz).toFixed(3) + '%',
+      ro: Math.max(0, Math.min(1, (me - 0.55) / 0.35)).toFixed(3), rw: (3 * u).toFixed(3), rw2: (7 * u).toFixed(3), dash: (7 * u).toFixed(2) + ' ' + (6 * u).toFixed(2),
+      hint: pinMap && mk < 0.15 ? 1 : 0 };
+    const pin = (label, lon, lat, dir, main, i) => {
+      const half = main ? 9 : 5;
+      const row = dir === 'row';
+      return {
+        label: label, dir: dir,
+        x: ((lon - 23.40) / 3 * 100).toFixed(3) + '%', y: ((35.80 - lat) / 1.05 * 100).toFixed(3) + '%',
+        tf: (row ? 'translate(-' + half + 'px, -50%)' : 'translate(calc(-100% + ' + half + 'px), -50%)') + ' scale(' + mInv.toFixed(4) + ')',
+        origin: row ? half + 'px 50%' : 'calc(100% - ' + half + 'px) 50%',
+        size: main ? '18px' : '10px', dot: main ? 'var(--accent)' : 'var(--text)',
+        bg: main ? 'var(--accent)' : 'var(--surface)', fg: main ? 'var(--c-limestone)' : 'var(--text)',
+        o: main ? 1 : Math.max(0, Math.min(1, (me - 0.6) / 0.3)).toFixed(3), d: '0s'
+      };
+    };
+    const othOk = seen(s.oth, 0.85);
+    const extraOk = seen(s.extra, 0.8);
+    return Object.assign({
+      icon: 22, d: D,
+      setStage: this.setStage, setDet: this.setDet, setMap: this.setMap, setOth: this.setOth, setExtra: this.setExtra,
+      screenH: live ? '100vh' : '900px',
+      streamMt: live ? '-16vh' : '-150px',
+      stageBg: stageBg, detBg: detBg, detFg: detFg,
+      figs: figs,
+      det: enter(detIn),
+      feats: rows(keyF, 0.15), moreRows: rows(moreList, 0), toggleMore: this.toggleMore,
+      more: { d: s.more ? 'grid' : 'none', exp: s.more ? 'true' : 'false', label: s.more ? 'Fewer details' : 'All details · ' + moreList.length, rot: s.more ? '45deg' : '0deg' },
+      mapIn: enter(mapOk), mz: mz,
+      near: (D.near || [['Almyrida beach', '1.2 km on foot'], ['Chania old town', '40 min'], ['Rethymno', '55 min'], ['Chania airport', '[… min]']]).map((n) => ({ k: n[0], v: n[1] })),
+      floorsUI: (D.floors || []).map((fl, i) => ({ k: fl.k, v: fl.v, on: s.floor === i, bar: s.floor === i ? 'var(--accent)' : 'var(--line)', kc: s.floor === i ? 'var(--accent)' : 'var(--text-2)', enter: () => this.setState({ floor: i }) })),
+      fz: { g: s.floor === 0 ? 'var(--accent-soft)' : 'var(--c-limestone)', u: s.floor === 1 ? 'var(--accent-soft)' : 'var(--c-limestone)', o: s.floor === 2 ? 1 : 0,
+        gl: s.floor === 0 ? 'var(--accent)' : 'var(--c-muted)', ul: s.floor === 1 ? 'var(--accent)' : 'var(--c-muted)', ol: s.floor === 2 ? 'var(--accent)' : 'var(--c-muted)' },
+      pins: D.pins.map((p, i) => pin(p[0], p[1], p[2], p[3], p[4], i)),
+      others: D.others.map((o, i) => Object.assign({}, o, enter(othOk), { d: (i * 0.08).toFixed(2) + 's' })),
+      extraIn: enter(extraOk),
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      jugs: Array.from({ length: 104 }, (_, i) => ({ delay: (((i % 26) + Math.floor(i / 26) * 1.4) * 0.09).toFixed(2) + 's' }))
+    }, D.footer);
+  }
+}
+</script>
+</body>
+</html>

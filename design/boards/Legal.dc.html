@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Legal · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#top" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book</x-import>
+  </div>
+</header>
+
+<span id="privacy" aria-hidden="true"></span><span id="cookies" aria-hidden="true"></span><span id="terms" aria-hidden="true"></span>
+<section id="top" style="padding: 40px var(--gutter) 56px;">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+    <nav aria-label="Breadcrumb" style="font-size: 14px; color: var(--text-2);"><a href="Main-v2.dc.html" style="color: var(--text-2);">Home</a> · {{doc.title}}</nav>
+    <h1 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em;">{{doc.title}}</h1>
+    <p style="margin: 0; max-width: 620px;">{{doc.lead}}</p>
+    <p style="margin: 0; font-size: 14px; color: var(--text-2);">Last updated [date] · [Draft: the lawyer checks it before launch]</p>
+    <div role="tablist" aria-label="Documents" style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 8px;">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <button type="button" role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}" style="min-height: 44px; padding: 0 20px; border: 1px solid {{t.bd}}; border-radius: 999px; background: {{t.bg}}; color: {{t.fg}}; font: 500 15px/1 var(--font-body); cursor: pointer; transition: background-color .3s, color .3s;">{{t.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 0 var(--gutter) var(--sec-l);">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start;">
+    <nav class="legal-toc" aria-label="On this page" style="grid-column: 1 / span 3; position: sticky; top: 112px; display: flex; flex-direction: column; gap: 4px;">
+      <sc-for list="{{doc.sections}}" as="x" hint-placeholder-count="7">
+        <a href="#{{x.id}}" style="display: block; padding: 8px 0; font-size: 15px; color: var(--text-2); text-decoration: none;">{{x.h}}</a>
+      </sc-for>
+    </nav>
+    <article style="grid-column: 5 / span 8; max-width: 760px; display: flex; flex-direction: column; gap: 48px;">
+      <sc-for list="{{doc.sections}}" as="x" hint-placeholder-count="7">
+        <section id="{{x.id}}" style="display: flex; flex-direction: column; gap: 14px; scroll-margin-top: 96px;">
+          <h2 class="legal-h" style="margin: 0; font-family: var(--font-head); font-weight: 500; font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; font-size: 28px;">{{x.h}}</h2>
+          <sc-for list="{{x.ps}}" as="p" hint-placeholder-count="2"><p style="margin: 0;">{{p.t}}</p></sc-for>
+          <div style="display: {{x.rowsD}}; flex-direction: column; margin-top: 8px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);">
+            <sc-for list="{{x.rows}}" as="r" hint-placeholder-count="6">
+              <div class="ck-row" style="display: grid; grid-template-columns: 1.1fr 1fr 1.6fr 0.9fr; gap: 16px; padding: 14px 18px; background: {{r.bg}}; border-bottom: 1px solid var(--line); font-size: 15px; font-weight: {{r.hd}};"><span>{{r.n}}</span><span>{{r.p}}</span><span>{{r.u}}</span><span>{{r.d}}</span></div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+      <p style="margin: 0; padding: 24px 28px; border-radius: 20px; background: var(--surface); font-size: 16px;">Questions about this page? Write to [privacy email] or <a href="Contact.dc.html">contact us</a>.</p>
+    </article>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.keys = ['privacy', 'cookies', 'terms'];
+    this.state = { doc: this.fromHash() };
+    this.picks = this.keys.map((k) => () => this.setState({ doc: k }));
+    this.onHash = () => this.setState({ doc: this.fromHash() });
+  }
+  // the footer links open the right document: #/legal/cookies in the prototype, Legal.dc.html#cookies on the site
+  fromHash() {
+    const m = /(privacy|cookies|terms)/.exec((window.location && window.location.hash) || '');
+    return m ? m[1] : 'privacy';
+  }
+  componentDidMount() { window.addEventListener('hashchange', this.onHash); }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  renderVals() {
+    const DOCS = {"privacy": {"title": "Privacy policy", "lead": "How we collect, use and protect the data of our guests and of visitors to this site.", "sections": [{"id": "sec-1", "h": "Who we are", "ps": [{"t": "[Company name], [legal form], [address], Greece. General Commercial Registry (\u0393\u0395\u039c\u0397) [number], tax number (\u0391\u03a6\u039c) [number]. We run Amour Relax Hotel (MHTE [number]) and Villa Eudora ([MHTE or AMA number])."}, {"t": "For anything about your data, write to [privacy email]."}], "rows": [], "rowsD": "none"}, {"id": "sec-2", "h": "What we collect", "ps": [{"t": "When you book: your name, email, phone, dates, number of guests and any requests. Card details go straight to the secure payment page of our booking engine; we never see or keep the full card number."}, {"t": "When you write to us: your name, email, dates and message. When you visit the site: cookies and similar data, only with your consent (see the cookie policy)."}], "rows": [], "rowsD": "none"}, {"id": "sec-3", "h": "Why we use it", "ps": [{"t": "To take and run your booking (a contract with you). To keep accounting records and register guests as Greek law requires (a legal duty). To answer your questions. To send news and offers only if you ask for them (your consent, which you can withdraw at any time). To measure and improve the site, only with your consent."}], "rows": [], "rowsD": "none"}, {"id": "sec-4", "h": "Who receives it", "ps": [{"t": "Our booking engine (BookOnlineNow), channel manager (HotelAvailabilities) and hotel management system (CloudHotel); the bank that processes card payments; [newsletter service]; Google and Meta for analytics and ads, only with your consent; our accountant; public authorities when the law requires it. Each works under a data processing agreement with us."}, {"t": "Some providers, such as Google and Meta, may process data outside the EU. They do so under the safeguards of EU data protection law, such as standard contractual clauses."}], "rows": [], "rowsD": "none"}, {"id": "sec-5", "h": "How long we keep it", "ps": [{"t": "Booking and accounting records: as long as Greek tax law requires [\u2026 years]. Messages: [\u2026 months] after our last contact. Newsletter: until you unsubscribe. Cookies: see the cookie policy."}], "rows": [], "rowsD": "none"}, {"id": "sec-6", "h": "Your rights", "ps": [{"t": "You can ask to see, correct or delete your data, to limit or object to its use, to take it with you, and to withdraw your consent at any time. Write to [privacy email]; we answer within one month."}, {"t": "You can also complain to the Hellenic Data Protection Authority (www.dpa.gr)."}], "rows": [], "rowsD": "none"}, {"id": "sec-7", "h": "Changes", "ps": [{"t": "We update this policy when our services change. The date at the top shows the latest version."}], "rows": [], "rowsD": "none"}]}, "cookies": {"title": "Cookie policy", "lead": "Which cookies this site uses, why, and how to change your choice.", "sections": [{"id": "sec-1", "h": "What cookies are", "ps": [{"t": "Small files a site saves in your browser, so it can remember your choices or count visits."}], "rows": [], "rowsD": "none"}, {"id": "sec-2", "h": "Your choice", "ps": [{"t": "On your first visit you choose: accept all or reject. Both buttons are equal. Analytics, ads, maps and videos load only after you accept. You can change your choice at any time with \"Cookie settings\" at the bottom of every page."}], "rows": [], "rowsD": "none"}, {"id": "sec-3", "h": "Cookies we use", "ps": [{"t": "[The list is completed when the site, the booking engine and analytics are set up.]"}], "rows": [{"n": "Name", "p": "Set by", "u": "Purpose", "d": "Kept for", "hd": "500", "bg": "var(--surface)"}, {"n": "[cookie_consent]", "p": "This site", "u": "Remembers your cookie choice", "d": "[12 months]", "hd": "400", "bg": "transparent"}, {"n": "[name]", "p": "BookOnlineNow", "u": "Keeps your booking in progress", "d": "[session]", "hd": "400", "bg": "transparent"}, {"n": "_ga, _ga_*", "p": "Google Analytics", "u": "Counts visits, after consent", "d": "[up to 2 years]", "hd": "400", "bg": "transparent"}, {"n": "_fbp", "p": "Meta", "u": "Measures ads, after consent", "d": "[3 months]", "hd": "400", "bg": "transparent"}, {"n": "[name]", "p": "Google Maps", "u": "Shows the map, after consent", "d": "[\u2026]", "hd": "400", "bg": "transparent"}], "rowsD": "grid"}, {"id": "sec-4", "h": "How to delete cookies", "ps": [{"t": "In your browser settings you can see and delete cookies at any time. If you block all cookies, the booking engine may not work."}], "rows": [], "rowsD": "none"}, {"id": "sec-5", "h": "Changes", "ps": [{"t": "We update this list every time we add or remove a service."}], "rows": [], "rowsD": "none"}]}, "terms": {"title": "Booking terms", "lead": "The conditions of a booking made on this site.", "sections": [{"id": "sec-1", "h": "Who you book with", "ps": [{"t": "[Company name], [address], Greece, tax number (\u0391\u03a6\u039c) [number], which runs Amour Relax Hotel (MHTE [number]) and Villa Eudora ([MHTE or AMA number])."}], "rows": [], "rowsD": "none"}, {"id": "sec-2", "h": "Booking and payment", "ps": [{"t": "You book on this site through our booking engine. The full amount is charged when you book, by card, on its secure payment page. Prices include VAT. You must be 18 or over to book."}], "rows": [], "rowsD": "none"}, {"id": "sec-3", "h": "Climate resilience fee", "ps": [{"t": "Greece charges a climate resilience fee per room per night. It is not part of the price and is paid at the hotel: [\u20ac\u2026 per room per night]."}], "rows": [], "rowsD": "none"}, {"id": "sec-4", "h": "Cancellation and changes", "ps": [{"t": "[Standard rate: free cancellation up to \u2026 days before arrival; after that \u2026]. [Non-refundable rate, if offered: the full amount is charged at booking and not refunded.] The rule of each rate is shown next to its price and in your confirmation."}, {"t": "To change your dates, write to us; we help if the room is free. No-show: [ \u2026 ]."}], "rows": [], "rowsD": "none"}, {"id": "sec-5", "h": "Groups and celebrations", "ps": [{"t": "Bookings of three rooms or more, of the whole hotel, or for a celebration at the villa follow separate written conditions: deposit and payment dates agreed with us."}], "rows": [], "rowsD": "none"}, {"id": "sec-6", "h": "Arrival and departure", "ps": [{"t": "Check-in from 14:00, check-out until 11:00. Please tell us your arrival time. [Online check-in before arrival.]"}], "rows": [], "rowsD": "none"}, {"id": "sec-7", "h": "House rules", "ps": [{"t": "Children are welcome; our rooms suit guests from 12 years best, the villa suits any age. Pets are welcome [conditions]. Celebrations only at the villa, agreed in advance. [Quiet hours, smoking.]"}], "rows": [], "rowsD": "none"}, {"id": "sec-8", "h": "Liability and complaints", "ps": [{"t": "[Liability for belongings and damage, deposit for the villa: written with the lawyer.] If something is wrong, tell us on the spot and we put it right. Greek law applies to these terms."}], "rows": [], "rowsD": "none"}]}};
+    const d = this.state.doc;
+    return {
+      doc: DOCS[d],
+      tabs: this.keys.map((k, i) => ({ label: DOCS[k].title, sel: k === d ? 'true' : 'false', pick: this.picks[i],
+        bg: k === d ? 'var(--text)' : 'transparent', fg: k === d ? 'var(--c-limestone)' : 'var(--text)', bd: k === d ? 'var(--text)' : 'var(--line)' })),
+      icon: 22,
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#top' }, { label: 'Facebook', href: '#top' }, { label: 'TikTok', href: '#top' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

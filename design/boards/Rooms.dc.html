@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rooms · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#book" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="#book">Book</x-import>
+  </div>
+</header>
+
+<section id="book" style="padding: 56px var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+    <nav aria-label="Breadcrumb" style="font-size: 14px; color: var(--text-2);"><a href="Main-v2.dc.html" style="color: var(--text-2);">Home</a> · Rooms</nav>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end;">
+      <h1 style="grid-column: 1 / span 7; margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em;">Nine rooms, three kinds</h1>
+      <p style="grid-column: 8 / span 5; margin: 0; color: var(--text);">Every room has its own kitchen and terrace and sleeps two. Choose by size and view; the price is the same as on Booking.com.</p>
+    </div>
+    <!-- the same search as on the booking page: each field opens the English calendar there -->
+    <div class="bk-search" style="display: grid; grid-template-columns: 1fr 1fr 1.2fr auto; gap: 12px; align-items: stretch;">
+      <a href="Book.dc.html" onClick="{{askCal}}" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Arrive</span><span style="font-size: 18px;">Add date</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Leave</span><span style="font-size: 18px;">Add date</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" class="bk-guests" style="display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 76px; margin: 0; padding: 12px 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--text); text-align: left; text-decoration: none; box-sizing: border-box;"><span style="font-size: 13px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">Guests</span><span style="font-size: 18px;">2 adults</span></a>
+      <a href="Book.dc.html" onClick="{{askCal}}" class="am-btn bk-go" style="min-height: 76px; padding: 0 36px; border-radius: 16px; box-sizing: border-box;">Check dates</a>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 0 var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 140px;">
+    <sc-for list="{{rooms}}" as="r" hint-placeholder-count="3">
+      <article style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center;">
+        <a href="{{r.href}}" class="soft-zoom" style="grid-column: {{r.picCol}}; grid-row: 1; display: block; border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 3;">
+          <img src="{{r.src}}" alt="{{r.alt}}" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+        </a>
+        <div style="grid-column: {{r.textCol}}; grid-row: 1; display: flex; flex-direction: column; gap: 24px;">
+          <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">{{r.kicker}}</p>
+          <h2 style="margin: -8px 0 0; font-family: var(--font-head); font-weight: 400; font-size: 48px; line-height: 1.1; letter-spacing: -0.025em;">{{r.name}}</h2>
+          <p style="margin: 0; color: var(--text);">{{r.text}}</p>
+          <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; column-gap: 32px; row-gap: 0;">
+            <sc-for list="{{r.facts}}" as="f" hint-placeholder-count="5">
+              <dt style="padding: 10px 0; font-size: 15px; color: var(--text-2);">{{f.k}}</dt>
+              <dd style="margin: 0; padding: 10px 0; font-size: 15px; color: var(--text);">{{f.v}}</dd>
+            </sc-for>
+          </dl>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <p style="margin: 0; font-size: 20px; font-weight: 500;">{{r.price}}</p>
+            <div style="display: flex; gap: 12px;">
+              <x-import component-from-global-scope="Amour.Button" variant="ghost" href="{{r.href}}">View room</x-import>
+              <x-import component-from-global-scope="Amour.Button" variant="primary" href="#book">Check dates</x-import>
+            </div>
+          </div>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+</section>
+
+<section style="padding: 0 var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px;">
+    <h2 style="grid-column: 1 / span 4; margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 40px; line-height: 1.1; letter-spacing: -0.025em;">In every room</h2>
+    <ul style="grid-column: 6 / span 7; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 32px;">
+      <sc-for list="{{every}}" as="e" hint-placeholder-count="8">
+        <li style="padding: 14px 0; color: var(--text);">{{e.t}}</li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+
+<section data-theme="eudora" aria-labelledby="fam-title" style="position: relative; margin: 0 0 160px; min-height: 760px; overflow: hidden; background: var(--deep); color: var(--c-limestone);">
+  <img src="/_blob/0ea0b22b4b66cdb9570c69b36d15f3c2" alt="Friends at dinner on the villa terrace with the bay behind" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%;">
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(31, 58, 71, 0.94) 0%, rgba(31, 58, 71, 0.82) 38%, rgba(31, 58, 71, 0.18) 72%, rgba(31, 58, 71, 0.05) 100%);"></div>
+  <div style="position: relative; z-index: 1; max-width: var(--container); margin: 0 auto; padding: 120px var(--gutter); box-sizing: content-box; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center; min-height: 520px;">
+    <div style="grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 24px; align-items: flex-start;">
+      <img src="/_blob/eb8582559f2d00dae3e431652377f8c0" alt="Eudora · Villa Almyrida" style="display: block; height: 72px; margin: -12px 0 -8px -14px;">
+      <h2 id="fam-title" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: clamp(44px, 4.6vw, 68px); line-height: 1.04; letter-spacing: -0.03em;">Travelling as a family or a group?</h2>
+      <p style="margin: 0; max-width: 520px; font-size: 18px; color: rgba(242, 234, 219, 0.88);">Take the whole villa: five bedrooms, its own pool and a long table on the terrace, four minutes from the hotel. Villa guests use our court and pool too.</p>
+      <dl style="margin: 8px 0 0; display: grid; grid-template-columns: repeat(3, auto); gap: 0 40px;">
+        <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 14px; "><dt style="font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-foam); font-family: var(--font-label);">Bedrooms</dt><dd style="margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1; letter-spacing: -0.025em;">5</dd></div>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 14px; "><dt style="font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-foam); font-family: var(--font-label);">Guests</dt><dd style="margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1; letter-spacing: -0.025em;">11</dd></div>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 14px; "><dt style="font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-foam); font-family: var(--font-label);">To the hotel</dt><dd style="margin: 0; font-family: var(--font-head); font-size: 40px; line-height: 1; letter-spacing: -0.025em;">4 min</dd></div>
+      </dl>
+      <div style="margin-top: 12px;"><x-import component-from-global-scope="Amour.Button" variant="on-photo" href="Villa-v2.dc.html">Discover the villa</x-import></div>
+    </div>
+    <figure style="grid-column: 9 / span 4; margin: 0; display: flex; flex-direction: column; gap: 12px; align-self: end;">
+      <div style="aspect-ratio: 3 / 4; border-radius: 999px 999px 20px 20px; overflow: hidden; box-shadow: 0 30px 60px rgba(12, 24, 30, 0.35);"><img src="/_blob/2aac80822b69d3836096e30d8c7de6da" alt="Two guests by the villa pool at dusk" style="display: block; width: 100%; height: 100%; object-fit: cover;"></div>
+      <figcaption style="font-size: 14px; color: rgba(242, 234, 219, 0.85);">The private pool at dusk</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section aria-labelledby="know-title" style="padding: 0 var(--gutter) var(--sec-l);">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 48px;">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 32px;">
+      <h2 id="know-title" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: clamp(44px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em;">Good to know</h2>
+      <a href="FAQ.dc.html" style="font-size: 16px; font-weight: 500;">All questions and house rules</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 56px 48px;">
+      <sc-for list="{{know}}" as="k" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column; gap: 18px; padding: 0;">
+          <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-2); font-family: var(--font-label);">{{k.h}}</p>
+          <p style="margin: 0; min-height: 62px; display: flex; align-items: flex-end; font-family: var(--font-head); font-size: 62px; line-height: 1; letter-spacing: -0.03em; color: var(--accent); display: {{k.figD}};">{{k.fig}}</p>
+          <div style="min-height: 62px; display: {{k.pawD}}; align-items: flex-end;"><svg viewBox="0 0 64 64" width="62" height="62" aria-hidden="true" style="display: block; fill: var(--accent);"><ellipse cx="14" cy="26" rx="6" ry="8"></ellipse><ellipse cx="26" cy="14" rx="6" ry="8.5"></ellipse><ellipse cx="40" cy="14" rx="6" ry="8.5"></ellipse><ellipse cx="51" cy="26" rx="6" ry="8"></ellipse><path d="M32 30c-9 0-17 11-17 19 0 6 5 9 10 8 3-.5 4.5-2 7-2s4 1.5 7 2c5 1 10-2 10-8 0-8-8-19-17-19z"></path></svg></div>
+          <p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--text);">{{k.t}}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5200}}'>
+class Component extends DCLogic {
+  askCal() { try { window.sessionStorage.setItem('amour-cal', 'arr'); } catch (e) {} }
+  renderVals() {
+    const rooms = [
+      { kicker: 'Room 01', name: 'Standard Queen', href: 'Room-standard.dc.html', src: '/_blob/2b59c90b2750bdb3ac2476355da8d974', alt: 'Standard Queen Room with a double bed',
+        text: 'A compact room with a queen bed, a kitchenette for your morning coffee and a terrace for the evening.',
+        facts: [{ k: 'Size', v: 'about 20 m²' }, { k: 'Bed', v: 'Queen' }, { k: 'Kitchen', v: 'Kitchenette' }, { k: 'Outside', v: 'Terrace, [view]' }, { k: 'Guests', v: '2' }],
+        price: 'from €[price] a night' },
+      { kicker: 'Room 02', name: 'Deluxe Queen', href: 'Room-deluxe.dc.html', src: '/_blob/1c8b6c14e093b7b1da7fc5f2887bcb7c', alt: 'Deluxe Queen Room with a sitting corner and the door to the terrace',
+        text: 'More room to spread out: 32 m² with a view over the pool, a full kitchen and a terrace.',
+        facts: [{ k: 'Size', v: '32 m²' }, { k: 'Bed', v: 'Queen' }, { k: 'Kitchen', v: 'Kitchen' }, { k: 'Outside', v: 'Terrace, pool view' }, { k: 'Guests', v: '2' }],
+        price: 'from €[price] a night' },
+      { kicker: 'Room 03', name: 'Superior Queen', href: 'Room-superior.dc.html', src: '/_blob/c52dc0b422d93e5648121425daaa19a4', alt: 'The terrace of a Superior Queen Room looking out to the sea',
+        text: 'Our rooms with a sea view: a terrace looking over the olive groves to the bay of Almyrida.',
+        facts: [{ k: 'Size', v: '[m²]' }, { k: 'Bed', v: 'Queen' }, { k: 'Kitchen', v: 'Kitchen' }, { k: 'Outside', v: 'Terrace, sea view' }, { k: 'Guests', v: '2' }],
+        price: 'from €[price] a night' }
+    ].map((r, i) => Object.assign(r, { picCol: i % 2 ? '7 / span 6' : '1 / span 6', textCol: i % 2 ? '1 / span 5' : '8 / span 5' }));
+    return {
+      askCal: () => this.askCal(),
+      icon: 22, two: 2,
+      rooms: rooms,
+      every: [
+        { t: 'Your own kitchen or kitchenette' }, { t: 'A private terrace' },
+        { t: 'Queen bed for two' }, { t: 'Pool and sun terrace' },
+        { t: 'Free tennis court, lit in the evening' }, { t: 'Rackets and balls to borrow' },
+        { t: '[Air conditioning]' }, { t: '[Wi-Fi]' }
+      ],
+      know: [
+        { h: 'Arrival', fig: '14:00', t: 'Check-in from 14:00, check-out by 11:00.' },
+        { h: 'Breakfast basket', fig: '€15', t: 'For two, from our partner bakery. Order the day before.' },
+        { h: 'Children', fig: '12+', t: 'Our rooms suit guests aged 12 and over. Families with younger children are welcome at the villa.' },
+        { h: 'Pets', paw: true, t: 'Pets are welcome. [Conditions and fee to confirm.]' },
+        { h: 'Arriving late', fig: '[24/7]', t: '[Self check-in with a key box, or the hosts wait up for you.] Write to us on WhatsApp on the way.' },
+        { h: 'Travelling alone', fig: 'Solo', t: 'Every room works for one: [a price for one guest]. The hosts are on site every day.' }
+      ].map((k, i) => Object.assign({ figD: k.paw ? 'none' : 'flex', pawD: k.paw ? 'flex' : 'none', fig: k.fig || '', bl: i % 3 ? '1px solid var(--line)' : '0', bt: i >= 3 ? '1px solid var(--line)' : '0' }, k)),
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#book' }, { label: 'Facebook', href: '#book' }, { label: 'TikTok', href: '#book' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Questions and house rules · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+summary{list-style:none;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#top" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book</x-import>
+  </div>
+</header>
+
+<section id="top" style="padding: 40px var(--gutter) 80px;">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end;">
+    <div style="grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 24px;">
+      <nav aria-label="Breadcrumb" style="font-size: 14px; color: var(--text-2);"><a href="Main-v2.dc.html" style="color: var(--text-2);">Home</a> · Questions</nav>
+      <h1 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em;">Questions and house rules</h1>
+    </div>
+    <p style="grid-column: 8 / span 5; margin: 0;">Everything guests usually ask us before they arrive. If your question is not here, write to us on WhatsApp.</p>
+  </div>
+</section>
+
+<section style="padding: 0 var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start;">
+    <nav class="faq-nav" aria-label="Topics" style="grid-column: 1 / span 3; position: sticky; top: 112px; display: flex; flex-direction: column; gap: 4px;">
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+        <a href="{{g.href}}" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; background: {{g.bg}}; color: var(--text); font-size: 16px; font-weight: 500; text-decoration: none;">{{g.title}}</a>
+      </sc-for>
+    </nav>
+    <div style="grid-column: 5 / span 8; display: flex; flex-direction: column; gap: 64px;">
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="5">
+        <div id="{{g.id}}" style="display: flex; flex-direction: column;">
+          <h2 style="margin: 0 0 16px; font-family: var(--font-head); font-weight: 400; font-size: 32px; letter-spacing: -0.02em;">{{g.title}}</h2>
+          <sc-for list="{{g.items}}" as="q" hint-placeholder-count="3">
+            <details open="{{q.open}}" style="border-top: 1px solid var(--line);">
+              <summary style="display: flex; justify-content: space-between; align-items: center; gap: 24px; min-height: 64px; padding: 12px 0; font-size: 19px; font-weight: 500;">{{q.q}}<span aria-hidden="true" style="flex: none; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); font-size: 18px;">+</span></summary>
+              <p style="margin: 0 0 24px; max-width: 680px; color: var(--text);">{{q.a}}</p>
+            </details>
+          </sc-for>
+        </div>
+      </sc-for>
+      <p style="margin: 0; font-size: 14px; color: var(--text-2);">These answers describe how we work and are not legal terms. The full booking terms are shown before payment.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-cta" style="margin: 0 var(--gutter) var(--sec-l); padding: 72px 64px; border-radius: 24px; background: var(--surface); color: var(--text);">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 32px;">
+    <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 40px; line-height: 1.15; letter-spacing: -0.025em;">Still wondering about something?</h2>
+    <div style="display: flex; gap: 12px;">
+      <x-import component-from-global-scope="Amour.Button" variant="primary" href="Contact.dc.html">Write on WhatsApp</x-import>
+      <x-import component-from-global-scope="Amour.Button" variant="ghost" href="Contact.dc.html">Email us</x-import>
+    </div>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const groups = [
+      { id: 'booking', title: 'Booking and payment', items: [
+        { q: 'Is the price the same as on Booking.com?', a: 'Yes. Our prices here are the same as on Booking.com, and you pay us directly, with no middleman.' },
+        { q: 'When do I pay?', a: 'In full when you book, by card. You receive a confirmation and an invoice by email.' },
+        { q: 'Can I cancel?', a: '[Free cancellation up to 14 days before arrival, or a non-refundable rate 10% cheaper. Terms to confirm.]' },
+        { q: 'Is the climate fee included?', a: 'Greece charges a climate resilience fee per room and night. It is paid at the hotel: [€… a night for a room, €… for the villa, April to October].' }
+      ] },
+      { id: 'stay', title: 'Arrival and stay', items: [
+        { q: 'What time is check-in and check-out?', a: 'Check-in from 14:00, check-out by 11:00. [Ask us about an early arrival or a late departure; we will help if the room is free.]' },
+        { q: 'Is breakfast included?', a: 'We do not serve breakfast: every room has its own kitchen. A breakfast basket from our partner bakery costs €15 for two; order it the day before.' },
+        { q: 'Is there parking?', a: '[Free parking at the hotel.]' }
+      ] },
+      { id: 'family', title: 'Children and pets', items: [
+        { q: 'Do you welcome children?', a: 'We welcome all guests. Our rooms are best suited to guests aged 12 and over; for families with younger children, Villa Eudora has room for everyone.' },
+        { q: 'Can I bring my dog?', a: 'Yes, pets are welcome. [Size, number of pets and the fee to confirm.]' }
+      ] },
+      { id: 'estate', title: 'Court and pool', items: [
+        { q: 'Is the tennis court free?', a: 'Yes, for all guests of the hotel and the villa. Rackets and balls are there to borrow, and the court is lit in the evening.' },
+        { q: 'When is the pool open?', a: '[From … to …, April to October.]' }
+      ] },
+      { id: 'villa', title: 'Villa Eudora', items: [
+        { q: 'Can we hold a wedding or a party at the villa?', a: 'Yes, weddings and celebrations are welcome. Send us the date and the number of guests from the villa page.' },
+        { q: 'What is the shortest stay at the villa?', a: '[7 nights in July and August with Saturday arrivals, 5 nights in the rest of the season.]' }
+      ] }
+    ];
+    return {
+      icon: 22,
+      groups: groups.map((g, gi) => ({
+        id: g.id, title: g.title, href: '#' + g.id, bg: gi === 0 ? 'var(--surface)' : 'transparent',
+        items: g.items.map((it, i) => ({ q: it.q, a: it.a, open: gi === 0 && i === 0 }))
+      })),
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#top' }, { label: 'Facebook', href: '#top' }, { label: 'TikTok', href: '#top' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

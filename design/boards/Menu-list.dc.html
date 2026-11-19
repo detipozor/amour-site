@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Menu v2 · list</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<script src="ds/amour/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#5c1e1c}
+a{color:#f2eadb}a:hover{color:#f2eadb}
+</style>
+</helmet>
+<section data-theme="amour" style="position: relative; width: {{secW}}; height: {{secH}}; overflow: hidden; background: var(--deep); color: var(--on-deep); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+  <h1 class="sr-only">Menu</h1>
+  <header style="position: absolute; z-index: 4; top: 0; left: 0; right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter, 56px);">
+    <div style="display: flex; align-items: center;">
+      <a href="Main-v2.dc.html" class="soft-pill" aria-label="Close the menu" style="display: inline-flex; align-items: center; gap: {{closeGap}}; min-height: 44px; min-width: 44px; justify-content: center; padding: {{closePad}}; background: rgba(242, 234, 219, 0.1); color: var(--on-deep); text-decoration: none; font-size: {{closeFs}}; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="close" size="{{icon}}"></x-import>Close</a>
+    </div>
+    <img src="/_blob/2901163e35c220801b42aced9684d164" alt="Amour Relax Hotel" style="display: block; height: {{logoH}}; margin: {{logoM}};">
+    <div style="display: flex; align-items: center; justify-content: flex-end;">
+      <x-import component-from-global-scope="Amour.Button" variant="on-photo" href="Main-v2.dc.html">Book</x-import>
+    </div>
+  </header>
+
+  <div style="display: {{deskD}}; position: absolute; z-index: 2; left: 50%; top: 50%; width: 1440px; height: 900px; transform: translate(-50%, -50%) scale({{fit}}); transform-origin: 50% 50%;">
+  <div style="position: absolute; z-index: 2; left: 0; top: 0; width: 340px; transform: translate({{imgX}}, {{imgY}}); transition: transform .9s cubic-bezier(.625, .05, 0, 1); display: flex; flex-direction: column; gap: 16px;">
+    <div class="am-arch menu-arch" style="position: relative; width: 340px; height: 452px; overflow: hidden; background: var(--c-dark);">
+      <sc-for list="{{items}}" as="item" hint-placeholder-count="7"><img src="{{item.src}}" alt="{{item.photo}}" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: {{item.op}}; transform: scale({{item.scale}}); transition: opacity .6s ease, transform 1.2s cubic-bezier(.625, .05, 0, 1);"></sc-for>
+    </div>
+    <p style="margin: 0; font-size: 18px; line-height: 1.5; color: var(--on-deep);">{{activeText}}</p>
+  </div>
+
+  <nav aria-label="Main" style="position: absolute; z-index: 3; left: 640px; top: 190px; width: 744px;">
+    <ul style="list-style: none; margin: 0; padding: 0;">
+      <sc-for list="{{items}}" as="item" hint-placeholder-count="7">
+        <li>
+          <a href="{{item.href}}" data-pic="{{item.src}}" onMouseEnter="{{item.enter}}" onFocus="{{item.enter}}" style="display: inline-flex; align-items: center; gap: 20px; height: 72px; text-decoration: none; font-family: var(--font-head); font-size: 60px; line-height: 1; letter-spacing: -0.03em; color: {{item.color}}; transition: color .5s cubic-bezier(.625, .05, 0, 1);">{{item.label}}<span aria-hidden="true" style="display: block; width: 12px; height: 12px; border-radius: 50%; background: var(--on-deep-accent); opacity: {{item.dot}}; transform: scale({{item.dot}}); transition: opacity .4s, transform .4s;"></span></a>
+        </li>
+      </sc-for>
+    </ul>
+  </nav>
+  </div>
+
+  <!-- phone: the page names only, large; the photo appears as an arch when a name is tapped and grows into the page -->
+  <div style="display: {{phoneD}}; position: absolute; z-index: 2; inset: 84px 0 0 0; overflow-y: auto; padding: 24px var(--gutter, 20px) 132px; box-sizing: border-box;">
+    <nav aria-label="Main">
+      <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;">
+        <sc-for list="{{items}}" as="item" hint-placeholder-count="8">
+          <li class="menu-row">
+            <a href="{{item.href}}" data-pic="{{item.src}}" style="display: flex; align-items: center; min-height: 64px; text-decoration: none; color: var(--on-deep); font-family: var(--font-head); font-size: 32px; line-height: 1.05; letter-spacing: -0.02em;">{{item.label}}</a>
+          </li>
+        </sc-for>
+      </ul>
+    </nav>
+  </div>
+
+  <footer style="position: absolute; z-index: 3; left: var(--gutter, 56px); right: var(--gutter, 56px); bottom: {{footB}}; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: {{footGap}}; padding-top: {{footPad}}; background: var(--deep); font-size: 15px;">
+    <div style="display: flex; gap: 20px;">
+      <a href="Main-v2.dc.html" style="color: var(--on-deep); text-decoration: underline; text-underline-offset: 6px;" aria-current="true">EN</a>
+      <a href="Main-v2.dc.html" style="color: rgba(242, 234, 219, 0.6); text-decoration: none;">DE</a>
+    </div>
+    <div style="display: flex; gap: 32px; color: var(--on-deep);">
+      <span>[Phone]</span>
+      <a href="Main-v2.dc.html" style="color: var(--on-deep); text-decoration: none;">WhatsApp</a>
+      <span>[Email]</span>
+    </div>
+    <div style="display: flex; gap: 20px;">
+      <a href="Main-v2.dc.html" style="color: var(--on-deep); text-decoration: none;">Instagram</a>
+      <a href="Main-v2.dc.html" style="color: var(--on-deep); text-decoration: none;">Facebook</a>
+    </div>
+  </footer>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { active: 0, vw: 1440, vh: 900 };
+    this.onResize = () => this.setState({ vw: window.innerWidth || 1440, vh: window.innerHeight || 900 });
+  }
+  componentDidMount() { window.addEventListener('resize', this.onResize); this.onResize(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const list = [
+      { label: 'Rooms', href: 'Rooms.dc.html', text: 'Nine rooms, each with its own kitchen and terrace.', photo: 'A room with a double bed and a sitting corner', src: '/_blob/d727d557c1b81f70ef2da9c77753cec0' },
+      { label: 'Villa Eudora', href: 'Villa-v2.dc.html', text: 'Five bedrooms and its own pool, four minutes from the hotel.', photo: 'Friends at a long table on the villa terrace', src: '/_blob/5a3bd934ace28fc571185ce354dcf308' },
+      { label: 'A day at Amour', href: 'Main-v2.dc.html', text: 'The breakfast basket, the court at sunset, evenings on the terraces.', photo: 'A serve on the court at sunset', src: '/_blob/deb2647ed7b0e40eb233a905c0be42ac' },
+      { label: 'Court and pool', href: 'Estate.dc.html', text: 'Stone terraces, a pool and our own court among olive groves.', photo: 'Stone stairs with amphorae at golden hour', src: '/_blob/94833f4f7f37f38c5ee6ed7578db4a52' },
+      { label: 'Crete guide', href: 'Guide.dc.html', text: 'Beaches, villages and gorges, with drive times from the hotel.', photo: 'Arkadi Monastery through a stone arch', src: '/_blob/6388b6418cdb641f6bd8e7b2792479ef' },
+      { label: 'About us', href: 'About.dc.html', text: 'Who looks after you in Almyrida.', photo: 'Late sun and the shadow of an olive tree on a limestone wall by a wooden door', src: '/_blob/16e92c844577adb7ca466250469281b0' },
+      { label: 'Contact', href: 'Contact.dc.html', text: 'Directions, phone and WhatsApp.', photo: 'The hotel from the air at night', src: '/_blob/eb955df83df1fb9544e16d9e70a299c1' }
+    ];
+    const active = this.state.active;
+    const top = Math.max(110, Math.min(297, 190 + active * 72 + 36 - 226));
+    const items = list.map((it, i) => ({
+      label: it.label,
+      href: it.href,
+      src: it.src,
+      photo: it.photo,
+      text: it.text,
+      enter: () => this.setState({ active: i }),
+      color: i === active ? 'var(--on-deep)' : 'rgba(242, 234, 219, 0.42)',
+      dot: i === active ? 1 : 0,
+      op: i === active ? 1 : 0,
+      scale: i === active ? 1 : 1.08
+    }));
+    const phone = this.state.vh <= 1600 && this.state.vw < 760;
+    return {
+      icon: 22,
+      phoneD: phone ? 'block' : 'none', deskD: phone ? 'none' : 'block', logoH: phone ? '36px' : '76px', logoM: phone ? '-2px 0' : '-16px 0',
+      closeFs: phone ? '0px' : '14px', closeGap: phone ? '0px' : '12px', closePad: phone ? '0' : '0 18px 0 14px',
+      footB: phone ? '0px' : '28px', footGap: phone ? '10px 22px' : '24px', footPad: phone ? '16px 0 22px' : '0px',
+      items: items,
+      // the 1440 x 900 layout scales down to fit the screen; header and footer keep their place at the edges
+      secW: this.state.vh > 1600 ? '1440px' : '100%', secH: this.state.vh > 1600 ? '900px' : '100vh',
+      fit: this.state.vh > 1600 ? 1 : Math.min(1.1, this.state.vw / 1440, (this.state.vh - 40) / 860).toFixed(4),
+      activeText: list[active].text,
+      imgX: '230px',
+      imgY: top + 'px'
+    };
+  }
+}
+</script>
+</body>
+</html>

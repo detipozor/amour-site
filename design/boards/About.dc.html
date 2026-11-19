@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>About us · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#top" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book</x-import>
+  </div>
+</header>
+
+<section id="top" style="padding: 40px var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end;">
+    <div style="grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 28px; padding-bottom: 32px;">
+      <nav aria-label="Breadcrumb" style="font-size: 14px; color: var(--text-2);"><a href="Main-v2.dc.html" style="color: var(--text-2);">Home</a> · About us</nav>
+      <h1 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em; font-size: 96px;">About Amour</h1>
+      <p style="margin: 0; max-width: 520px; font-size: 20px;">A small hotel on stone terraces above Almyrida bay, and a villa four minutes away. Built around one idea: stay like you live here.</p>
+    </div>
+    <div data-reveal="rise" style="grid-column: 8 / span 5; aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; overflow: hidden; background: var(--c-dark);"><img src="/_blob/16e92c844577adb7ca466250469281b0" alt="Late sun and the shadow of an olive tree on a limestone wall by a wooden door" style="display: block; width: 100%; height: 100%; object-fit: cover;"></div>
+  </div>
+</section>
+
+<section ref="{{setPhil}}" style="padding: var(--sec-m) var(--gutter);">
+  <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+    <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">Our philosophy</p>
+    <p class="ab-phil stmt" style="margin: 0; font-family: var(--font-head); font-size: clamp(28px, 3.7vw, 54px); line-height: 1.22; letter-spacing: -0.025em;"><sc-for list="{{words}}" as="w" hint-placeholder-count="40"><span style="opacity: {{w.op}}; transition: opacity .4s;">{{w.text}} </span></sc-for></p>
+  </div>
+</section>
+
+<section style="padding: var(--sec-s) var(--gutter) var(--sec-m);">
+  <div class="gal" style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; align-items: start;">
+    <sc-for list="{{gallery}}" as="g" hint-placeholder-count="3">
+      <figure data-reveal="rise" style="margin: {{g.mt}} 0 0; display: flex; flex-direction: column; gap: 10px;">
+        <span style="display: block; aspect-ratio: {{g.ar}}; border-radius: 24px; overflow: hidden; background: var(--line);"><img src="{{g.src}}" alt="{{g.alt}}" style="display: block; width: 100%; height: 100%; object-fit: cover;"></span>
+        <figcaption style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-2);"><span>{{g.cap}}</span><span>{{g.n}}</span></figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<section style="padding: var(--sec-m) var(--gutter) var(--sec-l);">
+  <div class="ab-cta" style="max-width: var(--container); margin: 0 auto; padding: 96px 56px; border-radius: 24px; background: var(--deep); color: var(--on-deep); display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center;">
+    <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 44px; line-height: 1.1; letter-spacing: -0.025em; font-size: 56px; color: var(--on-deep);">Stay like you live here</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+      <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book your stay</x-import>
+      <x-import component-from-global-scope="Amour.Button" variant="on-photo" href="Rooms.dc.html">See the rooms</x-import>
+    </div>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { top: null, vh: 900 };
+    this.raf = null;
+    this.el = null;
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.setPhil = (el) => { this.el = el; };
+    this.measure = () => {
+      this.raf = null;
+      const vh = window.innerHeight || 900;
+      this.setState({ vh: vh, top: this.el ? this.el.getBoundingClientRect().top : null, isStatic: vh > 1600 });
+    };
+    this.onScroll = () => { if (!this.raf) this.raf = window.requestAnimationFrame(this.measure); };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const s = this.state;
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    // the philosophy lights up word by word as it rises through the screen, as at Casa Momo
+    const live = s.top !== null && !s.isStatic && !this.reduce;
+    const q = live ? clamp((s.vh * 0.85 - s.top) / (s.vh * 0.7)) : 1;
+    const words = "We believe a place to stay should feel like a home, not a hotel corridor. Your own kitchen, your own terrace, stone and olive trees around you, nothing that shouts. A quiet base to live by your own rhythm and to set out to see Crete.".split(' ');
+    const GAL = [{"src": "/_blob/deb2647ed7b0e40eb233a905c0be42ac", "alt": "A serve into the low sun on the hotel court", "cap": "Our court at sunset", "ar": "3 / 4", "mt": "0px"}, {"src": "/_blob/94833f4f7f37f38c5ee6ed7578db4a52", "alt": "Stone stairs with amphorae at golden hour", "cap": "The stairs to the pool", "ar": "4 / 5", "mt": "120px"}, {"src": "/_blob/1c8b6c14e093b7b1da7fc5f2887bcb7c", "alt": "Queen bed, sitting corner and the door to the terrace", "cap": "One of the nine rooms", "ar": "3 / 4", "mt": "40px"}];
+    return {
+      setPhil: this.setPhil,
+      words: words.map((w, i) => ({ text: w, op: (0.16 + 0.84 * clamp(q * words.length - i)).toFixed(3) })),
+      gallery: GAL.map((g, i) => Object.assign({}, g, { n: (i + 1) + ' / ' + GAL.length })),
+      facts: [{ v: '1.2 km', k: 'to the beach, 15 min on foot' }, { v: '40 min', k: 'by car to Chania' }, { v: '4 min', k: 'by car to the villa' }],
+      care: [{"n": "01", "h": "Room to live", "t": "Every room has a kitchen and a terrace. Cook, eat outside, keep your own hours."}, {"n": "02", "h": "A base for Crete", "t": "Honest drive times and our own guide to beaches, gorges and villages."}, {"n": "03", "h": "Stone, olives, quiet", "t": "Terraces in an olive grove, a pool and our own tennis court, free for guests."}],
+      icon: 22,
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#top' }, { label: 'Facebook', href: '#top' }, { label: 'TikTok', href: '#top' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

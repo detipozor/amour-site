@@ -1,0 +1,221 @@
+/* Motion layer: the live footer and the looping demos on the Motion boards.
+   Transform and opacity where possible; everything stops under prefers-reduced-motion. */
+
+/* ---------- Live footer: olive field with a slow diagonal wave and a lens that follows the cursor ---------- */
+.footer-live { position: relative; background: var(--deep); color: var(--on-deep); border-radius: var(--r-media) var(--r-media) 0 0; overflow: hidden; }
+.footer-live .am-footer { background: transparent; border-radius: 0; position: relative; z-index: 1; }
+.footer-live .am-footer__pattern { display: none; }
+/* No hairline above the legal row: over the live pattern it read as a scratch; air and quieter type separate it instead */
+.footer-live .am-footer__legal { border-top: 0; margin-top: var(--space-4); padding-top: 0; }
+.footer-live .am-footer__legal p, .footer-live .am-footer__legal a { color: color-mix(in srgb, var(--on-deep) 72%, transparent); }
+.olive-field { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(var(--olive-cols, 16), minmax(0, 1fr)); gap: 40px 30px; padding: 40px; pointer-events: none; }
+.olive-field img { display: block; width: 100%; height: auto; opacity: .06; animation: olive-wave 7s cubic-bezier(.45, 0, .2, 1) infinite; }
+.olive-lens { -webkit-mask-image: radial-gradient(circle 240px at var(--mx, -999px) var(--my, -999px), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%); mask-image: radial-gradient(circle 240px at var(--mx, -999px) var(--my, -999px), #000 0%, rgba(0, 0, 0, .55) 45%, transparent 100%); }
+.olive-lens img { animation: none; opacity: .55; }
+.footer-word { position: relative; z-index: 1; display: block; width: calc(100% - 2 * var(--gutter)); margin: 0 auto; padding-bottom: var(--space-4); opacity: var(--fw, 1); transform: translateY(calc((1 - var(--fw, 1)) * 80px)); transition: transform 1.2s var(--ease-soft), opacity 1.2s var(--ease-soft); }
+/* The lens is on every footer; amour-live.js feeds it the cursor position (--mx, --my) and the rise of the word (--fw) */
+@keyframes olive-wave {
+  0%, 100% { opacity: .05; transform: translateY(0) scale(1); }
+  45% { opacity: .2; transform: translateY(-6px) scale(1.06); }
+}
+
+/* ---------- Motion board 1: the arch opens to the whole screen ---------- */
+.m-hero-arch { position: absolute; left: 50%; transform: translateX(-50%); overflow: hidden; background: var(--c-dark); animation: m-arch 9s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-hero-arch video, .m-hero-arch img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-hero-scrim { position: absolute; inset: 0; background: var(--c-dark); animation: m-scrim 9s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-fade-out { animation: m-out 9s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-fade-in { animation: m-in 9s cubic-bezier(.65, 0, .25, 1) infinite; }
+@keyframes m-arch {
+  0%, 14% { top: 124px; width: 456px; height: 608px; border-radius: 260px 260px 22px 22px; }
+  52%, 82% { top: 0; width: 1440px; height: 900px; border-radius: 0; }
+  100% { top: 124px; width: 456px; height: 608px; border-radius: 260px 260px 22px 22px; }
+}
+@keyframes m-scrim { 0%, 14% { opacity: 0; } 52%, 82% { opacity: .36; } 100% { opacity: 0; } }
+@keyframes m-out { 0%, 14% { opacity: 1; } 40%, 86% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes m-in { 0%, 34% { opacity: 0; } 52%, 82% { opacity: 1; } 96%, 100% { opacity: 0; } }
+
+/* ---------- Motion board 2: the phrase lights up word by word ---------- */
+.m-word { opacity: .18; animation: m-word 9s ease-in-out infinite; }
+@keyframes m-word { 0% { opacity: .18; } 8% { opacity: 1; } 70% { opacity: 1; } 80%, 100% { opacity: .18; } }
+
+/* ---------- Motion board 3: Casa Momo style, the picture grows and its corners straighten ---------- */
+.m-estate-pic { margin-left: auto; overflow: hidden; animation: m-estate 8s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-estate-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.m-estate-title { animation: m-title-up 8s cubic-bezier(.65, 0, .25, 1) infinite; }
+@keyframes m-estate {
+  0%, 12% { width: 48%; height: 460px; border-radius: 170px 170px 22px 22px; }
+  55%, 85% { width: 100%; height: 560px; border-radius: 22px; }
+  100% { width: 48%; height: 460px; border-radius: 170px 170px 22px 22px; }
+}
+@keyframes m-title-up { 0%, 12% { transform: translateY(0); } 55%, 85% { transform: translateY(-36px); } 100% { transform: translateY(0); } }
+
+/* ---------- Motion board 4: cards rise in turn, the picture breathes under the cursor ---------- */
+.m-rise { animation: m-rise 7s cubic-bezier(.2, .7, .2, 1) infinite; }
+.m-zoom img { animation: m-zoom 7s cubic-bezier(.2, .7, .2, 1) infinite; }
+.m-lift { animation: m-lift 7s cubic-bezier(.2, .7, .2, 1) infinite; }
+@keyframes m-rise { 0% { opacity: 0; transform: translateY(32px); } 14%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(32px); } }
+@keyframes m-zoom { 0%, 40% { transform: scale(1); } 58%, 78% { transform: scale(1.06); } 92%, 100% { transform: scale(1); } }
+@keyframes m-lift { 0%, 40% { transform: none; } 50%, 78% { transform: translateY(-3px); } 88%, 100% { transform: none; } }
+
+/* ---------- Motion board 5: the map flies from Crete to Almyrida to the estate ---------- */
+.m-map-layer { position: absolute; inset: 0; overflow: hidden; }
+.m-map-layer img { position: absolute; display: block; }
+.m-map-1 { animation: m-map1 14s cubic-bezier(.65, 0, .25, 1) infinite; transform-origin: 25.73% 33.62%; }
+.m-map-2wrap { animation: m-map2op 14s linear infinite; }
+.m-map-2 { animation: m-map2 14s cubic-bezier(.65, 0, .25, 1) infinite; transform-origin: 55.71% 54.06%; }
+.m-map-3wrap { animation: m-map3op 14s linear infinite; }
+.m-map-3 { animation: m-map3 14s cubic-bezier(.2, .7, .2, 1) infinite; }
+.m-step-1 { animation: m-step1 14s linear infinite; }
+.m-step-2 { animation: m-step2 14s linear infinite; }
+.m-step-3 { animation: m-step3 14s linear infinite; }
+@keyframes m-map1 { 0%, 10% { transform: scale(1); } 34% { transform: scale(4.2); } 100% { transform: scale(4.2); } }
+@keyframes m-map2op { 0%, 28% { opacity: 0; } 34%, 64% { opacity: 1; } 70%, 100% { opacity: 0; } }
+@keyframes m-map2 { 0%, 34% { transform: scale(1.35); } 44%, 52% { transform: scale(1); } 68%, 100% { transform: scale(3.2); } }
+@keyframes m-map3op { 0%, 62% { opacity: 0; } 70%, 94% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes m-map3 { 0%, 62% { transform: scale(1.25); } 80%, 100% { transform: scale(1); } }
+@keyframes m-step1 { 0%, 30% { opacity: 1; } 34%, 100% { opacity: .45; } }
+@keyframes m-step2 { 0%, 30% { opacity: .45; } 34%, 64% { opacity: 1; } 70%, 100% { opacity: .45; } }
+@keyframes m-step3 { 0%, 64% { opacity: .45; } 70%, 96% { opacity: 1; } 100% { opacity: .45; } }
+
+/* ---------- Motion board 6: the menu opens like a curtain, links arrive in turn ---------- */
+.m-curtain { animation: m-curtain 8s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-link { animation: m-link 8s cubic-bezier(.2, .7, .2, 1) infinite; }
+.m-menu-pic { animation: m-menu-pic 8s cubic-bezier(.2, .7, .2, 1) infinite; }
+@keyframes m-curtain { 0%, 8% { clip-path: inset(0 0 100% 0 round 0 0 40px 40px); } 24%, 84% { clip-path: inset(0 0 0 0 round 0); } 96%, 100% { clip-path: inset(0 0 100% 0 round 0 0 40px 40px); } }
+@keyframes m-link { 0%, 20% { opacity: 0; transform: translateY(28px); } 32%, 82% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: translateY(28px); } }
+@keyframes m-menu-pic { 0%, 22% { opacity: 0; transform: scale(1.08); } 40%, 82% { opacity: 1; transform: scale(1); } 90%, 100% { opacity: 0; transform: scale(1.08); } }
+
+/* ---------- Motion board 7: the footer lens wanders on its own ---------- */
+.m-lens-auto { -webkit-mask-image: radial-gradient(circle 240px at center, #000 0%, rgba(0, 0, 0, .55) 45%, transparent 70%); mask-image: radial-gradient(circle 240px at center, #000 0%, rgba(0, 0, 0, .55) 45%, transparent 70%); -webkit-mask-size: 560px 560px; mask-size: 560px 560px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; animation: m-lens 10s ease-in-out infinite alternate; }
+.m-lens-auto img { animation: none; opacity: .55; }
+.m-word-rise { animation: m-word-rise 10s cubic-bezier(.2, .7, .2, 1) infinite; }
+@keyframes m-lens { 0% { -webkit-mask-position: 5% 20%; mask-position: 5% 20%; } 50% { -webkit-mask-position: 55% 70%; mask-position: 55% 70%; } 100% { -webkit-mask-position: 95% 25%; mask-position: 95% 25%; } }
+@keyframes m-word-rise { 0%, 10% { opacity: 0; transform: translateY(60px); } 30%, 90% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(60px); } }
+
+/* ---------- Main v2: one arch, six pictures in turn ---------- */
+.g6 { position: absolute; inset: 0; opacity: 0; animation: g6 18s linear infinite; }
+.g6-cap { position: absolute; left: 0; top: 0; opacity: 0; animation: g6 18s linear infinite; }
+@keyframes g6 { 0% { opacity: 0; } 3% { opacity: 1; } 16.6% { opacity: 1; } 20% { opacity: 0; } 100% { opacity: 0; } }
+/* split stage: the fixed picture changes with the chapter */
+.stage-pic { position: absolute; inset: 0; transition: opacity .8s ease; }
+.stage-pic img, .stage-pic video { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Blur fade: blocks appear in 400 ms, from 8 px blur and 16 px lower */
+.enter { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .7, .2, 1), filter .4s ease; }
+
+/* Progressive blur under text on photos: three sibling layers, the blur grows toward the edge */
+.pblur { position: absolute; left: 0; right: 0; z-index: 1; pointer-events: none; }
+.pblur > span { position: absolute; inset: 0; }
+.pblur > span:nth-child(1) { -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.pblur > span:nth-child(2) { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.pblur > span:nth-child(3) { -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.pblur--bottom { bottom: 0; }
+.pblur--bottom > span:nth-child(1) { -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 35%); mask-image: linear-gradient(to bottom, transparent 0%, #000 35%); }
+.pblur--bottom > span:nth-child(2) { -webkit-mask-image: linear-gradient(to bottom, transparent 25%, #000 65%); mask-image: linear-gradient(to bottom, transparent 25%, #000 65%); }
+.pblur--bottom > span:nth-child(3) { -webkit-mask-image: linear-gradient(to bottom, transparent 55%, #000 100%); mask-image: linear-gradient(to bottom, transparent 55%, #000 100%); }
+.pblur--top { top: 0; }
+.pblur--top > span:nth-child(1) { -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 35%); mask-image: linear-gradient(to top, transparent 0%, #000 35%); }
+.pblur--top > span:nth-child(2) { -webkit-mask-image: linear-gradient(to top, transparent 25%, #000 65%); mask-image: linear-gradient(to top, transparent 25%, #000 65%); }
+.pblur--top > span:nth-child(3) { -webkit-mask-image: linear-gradient(to top, transparent 55%, #000 100%); mask-image: linear-gradient(to top, transparent 55%, #000 100%); }
+.pblur--tint > span:nth-child(2) { background: rgba(42, 36, 32, .14); }
+.pblur--tint > span:nth-child(3) { background: rgba(42, 36, 32, .28); }
+
+/* Map: fly through clouds when the view jumps between the whole island and a place.
+   Two names per keyframe (-a / -b) so a new fly restarts the animation. */
+.clouds { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+.clouds > span { position: absolute; top: -25%; bottom: -25%; width: 75%; opacity: 0; will-change: transform, opacity;
+  background:
+    radial-gradient(closest-side at 30% 38%, rgba(251, 247, 239, .96), rgba(251, 247, 239, 0)),
+    radial-gradient(closest-side at 66% 56%, rgba(251, 247, 239, .9), rgba(251, 247, 239, 0)),
+    radial-gradient(closest-side at 44% 78%, rgba(242, 234, 219, .88), rgba(242, 234, 219, 0)),
+    radial-gradient(closest-side at 72% 20%, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0)); }
+.clouds > span:nth-child(1) { left: -15%; }
+.clouds > span:nth-child(2) { right: -15%; }
+.clouds > span:nth-child(3) { left: 12%; }
+@keyframes cloud-l-a { 0% { opacity: 0; transform: translateX(15%) scale(.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(-70%) scale(2.4); } }
+@keyframes cloud-l-b { 0% { opacity: 0; transform: translateX(15%) scale(.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(-70%) scale(2.4); } }
+@keyframes cloud-r-a { 0% { opacity: 0; transform: translateX(-15%) scale(.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(70%) scale(2.4); } }
+@keyframes cloud-r-b { 0% { opacity: 0; transform: translateX(-15%) scale(.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(70%) scale(2.4); } }
+@keyframes cloud-c-a { 0% { opacity: 0; transform: scale(.6); } 42% { opacity: .92; transform: scale(1.3); } 100% { opacity: 0; transform: scale(2.8); } }
+@keyframes cloud-c-b { 0% { opacity: 0; transform: scale(.6); } 42% { opacity: .92; transform: scale(1.3); } 100% { opacity: 0; transform: scale(2.8); } }
+@keyframes fly-a { 0% { filter: blur(0); } 40% { filter: blur(6px); } 100% { filter: blur(0); } }
+@keyframes fly-b { 0% { filter: blur(0); } 40% { filter: blur(6px); } 100% { filter: blur(0); } }
+
+/* Villa block: the sea comes in. A foam-coloured tide grows out of the arch until it fills the block. */
+.villa-tide { position: absolute; inset: 0; background: var(--accent-soft); pointer-events: none; }
+.m-tide { animation: m-tide 7s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-tide-arch { animation: m-tide-arch 7s cubic-bezier(.65, 0, .25, 1) infinite; }
+.m-tide-text { animation: m-tide-text 7s cubic-bezier(.2, .7, .2, 1) infinite; }
+@keyframes m-tide { 0%, 10% { clip-path: circle(18% at 76% 52%); } 55%, 86% { clip-path: circle(140% at 76% 52%); } 100% { clip-path: circle(18% at 76% 52%); } }
+@keyframes m-tide-arch { 0%, 10% { transform: scale(.9); } 55%, 86% { transform: scale(1); } 100% { transform: scale(.9); } }
+@keyframes m-tide-text { 0%, 30% { opacity: 0; transform: translateY(24px); } 50%, 86% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(24px); } }
+
+/* Court and pool page.
+   Hero: a net line is drawn across the frame, the video opens up and down from it, then the title rises. */
+.net-line { position: absolute; z-index: 3; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: var(--c-limestone); transform-origin: left center; pointer-events: none; animation: net-line 1.9s cubic-bezier(.65, 0, .25, 1) both; }
+@keyframes net-line { 0% { transform: scaleX(0); opacity: 1; } 35% { transform: scaleX(1); opacity: 1; } 55% { opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+.net-open { position: absolute; inset: 0; animation: net-open 1.9s cubic-bezier(.65, 0, .25, 1) both; }
+@keyframes net-open { 0%, 35% { clip-path: inset(50% 0 50% 0); } 100% { clip-path: inset(0 0 0 0); } }
+.hero-rise { animation: hero-rise .8s cubic-bezier(.2, .7, .2, 1) 1.5s both; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(24px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+/* Blur layers come in only after a frame stops changing shape: a backdrop blur inside a moving rounded clip shows a hard edge in Chrome */
+.fade-late { animation: fade-late .6s ease 1.7s both; }
+.fade-in { animation: fade-late .5s ease both; }
+@keyframes fade-late { from { opacity: 0; } to { opacity: 1; } }
+/* A slow breath on the pool picture */
+.kb-breathe { animation: kb-breathe 14s ease-in-out infinite alternate; }
+@keyframes kb-breathe { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .net-line { display: none; }
+  .net-open, .hero-rise, .kb-breathe, .fade-late, .fade-in { animation: none; }
+  .clouds { display: none; }
+  .m-tide, .m-tide-arch, .m-tide-text { animation: none; }
+  .hx, .hx img, .hx-more { transition: none !important; }
+  .g6, .g6-cap { animation: none; }
+  .g6:first-child, .g6-cap:first-child { opacity: 1; }
+  .stage-pic, .enter { transition: none; }
+  .olive-field img, .m-hero-arch, .m-hero-scrim, .m-fade-out, .m-fade-in, .m-word, .m-estate-pic, .m-estate-title,
+  .m-rise, .m-zoom img, .m-lift, .m-map-1, .m-map-2wrap, .m-map-2, .m-map-3wrap, .m-map-3, .m-step-1, .m-step-2, .m-step-3,
+  .m-curtain, .m-link, .m-menu-pic, .m-lens-auto, .m-word-rise { animation: none; }
+  .footer-word { transition: none; }
+}
+
+/* Booking capsule on room and villa pages: steps aside over other buttons (amour-live.js) */
+.capsule-dock > * { transition: opacity .35s ease, transform .45s cubic-bezier(.2, .7, .2, 1); }
+.capsule-dock.dock--away > * { opacity: 0; transform: translateY(28px); pointer-events: none !important; }
+
+/* The footer tucks under the block above by its corner radius: the corners show that block, not the page background */
+.footer-live { margin-top: calc(-1 * var(--r-media, 40px)); z-index: 1; }
+
+/* Reveal on entry (amour-live.js adds .is-in) */
+[data-reveal] .ln { display: block; overflow: hidden; padding-bottom: .04em; }
+[data-reveal] .ln > span { display: block; transform: translateY(108%); transition: transform 1.1s cubic-bezier(.2, .7, .2, 1); }
+[data-reveal].is-in .ln > span { transform: none; }
+[data-reveal] .ln:nth-child(2) > span { transition-delay: .08s; } [data-reveal] .ln:nth-child(3) > span { transition-delay: .16s; } [data-reveal] .ln:nth-child(4) > span { transition-delay: .24s; }
+[data-reveal] .rv-fade { opacity: 0; transform: translateY(22px); transition: opacity .9s ease .35s, transform 1.1s cubic-bezier(.2, .7, .2, 1) .35s; }
+[data-reveal].is-in .rv-fade { opacity: 1; transform: none; }
+/* the clip sits on the children: a clipped target would never count as visible */
+[data-reveal] .rv-arch { clip-path: inset(100% 0 0 0 round 999px 999px 20px 20px); transition: clip-path 1.5s cubic-bezier(.65, 0, .35, 1) .2s; }
+[data-reveal].is-in .rv-arch { clip-path: inset(0 0 0 0 round 999px 999px 20px 20px); }
+/* Day-out cards: the road draws on the map, then the card turns to the picture; hover turns it back */
+.flip { perspective: 1400px; }
+.flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 1.1s cubic-bezier(.65, 0, .35, 1); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 24px; overflow: hidden; }
+.flip-back { transform: rotateY(180deg); }
+[data-reveal].is-in .flip-inner { transform: rotateY(180deg); transition-delay: 1.9s; }
+[data-reveal].is-in:hover .flip-inner, [data-reveal].is-in:focus-within .flip-inner { transform: none; transition-delay: 0s; }
+.flip .day-route { stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.5s cubic-bezier(.65, 0, .35, 1) .25s; }
+[data-reveal].is-in .flip .day-route { stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] .ln > span, [data-reveal] .rv-fade { transform: none; opacity: 1; transition: none; }
+  [data-reveal] .rv-arch { clip-path: none; transition: none; }
+  .flip-inner, .flip .day-route { transition: none; }
+}
+
+/* Court and pool hero: the film fades in and settles (replaces the net reveal) */
+.hero-in { animation: hero-in 1.8s cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes hero-in { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-in { animation: none; } }
+[data-reveal="rise"] > * { opacity: 0; transform: translateY(40px) scale(1.04); transition: opacity 1s ease .1s, transform 1.4s cubic-bezier(.2, .7, .2, 1) .1s; }
+[data-reveal="rise"].is-in > * { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { [data-reveal="rise"] > * { opacity: 1; transform: none; transition: none; } }

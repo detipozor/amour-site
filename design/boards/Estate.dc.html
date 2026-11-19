@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Court and pool · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+.kick{margin:0;font-size:13px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-family:var(--font-label)}
+.h2x{margin:0;font-family:var(--font-head);font-weight:400;font-size:56px;line-height:1.08;letter-spacing:-0.03em}
+.facts{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.facts li{display:flex;align-items:center;gap:14px;font-size:17px}
+.facts li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.duo-big{overflow:hidden;background:var(--c-dark)}
+.duo-big img,.duo-small img{display:block;width:100%;height:100%;object-fit:cover}
+.duo-small{position:absolute;bottom:0;width:40%;margin:0;transition:transform .25s linear}
+.duo-small .pic{aspect-ratio:3/4;border-radius:24px;overflow:hidden;box-shadow:0 0 0 10px var(--bg)}
+.duo-small figcaption{margin-top:14px;font-size:14px;color:var(--text-2)}
+@media (prefers-reduced-motion:reduce){.duo-small{transition:none}}
+@media (max-width: 1240px) { .lg-name { display: none; } }
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header data-overlay style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#top" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book</x-import>
+  </div>
+</header>
+
+<div style="position: relative;">
+<section id="top" style="position: {{heroPos}}; top: 0; z-index: 0;">
+  <div style="position: relative; height: {{heroH}}; overflow: hidden; background: var(--bg);">
+    <div aria-hidden="true" style="position: absolute; inset: 0; z-index: 5; pointer-events: none; background: #1c1612; opacity: {{heroDim}};"></div>
+    <div class="hero-in" style="position: absolute; inset: 0; background: var(--c-dark);">
+      <video src="/_blob/ee3a0cf95a1b8e88deb975fb7351c5ad" poster="/_blob/04e7c13a0591f2eb4fc21fd583b503eb" autoPlay="{{yes}}" muted="{{yes}}" loop="{{yes}}" playsInline="{{yes}}" aria-label="A serve on the hotel court at sunset" style="display: block; width: 100%; height: 100%; object-fit: cover;"></video>
+    </div>
+    <div class="pblur pblur--bottom pblur--tint fade-in" aria-hidden="true" style="height: 46%;"><span></span><span></span><span></span></div>
+    <div aria-hidden="true" style="position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to top, rgba(28, 20, 16, 0.7), rgba(28, 20, 16, 0) 58%);"></div>
+    <div class="hero-rise" style="position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: 104px; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; color: var(--c-limestone);">
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <nav aria-label="Breadcrumb" style="font-size: 15px; color: rgba(242, 234, 219, 0.85);"><a href="Main-v2.dc.html" style="color: rgba(242, 234, 219, 0.85);">Home</a> · Court and pool</nav>
+        <h1 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 80px; line-height: 1.02; letter-spacing: -0.03em;">Game, set, sunset</h1>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 18px; max-width: 400px;"><p style="margin: 0; font-size: 18px;">Our own tennis court and a pool with a sun terrace, free for every guest of the hotel and the villa.</p>
+        <p style="margin: 0; font-size: 16px; font-weight: 500; color: rgba(242, 234, 219, 0.92);">Free · floodlit · rackets to borrow · [07:00–23:00] · [surface]</p>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px;"><x-import component-from-global-scope="Amour.Button" variant="primary" href="Main-v2.dc.html#book">Check dates</x-import><a href="Contact.dc.html" style="color: var(--c-limestone); font-size: 15px; font-weight: 500;">Book a court slot on WhatsApp</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section ref="{{setCourt}}" aria-label="The court" style="position: relative; z-index: 1; height: {{courtH}};">
+  <div data-nopar style="position: {{courtPos}}; top: 0; height: {{courtStickyH}}; overflow: hidden; border-radius: {{courtR}} {{courtR}} 0 0; background: var(--c-dark); color: var(--c-limestone);">
+    <img src="/_blob/deb2647ed7b0e40eb233a905c0be42ac" alt="A serve into the low sun on the hotel court" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; opacity: {{cd.dayO}}; transform: scale({{cd.ds}});">
+    <img src="/_blob/eb955df83df1fb9544e16d9e70a299c1" alt="The court lit after sunset, seen from above" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: {{cd.nightO}}; transform: scale({{cd.ns}});">
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(28, 22, 18, 0.78), rgba(28, 22, 18, 0.08) 58%, rgba(28, 22, 18, 0.32));"></div>
+    <div style="position: absolute; left: var(--gutter); bottom: 72px; max-width: 62%; display: flex; flex-direction: column; gap: 18px;">
+      <p class="kick" style="color: rgba(242, 234, 219, 0.9);">The court</p>
+      <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: min(7.6vw, 11vh, 116px); line-height: 0.98; letter-spacing: -0.03em;"><span style="display: block; opacity: {{cd.l1}}; transition: opacity .5s;">Morning sets,</span><span style="display: block; opacity: {{cd.l2}}; transition: opacity .5s;">evening sets</span></h2>
+    </div>
+    <div style="position: absolute; right: var(--gutter); top: 104px; width: min(380px, 34vw); max-height: calc(100% - 200px); overflow: auto; padding: 24px 28px; border-radius: 20px; background: rgba(28, 22, 18, 0.34); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(242, 234, 219, 0.18); display: flex; flex-direction: column; gap: 16px;">
+      <p style="margin: 0; font-size: 17px; line-height: 1.55;">Our own court in the middle of the estate. Play before the heat or after it: the lights come on when the sun goes down.</p>
+    </div>
+    <div aria-hidden="true" style="position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; opacity: {{cd.barO}}; font-family: var(--font-label);">
+      <span>Day</span><span style="position: relative; width: 120px; height: 1px; background: rgba(242, 234, 219, 0.4);"><span style="position: absolute; top: -4px; left: {{cd.dot}}; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--c-limestone);"></span></span><span>Night</span>
+    </div>
+  </div>
+</section>
+</div>
+
+<section ref="{{setPool}}" style="position: relative; z-index: 2; margin-top: -40px; border-radius: 40px 40px 0 0; background: var(--bg); padding: var(--sec-l) 0 0;">
+  <div class="enter" style="max-width: 980px; margin: 0 auto; padding: 0 var(--gutter); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; opacity: {{pool.o}}; transform: translateY({{pool.y}}); filter: {{pool.b}};">
+    <p class="kick">The pool</p>
+    <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: clamp(52px, 7vw, 104px); line-height: 1; letter-spacing: -0.03em;">Quiet days by the water</h2>
+    <p style="margin: 0; max-width: 600px;">Sunbeds by day, daybeds for the slow hours, lights for a late swim.</p>
+  </div>
+  <div ref="{{setPoolPin}}" style="position: relative; height: {{ps.h}}; margin-top: 96px;">
+    <div data-nopar data-hdr="split" style="position: {{ps.pos}}; top: 0; height: {{ps.sh}}; display: grid; grid-template-columns: {{ps.cols}}; grid-template-rows: {{ps.rows}}; align-items: stretch;">
+      <ol style="list-style: none; margin: 0; padding: {{ps.olPad}}; display: flex; flex-direction: column; justify-content: center;">
+        <li style="display: grid; grid-template-columns: {{ps.liCols}}; gap: 12px; padding: {{ps.liPad}}; opacity: {{ps.o0}}; transition: opacity .5s;">
+          <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.2em; color: var(--accent); padding-top: 10px;">01</span>
+          <span style="display: flex; flex-direction: column; gap: 10px;"><span style="font-family: var(--font-head); font-size: {{ps.tfs}}; line-height: 1.1; letter-spacing: -0.02em;">Sunbeds and parasols</span><span style="font-size: {{ps.dfs}}; color: var(--text-2);">Along the limestone wall, for the long middle of the day.</span></span>
+        </li>
+        <li style="display: grid; grid-template-columns: {{ps.liCols}}; gap: 12px; padding: {{ps.liPad}}; opacity: {{ps.o1}}; transition: opacity .5s;">
+          <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.2em; color: var(--accent); padding-top: 10px;">02</span>
+          <span style="display: flex; flex-direction: column; gap: 10px;"><span style="font-family: var(--font-head); font-size: {{ps.tfs}}; line-height: 1.1; letter-spacing: -0.02em;">Daybeds with white curtains</span><span style="font-size: {{ps.dfs}}; color: var(--text-2);">Shade, a book and a slow afternoon above the court.</span></span>
+        </li>
+        <li style="display: grid; grid-template-columns: {{ps.liCols}}; gap: 12px; padding: {{ps.liPad}}; opacity: {{ps.o2}}; transition: opacity .5s;">
+          <span style="font-size: 13px; font-weight: 500; letter-spacing: 0.2em; color: var(--accent); padding-top: 10px;">03</span>
+          <span style="display: flex; flex-direction: column; gap: 10px;"><span style="font-family: var(--font-head); font-size: {{ps.tfs}}; line-height: 1.1; letter-spacing: -0.02em;">Lit after dark</span><span style="font-size: {{ps.dfs}}; color: var(--text-2);">Underwater lights for a late swim. [Open from … to …] · [pool towels]</span></span>
+        </li>
+      </ol>
+      <div style="position: relative; overflow: hidden; background: var(--c-dark); order: {{ps.phOrd}};">
+        <img src="/_blob/0e96a56d5b0f7d9625ef1a65d94f4b68" alt="The pool, the parasols and the sun terrace from above" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 54% 20%; transform: scale(2.3); transform-origin: 54% 20%; clip-path: {{ps.c0}}; transition: clip-path 1s cubic-bezier(.65, 0, .35, 1);">
+        <img src="/_blob/3d4fe371301d6eb1243e6659e55b94e1" alt="A daybed with white curtains at sunset" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; clip-path: {{ps.c1}}; transition: clip-path 1s cubic-bezier(.65, 0, .35, 1);">
+        <img src="/_blob/3e03be045ef749e0d13cdb0ef58aa776" alt="Sunbeds along the limestone wall, lit after dark" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; clip-path: {{ps.c2}}; transition: clip-path 1s cubic-bezier(.65, 0, .35, 1);">
+        <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(28, 22, 18, 0.55), rgba(28, 22, 18, 0) 40%); pointer-events: none;"></div>
+        <p aria-hidden="true" style="position: absolute; left: 40px; bottom: 32px; margin: 0; display: flex; align-items: baseline; gap: 12px; color: var(--c-limestone);"><span style="font-family: var(--font-head); font-size: {{ps.nfs}}; line-height: 1; letter-spacing: -0.02em;">{{ps.num}}</span><span style="font-size: 13px; font-weight: 500; letter-spacing: 0.2em;">/ 03</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section ref="{{setPlan}}" data-tone="light" aria-labelledby="plan-title" style="padding: var(--sec-l) 0 var(--sec-m);">
+  <div class="enter" style="max-width: var(--container); margin: 0 auto {{plHeadMb}}; padding: 0 var(--gutter); box-sizing: content-box; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: end; opacity: {{plan.o}}; transform: translateY({{plan.y}}); filter: {{plan.b}};">
+    <div style="grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 18px;">
+      <p class="kick">The estate from above</p>
+      <h2 id="plan-title" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: clamp(44px, 4.6vw, 68px); line-height: 1.04; letter-spacing: -0.03em;">Everything a few steps apart</h2>
+    </div>
+    <p style="grid-column: 8 / span 5; margin: 0; font-size: 17px; line-height: 1.55;">Rooms on terraces stepping down the hill, the court in the middle, the pool above it and olive groves all around. Tap a place on the photo to see it.</p>
+  </div>
+  <div style="padding: 0 var(--gutter);">
+  <div data-nopar ref="{{setPlanBox}}" onClick="{{planClear}}" style="position: relative; margin: 0 auto; width: {{pl.w}}; max-width: 100%; height: {{pl.h}}; border-radius: var(--r-media); overflow: hidden; background: #efe6d4;">
+    <div style="position: absolute; inset: 0; transform: translate3d(0, {{pl.ty}}, 0) scale({{pl.sc}}); transform-origin: 50% 50%; will-change: transform;">
+    <svg viewBox="60 30 2240 1455" preserveAspectRatio="xMidYMid slice" role="img" aria-label="The hotel from above: the tennis court in the middle, the pool and sun terrace above it, the daybeds between them, rooms on terraces on both sides, lawns, a barbecue corner and an olive grove below" style="position: absolute; inset: 0; display: block; width: 100%; height: 100%;">
+      <defs><mask id="plan-focus" maskUnits="userSpaceOnUse" x="0" y="0" width="2400" height="1485"><rect x="0" y="0" width="2400" height="1485" fill="#fff"></rect><path d="M1205 246 L1300 262 L1392 277 L1407 290 L1418 303 L1420 320 L1412 334 L1398 343 L1380 347 L1290 334 L1200 321 L1182 311 L1170 297 L1166 280 L1172 263 L1186 252 Z M1100 124 L1200 151 L1300 180 L1350 194 L1455 224 L1470 235 L1477 252 L1457 392 L1470 426 L1350 407 L1200 383 L1077 363 L1078 318 L1090 200 Z" fill="{{hl.p0.m}}"></path><path d="M856 584 L1241 584 L1626 584 L1626 780 L1626 975 L1241 975 L856 975 L856 780 Z" fill="{{hl.p1.m}}"></path><path d="M1130 480 L1320 480 L1510 480 L1510 510 L1510 540 L1320 540 L1130 540 L1130 510 Z" fill="{{hl.p2.m}}"></path><path d="M1662 740 L1750 763 L1840 787 L1820 845 L1800 895 L1777 955 L1765 998 L1662 998 Z" fill="{{hl.p3.m}}"></path><path d="M165 352 L250 328 L350 300 L480 262 L600 215 L700 178 L795 143 L797 362 L478 362 L475 427 L185 428 L165 410 L160 375 Z M812 135 L870 108 L965 86 L1035 104 L1100 126 L1090 200 L1078 318 L895 326 L895 272 L830 272 L812 260 Z M160 517 L313 517 L466 517 L466 626 L466 735 L313 735 L160 735 L160 626 Z M148 752 L470 752 L778 752 L770 905 L600 914 L470 922 L360 932 L305 940 L245 880 L195 825 L150 770 Z" fill="{{hl.p4.m}}"></path><path d="M515 1158 L560 1145 L600 1132 L650 1115 L700 1102 L750 1094 L850 1088 L1000 1084 L1200 1082 L1400 1083 L1550 1086 L1650 1095 L1700 1105 L1750 1116 L1800 1131 L1850 1150 L1900 1172 L1950 1198 L2000 1228 L2060 1270 L2095 1300 L2105 1350 L2110 1420 L2115 1485 L2060 1485 L2000 1432 L1900 1405 L1800 1390 L1700 1386 L1650 1398 L1610 1440 L1585 1485 L540 1485 L565 1440 L590 1390 L600 1345 L600 1245 L560 1200 Z M2058 546 L2100 514 L2125 505 L2135 560 L2145 640 L2152 700 L2210 752 L2270 805 L2330 855 L2400 905 L2400 1415 L2340 1350 L2280 1290 L2220 1220 L2160 1150 L2100 1085 L2040 1025 L1980 965 L1925 915 L1930 850 L1960 795 L1965 752 L2010 700 L1985 650 Z" fill="{{hl.p5.m}}"></path></mask></defs>
+      <image href="/_blob/0e96a56d5b0f7d9625ef1a65d94f4b68" x="0" y="0" width="2400" height="1485" preserveAspectRatio="none" style="filter: saturate(0.86) contrast(0.96) brightness(1.03);"></image>
+      <rect x="0" y="0" width="2400" height="1485" mask="url(#plan-focus)" style="fill: #f2eadb; opacity: {{plVeil}}; transition: opacity .35s; pointer-events: none;"></rect>
+      <g style="pointer-events: none;"><path d="M1205 246 L1300 262 L1392 277 L1407 290 L1418 303 L1420 320 L1412 334 L1398 343 L1380 347 L1290 334 L1200 321 L1182 311 L1170 297 L1166 280 L1172 263 L1186 252 Z M1100 124 L1200 151 L1300 180 L1350 194 L1455 224 L1470 235 L1477 252 L1457 392 L1470 426 L1350 407 L1200 383 L1077 363 L1078 318 L1090 200 Z" fill="none" stroke="{{hl.p0.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M856 584 L1241 584 L1626 584 L1626 780 L1626 975 L1241 975 L856 975 L856 780 Z" fill="none" stroke="{{hl.p1.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M1130 480 L1320 480 L1510 480 L1510 510 L1510 540 L1320 540 L1130 540 L1130 510 Z" fill="none" stroke="{{hl.p2.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M1662 740 L1750 763 L1840 787 L1820 845 L1800 895 L1777 955 L1765 998 L1662 998 Z" fill="none" stroke="{{hl.p3.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M165 352 L250 328 L350 300 L480 262 L600 215 L700 178 L795 143 L797 362 L478 362 L475 427 L185 428 L165 410 L160 375 Z M812 135 L870 108 L965 86 L1035 104 L1100 126 L1090 200 L1078 318 L895 326 L895 272 L830 272 L812 260 Z M160 517 L313 517 L466 517 L466 626 L466 735 L313 735 L160 735 L160 626 Z M148 752 L470 752 L778 752 L770 905 L600 914 L470 922 L360 932 L305 940 L245 880 L195 825 L150 770 Z" fill="none" stroke="{{hl.p4.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M515 1158 L560 1145 L600 1132 L650 1115 L700 1102 L750 1094 L850 1088 L1000 1084 L1200 1082 L1400 1083 L1550 1086 L1650 1095 L1700 1105 L1750 1116 L1800 1131 L1850 1150 L1900 1172 L1950 1198 L2000 1228 L2060 1270 L2095 1300 L2105 1350 L2110 1420 L2115 1485 L2060 1485 L2000 1432 L1900 1405 L1800 1390 L1700 1386 L1650 1398 L1610 1440 L1585 1485 L540 1485 L565 1440 L590 1390 L600 1345 L600 1245 L560 1200 Z M2058 546 L2100 514 L2125 505 L2135 560 L2145 640 L2152 700 L2210 752 L2270 805 L2330 855 L2400 905 L2400 1415 L2340 1350 L2280 1290 L2220 1220 L2160 1150 L2100 1085 L2040 1025 L1980 965 L1925 915 L1930 850 L1960 795 L1965 752 L2010 700 L1985 650 Z" fill="none" stroke="{{hl.p5.g}}" stroke-width="9" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M1205 246 L1300 262 L1392 277 L1407 290 L1418 303 L1420 320 L1412 334 L1398 343 L1380 347 L1290 334 L1200 321 L1182 311 L1170 297 L1166 280 L1172 263 L1186 252 Z M1100 124 L1200 151 L1300 180 L1350 194 L1455 224 L1470 235 L1477 252 L1457 392 L1470 426 L1350 407 L1200 383 L1077 363 L1078 318 L1090 200 Z" fill="none" stroke="{{hl.p0.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M856 584 L1241 584 L1626 584 L1626 780 L1626 975 L1241 975 L856 975 L856 780 Z" fill="none" stroke="{{hl.p1.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M1130 480 L1320 480 L1510 480 L1510 510 L1510 540 L1320 540 L1130 540 L1130 510 Z" fill="none" stroke="{{hl.p2.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M1662 740 L1750 763 L1840 787 L1820 845 L1800 895 L1777 955 L1765 998 L1662 998 Z" fill="none" stroke="{{hl.p3.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M165 352 L250 328 L350 300 L480 262 L600 215 L700 178 L795 143 L797 362 L478 362 L475 427 L185 428 L165 410 L160 375 Z M812 135 L870 108 L965 86 L1035 104 L1100 126 L1090 200 L1078 318 L895 326 L895 272 L830 272 L812 260 Z M160 517 L313 517 L466 517 L466 626 L466 735 L313 735 L160 735 L160 626 Z M148 752 L470 752 L778 752 L770 905 L600 914 L470 922 L360 932 L305 940 L245 880 L195 825 L150 770 Z" fill="none" stroke="{{hl.p4.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path><path d="M515 1158 L560 1145 L600 1132 L650 1115 L700 1102 L750 1094 L850 1088 L1000 1084 L1200 1082 L1400 1083 L1550 1086 L1650 1095 L1700 1105 L1750 1116 L1800 1131 L1850 1150 L1900 1172 L1950 1198 L2000 1228 L2060 1270 L2095 1300 L2105 1350 L2110 1420 L2115 1485 L2060 1485 L2000 1432 L1900 1405 L1800 1390 L1700 1386 L1650 1398 L1610 1440 L1585 1485 L540 1485 L565 1440 L590 1390 L600 1345 L600 1245 L560 1200 Z M2058 546 L2100 514 L2125 505 L2135 560 L2145 640 L2152 700 L2210 752 L2270 805 L2330 855 L2400 905 L2400 1415 L2340 1350 L2280 1290 L2220 1220 L2160 1150 L2100 1085 L2040 1025 L1980 965 L1925 915 L1930 850 L1960 795 L1965 752 L2010 700 L1985 650 Z" fill="none" stroke="{{hl.p5.s}}" stroke-width="4" stroke-linejoin="round" style="transition: stroke .3s;"></path></g>
+    </svg>
+    <sc-for list="{{roomTags}}" as="r" hint-placeholder-count="3">
+      <span aria-hidden="true" style="position: absolute; z-index: 3; left: {{r.x}}; top: {{r.y}}; transform: translate(-50%, -50%); padding: {{rtPad}}; border-radius: 999px; background: rgba(251, 247, 239, 0.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--c-terracotta); font-size: {{rtFs}}; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1; white-space: nowrap; pointer-events: none; font-family: var(--font-label);">Rooms</span>
+    </sc-for>
+    <sc-for list="{{places}}" as="p" hint-placeholder-count="6">
+      <button type="button" aria-pressed="{{p.pressed}}" onClick="{{p.click}}" onMouseEnter="{{p.enter}}" onMouseLeave="{{p.leave}}" onFocus="{{p.enter}}" onBlur="{{p.leave}}" style="position: absolute; z-index: {{p.z}}; left: {{p.x}}; top: {{p.y}}; transform: translate(-50%, -50%); display: inline-flex; align-items: center; justify-content: center; gap: {{p.gap}}; min-width: {{p.mw}}; min-height: {{p.mh}}; margin: 0; padding: {{p.pad}}; border: {{p.bd}} solid transparent; background-clip: padding-box; border-radius: 999px; background: {{p.bg}}; color: {{p.fg}}; font-family: var(--font-body); font-size: {{p.fs}}; font-weight: 500; line-height: 1; white-space: nowrap; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: {{p.sh}}; cursor: pointer; transition: background-color .3s, color .3s;" aria-label="{{p.name}}"><span aria-hidden="true" style="display: {{p.dotD}}; flex: none; width: 12px; height: 12px; border-radius: 50%; background: {{p.dot}}; box-shadow: 0 0 0 2px {{p.ring}};"></span>{{p.label}}</button>
+    </sc-for>
+    </div>
+    <div aria-live="polite" style="display: {{card.d}}; position: absolute; z-index: 9; left: {{card.l}}; right: {{card.r}}; top: {{card.t}}; bottom: {{card.b}}; width: 300px; border-radius: 20px; overflow: hidden; background: rgba(251, 247, 239, 0.82); -webkit-backdrop-filter: blur(14px) saturate(1.1); backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 18px 40px rgba(28, 22, 18, 0.18); opacity: {{card.o}}; visibility: {{card.vis}}; transform: translateY({{card.ty}}); transition: opacity .3s, transform .35s, visibility .3s; pointer-events: none;">
+      <div style="position: relative; display: {{card.imgD}}; height: 170px; overflow: hidden; background: var(--line);"><img src="{{card.src}}" alt="{{card.alt}}" style="position: absolute; left: {{card.il}}; top: {{card.it}}; width: {{card.iw}}; height: {{card.ih}}; max-width: none; display: block; object-fit: {{card.fit}};"></div>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px;">
+        <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">{{card.name}}</p>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: var(--text);">{{card.text}}</p>
+      </div>
+    </div>
+  </div>
+  <div style="display: {{plPhoneD}}; flex-direction: column; gap: 16px; margin-top: 16px;">
+    <div role="group" aria-label="Places on the photo" style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <sc-for list="{{places}}" as="p" hint-placeholder-count="6">
+        <button type="button" aria-pressed="{{p.pressed}}" onClick="{{p.click}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin: 0; padding: 0 16px 0 8px; border: 1px solid {{p.chipBd}}; border-radius: 999px; background: {{p.chipBg}}; color: {{p.chipFg}}; font: 500 15px/1 var(--font-body); cursor: pointer; transition: background-color .3s, color .3s;"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: {{p.numBg}}; color: {{p.numFg}}; font-size: 13px;">{{p.num}}</span>{{p.name}}</button>
+      </sc-for>
+    </div>
+    <p aria-live="polite" style="margin: 0; min-height: 6em; font-size: 16px; line-height: 1.5; color: var(--text);"><span style="display: block; margin-bottom: 4px; font-size: 13px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">{{card.name}}</span>{{card.text}}</p>
+  </div>
+  </div>
+</section>
+
+<section ref="{{setCta}}" style="padding: 0 var(--gutter) var(--sec-l);">
+  <div class="enter" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; opacity: {{cta.o}}; transform: translateY({{cta.y}}); filter: {{cta.b}};">
+    <p class="kick">In every stay</p>
+    <h2 class="h2x">Pack a swimsuit, leave the racket</h2>
+    <p style="margin: 0; max-width: 44ch; font-size: 20px; line-height: 1.5;">The court and the pool are free for every guest, in the rooms and at the villa. Rackets and balls are waiting at the court.</p>
+    <div style="display: flex; gap: 12px; margin-top: 8px;">
+      <x-import component-from-global-scope="Amour.Button" variant="primary" href="Rooms.dc.html">See the rooms</x-import>
+      <x-import component-from-global-scope="Amour.Button" variant="ghost" href="Villa-v2.dc.html">Villa Eudora</x-import>
+    </div>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { vh: 900, isStatic: true, tops: {}, zone: -1, hz: -1 };
+    this.els = {};
+    this.raf = null;
+    this.refs2 = {};
+    ['court', 'pool', 'poolPin', 'plan', 'cta'].forEach((n) => { this.refs2[n] = (el) => { this.els[n] = el; }; });
+    this.measure = () => {
+      this.raf = null;
+      const vh = window.innerHeight || 900;
+      const tops = {};
+      Object.keys(this.els).forEach((n) => { if (this.els[n]) tops[n] = this.els[n].getBoundingClientRect().top; });
+      const pb = this.planBox ? this.planBox.getBoundingClientRect() : null;
+      this.setState({ vh: vh, isStatic: vh > 1600, tops: tops, pbw: pb ? pb.width : 1440, pbh: pb ? pb.height : 891, pbt: pb ? pb.top : 0 });
+    };
+    this.onScroll = () => { if (!this.raf) this.raf = window.requestAnimationFrame(this.measure); };
+    this.setPlanBox = (el) => { this.planBox = el; };
+    // Plan: hovering a name previews the place, a tap or click keeps it open, a tap on the plan closes it
+    this.plEnter = [0, 1, 2, 3, 4, 5].map((i) => () => { if (this.state.hz !== i) this.setState({ hz: i }); });
+    this.plLeave = () => { if (this.state.hz !== -1) this.setState({ hz: -1 }); };
+    this.plClick = [0, 1, 2, 3, 4, 5].map((i) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ zone: this.state.zone === i ? -1 : i, hz: -1 }); });
+    this.planClear = () => { if (this.state.zone !== -1 || this.state.hz !== -1) this.setState({ zone: -1, hz: -1 }); };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+    window.clearInterval(this.tour);
+  }
+  renderVals() {
+    const s = this.state;
+    const live = !s.isStatic;
+    const t = s.tops || {};
+    const seen = (n) => !live || (t[n] !== undefined && t[n] < s.vh * 0.78);
+    const reveal = (n) => seen(n)
+      ? { o: 1, y: '0px', b: 'none', dash: 0, clipL: 'inset(0 0 0 0 round 14px)', clipR: 'inset(0 0 0 0 round 14px)', zoom: 1 }
+      : { o: 0, y: '16px', b: 'blur(8px)', dash: 1, clipL: 'inset(0 0 0 100% round 14px)', clipR: 'inset(0 100% 0 0 round 14px)', zoom: 1.12 };
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    // The big photo rises as an arch and opens into a soft rectangle; the small one drifts a little slower
+    const duo = (n) => {
+      const top = t[n];
+      const k = live && top !== undefined ? clamp((s.vh * 0.95 - top) / (s.vh * 0.75)) : 0;
+      const hr = 'calc(50% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      const vr = 'calc(36% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      return Object.assign(reveal(n), {
+        r: hr + ' ' + hr + ' 24px 24px / ' + vr + ' ' + vr + ' 24px 24px',
+        s: (1.08 - 0.08 * k).toFixed(3),
+        py: live ? Math.round(70 - 140 * k) + 'px' : '0px'
+      });
+    };
+    const ease = (v) => v * v * (3 - 2 * v);
+    // Court: pinned full screen; the serve in the low sun turns into the lit court at night as you scroll
+    const pinC = live && s.vh >= 480;
+    const ck = pinC && t.court !== undefined ? clamp(-t.court / 1000) : 0;
+    const night = ease(clamp((ck - 0.3) / 0.4));
+    const cd = { dayO: (1 - night).toFixed(3), nightO: night.toFixed(3), ds: (1.02 + 0.06 * ck).toFixed(4), ns: (1.08 - 0.06 * ck).toFixed(4),
+      l1: (1 - 0.62 * night).toFixed(3), l2: (0.38 + 0.62 * night).toFixed(3), dot: (night * 100).toFixed(1) + '%', barO: pinC ? 1 : 0 };
+    // Pool: the picture rises as an arch and opens to the screen edges
+    const pk = live && t.pool !== undefined ? ease(clamp((s.vh * 0.9 - (t.pool + 520)) / (s.vh * 0.85))) : 0;
+    const pr = Math.round(100 * (1 - pk));
+    const pf = { w: 'calc(52% + 48% * ' + pk.toFixed(4) + ')', h: Math.round(560 + 220 * pk) + 'px',
+      r: 'calc(50% * ' + (1 - pk).toFixed(3) + ') calc(50% * ' + (1 - pk).toFixed(3) + ') ' + Math.round(20 * (1 - pk)) + 'px ' + Math.round(20 * (1 - pk)) + 'px / calc(36% * ' + (1 - pk).toFixed(3) + ') calc(36% * ' + (1 - pk).toFixed(3) + ') ' + Math.round(20 * (1 - pk)) + 'px ' + Math.round(20 * (1 - pk)) + 'px',
+      py: live && t.pool !== undefined ? Math.round(60 - 120 * clamp((s.vh - (t.pool + 900)) / s.vh)) + 'px' : '0px' };
+    const pool = reveal('pool');
+    // Hero and court stack: the court card rises over the hero, the hero dims under it
+    const ce = live && t.court !== undefined ? clamp((s.vh - t.court) / s.vh) : 1;
+    // Pool: pinned for 3 x 460px, one point and one photo per step
+    const pinP = live && s.vh >= 480;
+    const pp = pinP && t.poolPin !== undefined ? clamp(-t.poolPin / 1380) : 0;
+    const pst = Math.min(2, Math.floor(pp * 3));
+    // on a phone the photo goes on top and the three points sit under it
+    const phE = (window.innerWidth || 1440) < 760;
+    const ps = { h: pinP ? 'calc(100vh + 1380px)' : '760px', pos: pinP ? 'sticky' : 'relative', sh: pinP ? '100vh' : '760px', num: '0' + (pst + 1),
+      cols: phE ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) minmax(0, 1fr)', rows: phE ? 'minmax(0, 1fr) auto' : 'auto', phOrd: phE ? -1 : 0,
+      olPad: phE ? '14px var(--gutter) 22px' : '96px 64px 48px var(--gutter)', liCols: phE ? '32px minmax(0, 1fr)' : '56px minmax(0, 1fr)', liPad: phE ? '9px 0' : 'min(26px, 3vh) 0',
+      tfs: phE ? '20px' : 'min(32px, 4.4vh)', dfs: phE ? '15px' : '16px', nfs: phE ? '44px' : '64px' };
+    [0, 1, 2].forEach((i) => {
+      // the other two stay readable (AA contrast); the current one is fully lit
+      ps['o' + i] = !live || i === pst ? 1 : 0.85;
+      ps['f' + i] = (pinP ? clamp(pp * 3 - i) : (i === 0 ? 1 : 0)).toFixed(3);
+      ps['c' + i] = i <= pst ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)';
+    });
+    const plan = reveal('plan');
+    // The estate from above: a clear aerial, six places named on it, the rooms marked; a tap outlines the place and dims the rest
+    const PLC = [
+      { name: 'Pool', cx: 1277, cy: 275, x: 1290, y: 182, dot: '#6f98a7', text: 'The pool and its limestone sun terrace, with sunbeds and parasols. Lit after dark for a late swim.', src: '/_blob/3e03be045ef749e0d13cdb0ef58aa776', alt: 'The pool at dusk beside the lit limestone wall' },
+      { name: 'Tennis court', cx: 1241, cy: 780, x: 1244, y: 934, dot: '#c8775a', text: 'Our own court, free for guests and lit in the evening.', src: '/_blob/deb2647ed7b0e40eb233a905c0be42ac', alt: 'A serve into the low sun on the hotel court' },
+      { name: 'Daybeds', cx: 1320, cy: 510, x: 1320, y: 452, dot: '#d8ccb8', text: 'Four daybeds with white curtains above the court.', src: '/_blob/3d4fe371301d6eb1243e6659e55b94e1', alt: 'A daybed with white curtains at sunset' },
+      { name: 'Barbecue', cx: 1751, cy: 869, x: 1752, y: 958, dot: '#5c1e1c', text: 'The barbecue corner right next to the court, for long evenings outside.', src: '/_blob/66ae1f1c9d57db92ed755f2ef7830d6e', alt: 'A spit barbecue under an olive tree with the bay behind' },
+      { name: 'Lawns', cx: 624, cy: 513, x: 305, y: 640, dot: '#b5b384', text: 'Lawns between the terraces, with places to sit: a quiet corner in the shade with a book.', src: '/_blob/8649725dd6bec50b156cded1cc97a537', alt: 'A green lawn in front of the room terraces' },
+      { name: 'Olive grove', cx: 1457, cy: 995, x: 1350, y: 1180, dot: '#7f7d50', text: 'Olive groves around the hotel, with paths to walk at golden hour.', crop: [760, 1050, 720] }
+    ];
+    // the frame always holds the whole plan: on short screens it narrows instead of cutting the bottom off
+    const docW = (document.documentElement && document.documentElement.clientWidth) || 1440;
+    const gutP = Math.max(16, Math.min(56, (window.innerWidth || docW) * 0.04));
+    const availW = docW - 2 * gutP;
+    const plW = Math.round(live ? Math.min(availW, Math.max(560, (s.vh - 48) * 1.54)) : availW), plH = Math.round(plW / 1.54);
+    const pbw = plW;
+    // names sit in plan coordinates, so they move with the photo
+    const at = (x, y) => [((x - 60) / 2240 * 100).toFixed(2) + '%', ((y - 30) / 1455 * 100).toFixed(2) + '%'];
+    // parallax: the photo layer drifts 3.5% against the scroll inside an 8% overscan
+    const reduceP = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const pprog = live && s.pbt !== undefined ? clamp((s.vh - s.pbt) / (s.vh + plH)) : 0.5;
+    const hz = s.hz === undefined ? -1 : s.hz;
+    const phP = docW < 760;
+    // on a phone the first place is open from the start, so the card under the photo is never empty
+    const act = hz >= 0 ? hz : (live ? (s.zone < 0 && phP ? 0 : s.zone) : 1);
+    const pl = { w: plW + 'px', h: plH + 'px', ty: (live && !reduceP ? (0.5 - pprog) * 7 : 0).toFixed(2) + '%', sc: live && !reduceP ? 1.08 : 1 };
+    // on a phone the pool number sits on the water, clear of the top edge
+    const places = PLC.map((p, i) => { const q = phP && (i === 0 || i === 2) ? at(p.cx, p.cy + (i === 0 ? 15 : 10)) : at(p.x, p.y), on = i === act;
+      return { name: p.name, x: q[0], y: q[1], z: on ? 8 : 4, pressed: on && act === s.zone ? 'true' : 'false',
+        bg: on ? 'rgba(168, 72, 42, 0.94)' : 'rgba(251, 247, 239, 0.78)', fg: on ? 'var(--c-limestone)' : 'var(--text)', dot: p.dot, ring: on ? 'rgba(251, 247, 239, 0.9)' : 'rgba(42, 36, 32, 0.08)',
+        click: this.plClick[i], enter: this.plEnter[i], leave: this.plLeave,
+        num: String(i + 1), label: phP ? String(i + 1) : p.name, dotD: phP ? 'none' : 'block', fs: phP ? '12px' : '15px',
+        gap: phP ? '0px' : '10px', mw: phP ? '40px' : '0px', mh: phP ? '40px' : '44px', pad: phP ? '0' : '0 18px 0 14px', bd: phP ? '8px' : '0px',
+        sh: phP ? 'none' : '0 6px 18px rgba(28, 22, 18, 0.12)',
+        chipBg: on ? 'var(--accent)' : 'transparent', chipFg: on ? 'var(--c-limestone)' : 'var(--text)', chipBd: on ? 'var(--accent)' : 'var(--line)',
+        numBg: on ? 'rgba(251, 247, 239, 0.22)' : 'var(--surface)', numFg: on ? 'var(--c-limestone)' : 'var(--text)' }; });
+    const roomTags = [[640, 600], [1880, 470], [965, 428]].map((r) => { const q = at(r[0], r[1]); return { x: q[0], y: q[1] }; });
+    const hl = {};
+    PLC.forEach((p, i) => { hl['p' + i] = i === act ? { m: '#000', s: '#a8482a', g: 'rgba(251, 247, 239, 0.85)' } : { m: 'none', s: 'rgba(0, 0, 0, 0)', g: 'rgba(0, 0, 0, 0)' }; });
+    const cp = PLC[Math.max(0, act)];
+    // the card sits in the corner of the plan away from the place, so it never covers what it describes; the top corners leave room for the header
+    const onRight = (cp.cx - 60) / 2240 < 0.5, onTop = (cp.cy - 30) / 1455 > 0.55;
+    const card = { d: phP ? 'none' : 'block', name: cp.name, text: cp.text, o: act >= 0 ? 1 : 0, vis: act >= 0 ? 'visible' : 'hidden', ty: act >= 0 ? '0px' : (onTop ? '-8px' : '8px'),
+      l: onRight ? 'auto' : '24px', r: onRight ? '24px' : 'auto', t: onTop ? (live ? '96px' : '24px') : 'auto', b: onTop ? 'auto' : '24px' };
+    // places with no ground photo yet show the card without a picture: the aerial is already on screen
+    Object.assign(card, cp.src ? { src: cp.src, alt: cp.alt, imgD: 'block', fit: 'cover', iw: '100%', ih: '100%', il: '0px', it: '0px' } : { src: '', alt: '', imgD: 'none', fit: 'cover', iw: '100%', ih: '100%', il: '0px', it: '0px' });
+    return {
+      icon: 22, yes: true,
+      setCourt: this.refs2.court, setPool: this.refs2.pool, setPlan: this.refs2.plan, setCta: this.refs2.cta,
+      cd: cd, ps: ps, setPoolPin: this.refs2.poolPin, pool: pool,
+      heroPos: live ? 'sticky' : 'relative', heroH: live ? '100vh' : '760px', heroDim: (0.55 * ce).toFixed(3), courtR: Math.round(40 * (1 - ce)) + 'px', plan: plan, cta: reveal('cta'),
+      courtH: pinC ? 'calc(100vh + 1000px)' : '900px', courtPos: pinC ? 'sticky' : 'relative', courtStickyH: pinC ? '100vh' : '900px',
+      setPlanBox: this.setPlanBox, planClear: this.planClear,
+      pl: pl,
+      places: places, roomTags: roomTags, hl: hl, card: card, plVeil: act >= 0 ? 0.42 : 0, plPhoneD: phP ? 'flex' : 'none', plHeadMb: phP ? '32px' : '96px', rtFs: phP ? '9px' : '12px', rtPad: phP ? '5px 7px' : '7px 12px',
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#top' }, { label: 'Facebook', href: '#top' }, { label: 'TikTok', href: '#top' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Thank you · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<header style="position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter); background: var(--bg);">
+  <div><a href="Menu-list.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--text); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+  <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/c3018ad0a4f2dc69bd0b3842bf8ebf21" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+    <a href="#top" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--text); text-decoration: none;">EN</a>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="Book.dc.html">Book</x-import>
+  </div>
+</header>
+
+<section id="top" style="padding: 40px var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: center;">
+    <div style="grid-column: 1 / span 6; display: flex; flex-direction: column; gap: 24px;">
+      <p style="margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-family: var(--font-label);">Booking confirmed</p>
+      <h1 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 72px; line-height: 1.05; letter-spacing: -0.03em;">Thank you, Anna</h1>
+      <p style="margin: 0; max-width: 520px;">Your stay is booked and paid. The confirmation is on its way to your email; keep it for check-in.</p>
+      <dl style="margin: 0; padding: 8px 28px; border-radius: 24px; background: var(--surface); display: grid; grid-template-columns: 150px 1fr;">
+        <sc-for list="{{summary}}" as="r" hint-placeholder-count="6">
+          <dt style="padding: 12px 0; font-size: 15px; color: var(--text-2); border-bottom: 1px solid var(--line);">{{r.k}}</dt>
+          <dd style="margin: 0; padding: 12px 0; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--line);">{{r.v}}</dd>
+        </sc-for>
+      </dl>
+    </div>
+    <div data-reveal="rise" style="grid-column: 8 / span 5; aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; overflow: hidden; background: var(--c-dark);"><img src="/_blob/3d4fe371301d6eb1243e6659e55b94e1" alt="A daybed with white curtains at sunset" style="display: block; width: 100%; height: 100%; object-fit: cover;"></div>
+  </div>
+</section>
+
+<section style="padding: 0 var(--gutter) var(--sec-l);">
+  <div style="max-width: var(--container); margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+    <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 44px; line-height: 1.1; letter-spacing: -0.025em;">What happens next</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <sc-for list="{{next}}" as="c" hint-placeholder-count="3">
+        <div style="padding: 32px; border-radius: 24px; background: var(--surface); display: flex; flex-direction: column; gap: 12px;">
+          <p style="margin: 0; font-family: var(--font-head); font-size: 15px; color: var(--accent); letter-spacing: 0; font-weight: 500;">{{c.n}}</p>
+          <h3 style="margin: 0; font-family: var(--font-head); font-weight: 500; font-size: 24px; line-height: 1.2; letter-spacing: -0.01em;">{{c.h}}</h3>
+          <p style="margin: 0; font-size: 16px;">{{c.t}}</p>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+      <x-import component-from-global-scope="Amour.Button" variant="primary" href="#top">Write on WhatsApp</x-import>
+      <x-import component-from-global-scope="Amour.Button" variant="ghost" href="Guide.dc.html">Plan your days</x-import>
+      <x-import component-from-global-scope="Amour.Button" variant="ghost" href="#top">Add to calendar</x-import>
+    </div>
+  </div>
+</section>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // the booking just made on the Book page, in the prototype; otherwise an example
+    let b = {};
+    try { b = JSON.parse(window.sessionStorage.getItem('amour-booking') || '{}') || {}; } catch (e) { b = {}; }
+    return {
+      summary: [
+        { k: 'Booking number', v: 'AMR-27-0418' },
+        { k: 'Stay', v: b.stay || 'Sat 15 May – Sat 22 May · 7 nights' },
+        { k: 'Room', v: b.room || 'Deluxe Queen Room' },
+        { k: 'Guests', v: b.guests || '2 adults' },
+        { k: 'Paid', v: b.paid || '€1,050 by card' },
+        { k: 'At the hotel', v: 'Climate fee [€…] a night' }
+      ],
+      next: [{"n": "01", "h": "Before you travel", "t": "[\u2026 days] before arrival we send a link for online check-in, so you skip the paperwork at the desk."}, {"n": "02", "h": "Getting here", "t": "Chania airport is [\u2026 min] by car. Want a hire car waiting when you land? Tell us and our partner arranges it."}, {"n": "03", "h": "Arrival", "t": "Check-in from 14:00. Send us your arrival time on WhatsApp and we meet you at the hotel."}],
+      icon: 22,
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      footerCols: [
+        { title: 'Stay', links: [{ label: 'Rooms', href: 'Rooms.dc.html' }, { label: 'Villa Eudora', href: 'Villa-v2.dc.html' }, { label: 'Court and pool', href: 'Estate.dc.html' }] },
+        { title: 'Discover', links: [{ label: 'Crete guide', href: 'Guide.dc.html' }, { label: 'About us', href: 'About.dc.html' }, { label: 'FAQ', href: 'FAQ.dc.html' }] },
+        { title: 'Contact', links: [{ label: '[Phone]' }, { label: '[Email]' }, { label: 'Almyrida, Crete', href: 'Contact.dc.html' }] }
+      ],
+      social: [{ label: 'Instagram', href: '#top' }, { label: 'Facebook', href: '#top' }, { label: 'TikTok', href: '#top' }],
+      legal: ['[Company name] · [Address]', 'MHTE [MHTE number]'],
+      legalLinks: [{ label: 'Privacy', href: 'Legal.dc.html#privacy' }, { label: 'Cookies', href: 'Legal.dc.html#cookies' }, { label: 'Terms', href: 'Legal.dc.html#terms' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

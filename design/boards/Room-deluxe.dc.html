@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Deluxe Queen Room · Amour Relax Hotel</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/amour/tokens.css">
+<link rel="stylesheet" href="ds/amour/components/bundle.css">
+<link rel="stylesheet" href="amour-soft.css">
+<link rel="stylesheet" href="amour-motion.css">
+<script src="ds/amour/components/bundle.js"></script>
+<script src="amour-live.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#f2eadb}
+a{color:#a8482a}a:hover{color:#9b4227}
+.lbl{margin:0;font-size:13px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;font-family:var(--font-label)}
+.giant{margin:0;font-family:var(--font-head);font-weight:400;font-size:120px;line-height:1;letter-spacing:-0.03em}
+.fig{margin:0;position:relative}
+.fig-pic{position:relative;overflow:hidden;background:rgba(242,234,219,.08)}
+.fig-pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s linear}
+.fig-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-size:14px;letter-spacing:.04em;color:rgba(242,234,219,.6);border:1px dashed rgba(242,234,219,.25);border-radius:inherit}
+.fig-cap{display:flex;justify-content:space-between;gap:16px;margin-top:12px;font-size:14px;color:rgba(242,234,219,.72)}
+.fig-cap b{font-weight:500;color:var(--c-limestone)}
+.feat{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;align-items:center;padding:16px 0;transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.feat::after{display:none;content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;opacity:.16;transform-origin:right center;transform:scaleX(var(--ln,1));transition:transform 1s cubic-bezier(.65,0,.25,1) var(--ld,0s)}
+.feat-v{text-align:right;opacity:.78;font-size:16px;line-height:1.45;text-wrap:pretty}
+.chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(42,36,32,.07);font-size:13px;font-weight:500;white-space:nowrap}
+.other{display:flex;flex-direction:column;gap:16px;color:var(--text);text-decoration:none}
+.other .pic{aspect-ratio:4/5;border-radius:24px;overflow:hidden}
+.other .pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.other:hover .pic img{transform:scale(1.05)}
+.other:hover{color:var(--text)}
+.cue{display:inline-flex;align-items:center;gap:10px;height:34px;padding:0 14px 0 6px;border-radius:999px;background:rgba(242,234,219,.1);font-size:13px;color:rgba(242,234,219,.8)}
+.cue i{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(242,234,219,.14);font-style:normal;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.cue i{animation:none}.feat,.feat::after,.fig-pic img{transition:none}}
+/* phone, as at Casa Momo: the name stays in the middle of the screen, the photos rise over it one by one,
+   left and right in turn, each with its caption and number */
+@media (max-width:760px){
+#top{height:100svh!important}
+#top h1{font-size:13.5vw!important;line-height:.95!important}
+.stream{padding:0 var(--gutter) 96px!important}
+.fig{width:72vw!important;margin-left:0!important;margin-right:0!important;margin-top:88px!important}
+.fig:has(.fig-pic[style*="4 / 3"]),.fig:has(.fig-pic[style*="16 / 9"]),.fig:has(.fig-pic[style*="3 / 2"]){width:86vw!important}
+.stream>.fig:first-child,.stream>sc-for>.fig:first-child{margin-top:0!important}
+.fig-cap{font-size:13px}
+}
+</style>
+</helmet>
+<div class="v2" data-theme="amour" style="background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.6;">
+
+<div style="position: relative;">
+
+<section ref="{{setStage}}" style="position: relative; background: {{stageBg}}; color: var(--c-limestone);">
+  <header style="position: absolute; z-index: 6; top: 0; left: 0; right: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 20px var(--gutter);">
+    <div><a href="Menu-list.dc.html" class="soft-pill" style="display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 18px 0 14px; background: rgba(242, 234, 219, 0.1); color: var(--c-limestone); text-decoration: none; font-size: 15px; font-weight: 500;"><x-import component-from-global-scope="Amour.Icon" name="menu" size="{{icon}}"></x-import>Menu</a></div>
+    <a href="Main-v2.dc.html" aria-label="Amour Relax Hotel, home" style="display: block; height: 44px;"><img src="/_blob/2901163e35c220801b42aced9684d164" alt="Amour Relax Hotel" style="display: block; height: 76px; margin: -16px 0;"></a>
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px;">
+      <a href="#top" class="soft-pill" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; background: rgba(242, 234, 219, 0.1); font-size: 14px; font-weight: 500; letter-spacing: 0.2em; color: var(--c-limestone); text-decoration: none;">EN</a>
+      <x-import component-from-global-scope="Amour.Button" variant="on-photo" href="#book">Book</x-import>
+    </div>
+  </header>
+
+  <div id="top" style="position: sticky; top: 0; z-index: 0; height: {{screenH}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 0 var(--gutter); text-align: center;">
+    <p class="lbl hero-rise" style="color: rgba(242, 234, 219, 0.78); animation-delay: .1s;">{{d.kicker}}</p>
+    <h1 class="hero-rise" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 184px; line-height: 0.98; letter-spacing: -0.03em; animation-delay: .2s;">{{d.title}}</h1>
+    <p class="hero-rise" style="margin: 0; font-size: 18px; color: rgba(242, 234, 219, 0.85); animation-delay: .35s;">{{d.meta}}</p>
+    <span class="cue hero-rise" style="margin-top: 12px; animation-delay: .5s;"><i>↓</i>{{d.cue}}</span>
+  </div>
+
+  <div class="stream" style="position: relative; z-index: 1; margin-top: {{streamMt}}; padding: 0 var(--gutter) 160px; display: flex; flex-direction: column;">
+    <sc-for list="{{figs}}" as="f" hint-placeholder-count="5">
+      <figure class="fig" data-fig="1" style="align-self: {{f.side}}; width: {{f.w}}; margin-top: {{f.mt}}; margin-left: {{f.ml}}; margin-right: {{f.mr}};">
+        <div class="fig-pic" style="aspect-ratio: {{f.ar}}; border-radius: {{f.r}};">
+          <img src="{{f.src}}" alt="{{f.alt}}" style="transform: scale({{f.s}}); opacity: {{f.imgO}};">
+          <div class="fig-ph" style="display: {{f.phD}};">{{f.ph}}</div>
+        </div>
+        <figcaption class="fig-cap"><span>{{f.cap}}</span><span><b>{{f.n}}</b> / {{f.total}}</span></figcaption>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<section ref="{{setDet}}" style="background: {{detBg}}; color: {{detFg}}; padding: var(--sec-l) var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto;">
+    <h2 class="giant enter" style="opacity: {{det.o}}; transform: translateY({{det.y}}); filter: {{det.b}};">{{d.detailsTitle}}</h2>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 96px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 10px; opacity: .7;">{{d.descLabel}}</p>
+      <p class="enter" style="grid-column: 5 / span 8; margin: 0; font-size: 28px; line-height: 1.45; opacity: {{det.o}}; transform: translateY({{det.y}}); filter: {{det.b}}; transition-delay: .1s;">{{d.desc}}</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 112px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 18px; opacity: .7;">Key facts</p>
+      <div style="grid-column: 5 / span 8; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-content: start;">
+        <sc-for list="{{feats}}" as="ft" hint-placeholder-count="12">
+          <div class="feat" style="--ln: {{ft.ln}}; --ld: {{ft.ld}}; opacity: {{ft.o}}; transform: translateY({{ft.y}}); transition-delay: {{ft.ld}};">
+            <span>{{ft.k}}</span>
+            <span class="feat-v">{{ft.v}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 48px;">
+      <div style="grid-column: 5 / span 8;">
+        <button type="button" onClick="{{toggleMore}}" aria-expanded="{{more.exp}}" aria-controls="all-details" style="display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 999px; background: rgba(42, 36, 32, 0.07); color: inherit; font-family: var(--font-body); font-size: 15px; font-weight: 500; cursor: pointer;">{{more.label}}<span aria-hidden="true" style="display: inline-block; font-size: 20px; line-height: 1; transform: rotate({{more.rot}}); transition: transform .3s;">+</span></button>
+      </div>
+    </div>
+    <div id="all-details" style="display: {{more.d}}; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; margin-top: 40px;">
+      <p class="lbl" style="grid-column: 1 / span 3; padding-top: 18px; opacity: .7;">All details</p>
+      <div style="grid-column: 5 / span 8; display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-content: start;">
+        <sc-for list="{{moreRows}}" as="st" hint-placeholder-count="10">
+          <div class="feat">
+            <span>{{st.k}}</span>
+            <span class="feat-v">{{st.v}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section ref="{{setMap}}" aria-labelledby="loc-title" style="position: relative; height: {{mz.h}}; margin-bottom: 180px;">
+  <div data-nopar data-tone="light" data-cta style="position: {{mz.pos}}; top: 0; height: {{mz.sh}}; overflow: hidden; background: #c7d5d3;">
+    <div style="position: absolute; left: 50%; top: 50%; width: 100%; aspect-ratio: 2400 / 1029; transform-origin: 0 0; transform: translate({{mz.tx}}, {{mz.ty}}) scale({{mz.z}});">
+      <img src="/_blob/41c6476180180e23061166dbfe4e1085" alt="{{d.mapAlt}}" draggable="false" style="display: block; width: 100%; height: 100%; user-select: none;">
+      <svg viewBox="0 0 2400 1029" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; opacity: {{mz.ro}};">
+        <path d="M617.6 345.9 L615.9 348.5 L614.7 347.2 L613.3 344.5 L613.0 342.8 L614.4 339.3 L614.1 338.4 L613.5 337.8 L607.8 334.8 L601.4 334.3 L600.2 333.6 L599.9 332.3 L601.3 327.0 L600.9 326.0 L600.0 325.5 L597.1 324.8 L594.3 325.7 L590.5 325.4 L589.0 326.6 L587.2 326.3 L584.3 326.7 L582.1 325.7 L578.1 324.9 L575.8 324.8 L571.7 323.4 L569.4 319.7 L567.4 318.9 L559.6 314.3 L556.6 312.0 L555.0 311.4 L545.2 311.3 L539.6 313.3 L531.0 312.7 L530.4 311.9 L528.9 306.0 L518.9 302.5 L519.0 301.8 L517.6 298.7 L517.2 296.7 L514.6 293.5 L513.1 292.5 L512.1 291.1 L506.9 289.8 L505.8 287.9 L505.9 285.6 L505.0 285.5 L505.0 284.2 L503.7 283.8 L497.4 280.2 L497.9 279.8 L496.6 276.9 L494.4 277.8 L494.5 277.0 L494.2 277.1" fill="none" style="stroke: #f2eadb; stroke-width: {{mz.rw2}}; stroke-linecap: round; stroke-linejoin: round;"></path>
+        <path d="M617.6 345.9 L615.9 348.5 L614.7 347.2 L613.3 344.5 L613.0 342.8 L614.4 339.3 L614.1 338.4 L613.5 337.8 L607.8 334.8 L601.4 334.3 L600.2 333.6 L599.9 332.3 L601.3 327.0 L600.9 326.0 L600.0 325.5 L597.1 324.8 L594.3 325.7 L590.5 325.4 L589.0 326.6 L587.2 326.3 L584.3 326.7 L582.1 325.7 L578.1 324.9 L575.8 324.8 L571.7 323.4 L569.4 319.7 L567.4 318.9 L559.6 314.3 L556.6 312.0 L555.0 311.4 L545.2 311.3 L539.6 313.3 L531.0 312.7 L530.4 311.9 L528.9 306.0 L518.9 302.5 L519.0 301.8 L517.6 298.7 L517.2 296.7 L514.6 293.5 L513.1 292.5 L512.1 291.1 L506.9 289.8 L505.8 287.9 L505.9 285.6 L505.0 285.5 L505.0 284.2 L503.7 283.8 L497.4 280.2 L497.9 279.8 L496.6 276.9 L494.4 277.8 L494.5 277.0 L494.2 277.1" fill="none" style="stroke: var(--accent); stroke-width: {{mz.rw}}; stroke-dasharray: {{mz.dash}}; stroke-linecap: round; stroke-linejoin: round;"></path>
+      </svg>
+      <sc-for list="{{pins}}" as="p" hint-placeholder-count="5">
+        <div style="position: absolute; left: {{p.x}}; top: {{p.y}}; transform: {{p.tf}}; transform-origin: {{p.origin}}; display: flex; flex-direction: {{p.dir}}; align-items: center; gap: 8px; opacity: {{p.o}}; transition: opacity .4s ease;">
+          <span style="display: block; flex: none; width: {{p.size}}; height: {{p.size}}; border-radius: 50%; background: {{p.dot}}; box-shadow: 0 0 0 3px var(--c-limestone);"></span>
+          <span style="display: block; padding: 6px 12px; border-radius: 999px; background: {{p.bg}}; color: {{p.fg}}; font-size: 13px; font-weight: 500; white-space: nowrap;">{{p.label}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p aria-hidden="true" style="position: absolute; left: var(--gutter); bottom: 40px; margin: 0; font-size: 13px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); opacity: {{mz.hint}}; transition: opacity .4s; font-family: var(--font-label);">Scroll to come closer</p>
+    <div class="enter" style="position: absolute; right: var(--gutter); top: calc(50% + 44px); width: min(380px, 34vw); max-height: calc(100% - 200px); overflow: auto; box-sizing: border-box; padding: min(36px, 4vh) 32px; border-radius: 24px; background: var(--surface); box-shadow: 0 24px 48px rgba(28, 22, 18, 0.16); display: flex; flex-direction: column; gap: 16px; opacity: {{mapIn.o}}; transform: translateY(calc(-50% + {{mapIn.y}})); filter: {{mapIn.b}};">
+      <p class="lbl" style="color: var(--accent);">Location</p>
+      <h2 id="loc-title" style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 40px; line-height: 1.08; letter-spacing: -0.025em;">Almyrida, Crete</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.55;">Above the bay of Almyrida in Apokoronas, between Chania and Rethymno.</p>
+      <dl style="margin: 0; display: flex; flex-direction: column;">
+        <sc-for list="{{near}}" as="n" hint-placeholder-count="4"><div style="display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; font-size: 15px;"><dt>{{n.k}}</dt><dd style="margin: 0; color: var(--text-2); font-variant-numeric: tabular-nums;">{{n.v}}</dd></div></sc-for>
+      </dl>
+      <a href="#top" class="chip" style="align-self: flex-start; color: var(--text); text-decoration: none;">Open in Google Maps ↗</a>
+    </div>
+  </div>
+</section>
+
+<section ref="{{setOth}}" style="padding: var(--sec-m) var(--gutter) var(--sec-m);">
+  <div style="max-width: var(--container); margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 40px;">
+      <h2 style="margin: 0; font-family: var(--font-head); font-weight: 400; font-size: 56px; line-height: 1.08; letter-spacing: -0.03em;">Other ways to stay</h2>
+      <a href="Rooms.dc.html" style="font-size: 15px; font-weight: 500;">All rooms and the villa →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <sc-for list="{{others}}" as="o" hint-placeholder-count="3">
+        <a class="other enter" href="{{o.href}}" style="opacity: {{o.o}}; transform: translateY({{o.y}}); filter: {{o.b}}; transition-delay: {{o.d}};">
+          <div class="pic"><img src="{{o.src}}" alt="{{o.alt}}"></div>
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 12px;">
+            <span style="font-family: var(--font-head); font-size: 24px; letter-spacing: -0.01em; font-weight: 500;">{{o.name}}</span>
+            <span style="display: flex; gap: 6px;"><span class="chip">{{o.c1}}</span><span class="chip">{{o.c2}}</span></span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<div id="book" class="capsule-dock" style="position: sticky; bottom: 24px; z-index: 20; display: flex; justify-content: center; padding: 0 0 48px; pointer-events: none;">
+  <div style="pointer-events: auto; display: flex; align-items: center; gap: 18px; padding: 8px 8px 8px 26px; border-radius: 999px; background: var(--surface); box-shadow: 0 12px 32px rgba(42, 36, 32, 0.18);">
+    <span style="font-size: 15px; color: var(--text);">{{d.price}}</span>
+    <x-import component-from-global-scope="Amour.Button" variant="primary" href="#book">Check dates</x-import>
+  </div>
+</div>
+
+</div>
+
+<div class="footer-live">
+  <div class="olive-field" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt="" style="animation-delay: {{o.delay}};"></sc-for>
+  </div>
+  <div class="olive-field olive-lens" aria-hidden="true">
+    <sc-for list="{{olives}}" as="o" hint-placeholder-count="96"><img src="/_blob/136a761c27b957778f5fa1fdbbe7982f" alt=""></sc-for>
+  </div>
+  <x-import component-from-global-scope="Amour.Footer" logo="/_blob/d363bf89f0c7b41d1d2e94590a1f7092" columns="{{footerCols}}" social="{{social}}" legal="{{legal}}" legal-links="{{legalLinks}}"></x-import>
+  <img class="footer-word" src="/_blob/2ff4e86eb203fa11650a8bf02bd78349" alt="" aria-hidden="true">
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { vh: 900, isStatic: true, figs: [], det: null, map: null, oth: null, extra: null, floor: 0, more: false };
+    // Details: six key facts on show, the rest and the stay rules open with one button
+    this.toggleMore = () => { this.setState({ more: !this.state.more }); };
+    this.raf = null;
+    this.setStage = (el) => { this.stage = el; };
+    this.setDet = (el) => { this.detEl = el; };
+    this.setMap = (el) => { this.mapEl = el; };
+    this.setOth = (el) => { this.othEl = el; };
+    this.setExtra = (el) => { this.extraEl = el; };
+    this.measure = () => {
+      this.raf = null;
+      const vh = window.innerHeight || 900;
+      const top = (el) => (el ? el.getBoundingClientRect().top : null);
+      const figs = this.stage ? Array.prototype.map.call(this.stage.querySelectorAll('[data-fig]'), (e) => e.getBoundingClientRect().top) : [];
+      this.setState({ vh: vh, isStatic: vh > 1600, figs: figs, det: top(this.detEl), map: top(this.mapEl), oth: top(this.othEl), extra: top(this.extraEl) });
+    };
+    this.onScroll = () => { if (!this.raf) this.raf = window.requestAnimationFrame(this.measure); };
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) window.cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const D = {"deep": "var(--deep)", "deepRgb": [92, 30, 28], "bgRgb": [242, 234, 219], "blank": "/_blob/136a761c27b957778f5fa1fdbbe7982f", "detailsTitle": "Room details", "descLabel": "The room", "cue": "Scroll to see the room", "price": "From €[price] a night", "mapAlt": "Relief map of Apokoronas: the hotel above Almyrida bay, Chania and the airport to the north-west", "stay": [{"icon": "calendar", "k": "Check-in", "v": "From 14:00"}, {"icon": "calendar", "k": "Check-out", "v": "By 11:00"}, {"icon": "breakfast-basket", "k": "Breakfast basket", "v": "€15 for two, order the day before"}, {"icon": "tennis", "k": "Tennis court", "v": "Free, lit in the evening, rackets to borrow"}, {"icon": "pool", "k": "Pool and sun terrace", "v": "Free, [hours]"}], "pins": [["Amour Relax Hotel", 24.172, 35.447, "row-reverse", true], ["Almyrida beach · 1.2 km", 24.176, 35.451, "row", false], ["Chania · 40 min", 24.018, 35.513, "row", false], ["Chania airport · [… min]", 24.149, 35.532, "row-reverse", false], ["Georgioupoli beach · [… min]", 24.259, 35.362, "row", false]], "footer": {"footerCols": [{"title": "Stay", "links": [{"label": "Rooms", "href": "Rooms.dc.html"}, {"label": "Villa Eudora", "href": "Villa-v2.dc.html"}, {"label": "Court and pool", "href": "Estate.dc.html"}]}, {"title": "Discover", "links": [{"label": "Crete guide", "href": "Guide.dc.html"}, {"label": "About us", "href": "About.dc.html"}, {"label": "FAQ", "href": "FAQ.dc.html"}]}, {"title": "Contact", "links": [{"label": "[Phone]"}, {"label": "[Email]"}, {"label": "Almyrida, Crete", "href": "Contact.dc.html"}]}], "social": [{"label": "Instagram", "href": "#top"}, {"label": "Facebook", "href": "#top"}, {"label": "TikTok", "href": "#top"}], "legal": ["[Company name] · [Address]", "MHTE [MHTE number]"], "legalLinks": [{"label": "Privacy", "href": "Legal.dc.html#privacy"}, {"label": "Cookies", "href": "Legal.dc.html#cookies"}, {"label": "Terms", "href": "Legal.dc.html#terms"}]}, "title": "Deluxe", "kicker": "Queen room · pool view", "meta": "32 m² · queen bed · kitchen · sitting corner · terrace", "desc": "More room to spread out: 32 m² with a queen bed, a sitting corner with a sofa, a full kitchen and a terrace looking over the pool. Made for long stays and slow mornings.", "photos": [{"src": "/_blob/1c8b6c14e093b7b1da7fc5f2887bcb7c", "ar": "3 / 2", "cap": "Bedroom and sitting corner", "alt": "Queen bed, sitting corner and the door to the terrace"}, {"src": "/_blob/fd095be6630808380801bf1a11f4b2b1", "ar": "3 / 4", "cap": "The whole room", "alt": "The room from the door: sofa, coffee table and the bed by the window"}, {"src": "/_blob/50a48adb1ec985cbfc091cd0c9e9dca1", "ar": "3 / 2", "cap": "Coffee on the terrace", "alt": "Two guests with coffee at a table on the terrace, the hills behind"}, {"src": "/_blob/479bd1e535be68edf0e0df2d492f72c0", "ar": "3 / 4", "cap": "Sitting corner", "alt": "Two guests reading on the sofa under a lamp"}, {"src": "/_blob/3e03be045ef749e0d13cdb0ef58aa776", "ar": "3 / 4", "cap": "The pool, steps from your terrace", "alt": "The pool lit at night by the limestone wall"}], "feats": [{"icon": "area", "k": "Room size", "v": "32 m²"}, {"icon": "guests", "k": "Guests", "v": "2 · recommended 12+"}, {"icon": "bed", "k": "Bed", "v": "Queen, [160 × 200 cm]"}, {"icon": "check", "k": "Sitting corner", "v": "Sofa and coffee table"}, {"icon": "bath", "k": "Bathroom", "v": "[Bath or shower]"}, {"icon": "kitchen", "k": "Kitchen", "v": "Full kitchen: [hob, fridge, kettle, coffee maker]"}, {"icon": "terrace", "k": "Outside", "v": "Private terrace"}, {"icon": "pool", "k": "View", "v": "Pool view"}, {"icon": "air-conditioning", "k": "Air conditioning", "v": "[Yes]"}, {"icon": "wifi", "k": "Wi-Fi", "v": "[Free]"}, {"icon": "key", "k": "Linen and towels", "v": "[Changed every … days]"}, {"icon": "parking", "k": "Parking", "v": "[Free, on site]"}, {"icon": "pets", "k": "Pets", "v": "Welcome, [conditions]"}], "others": [{"name": "Standard", "href": "Room-standard.dc.html", "src": "/_blob/2b59c90b2750bdb3ac2476355da8d974", "alt": "Standard Queen Room with fresh linen", "c1": "about 20 m²", "c2": "2 guests"}, {"name": "Superior", "href": "Room-superior.dc.html", "src": "/_blob/0b0dc5985e0129c7969b7aad231dd75f", "alt": "Guests on a Superior Room terrace looking over the bay", "c1": "sea view", "c2": "2 guests"}, {"name": "Villa Eudora", "href": "Villa-v2.dc.html", "src": "/_blob/2aac80822b69d3836096e30d8c7de6da", "alt": "The villa pool at dusk", "c1": "5 bedrooms", "c2": "own pool"}]};
+    const s = this.state;
+    const live = !s.isStatic;
+    const clamp = (v) => Math.max(0, Math.min(1, v));
+    const seen = (top, k) => !live || (top !== null && top !== undefined && top < s.vh * (k || 0.8));
+    const enter = (ok) => (ok ? { o: 1, y: '0px', b: 'none', zoom: 1 } : { o: 0, y: '16px', b: 'blur(8px)', zoom: 1.08 });
+    // Stage colour runs into the page colour as the details come up, like a sunset going out
+    const mix = (a, b, t) => 'rgb(' + a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(', ') + ')';
+    // on a phone the photos sit right above the details, so the colour turns only once they have gone
+    const phR = (window.innerWidth || 1440) < 760;
+    const t = live && s.det !== null ? clamp(phR ? (s.vh * 0.55 - s.det) / (s.vh * 0.3) : (s.vh * 0.95 - s.det) / (s.vh * 0.35)) : null;
+    const stageBg = t === null ? D.deep : mix(D.deepRgb, D.bgRgb, t);
+    const detBg = t === null ? 'var(--bg)' : mix(D.deepRgb, D.bgRgb, t);
+    const detFg = t !== null && t < 0.5 ? 'var(--c-limestone)' : 'var(--text)';
+    // Photo stream: arches open into soft rectangles as they rise through the screen
+    let prev = null;
+    const figs = D.photos.map((p, i) => {
+      const portrait = p.ar === '3 / 4' || p.ar === '4 / 5';
+      const w = portrait ? 34 : 52;
+      const side = i % 2 ? 'flex-end' : 'flex-start';
+      const indent = [0, 0, 6, 4, 2, 8, 0][i % 7];
+      // Neighbours on opposite sides may overlap in height when they clear each other with a 4% gap
+      const reach = w + indent;
+      const fits = prev !== null && prev + reach + 4 <= 100;
+      prev = reach;
+      const top = s.figs[i];
+      const k = live && top !== undefined ? clamp((s.vh * 0.98 - top) / (s.vh * 0.6)) : 0;
+      const hr = 'calc(50% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      const vr = 'calc(32% * ' + (1 - k).toFixed(3) + ' + ' + (24 * k).toFixed(1) + 'px)';
+      return {
+        src: p.src || D.blank, alt: p.alt || '', cap: p.cap, ph: p.ph || '', n: String(i + 1), total: String(D.photos.length),
+        imgO: p.src ? 1 : 0, phD: p.src ? 'none' : 'flex',
+        ar: p.ar, w: w + '%', side: side,
+        ml: i % 2 ? '0' : indent + '%', mr: i % 2 ? indent + '%' : '0',
+        mt: i === 0 ? '0px' : (fits ? '-240px' : '120px'),
+        r: hr + ' ' + hr + ' 24px 24px / ' + vr + ' ' + vr + ' 24px 24px',
+        s: (1.08 - 0.08 * k).toFixed(3)
+      };
+    });
+    const detIn = seen(s.det, 0.75);
+    const rows = (list, base) => list.map((r, i) => ({
+      icon: r.icon, k: r.k, v: r.v,
+      ln: detIn ? 1 : 0, ld: (base + i * 0.05).toFixed(2) + 's',
+      o: detIn ? 1 : 0, y: detIn ? '0px' : '12px'
+    }));
+    const PRI = ['Room size', 'House size', 'Guests', 'Bedrooms', 'Bed', 'View', 'Kitchen', 'Outside'];
+    const keyF = PRI.map((k) => D.feats.find((f) => f.k === k)).filter(Boolean).slice(0, 6);
+    const moreList = D.feats.filter((f) => keyF.indexOf(f) < 0).concat(D.stay || []);
+    const mapOk = seen(s.map, 0.7);
+    // Location: the whole island first; the pinned block zooms in on Almyrida as you scroll
+    const pinMap = live && s.vh >= 480;
+    const mk = pinMap && s.map !== null ? Math.max(0, Math.min(1, -s.map / 760)) : 1;
+    const me = mk * mk * (3 - 2 * mk);
+    // start: the island at 60% size, centred in the left part (clear of the card); end: Almyrida
+    // the zoom keeps the hotel in view all the way: its screen offset moves evenly while the scale grows
+    const mzz = Math.exp(Math.log(0.6) + (Math.log(6.2) - Math.log(0.6)) * me);
+    const hx = 25.73, hy = 33.62, ox = (hx - 72) * 0.6 + ((hx - 25) * 6.2 - (hx - 72) * 0.6) * me, oy = (hy - 50) * 0.6 + ((hy - 31) * 6.2 - (hy - 50) * 0.6) * me;
+    const mfx = hx - ox / mzz, mfy = hy - oy / mzz;
+    const mInv = 1 / mzz, u = 2400 / ((window.innerWidth || 1440) * mzz);
+    const mz = { h: pinMap ? 'calc(100vh + 760px)' : '900px', pos: pinMap ? 'sticky' : 'relative', sh: pinMap ? '100vh' : '900px',
+      z: mzz.toFixed(4), tx: (-mfx * mzz).toFixed(3) + '%', ty: (-mfy * mzz).toFixed(3) + '%',
+      ro: Math.max(0, Math.min(1, (me - 0.55) / 0.35)).toFixed(3), rw: (3 * u).toFixed(3), rw2: (7 * u).toFixed(3), dash: (7 * u).toFixed(2) + ' ' + (6 * u).toFixed(2),
+      hint: pinMap && mk < 0.15 ? 1 : 0 };
+    const pin = (label, lon, lat, dir, main, i) => {
+      const half = main ? 9 : 5;
+      const row = dir === 'row';
+      return {
+        label: label, dir: dir,
+        x: ((lon - 23.40) / 3 * 100).toFixed(3) + '%', y: ((35.80 - lat) / 1.05 * 100).toFixed(3) + '%',
+        tf: (row ? 'translate(-' + half + 'px, -50%)' : 'translate(calc(-100% + ' + half + 'px), -50%)') + ' scale(' + mInv.toFixed(4) + ')',
+        origin: row ? half + 'px 50%' : 'calc(100% - ' + half + 'px) 50%',
+        size: main ? '18px' : '10px', dot: main ? 'var(--accent)' : 'var(--text)',
+        bg: main ? 'var(--accent)' : 'var(--surface)', fg: main ? 'var(--c-limestone)' : 'var(--text)',
+        o: main ? 1 : Math.max(0, Math.min(1, (me - 0.6) / 0.3)).toFixed(3), d: '0s'
+      };
+    };
+    const othOk = seen(s.oth, 0.85);
+    const extraOk = seen(s.extra, 0.8);
+    return Object.assign({
+      icon: 22, d: D,
+      setStage: this.setStage, setDet: this.setDet, setMap: this.setMap, setOth: this.setOth, setExtra: this.setExtra,
+      screenH: live ? '100vh' : '900px',
+      streamMt: live ? '-16vh' : '-150px',
+      stageBg: stageBg, detBg: detBg, detFg: detFg,
+      figs: figs,
+      det: enter(detIn),
+      feats: rows(keyF, 0.15), moreRows: rows(moreList, 0), toggleMore: this.toggleMore,
+      more: { d: s.more ? 'grid' : 'none', exp: s.more ? 'true' : 'false', label: s.more ? 'Fewer details' : 'All details · ' + moreList.length, rot: s.more ? '45deg' : '0deg' },
+      mapIn: enter(mapOk), mz: mz,
+      near: (D.near || [['Almyrida beach', '1.2 km on foot'], ['Chania old town', '40 min'], ['Rethymno', '55 min'], ['Chania airport', '[… min]']]).map((n) => ({ k: n[0], v: n[1] })),
+      floorsUI: (D.floors || []).map((fl, i) => ({ k: fl.k, v: fl.v, on: s.floor === i, bar: s.floor === i ? 'var(--accent)' : 'var(--line)', kc: s.floor === i ? 'var(--accent)' : 'var(--text-2)', enter: () => this.setState({ floor: i }) })),
+      fz: { g: s.floor === 0 ? 'var(--accent-soft)' : 'var(--c-limestone)', u: s.floor === 1 ? 'var(--accent-soft)' : 'var(--c-limestone)', o: s.floor === 2 ? 1 : 0,
+        gl: s.floor === 0 ? 'var(--accent)' : 'var(--c-muted)', ul: s.floor === 1 ? 'var(--accent)' : 'var(--c-muted)', ol: s.floor === 2 ? 'var(--accent)' : 'var(--c-muted)' },
+      pins: D.pins.map((p, i) => pin(p[0], p[1], p[2], p[3], p[4], i)),
+      others: D.others.map((o, i) => Object.assign({}, o, enter(othOk), { d: (i * 0.08).toFixed(2) + 's' })),
+      extraIn: enter(extraOk),
+      olives: Array.from({ length: 96 }, (_, i) => ({ delay: (((i % 16) + Math.floor(i / 16) * 1.4) * 0.12).toFixed(2) + 's' })),
+      jugs: Array.from({ length: 104 }, (_, i) => ({ delay: (((i % 26) + Math.floor(i / 26) * 1.4) * 0.09).toFixed(2) + 's' }))
+    }, D.footer);
+  }
+}
+</script>
+</body>
+</html>

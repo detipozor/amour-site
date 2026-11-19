@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Internal documents: stay on the owner's Mac, never in Git (CLAUDE.md)
+/private/
+
+# Secrets and local WordPress config
+.env
+.env.*
+!.env.example
+wp-config.php
+*.pem
+*.key
+id_*
+
+# Database dumps and uploads (content moves by WordPress export, HANDOFF §18)
+*.sql
+*.sql.gz
+/wp-content/uploads/
+
+# Dependencies and build output
+node_modules/
+vendor/
+dist/
+
+# Test output
+/test-results/
+/playwright-report/
+/blob-report/
+/.lighthouseci/
+/.wp-env/

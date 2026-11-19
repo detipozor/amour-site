@@ -1,0 +1,174 @@
+/* Soft geometry trial on top of the Amour & Eudora design system.
+   Canvas-only override: once approved, these values move into tokens.json and bundle.css. */
+:root {
+  --r-pill: 999px;   /* buttons, badges, chips */
+  --r-card: 22px;    /* photos, cards */
+  --r-panel: 28px;   /* search bar, info panels, menus */
+  --r-media: 40px;   /* large media blocks, bands, footer */
+  --ease-soft: cubic-bezier(.2, .7, .2, 1);
+  /* Section rhythm: three steps only. s inside a chapter, m between sections, l before a new chapter (after a full-screen or pinned block) */
+  --sec-s: clamp(80px, 12vh, 120px);
+  --sec-m: clamp(120px, 22vh, 200px);
+  --sec-l: clamp(160px, 30vh, 280px);
+}
+
+/* Buttons and badges: pill shape, slow colour change and a small lift like Casa Momo */
+.am-btn, .am-badge { border-radius: var(--r-pill); }
+.am-btn { transition: background-color .35s var(--ease-soft), color .35s var(--ease-soft), border-color .35s var(--ease-soft), transform .35s var(--ease-soft); }
+.am-btn:hover { transform: translateY(-2px); }
+
+/* Date search: one soft panel, CHECK DATES as a pill inside it */
+.am-search { border-radius: var(--r-panel); overflow: hidden; }
+.am-search input, .am-search select { border-radius: 0; }
+.am-search .am-btn { margin: 0 10px; align-self: center; }
+/* The CHECK DATES pill sits inside the bar with even air around it, instead of filling its full height */
+.am-search .am-search__submit { min-height: 0; height: 56px; margin: 0 12px 0 8px; align-self: center; }
+
+/* Photos and cards */
+.am-photo, .am-ph, .am-room__media { border-radius: var(--r-card); }
+.am-room__media, .am-place { overflow: hidden; }
+.am-place { border-radius: var(--r-card); }
+.am-room__media .am-photo, .am-place .am-photo { transition: transform 1.1s var(--ease-soft); }
+.am-room:hover .am-photo, .am-place:hover .am-photo { transform: scale(1.05); }
+
+/* The arch keeps its curve on top and gets soft lower corners */
+.am-arch { border-radius: var(--radius-arch) var(--radius-arch) var(--r-card) var(--r-card); }
+
+/* Bands and footer */
+.am-direct { margin: 0 var(--gutter) var(--space-12); border-radius: var(--r-media); }
+.am-footer { border-radius: var(--r-media) var(--r-media) 0 0; overflow: hidden; }
+.am-bookbar { border-radius: var(--r-panel) var(--r-panel) 0 0; }
+.am-cookie { border-radius: var(--r-panel); }
+
+/* Main v2: one radius for every picture, panel and band (plus pill buttons and the arch) */
+.v2 { --r-card: 24px; --r-panel: 24px; --r-media: 24px; }
+.v2 .am-photo, .v2 .am-ph { border-radius: 24px; }
+
+/* Helpers for artboard markup */
+.soft-pill { border-radius: var(--r-pill); }
+.soft-card { border-radius: var(--r-card); overflow: hidden; }
+.soft-panel { border-radius: var(--r-panel); }
+.soft-media { border-radius: var(--r-media); overflow: hidden; }
+.soft-zoom img, .soft-zoom video { transition: transform 1.1s var(--ease-soft); }
+.soft-zoom:hover img, .soft-zoom:hover video { transform: scale(1.05); }
+
+
+/* Interface polish (web interface guidelines pass) */
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+[id] { scroll-margin-top: 96px; }
+a, button, summary, [role="button"] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .am-btn, .am-room__media .am-photo, .am-place .am-photo, .soft-zoom img, .soft-zoom video { transition: none; }
+  .am-btn:hover { transform: none; }
+}
+
+/* Buttons keep their label on one line */
+.am-btn { white-space: nowrap; }
+
+/* Phone layer (up to 760 px): the general fixes from the audit; page-specific phone layouts come on top of this */
+/* footer on a phone: no cursor, so a band of light runs over the olives from left to right by itself */
+@keyframes olive-sweep { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0% 0; mask-position: 0% 0; } }
+
+/* blocks drawn twice: one layout for a phone, one for wider screens */
+.ph-only { display: none; }
+
+/* reviews stand still with reduced motion, so the pause button is not needed */
+@media (prefers-reduced-motion: reduce) { .rv-pause { display: none !important; } }
+
+/* contact form: fields shrink with the column; on tablets the form takes the full row */
+.ct-form input, .ct-form textarea, .ct-form select { min-width: 0; width: 100%; box-sizing: border-box; }
+@media (max-width: 1080px) { .ct-form { grid-column: 1 / -1 !important; } }
+
+@media (max-width: 760px) {
+  .v2 .ph-only { display: block; }
+  .v2 .dk-only { display: none !important; }
+  /* the same three steps, scaled for a phone screen */
+  :root { --sec-s: 64px; --sec-m: 96px; --sec-l: 128px; }
+  .v2 { overflow-x: clip; font-size: 16px; }
+  /* big headings fit the screen: no sideways scrolling */
+  .v2 h1:not([style*="var(--font-body)"]), .v2 h2:not([style*="var(--font-body)"]), .v2 .giant { font-size: clamp(30px, 10vw, 44px) !important; line-height: 1.06 !important; overflow-wrap: break-word; hyphens: auto; }
+  /* multi-column layouts stack into one column */
+  .v2 [style*="grid-template-columns: repeat(12"], .v2 [style*="grid-template-columns: repeat(2"], .v2 [style*="grid-template-columns: repeat(3"],
+  .v2 [style*="grid-template-columns: repeat(4"], .v2 [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: minmax(0, 1fr) !important; column-gap: 0 !important; }
+  .v2 [style*="grid-column:"] { grid-column: 1 / -1 !important; }
+  .v2 [style*="grid-template-columns: repeat(12"] > *, .v2 [style*="grid-template-columns: repeat(2"] > * { grid-row: auto !important; grid-column: 1 / -1 !important; }
+  /* side cards sized by screen width become full-width cards */
+  .v2 [style*="width: min(368px, 36vw)"], .v2 [style*="width: min(380px, 34vw)"] { width: auto !important; left: var(--gutter) !important; right: var(--gutter) !important; }
+  /* rows that spread items to both ends wrap instead of running off the screen */
+  .v2 [style*="justify-content: space-between"] { flex-wrap: wrap; }
+  /* reviews: a strip of cards that scrolls with a finger and snaps to each card */
+  /* touch targets: 44 px tall for links that stand on their own (UI UX Pro Max: touch target size) */
+  .v2 .am-footer__col ul { gap: 0 !important; }
+  .v2 .am-footer ul a, .v2 .am-footer__social a, .v2 .am-footer__legal a { display: inline-flex; align-items: center; min-height: 44px; }
+  .v2 .am-footer__social, .v2 .am-footer__legal ul { column-gap: 24px !important; row-gap: 0 !important; }
+  .v2 nav[aria-label="Breadcrumb"] a { display: inline-flex; align-items: center; min-height: 44px; }
+  .v2 a.chip { min-height: 44px !important; box-sizing: border-box; }
+  .v2 .map-pin::after, .v2 .pin-hit::after { content: ""; position: absolute; inset: -8px -4px; }
+  /* questions: the + stays on the line of the question */
+  .v2 summary { flex-wrap: nowrap !important; gap: 16px !important; font-size: 17px !important; line-height: 1.4; }
+  .v2 .faq-cta { padding: 48px 24px !important; }
+  .v2 .faq-cta > div { flex-direction: column; align-items: stretch !important; gap: 28px !important; }
+  .v2 .faq-cta h2 { font-size: 30px !important; }
+  .v2 .faq-cta > div > div { flex-direction: column; }
+  .v2 .faq-cta .am-btn { width: 100%; justify-content: center; box-sizing: border-box; }
+  /* home rooms on a phone, as at Casa Momo: tall photos that drift with the scroll, one picture each, the facts clear of the photo */
+  .v2 .unit-alt { display: none !important; }
+  .v2 .unit:hover .unit-pic img { transform: none !important; }
+  .v2 .unit-pic { aspect-ratio: 4 / 5 !important; border-radius: 20px !important; }
+  .v2 .unit { gap: 20px !important; }
+  .v2 .unit > div:last-child { flex-direction: column; align-items: flex-start !important; gap: 12px !important; }
+  /* reviews run by themselves from right to left, as at Casa Momo */
+  .v2 .rv-card { min-height: 0 !important; padding: 28px 24px !important; width: 80vw !important; }
+  /* villa bedrooms: one row that scrolls with a finger, a peek of the next card shows there is more */
+  .v2 .beds { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px !important; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); scrollbar-width: none; }
+  .v2 .beds::-webkit-scrollbar { display: none; }
+  .v2 .beds > *, .v2 .beds > sc-for > * { flex: none; width: 64vw; scroll-snap-align: center; }
+  /* guide: the day trips are one row that scrolls with a finger; the drive time stays large */
+  .v2 #days [style*="repeat(3,"] { display: flex !important; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px !important; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 8px; scrollbar-width: none; }
+  .v2 #days [style*="repeat(3,"]::-webkit-scrollbar { display: none; }
+  .v2 #days .day-card { flex: none; width: 78vw; scroll-snap-align: center; }
+  .v2 .day-time { font-size: 44px !important; }
+  .v2 .bay-card { margin: -48px 12px 0 !important; padding: 28px 24px !important; }
+  .v2 .bay-card dl { grid-template-columns: 1fr auto !important; }
+  .v2 .getting { padding: 40px 24px !important; margin-bottom: var(--sec-m) !important; }
+  /* guide map: the place card is short */
+  .v2 h2.map-card-title.map-card-title { font-size: 18px !important; line-height: 1.15 !important; }
+  .v2 .map-card-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  /* guide band: the title above the line of text, both inside the screen */
+  .v2 .band-title { font-size: 56px !important; bottom: 132px !important; }
+  .v2 .band-text { left: var(--gutter) !important; right: var(--gutter) !important; bottom: 48px !important; max-width: none !important; font-size: 17px !important; }
+  .footer-live .olive-field { --olive-cols: 6; gap: 26px 22px; padding: 24px; }
+  .footer-live .olive-lens { -webkit-mask-image: linear-gradient(100deg, transparent 36%, #000 50%, transparent 64%); mask-image: linear-gradient(100deg, transparent 36%, #000 50%, transparent 64%); -webkit-mask-size: 300% 100%; mask-size: 300% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; animation: olive-sweep 6.5s cubic-bezier(.45, 0, .25, 1) infinite; }
+  /* service pages: book, about, legal */
+  .v2 .bk-search { grid-template-columns: 1fr 1fr !important; }
+  .v2 .bk-search > .bk-guests, .v2 .bk-search > .bk-go { grid-column: 1 / -1; }
+  .v2 .bk-search > [role="dialog"] { left: 0 !important; width: 100% !important; top: 88px !important; }
+  .v2 h2.bk-name.bk-name { font-size: 24px !important; line-height: 1.15 !important; }
+  .v2 .bk-unit { gap: 18px !important; padding: 32px 0 !important; }
+  .v2 .bk-two > aside { order: -1; position: static !important; }
+  .v2 .bk-help, .v2 .ab-cta { padding: 40px 24px !important; }
+  .v2 .ab-phil { font-size: 23px !important; line-height: 1.32 !important; }
+  /* the statement on the wine block: sentence case is shorter than capitals, so it gets a larger size to fill the screen */
+  .v2 p.stmt:not(.ab-phil) { font-size: 44px !important; line-height: 1.1 !important; }
+  .v2 .gal > figure, .v2 .gal > sc-for > figure { margin-top: 0 !important; }
+  .v2 .stats3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; column-gap: 12px !important; }
+  .v2 .stats3 dt { font-size: 28px !important; }
+  .v2 .legal-toc { display: none !important; }
+  .v2 h2.legal-h.legal-h { font-size: 24px !important; line-height: 1.2 !important; }
+  .v2 .ck-row { grid-template-columns: 1fr 1fr !important; row-gap: 4px !important; }
+  /* FAQ: the topics become a row of chips that stays under the header */
+  .v2 .faq-nav { position: sticky !important; top: 70px !important; z-index: 5; flex-direction: row !important; overflow-x: auto; gap: 8px !important; margin: 0 calc(-1 * var(--gutter)); padding: 8px var(--gutter); background: var(--bg); scrollbar-width: none; }
+  .v2 .faq-nav::-webkit-scrollbar { display: none; }
+  .v2 .faq-nav a { flex: none; white-space: nowrap; border: 1px solid var(--line); font-size: 15px !important; }
+  /* home map: the card is short so the map stays readable above it */
+  .v2 h2.gc-title.gc-title { font-size: 26px !important; line-height: 1.1 !important; }
+  .v2 .gc-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px !important; }
+  /* form fields at 16 px so phones do not zoom in */
+  .v2 input, .v2 select, .v2 textarea { font-size: 16px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) { .footer-live .olive-lens { animation: none; } }
