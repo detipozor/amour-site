@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.4.0' );
+define( 'AMOUR_VERSION', '0.5.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -56,14 +56,33 @@ function amour_assets() {
 	}
 
 	// JavaScript modules, one per block (HANDOFF, section 1). Imports use these ids, so each file loads once.
-	wp_register_script_module( '@amour/transitions', get_theme_file_uri( 'assets/js/transitions.js' ), array(), AMOUR_VERSION );
-	wp_register_script_module( '@amour/header', get_theme_file_uri( 'assets/js/header.js' ), array(), AMOUR_VERSION );
-	wp_register_script_module( '@amour/menu', get_theme_file_uri( 'assets/js/menu.js' ), array( '@amour/transitions' ), AMOUR_VERSION );
-	wp_enqueue_script_module( '@amour/transitions' );
-	wp_enqueue_script_module( '@amour/header' );
-	wp_register_script_module( '@amour/footer', get_theme_file_uri( 'assets/js/footer.js' ), array(), AMOUR_VERSION );
-	wp_enqueue_script_module( '@amour/menu' );
-	wp_enqueue_script_module( '@amour/footer' );
+	$modules = array(
+		'@amour/motion'        => array( 'assets/js/motion.js', array() ),
+		'@amour/transitions'   => array( 'assets/js/transitions.js', array() ),
+		'@amour/header'        => array( 'assets/js/header.js', array() ),
+		'@amour/menu'          => array( 'assets/js/menu.js', array( '@amour/transitions' ) ),
+		'@amour/footer'        => array( 'assets/js/footer.js', array() ),
+		'@amour/smooth-scroll' => array( 'assets/js/smooth-scroll.js', array( '@amour/motion' ) ),
+		'@amour/date-search'   => array( 'assets/js/date-search.js', array() ),
+		'@amour/home-hero'     => array( 'assets/js/home/hero.js', array( '@amour/motion' ) ),
+		'@amour/home-phrase'   => array( 'assets/js/home/phrase.js', array( '@amour/motion' ) ),
+		'@amour/home-estate'   => array( 'assets/js/home/estate.js', array( '@amour/motion' ) ),
+	);
+	foreach ( $modules as $id => $module ) {
+		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
+	}
+
+	$enqueue = array( '@amour/transitions', '@amour/header', '@amour/menu', '@amour/footer', '@amour/smooth-scroll', '@amour/date-search' );
+
+	// Home page: its own styles and one module per scroll-linked block.
+	if ( is_front_page() ) {
+		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate' );
+	}
+
+	foreach ( $enqueue as $id ) {
+		wp_enqueue_script_module( $id );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amour_assets' );
 
