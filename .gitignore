@@ -18,6 +18,11 @@ id_*
 *.sql.gz
 /wp-content/uploads/
 
+# Logo package: SVG masters and favicons go to Git; print PDFs and preview PNGs stay local
+/assets/brand/**/*.pdf
+/assets/brand/**/*.png
+!/assets/brand/*/5_favicon/*.png
+
 # Dependencies and build output
 node_modules/
 vendor/
