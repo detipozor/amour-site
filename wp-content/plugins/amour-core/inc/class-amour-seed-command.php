@@ -108,7 +108,8 @@ class Amour_Seed_Command {
 		$this->theme();
 		$this->settings();
 		$this->remove_default_content();
-		$ids = $this->pages();
+		$ids               = $this->pages();
+		$ids['styleguide'] = $this->styleguide();
 		$this->front_page( $ids['home'] );
 		$this->languages( $ids );
 		$this->menus( $ids );
@@ -205,6 +206,28 @@ class Amour_Seed_Command {
 			WP_CLI::log( 'Page /' . $path . '/' );
 		}
 		return $ids;
+	}
+
+	/**
+	 * The styleguide page (theme template page-styleguide.php): private, so only logged-in editors see it.
+	 *
+	 * @return int Page id.
+	 */
+	private function styleguide() {
+		$existing = get_page_by_path( 'styleguide' );
+		if ( $existing ) {
+			return $existing->ID;
+		}
+		$id = wp_insert_post(
+			array(
+				'post_type'   => 'page',
+				'post_status' => 'private',
+				'post_title'  => 'Styleguide',
+				'post_name'   => 'styleguide',
+			)
+		);
+		WP_CLI::log( 'Page /styleguide/ (private)' );
+		return $id;
 	}
 
 	/**

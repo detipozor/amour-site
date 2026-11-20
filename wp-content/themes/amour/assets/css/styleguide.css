@@ -1,0 +1,159 @@
+/* Styleguide page only (page-styleguide.php). */
+
+.sg-lead {
+	max-width: 60ch;
+	margin-top: var(--space-2);
+}
+
+.sg-house {
+	background: var(--bg);
+	color: var(--text);
+	border-top: 1px solid var(--line);
+}
+
+.sg-h2 {
+	margin-bottom: var(--space-4);
+}
+
+.sg-h3 {
+	margin: var(--space-6) 0 var(--space-3);
+}
+
+.sg-note {
+	margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+	font-size: 15px;
+}
+
+.sg-swatches {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: var(--space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.sg-swatches li {
+	display: grid;
+	gap: 4px;
+}
+
+.sg-swatch {
+	display: block;
+	height: 72px;
+	margin-bottom: var(--space-1);
+	border: 1px solid var(--line);
+	border-radius: var(--r-card);
+}
+
+.sg-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.sg-deep {
+	display: grid;
+	gap: var(--space-3);
+	margin-top: var(--space-4);
+	padding: var(--space-6);
+	border-radius: var(--r-media);
+}
+
+.sg-logos {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: var(--space-2);
+}
+
+.sg-logo-tile {
+	display: grid;
+	place-items: center;
+	min-height: 160px;
+	padding: var(--space-4);
+	border: 1px solid var(--line);
+	border-radius: var(--r-card);
+}
+
+.sg-wide {
+	grid-column: 1 / -1;
+}
+
+.sg-logo-tile .am-logo {
+	height: 64px;
+}
+
+.sg-logo-tile .sg-tall {
+	height: 120px;
+}
+
+.sg-logo-tile .sg-word {
+	width: 100%;
+	height: auto;
+}
+
+.sg-on-deep {
+	color: var(--on-deep);
+}
+
+.sg-tamarisk {
+	color: var(--on-deep-accent);
+}
+
+.sg-type {
+	display: grid;
+	grid-template-columns: 120px minmax(0, 1fr);
+	gap: var(--space-3) var(--space-4);
+	margin: 0;
+}
+
+.sg-type dt {
+	padding-top: 0.6em;
+	color: var(--text-muted);
+	font-size: 15px;
+}
+
+.sg-type dd {
+	margin: 0;
+}
+
+.sg-icons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sg-icons li {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-1);
+	color: var(--accent);
+}
+
+.sg-icons code,
+.sg-swatches code {
+	color: var(--text);
+	font-size: 13px;
+}
+
+@media (max-width: 760px) {
+
+	.sg-type {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 4px;
+	}
+
+	.sg-type dd {
+		margin-bottom: var(--space-3);
+	}
+
+	.sg-deep {
+		padding: var(--space-4) var(--space-3);
+	}
+}
