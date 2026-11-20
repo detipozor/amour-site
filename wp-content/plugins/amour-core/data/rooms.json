@@ -80,7 +80,33 @@
      "label": "Pets",
      "value": "Welcome, [conditions]"
     }
-   ]
+   ],
+   "list": {
+    "name": "Standard Queen",
+    "text": "A compact room with a queen bed, a kitchenette for your morning coffee and a terrace for the evening.",
+    "facts": [
+     {
+      "label": "Size",
+      "value": "about 20 m²"
+     },
+     {
+      "label": "Bed",
+      "value": "Queen"
+     },
+     {
+      "label": "Kitchen",
+      "value": "Kitchenette"
+     },
+     {
+      "label": "Outside",
+      "value": "Terrace, [view]"
+     },
+     {
+      "label": "Guests",
+      "value": "2"
+     }
+    ]
+   }
   },
   "deluxe-queen-room": {
    "kicker": "Queen room · pool view",
@@ -166,7 +192,33 @@
      "label": "Pets",
      "value": "Welcome, [conditions]"
     }
-   ]
+   ],
+   "list": {
+    "name": "Deluxe Queen",
+    "text": "More room to spread out: 32 m² with a view over the pool, a full kitchen and a terrace.",
+    "facts": [
+     {
+      "label": "Size",
+      "value": "32 m²"
+     },
+     {
+      "label": "Bed",
+      "value": "Queen"
+     },
+     {
+      "label": "Kitchen",
+      "value": "Kitchen"
+     },
+     {
+      "label": "Outside",
+      "value": "Terrace, pool view"
+     },
+     {
+      "label": "Guests",
+      "value": "2"
+     }
+    ]
+   }
   },
   "superior-queen-room": {
    "kicker": "Queen room · sea view",
@@ -248,7 +300,33 @@
      "label": "Pets",
      "value": "Welcome, [conditions]"
     }
-   ]
+   ],
+   "list": {
+    "name": "Superior Queen",
+    "text": "Our rooms with a sea view: a terrace looking over the olive groves to the bay of Almyrida.",
+    "facts": [
+     {
+      "label": "Size",
+      "value": "[m²]"
+     },
+     {
+      "label": "Bed",
+      "value": "Queen"
+     },
+     {
+      "label": "Kitchen",
+      "value": "Kitchen"
+     },
+     {
+      "label": "Outside",
+      "value": "Terrace, sea view"
+     },
+     {
+      "label": "Guests",
+      "value": "2"
+     }
+    ]
+   }
   }
  },
  "stay": [
@@ -264,5 +342,74 @@
    "label": "Pool and sun terrace",
    "value": "Free, [hours]"
   }
- ]
+ ],
+ "page": {
+  "title": "Nine rooms, three kinds",
+  "text": "Every room has its own kitchen and terrace and sleeps two. Choose by size and view; the price is the same as on Booking.com.",
+  "every_title": "In every room",
+  "every": [
+   "Your own kitchen or kitchenette",
+   "A private terrace",
+   "Queen bed for two",
+   "Pool and sun terrace",
+   "Free tennis court, lit in the evening",
+   "Rackets and balls to borrow",
+   "[Air conditioning]",
+   "[Wi-Fi]"
+  ],
+  "family": {
+   "title": "Travelling as a family or a group?",
+   "text": "Take the whole villa: five bedrooms, its own pool and a long table on the terrace, four minutes from the hotel. Villa guests use our court and pool too.",
+   "facts": [
+    {
+     "label": "Bedrooms",
+     "value": "5"
+    },
+    {
+     "label": "Guests",
+     "value": "11"
+    },
+    {
+     "label": "To the hotel",
+     "value": "4 min"
+    }
+   ],
+   "bg": "0ea0b22b4b66cdb9570c69b36d15f3c2",
+   "photo": "2aac80822b69d3836096e30d8c7de6da",
+   "caption": "The private pool at dusk"
+  },
+  "know_title": "Good to know",
+  "know": [
+   {
+    "label": "Arrival",
+    "figure": "14:00",
+    "text": "Check-in from 14:00, check-out by 11:00."
+   },
+   {
+    "label": "Breakfast basket",
+    "figure": "€15",
+    "text": "For two, from our partner bakery. Order the day before."
+   },
+   {
+    "label": "Children",
+    "figure": "12+",
+    "text": "Our rooms suit guests aged 12 and over. Families with younger children are welcome at the villa."
+   },
+   {
+    "label": "Pets",
+    "figure": "",
+    "text": "Pets are welcome. [Conditions and fee to confirm.]"
+   },
+   {
+    "label": "Arriving late",
+    "figure": "[24/7]",
+    "text": "[Self check-in with a key box, or the hosts wait up for you.] Write to us on WhatsApp on the way."
+   },
+   {
+    "label": "Travelling alone",
+    "figure": "Solo",
+    "text": "Every room works for one: [a price for one guest]. The hosts are on site every day."
+   }
+  ]
+ }
 }
