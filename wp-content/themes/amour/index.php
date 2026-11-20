@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
-<main id="main" tabindex="-1">
+<main id="main" tabindex="-1" class="am-container am-stub">
 	<?php if ( is_404() ) : ?>
 		<h1><?php esc_html_e( 'This path ends here', 'amour' ); ?></h1>
 	<?php else : ?>
