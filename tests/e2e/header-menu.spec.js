@@ -2,9 +2,17 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { AUTH_FILE } from './auth.js';
 
-/** HANDOFF, section 15: axe without serious problems, except in the middle of an animation — so wait for it to end. */
+/**
+ * HANDOFF, section 15: axe without serious problems, except in the middle of an animation — so wait for the
+ * animations that end (the menu opening, colour fades). Endless ones, like the olive wave in the footer, are decor.
+ */
+const settle = ( page ) =>
+	page.waitForFunction( () =>
+		document.getAnimations().every( ( a ) => a.playState !== 'running' || a.effect?.getTiming().iterations === Infinity )
+	);
+
 const axe = async ( page ) => {
-	await page.waitForFunction( () => document.getAnimations().every( ( a ) => a.playState !== 'running' ) );
+	await settle( page );
 	const results = await new AxeBuilder( { page } )
 		.withTags( [ 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa' ] )
 		.exclude( '#wpadminbar' )
@@ -18,7 +26,7 @@ test.describe( 'header (HANDOFF, section 5)', () => {
 		const menu = page.getByRole( 'button', { name: 'Menu', exact: true } );
 		await expect( menu ).toBeVisible();
 		await expect( menu ).toHaveAttribute( 'aria-expanded', 'false' );
-		await expect( page.getByRole( 'link', { name: 'Amour Relax Hotel, home' } ).first() ).toHaveAttribute( 'href', /\/$/ );
+		await expect( page.locator( '.am-header' ).getByRole( 'link', { name: 'Amour Relax Hotel, home' } ) ).toHaveAttribute( 'href', /\/$/ );
 		await expect( page.locator( '.am-lang__toggle' ) ).toHaveText( 'EN' );
 		await expect( page.locator( '.am-header__book' ) ).toHaveAttribute( 'href', /\/book\/$/ );
 		await expect( page.locator( '.am-header .am-logo--amour-horizontal' ) ).toBeVisible();
@@ -37,7 +45,7 @@ test.describe( 'header (HANDOFF, section 5)', () => {
 	test( 'the villa shows the Eudora logo in its colours', async ( { page } ) => {
 		await page.goto( '/villa-eudora/' );
 		await expect( page.locator( '.am-header' ) ).toHaveAttribute( 'data-brand', 'eudora' );
-		await expect( page.getByRole( 'link', { name: 'Villa Eudora, home' } ) ).toHaveAttribute( 'href', /villa-eudora\/$/ );
+		await expect( page.locator( '.am-header' ).getByRole( 'link', { name: 'Villa Eudora, home' } ) ).toHaveAttribute( 'href', /villa-eudora\/$/ );
 	} );
 
 	test( 'language list opens, offers German and closes with Esc', async ( { page } ) => {
@@ -122,6 +130,7 @@ test.describe( 'menu (board Menu-list)', () => {
 		await page.goto( '/questions/' );
 		await page.getByRole( 'button', { name: 'Menu', exact: true } ).click();
 		const court = page.locator( '.am-menu__nav a', { hasText: 'Court and pool' } );
+		await settle( page ); // the names rise into place first
 		await court.hover();
 		await expect( court ).toHaveClass( /is-active/ );
 		await expect( page.locator( '.am-menu__line' ) ).toHaveText( 'Stone terraces, a pool and our own court among olive groves.' );
@@ -151,7 +160,7 @@ test.describe( 'menu (board Menu-list)', () => {
 test.describe( 'moving between pages', () => {
 	test( 'the curtain covers the page, the next one opens, Back shows the page without the curtain', async ( { page } ) => {
 		await page.goto( '/questions/' );
-		await page.locator( '.legal-nav a', { hasText: 'Cookies' } ).click();
+		await page.locator( '.am-footer__legal a', { hasText: 'Cookies' } ).click();
 		await expect( page.locator( 'html' ) ).toHaveClass( /is-leaving/ );
 		await page.waitForURL( /\/cookies\/$/ );
 		await expect( page.locator( 'html' ) ).not.toHaveClass( /is-arriving/, { timeout: 3000 } );
@@ -163,7 +172,7 @@ test.describe( 'moving between pages', () => {
 	test( 'with reduced motion links open at once and the menu has no animation', async ( { page } ) => {
 		await page.emulateMedia( { reducedMotion: 'reduce' } );
 		await page.goto( '/questions/' );
-		await page.locator( '.legal-nav a', { hasText: 'Cookies' } ).click();
+		await page.locator( '.am-footer__legal a', { hasText: 'Cookies' } ).click();
 		await page.waitForURL( /\/cookies\/$/ );
 		await expect( page.locator( 'html' ) ).not.toHaveClass( /is-leaving|is-arriving/ );
 		await page.getByRole( 'button', { name: 'Menu', exact: true } ).click();
