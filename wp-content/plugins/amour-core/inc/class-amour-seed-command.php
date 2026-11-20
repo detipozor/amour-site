@@ -145,6 +145,7 @@ class Amour_Seed_Command {
 		$this->menus( $ids );
 		$this->hotel_settings();
 		$this->home_content( $ids['home'] );
+		$this->cards( $ids );
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -639,6 +640,9 @@ class Amour_Seed_Command {
 			'field_amour_home_estate_label'     => 'The estate',
 			'field_amour_home_estate_title'     => 'Stone terraces among olive groves',
 			'field_amour_home_estate_photo'     => $this->attachment_by_blob( 'c7c14ed99aa8d9c4132d959c37050de9' ),
+			'field_amour_home_day_title'        => 'A day at Amour',
+			'field_amour_home_day_frames'       => $this->day_frames(),
+			'field_amour_home_rooms_title'      => "Stay like\nyou live here",
 		);
 		foreach ( $values as $key => $value ) {
 			$field = acf_get_field( $key );
@@ -647,6 +651,81 @@ class Amour_Seed_Command {
 			}
 		}
 		WP_CLI::log( 'Home page: texts and pictures' );
+	}
+
+	/**
+	 * A day at Amour: the five frames of the board Main-v2 (photo, time of day, line, focus).
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function day_frames() {
+		$frames = array(
+			array( '5cb390922657fafc5eb5043328074546', 'Morning', 'A basket from the village bakery at your door, coffee on your own terrace.', '42% 50%' ),
+			array( '16175242e07136a77226dd8cb574b487', 'Midday', 'Then the island: Seitan Limania, Arkadi, the White Mountains.', '50% 50%' ),
+			array( 'deb2647ed7b0e40eb233a905c0be42ac', 'Golden hour', 'Back when the light turns gold. The court is yours.', '50% 45%' ),
+			array( '3d4fe371301d6eb1243e6659e55b94e1', 'Sunset', 'The sky turns pink over the bay.', '50% 50%' ),
+			array( '3e03be045ef749e0d13cdb0ef58aa776', 'Evening', 'The stone wall glows by the pool, and the wine is Cretan.', '50% 60%' ),
+		);
+		$rows   = array();
+		foreach ( $frames as $frame ) {
+			$photo = $this->attachment_by_blob( $frame[0] );
+			if ( ! $photo ) {
+				continue;
+			}
+			$rows[] = array(
+				'field_amour_home_day_photo' => $photo,
+				'field_amour_home_day_label' => $frame[1],
+				'field_amour_home_day_line'  => $frame[2],
+				'field_amour_home_day_focus' => $frame[3],
+			);
+		}
+		return $rows;
+	}
+
+	/**
+	 * Cards of the rooms and the villa, as on the board Main-v2 (rooms grid). Prices stay empty:
+	 * they are filled in at the content stage, the site shows "from €[price]" until then.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function cards( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		$fact  = static fn( $icon, $text ) => array(
+			'field_amour_card_fact_icon' => $icon,
+			'field_amour_card_fact_text' => $text,
+		);
+		$cards = array(
+			'standard-queen-room' => array( 'Standard', array( $fact( 'area', '20 m²' ), $fact( 'guests', '2' ) ), '80e77fe1010b549279e89e9a35d5b698', '2b59c90b2750bdb3ac2476355da8d974' ),
+			'deluxe-queen-room'   => array( 'Deluxe', array( $fact( 'area', '32 m²' ), $fact( 'water', 'Pool view' ) ), 'fd095be6630808380801bf1a11f4b2b1', 'd727d557c1b81f70ef2da9c77753cec0' ),
+			'superior-queen-room' => array( 'Superior', array( $fact( 'water', 'Sea view' ), $fact( 'guests', '2' ) ), 'c52dc0b422d93e5648121425daaa19a4', '0b0dc5985e0129c7969b7aad231dd75f' ),
+			'villa-eudora'        => array( 'Villa Eudora', array( $fact( 'bed', '5' ), $fact( 'guests', '11' ), $fact( 'water', 'Own pool' ) ), '8c07121482921ffe3be6f861ce5e82fe', '2aac80822b69d3836096e30d8c7de6da' ),
+		);
+		// Order of the rooms in lists and on the home page: Standard, Deluxe, Superior (Page attributes → Order).
+		$order = 0;
+		foreach ( array_keys( $cards ) as $slug ) {
+			if ( ! empty( $ids[ $slug ] ) && 'villa-eudora' !== $slug && 0 === (int) get_post_field( 'menu_order', $ids[ $slug ] ) ) {
+				wp_update_post(
+					array(
+						'ID'         => $ids[ $slug ],
+						'menu_order' => ++$order,
+					)
+				);
+			}
+		}
+
+		foreach ( $cards as $slug => $card ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( ! $id || get_field( 'card_name', $id, false ) ) {
+				continue;
+			}
+			update_field( 'field_amour_card_name', $card[0], $id );
+			update_field( 'field_amour_card_facts', $card[1], $id );
+			update_field( 'field_amour_card_photo', $this->attachment_by_blob( $card[2] ), $id );
+			update_field( 'field_amour_card_photo_hover', $this->attachment_by_blob( $card[3] ), $id );
+		}
+		WP_CLI::log( 'Cards: rooms and villa' );
 	}
 
 	/**
