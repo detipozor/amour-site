@@ -800,7 +800,8 @@ class Amour_Seed_Command {
 
 	/**
 	 * Room pages (data/rooms.json, from the boards Room-standard, Room-deluxe and Room-superior): label, line,
-	 * photos with captions, description and details; and the rules for every room in Hotel settings.
+	 * photos with captions, description and details; and in Hotel settings the rules for every room and the
+	 * location card of the room map.
 	 * Fills only empty pages, so edits in the admin survive a new run.
 	 *
 	 * @param array<string, int> $ids Page ids by slug.
@@ -813,6 +814,22 @@ class Amour_Seed_Command {
 			amour_register_room_fields(); // the room pages may have been created by this very run
 		}
 		$data = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/rooms.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+
+		if ( ! get_field( 'amour_location_title', 'option' ) ) {
+			update_field( 'field_amour_location_title', 'Almyrida, Crete', 'option' );
+			update_field( 'field_amour_location_text', 'Above the bay of Almyrida in Apokoronas, between Chania and Rethymno.', 'option' );
+			update_field(
+				'field_amour_location_near',
+				array_map(
+					static fn( $near ) => array(
+						'field_amour_location_near_place' => $near[0],
+						'field_amour_location_near_value' => $near[1],
+					),
+					array( array( 'Almyrida beach', '1.2 km on foot' ), array( 'Chania old town', '40 min' ), array( 'Rethymno', '55 min' ), array( 'Chania airport', '[… min]' ) )
+				),
+				'option'
+			);
+		}
 
 		if ( ! get_field( 'amour_checkin', 'option' ) ) {
 			update_field( 'field_amour_checkin', '14:00', 'option' );
@@ -897,6 +914,10 @@ class Amour_Seed_Command {
 				)
 			);
 			if ( $existing ) {
+				// Places from before the room map: mark the ones it shows, once.
+				if ( ! empty( $place['on_rooms'] ) && '' === get_post_meta( $existing[0], 'on_rooms', true ) ) {
+					update_field( 'field_amour_place_rooms', 1, $existing[0] );
+				}
 				continue;
 			}
 			$id = wp_insert_post(
@@ -921,7 +942,8 @@ class Amour_Seed_Command {
 				'field_amour_place_meta'      => $place['meta'],
 				'field_amour_place_text'      => $place['text'],
 				'field_amour_place_route'     => $place['route'] ?? '',
-				'field_amour_place_home'      => 1,
+				'field_amour_place_home'      => isset( $place['on_home'] ) ? (int) $place['on_home'] : 1,
+				'field_amour_place_rooms'     => empty( $place['on_rooms'] ) ? 0 : 1,
 			);
 			if ( ! empty( $place['photo'] ) ) {
 				$values['field_amour_place_photo'] = $this->attachment_by_blob( $place['photo'] );

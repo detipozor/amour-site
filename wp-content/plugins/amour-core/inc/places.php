@@ -1,7 +1,8 @@
 <?php
 /**
  * Places (HANDOFF, section 9: "Место" — for the map on the home page and the Crete guide): name, short name,
- * position on the relief map, drive time, text, photo, Google Maps link, the road there, shown on the home page.
+ * position on the relief map, drive time, text, photo, Google Maps link, the road there, shown on the home page
+ * and on the map of the room and villa pages ("Almyrida, Crete").
  * The hotel, the villa and far labels (Heraklion) are places too, marked by their kind.
  * Places have no pages of their own; the guide (week 4) lists them.
  *
@@ -80,6 +81,7 @@ function amour_register_place_fields() {
 						'hotel' => __( 'The hotel', 'amour' ),
 						'villa' => __( 'The villa', 'amour' ),
 						'far'   => __( 'Far label only (for example Heraklion airport)', 'amour' ),
+						'near'  => __( 'Label on the room and villa map only (a beach, the airport)', 'amour' ),
 					),
 					'default_value' => 'trip',
 				),
@@ -174,6 +176,14 @@ function amour_register_place_fields() {
 					'type'          => 'true_false',
 					'ui'            => 1,
 					'default_value' => 1,
+				),
+				array(
+					'key'           => 'field_amour_place_rooms',
+					'name'          => 'on_rooms',
+					'label'         => __( 'On the map of the room and villa pages', 'amour' ),
+					'type'          => 'true_false',
+					'ui'            => 1,
+					'default_value' => 0,
 				),
 			),
 		)
