@@ -363,3 +363,47 @@ function amour_core_ids_or_self( $id ) {
 	}
 	return $ids;
 }
+
+/**
+ * Places on the home map (plugin amour-core, type amour_place), in their order, in the current language.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function amour_map_places() {
+	if ( ! post_type_exists( 'amour_place' ) ) {
+		return array();
+	}
+	$posts  = get_posts(
+		array(
+			'post_type'      => 'amour_place',
+			'posts_per_page' => 50,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'lang'           => function_exists( 'pll_current_language' ) ? pll_default_language() : '',
+		)
+	);
+	$places = array();
+	foreach ( $posts as $post ) {
+		$id = function_exists( 'pll_get_post' ) && pll_get_post( $post->ID ) ? pll_get_post( $post->ID ) : $post->ID;
+		$f  = static fn( $name ) => amour_page_field( $name, $id );
+		if ( ! $f( 'on_home' ) ) {
+			continue;
+		}
+		$places[] = array(
+			'id'        => $id,
+			'kind'      => (string) $f( 'kind' ),
+			'name'      => get_the_title( $id ),
+			'label'     => (string) $f( 'label' ),
+			'short'     => (string) $f( 'short' ),
+			'x'         => (float) $f( 'x' ),
+			'y'         => (float) $f( 'y' ),
+			'dir'       => (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row',
+			'dir_phone' => (string) $f( 'dir_phone' ) ? (string) $f( 'dir_phone' ) : ( (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row' ),
+			'meta'      => (string) $f( 'meta' ),
+			'text'      => (string) $f( 'text' ),
+			'photo'     => (int) $f( 'photo' ),
+			'route'     => (string) $f( 'route' ),
+		);
+	}
+	return $places;
+}
