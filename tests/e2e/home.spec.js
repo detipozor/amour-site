@@ -208,3 +208,63 @@ test.describe( 'home: rooms grid (HANDOFF, section 6.6)', () => {
 		await expect.poll( () => page.locator( '.am-unit__img' ).first().evaluate( ( el ) => el.style.scale ) ).toBe( '1.2' );
 	} );
 } );
+
+test.describe( 'home: rooms → villa (HANDOFF, section 6.7)', () => {
+	/** Scroll to a point of the scene; positions move as blocks above grow, so measure again until it holds. */
+	const goTo = async ( page, fn, arg ) => {
+		for ( let i = 0; i < 3; i++ ) {
+			await at( page, await page.evaluate( fn, arg ) );
+		}
+		await page.waitForTimeout( 300 );
+	};
+	const roomsAt = ( rk ) => {
+		const rooms = document.querySelector( '[data-rooms]' );
+		const pin = rooms.querySelector( '[data-rooms-pin]' );
+		return rooms.getBoundingClientRect().top + window.scrollY + ( pin.offsetHeight - window.innerHeight ) + 250 + rk * 700;
+	};
+	const villaAt = ( vk ) => document.querySelector( '[data-home-villa]' ).getBoundingClientRect().top + window.scrollY + vk * 1100;
+	const opacity = ( locator ) => locator.evaluate( ( el ) => Number( getComputedStyle( el ).opacity ) );
+
+	test( 'desktop: the villa card flies to the middle, the words come in, then the arch opens with its text', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, roomsAt, 1 );
+		const fly = await page.locator( '[data-rooms-fly]' ).boundingBox();
+		expect( Math.abs( fly.x + fly.width / 2 - 720 ) ).toBeLessThan( 2 );
+		expect( Math.abs( fly.y + fly.height / 2 - 450 ) ).toBeLessThan( 2 );
+		expect( await opacity( page.locator( '.am-rooms [data-vword="l"]' ) ) ).toBe( 1 );
+		expect( await opacity( page.locator( '.am-rooms__in' ) ) ).toBe( 0 );
+
+		await goTo( page, villaAt, 0.95 );
+		const arch = await page.locator( '[data-villa-arch]' ).boundingBox();
+		expect( Math.round( arch.width ) ).toBe( 1440 );
+		await expect( page.locator( '[data-villa-pin]' ) ).toHaveAttribute( 'data-tone', 'dark' );
+		expect( await opacity( page.locator( '[data-villa-text]' ) ) ).toBeGreaterThan( 0.95 );
+		await expect( page.locator( '.am-header' ) ).toHaveAttribute( 'data-brand', 'eudora' );
+		await expect( page.getByRole( 'link', { name: 'Discover the villa' } ) ).toHaveAttribute( 'href', /\/villa-eudora\/$/ );
+		await expect( page.getByRole( 'link', { name: 'Weddings and gatherings' } ) ).toHaveAttribute( 'href', /\/villa-eudora\/#gatherings$/ );
+	} );
+
+	test( 'phone: the words stand above and below the card', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await page.goto( '/' );
+		await goTo( page, roomsAt, 1 );
+		const fly = await page.locator( '[data-rooms-fly]' ).boundingBox();
+		const left = await page.locator( '.am-rooms [data-vword="l"]' ).boundingBox();
+		const right = await page.locator( '.am-rooms [data-vword="r"]' ).boundingBox();
+		expect( left.y + left.height ).toBeLessThanOrEqual( fly.y + 1 );
+		expect( right.y ).toBeGreaterThanOrEqual( fly.y + fly.height - 1 );
+		await expect( page.locator( '.am-rooms [data-vcap="l"]' ) ).toBeHidden();
+	} );
+
+	test( 'reduced motion: nothing pinned, the villa stands open with its text', async ( { page } ) => {
+		await page.emulateMedia( { reducedMotion: 'reduce' } );
+		await page.goto( '/' );
+		await expect( page.locator( '[data-rooms]' ) ).not.toHaveClass( /is-pinned/ );
+		await expect( page.locator( '[data-home-villa]' ) ).not.toHaveClass( /is-pinned/ );
+		const villa = page.locator( '[data-home-villa]' );
+		await villa.scrollIntoViewIfNeeded();
+		expect( Math.round( ( await page.locator( '[data-villa-arch]' ).boundingBox() ).width ) ).toBe( 1440 );
+		expect( await opacity( page.locator( '[data-villa-text]' ) ) ).toBe( 1 );
+		await expect( page.locator( '[data-villa-pin]' ) ).toHaveAttribute( 'data-tone', 'dark' );
+	} );
+} );
