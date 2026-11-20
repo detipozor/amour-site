@@ -183,6 +183,53 @@ function amour_register_home_fields() {
 					'new_lines'    => '',
 					'instructions' => __( 'Each line is a line of the heading. The cards come from the room pages and the villa page (their "Card" fields).', 'amour' ),
 				),
+
+				$tab( 'villa', __( 'Villa', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_home_villa_words',
+					'name'         => 'home_villa_words',
+					'label'        => __( 'Two words around the arch', 'amour' ),
+					'type'         => 'textarea',
+					'rows'         => 2,
+					'new_lines'    => '',
+					'instructions' => __( 'First line on the left (or above on a phone), second on the right (below).', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_home_villa_captions',
+					'name'         => 'home_villa_captions',
+					'label'        => __( 'Two labels under the words (desktop)', 'amour' ),
+					'type'         => 'textarea',
+					'rows'         => 2,
+					'new_lines'    => '',
+					'instructions' => __( 'Capitals, up to 4 words each. First line on the left, second on the right.', 'amour' ),
+				),
+				array(
+					'key'       => 'field_amour_home_villa_title',
+					'name'      => 'home_villa_title',
+					'label'     => __( 'Line over the open photo', 'amour' ),
+					'type'      => 'textarea',
+					'rows'      => 2,
+					'new_lines' => 'br',
+				),
+				array(
+					'key'   => 'field_amour_home_villa_meta',
+					'name'  => 'home_villa_meta',
+					'label' => __( 'Facts in one line (bottom right)', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_home_villa_button',
+					'name'  => 'home_villa_button',
+					'label' => __( 'Button to the villa page', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'          => 'field_amour_home_villa_link',
+					'name'         => 'home_villa_link',
+					'label'        => __( 'Second link: gatherings on the villa page', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'Leads to the gatherings block of the villa page.', 'amour' ),
+				),
 			),
 		)
 	);

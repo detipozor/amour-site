@@ -5,6 +5,10 @@
  * that drift with the scroll, the facts on their own line (amour-soft.css, phone rules).
  * Cards come from the room pages and the villa page (their "Card" fields).
  *
+ * Then the grid holds (pinned) and the villa card flies to the middle of the screen, the words "Room for" and
+ * "everyone" come in on both sides, and the villa block (template-parts/home/villa.php) takes over from there
+ * (assets/js/home/villa.js). Not pinned with reduced motion.
+ *
  * @package Amour
  */
 
@@ -25,7 +29,8 @@ foreach ( $amour_cards as $amour_i => $amour_card ) {
 	$amour_columns[ $amour_i % 2 ][] = $amour_card;
 }
 ?>
-<section id="rooms" class="am-rooms" aria-labelledby="am-rooms-title">
+<section id="rooms" class="am-rooms" data-rooms aria-labelledby="am-rooms-title">
+	<div class="am-rooms__pin" data-rooms-pin>
 	<div class="am-rooms__in">
 		<div class="am-rooms__head">
 			<p class="am-rooms__counts">
@@ -103,4 +108,35 @@ foreach ( $amour_cards as $amour_i => $amour_card ) {
 			<?php endforeach; ?>
 		</div>
 	</div>
+
+	<?php
+	// The villa card on its way to the middle of the screen, and the words around it (decoration: the villa block says it in words).
+	$amour_villa_card = wp_list_filter( $amour_cards, array( 'villa' => true ) );
+	$amour_villa_card = $amour_villa_card ? reset( $amour_villa_card ) : null;
+	$amour_words      = array_pad( preg_split( '/\R/', trim( (string) amour_page_field( 'home_villa_words' ) ) ), 2, '' );
+	$amour_captions   = array_pad( preg_split( '/\R/', trim( (string) amour_page_field( 'home_villa_captions' ) ) ), 2, '' );
+	?>
+	<?php if ( $amour_villa_card && $amour_villa_card['photo'] ) : ?>
+		<div class="am-rooms__fly" data-rooms-fly aria-hidden="true">
+			<?php
+			echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core function escapes.
+				$amour_villa_card['photo'],
+				'large',
+				false,
+				array(
+					'alt'      => '',
+					'sizes'    => '(max-width: 760px) 92vw, 620px',
+					'loading'  => 'lazy',
+					'decoding' => 'async',
+				)
+			);
+			?>
+		</div>
+	<?php endif; ?>
+	<p class="am-vword am-vword--l" data-vword="l" aria-hidden="true"><?php echo esc_html( $amour_words[0] ); ?></p>
+	<p class="am-vword am-vword--r" data-vword="r" aria-hidden="true"><?php echo esc_html( $amour_words[1] ); ?></p>
+	<p class="am-vcap am-vcap--l" data-vcap="l" aria-hidden="true"><?php echo esc_html( $amour_captions[0] ); ?></p>
+	<p class="am-vcap am-vcap--r" data-vcap="r" aria-hidden="true"><?php echo esc_html( $amour_captions[1] ); ?></p>
+	</div>
+	<div class="am-rooms__tail" aria-hidden="true"></div>
 </section>
