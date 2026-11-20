@@ -7,7 +7,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.1.0' );
+define( 'AMOUR_VERSION', '0.2.0' );
+
+require_once get_theme_file_path( 'inc/icons.php' );
+require_once get_theme_file_path( 'inc/brand.php' );
 
 /**
  * Theme supports and menu locations.
@@ -31,9 +34,43 @@ function amour_setup() {
 add_action( 'after_setup_theme', 'amour_setup' );
 
 /**
- * Styles and scripts.
+ * Styles and scripts. Plain CSS files, no build step, so the Playground preview runs straight from GitHub.
  */
 function amour_assets() {
-	wp_enqueue_style( 'amour-base', get_theme_file_uri( 'assets/css/base.css' ), array(), AMOUR_VERSION );
+	$css  = array(
+		'amour-tokens' => 'assets/css/tokens.css',
+		'amour-base'   => 'assets/css/base.css',
+		'amour-button' => 'assets/css/components/button.css',
+	);
+	$deps = array();
+	foreach ( $css as $handle => $file ) {
+		wp_enqueue_style( $handle, get_theme_file_uri( $file ), $deps, AMOUR_VERSION );
+		$deps = array( $handle );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'amour_assets' );
+
+/**
+ * Preload the main text font (HANDOFF, section 13): Instrument Sans, Latin.
+ */
+function amour_preload_font() {
+	printf(
+		'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+		esc_url( get_theme_file_uri( 'assets/fonts/InstrumentSans-latin.woff2' ) )
+	);
+}
+add_action( 'wp_head', 'amour_preload_font', 1 );
+
+/**
+ * The house palette on the page: data-theme="amour" or "eudora" (HANDOFF, section 3).
+ *
+ * @param string $output Language attributes of the html element.
+ * @return string
+ */
+function amour_html_theme( $output ) {
+	if ( is_admin() || is_feed() ) {
+		return $output;
+	}
+	return $output . ' data-theme="' . esc_attr( amour_brand() ) . '"';
+}
+add_filter( 'language_attributes', 'amour_html_theme' );

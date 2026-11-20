@@ -1,0 +1,89 @@
+/*
+ * Buttons (HANDOFF, section 5): main — terracotta with limestone text; secondary — outline;
+ * on a photo — limestone outline. Hover: the fill gets 8% darker and the button lifts 2 px over 350 ms.
+ * Source: design/ds/components/bundle.css (.am-btn) and design/css/amour-soft.css (pill shape, lift).
+ */
+
+.am-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-1);
+	min-height: 52px;
+	padding: 18px var(--space-4);
+	border: 1px solid var(--accent);
+	border-radius: var(--r-pill);
+	background: var(--accent);
+	color: var(--on-accent);
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		background-color 0.35s var(--ease-soft),
+		color 0.35s var(--ease-soft),
+		border-color 0.35s var(--ease-soft),
+		transform 0.35s var(--ease-soft);
+}
+
+.am-btn:hover {
+	border-color: var(--accent-hover);
+	background: var(--accent-hover);
+	color: var(--on-accent);
+	transform: translateY(-2px);
+}
+
+/* Secondary: outline */
+.am-btn--ghost {
+	background: transparent;
+	color: var(--accent);
+}
+
+.am-btn--ghost:hover {
+	border-color: var(--accent-hover);
+	background: color-mix(in srgb, var(--accent) 8%, transparent);
+	color: var(--accent-hover);
+}
+
+/* On a photo or a dark block: limestone outline */
+.am-btn--on-photo {
+	border-color: var(--c-limestone);
+	background: transparent;
+	color: var(--c-limestone);
+}
+
+.am-btn--on-photo:hover {
+	border-color: var(--c-limestone);
+	background: color-mix(in srgb, var(--c-limestone) 14%, transparent);
+	color: var(--c-limestone);
+}
+
+/* Smaller height for the header and dense rows; still 44 px for touch */
+.am-btn--small {
+	min-height: 44px;
+	padding: 14px var(--space-3);
+}
+
+.am-btn--block {
+	width: 100%;
+}
+
+/* Unavailable: still readable (HANDOFF, section 12), so a muted fill instead of transparency */
+.am-btn[disabled],
+.am-btn[aria-disabled="true"] {
+	border-color: var(--text-muted);
+	background: var(--text-muted);
+	color: var(--on-accent);
+	cursor: not-allowed;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-btn:hover {
+		transform: none;
+	}
+}

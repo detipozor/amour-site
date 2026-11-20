@@ -1,0 +1,137 @@
+/*
+ * Design tokens: the only place with raw colours and font names (CLAUDE.md, brand rules).
+ * Source: design/ds/tokens.css (colours, fonts, spacing) and design/css/amour-soft.css (radii, rhythm),
+ * carried over as they are. Components use the variables only.
+ */
+
+/* Fonts from our own server (HANDOFF, section 3). Tenor Sans: only short labels in capitals. */
+@font-face {
+	font-family: "Tenor Sans";
+	src: url("../fonts/TenorSans-Regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Instrument Sans: headings, text, buttons, menu, prices. Variable: weight 400–700, width 75–100. */
+@font-face {
+	font-family: "Instrument Sans";
+	src: url("../fonts/InstrumentSans-latin.woff2") format("woff2");
+	font-weight: 400 700;
+	font-stretch: 75% 100%;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "Instrument Sans";
+	src: url("../fonts/InstrumentSans-latin-ext.woff2") format("woff2");
+	font-weight: 400 700;
+	font-stretch: 75% 100%;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Amour (default) */
+:root,
+[data-theme="amour"] {
+	--c-terracotta: #a8482a;
+	--c-limestone: #f2eadb;
+	--c-paper: #fbf7ef;
+	--c-tamarisk: #d9a5a0;
+	--c-wine: #5c1e1c;
+	--c-dark: #2a2420;
+	--c-body: #5a4e45;
+	--c-muted: #72665b;
+	--c-rule: #d8ccb8;
+	--c-sea: #2d5264;
+	--c-foam: #ccdad9;
+	--c-depth: #1f3a47;
+	--c-ink: #1c2226;
+	--bg: var(--c-limestone);
+	--surface: var(--c-paper);
+	--text: var(--c-dark);
+	--text-2: var(--c-body);
+	--text-muted: var(--c-muted);
+	--accent: var(--c-terracotta);
+	--accent-hover: #9b4227;
+	--on-accent: var(--c-limestone);
+	--accent-soft: var(--c-tamarisk);
+	--on-accent-soft: var(--c-dark);
+	--deep: var(--c-wine);
+	--on-deep: var(--c-limestone);
+	--on-deep-accent: var(--c-tamarisk);
+	--line: var(--c-rule);
+	--control-border: var(--c-muted);
+	--scrim: #2a242061;
+	--shadow-popover: 0 20px 40px #2a24202e;
+	--focus-ring: 0 0 0 2px #f2eadb, 0 0 0 4px #a8482a;
+	--focus-ring-deep: 0 0 0 2px #5c1e1c, 0 0 0 4px #f2eadb;
+}
+
+/* Villa Eudora: its own palette (HANDOFF, section 3) */
+[data-theme="eudora"] {
+	--bg: var(--c-limestone);
+	--surface: var(--c-paper);
+	--text: var(--c-ink);
+	--text-2: var(--c-body);
+	--text-muted: var(--c-muted);
+	--accent: var(--c-sea);
+	--accent-hover: #294b5c;
+	--on-accent: var(--c-limestone);
+	--accent-soft: var(--c-foam);
+	--on-accent-soft: var(--c-ink);
+	--deep: var(--c-depth);
+	--on-deep: var(--c-limestone);
+	--on-deep-accent: var(--c-foam);
+	--line: var(--c-rule);
+	--control-border: var(--c-muted);
+	--scrim: #1c222661;
+	--focus-ring: 0 0 0 2px #f2eadb, 0 0 0 4px #2d5264;
+	--focus-ring-deep: 0 0 0 2px #1f3a47, 0 0 0 4px #f2eadb;
+}
+
+/* Spacing, layout, type families */
+:root {
+	--space-1: 8px;
+	--space-2: 16px;
+	--space-3: 24px;
+	--space-4: 32px;
+	--space-6: 48px;
+	--space-8: 64px;
+	--space-12: 96px;
+	--space-16: 128px;
+	--radius-arch: 999px;
+	--container: 1240px;
+	--gutter: clamp(16px, 4vw, 56px);
+	--pattern-opacity: 0.12;
+	--font-head: "Instrument Sans", arial, sans-serif;
+	--font-body: "Instrument Sans", arial, sans-serif;
+	--font-label: "Tenor Sans", arial, sans-serif;
+
+	/* Soft geometry (amour-soft.css; the v2 boards use one 24 px radius for photos, cards, panels and bands) */
+	--r-pill: 999px;
+	--r-card: 24px;
+	--r-panel: 24px;
+	--r-media: 24px;
+	--ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+	/* Section rhythm: s inside a chapter, m between sections, l before a new chapter */
+	--sec-s: clamp(80px, 12vh, 120px);
+	--sec-m: clamp(120px, 22vh, 200px);
+	--sec-l: clamp(160px, 30vh, 280px);
+
+	/* Breakpoints for reference (CSS variables cannot be used in media queries):
+	   phone up to 760 px, tablet 761–1100 px, desktop from 1101 px (HANDOFF, section 4). */
+}
+
+@media (max-width: 760px) {
+
+	:root {
+		--sec-s: 64px;
+		--sec-m: 96px;
+		--sec-l: 128px;
+	}
+}
