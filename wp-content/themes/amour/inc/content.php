@@ -337,6 +337,7 @@ function amour_cards() {
 		$say      = array_merge( wp_list_pluck( $facts, 'text' ), $price ? array( sprintf( /* translators: %s: price, e.g. 95 */ __( 'from €%s a night', 'amour' ), $price ) ) : array() );
 
 		$cards[] = array(
+			'id'    => (int) $page->ID,
 			'url'   => get_permalink( $page ),
 			'name'  => $name ? $name : get_the_title( $page ),
 			'facts' => $facts,
@@ -365,11 +366,12 @@ function amour_core_ids_or_self( $id ) {
 }
 
 /**
- * Places on the home map (plugin amour-core, type amour_place), in their order, in the current language.
+ * Places on a map (plugin amour-core, type amour_place), in their order, in the current language.
  *
+ * @param string $map Which map: on_home (the home page) or on_rooms (the room and villa pages).
  * @return array<int, array<string, mixed>>
  */
-function amour_map_places() {
+function amour_map_places( $map = 'on_home' ) {
 	if ( ! post_type_exists( 'amour_place' ) ) {
 		return array();
 	}
@@ -386,7 +388,7 @@ function amour_map_places() {
 	foreach ( $posts as $post ) {
 		$id = function_exists( 'pll_get_post' ) && pll_get_post( $post->ID ) ? pll_get_post( $post->ID ) : $post->ID;
 		$f  = static fn( $name ) => amour_page_field( $name, $id );
-		if ( ! $f( 'on_home' ) ) {
+		if ( ! $f( $map ) ) {
 			continue;
 		}
 		$places[] = array(
@@ -560,5 +562,32 @@ function amour_room( $id = null ) {
 		'key'         => array_slice( $facts, 0, 6 ),
 		'more'        => array_merge( array_slice( $facts, 6 ), $stay ),
 		'price'       => amour_or_placeholder( is_numeric( $price ) ? number_format_i18n( (float) $price ) : '', 'price' ),
+	);
+}
+
+/**
+ * The location block of the room and villa pages (room_template.html, "Almyrida, Crete"): the card from
+ * Hotel settings and the places marked for this map, the hotel first.
+ *
+ * @return array<string, mixed>
+ */
+function amour_location() {
+	$places = amour_map_places( 'on_rooms' );
+	usort( $places, static fn( $a, $b ) => (int) ( 'hotel' !== $a['kind'] ) <=> (int) ( 'hotel' !== $b['kind'] ) );
+	$near = array();
+	foreach ( (array) amour_option( 'amour_location_near' ) as $row ) {
+		if ( ! empty( $row['place'] ) ) {
+			$near[] = array(
+				'place' => (string) $row['place'],
+				'value' => (string) ( $row['value'] ?? '' ),
+			);
+		}
+	}
+	return array(
+		'title'  => (string) amour_option( 'amour_location_title' ),
+		'text'   => (string) amour_option( 'amour_location_text' ),
+		'near'   => $near,
+		'maps'   => (string) amour_option( 'amour_maps_url' ),
+		'places' => $places,
 	);
 }

@@ -74,6 +74,7 @@ function amour_assets() {
 		'@amour/home-direct'   => array( 'assets/js/home/direct.js', array( '@amour/motion' ) ),
 		'@amour/parallax'      => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
 		'@amour/room'          => array( 'assets/js/room.js', array( '@amour/motion' ) ),
+		'@amour/location'      => array( 'assets/js/location.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -90,7 +91,7 @@ function amour_assets() {
 	// Room pages (the pages under /rooms/).
 	if ( amour_is_room() ) {
 		wp_enqueue_style( 'amour-room', get_theme_file_uri( 'assets/css/room.css' ), array( 'amour-footer' ), AMOUR_VERSION );
-		$enqueue[] = '@amour/room';
+		array_push( $enqueue, '@amour/room', '@amour/location' );
 	}
 
 	foreach ( $enqueue as $id ) {

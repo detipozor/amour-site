@@ -7,7 +7,8 @@
  *    as an arch and opens into a soft rectangle as it rises. Caption and count under each.
  * 2. The colour runs from wine into limestone as the details come up.
  * 3. Room details: the description, six key facts, the rest under All details.
- * 4. The price capsule at the bottom of the screen; it steps aside over the facts, buttons and the footer.
+ * 4. Almyrida, Crete: the map comes down to the hotel (template-parts/location.php), then Other ways to stay.
+ * 5. The price capsule at the bottom of the screen; it steps aside over the facts, buttons and the footer.
  * Logic: assets/js/room.js. Fields: the page in the admin (Room page, Card) and Hotel settings (stay rules).
  *
  * @package Amour
@@ -113,6 +114,11 @@ $amour_total = count( $amour_room['figs'] );
 			<?php endif; ?>
 		</div>
 	</section>
+
+	<?php
+	get_template_part( 'template-parts/location' );
+	get_template_part( 'template-parts/other-stays' );
+	?>
 
 	<div class="am-dock" data-dock>
 		<div class="am-dock__pill">
