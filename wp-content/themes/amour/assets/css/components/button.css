@@ -87,3 +87,16 @@
 		transform: none;
 	}
 }
+
+/* Limestone fill on a dark photo, text in the house's deep colour (board Main-v2-b: "Discover the villa") */
+.am-btn--limestone {
+	border-color: var(--c-limestone);
+	background: var(--c-limestone);
+	color: var(--deep);
+}
+
+.am-btn--limestone:hover {
+	border-color: var(--c-paper);
+	background: var(--c-paper);
+	color: var(--deep);
+}

@@ -523,8 +523,12 @@
 /* ---------- Rooms grid (board Main-v2, "units"; phone rules from amour-soft.css) ---------- */
 
 .am-rooms {
-	padding: var(--sec-l) var(--gutter) var(--sec-m);
+	position: relative;
 	overflow-x: clip;
+}
+
+.am-rooms__pin {
+	padding: var(--sec-l) var(--gutter) var(--sec-m);
 }
 
 .am-rooms__in {
@@ -748,4 +752,200 @@
 /* Blocks here change size with the scroll; the browser must not shift the page to "keep" a block in place */
 .am-home {
 	overflow-anchor: none;
+}
+
+/* ---------- Rooms → villa: the grid holds, the villa card flies to the middle (assets/js/home/villa.js) ---------- */
+
+.am-rooms.is-pinned .am-rooms__pin {
+	position: sticky;
+	top: var(--pin-top, 0px);
+	padding-bottom: 40px;
+}
+
+@media (max-height: 719px) {
+
+	.am-rooms.is-pinned .am-rooms__pin {
+		padding-bottom: 24px;
+	}
+}
+
+.am-rooms.is-pinned .am-rooms__tail {
+	height: 950px;
+}
+
+.am-rooms__fly {
+	position: absolute;
+	z-index: 3;
+	overflow: hidden;
+	border-radius: var(--radius-arch) var(--radius-arch) var(--r-card) var(--r-card);
+	background: var(--c-depth);
+	opacity: 0;
+	pointer-events: none;
+}
+
+.am-rooms__fly img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 62% 40%;
+}
+
+/* "Room for" / "everyone" and the two labels: in the rooms block and again in the villa block, in the same place */
+.am-vword,
+.am-vcap {
+	position: absolute;
+	z-index: 2;
+	margin: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.am-vword {
+	color: var(--c-ink);
+	font-family: var(--font-head);
+	line-height: 1;
+	letter-spacing: -0.02em;
+	white-space: nowrap;
+}
+
+.am-vcap {
+	color: var(--c-sea);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	text-wrap: balance;
+}
+
+.am-vword--l,
+.am-vcap--l {
+	left: var(--gutter);
+}
+
+.am-vword--r,
+.am-vcap--r {
+	right: var(--gutter);
+	text-align: right;
+}
+
+@media (max-width: 760px) {
+
+	.am-vcap {
+		display: none;
+	}
+}
+
+/* ---------- Villa (board Main-v2-b, "vh2") ---------- */
+
+.am-villa {
+	position: relative;
+	z-index: 3;
+}
+
+.am-villa.is-pinned {
+	height: calc(100vh + 1100px);
+	margin-top: -100vh; /* it starts where the rooms block holds the villa card in the middle */
+	pointer-events: none;
+}
+
+.am-villa__pin {
+	position: relative;
+	height: max(600px, 100svh);
+	overflow: hidden;
+	background: var(--c-foam);
+	pointer-events: auto;
+}
+
+.am-villa.is-pinned .am-villa__pin {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+}
+
+.am-villa__arch {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: var(--c-depth);
+	transform: translate(-50%, -50%);
+}
+
+.am-villa__arch img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 62% 40%;
+}
+
+/* A flat shade for the text over the photo (no gradients: brand rule) */
+.am-villa__shade {
+	position: absolute;
+	inset: 0;
+	background: var(--c-depth);
+	opacity: calc(0.5 * var(--vt, 1));
+}
+
+.am-villa__text {
+	position: absolute;
+	right: var(--gutter);
+	bottom: min(72px, 8vh);
+	left: var(--gutter);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 24px 40px;
+	color: var(--c-limestone);
+	opacity: var(--vt, 1);
+	transform: translateY(calc(30px * (1 - var(--vt, 1))));
+}
+
+.am-villa__main {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+}
+
+.am-villa .am-villa__title {
+	font-family: var(--font-head);
+	font-size: min(64px, 7vh, 4.6vw);
+	line-height: 1.02;
+	letter-spacing: -0.03em;
+}
+
+.am-villa__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 28px;
+}
+
+.am-villa .am-villa__link,
+.am-villa .am-villa__link:hover {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	color: var(--c-limestone);
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.am-villa__meta {
+	color: color-mix(in srgb, var(--c-limestone) 90%, transparent);
+	font-size: 15px;
+	letter-spacing: 0.04em;
+}
+
+@media (max-width: 760px) {
+
+	.am-villa .am-villa__title {
+		font-size: 30px;
+	}
 }
