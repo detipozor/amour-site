@@ -591,3 +591,42 @@ function amour_location() {
 		'places' => $places,
 	);
 }
+
+/**
+ * Is this one of the site's pages, by its address in the default language (any translation of it counts)?
+ *
+ * @param string $path Page path in the default language, for example rooms.
+ * @return bool
+ */
+function amour_is_page( $path ) {
+	if ( ! is_page() ) {
+		return false;
+	}
+	$page = get_page_by_path( $path );
+	return $page && in_array( get_queried_object_id(), array_map( 'intval', amour_core_ids_or_self( $page->ID ) ), true );
+}
+
+/**
+ * The rooms on the Rooms page (board Rooms): each room page's "On the Rooms page" fields, its first photo,
+ * its price, in menu order.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function amour_rooms_list() {
+	$list = array();
+	foreach ( wp_list_filter( amour_cards(), array( 'villa' => false ) ) as $card ) {
+		$f      = static fn( $name ) => amour_page_field( $name, $card['id'] );
+		$photos = array_values( array_filter( (array) $f( 'room_gallery' ), static fn( $p ) => ! empty( $p['photo'] ) ) );
+		$facts  = array_values( array_filter( (array) $f( 'list_facts' ), static fn( $row ) => ! empty( $row['label'] ) ) );
+		$name   = (string) $f( 'list_name' );
+		$list[] = array(
+			'url'   => $card['url'],
+			'name'  => $name ? $name : get_the_title( $card['id'] ),
+			'text'  => (string) $f( 'list_text' ),
+			'facts' => $facts,
+			'photo' => $photos ? (int) $photos[0]['photo'] : $card['photo'],
+			'price' => $card['price'],
+		);
+	}
+	return $list;
+}

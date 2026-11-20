@@ -48,6 +48,7 @@ function amour_assets() {
 		'amour-menu'        => 'assets/css/components/menu.css',
 		'amour-transitions' => 'assets/css/components/transitions.css',
 		'amour-footer'      => 'assets/css/components/footer.css',
+		'amour-search'      => 'assets/css/components/search.css',
 	);
 	$deps = array();
 	foreach ( $css as $handle => $file ) {
@@ -86,6 +87,11 @@ function amour_assets() {
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
+	}
+
+	// The Rooms page.
+	if ( amour_is_page( 'rooms' ) ) {
+		wp_enqueue_style( 'amour-rooms', get_theme_file_uri( 'assets/css/rooms.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 	}
 
 	// Room pages (the pages under /rooms/).
@@ -155,18 +161,20 @@ function amour_html_theme( $output ) {
 add_filter( 'language_attributes', 'amour_html_theme' );
 
 /**
- * Every page under /rooms/ uses the room template (page-room.php), in every language.
+ * Every page under /rooms/ uses the room template (page-room.php), and the Rooms page page-rooms.php,
+ * in every language.
  *
  * @param string $template Template WordPress picked.
  * @return string
  */
 function amour_room_template( $template ) {
+	$file = '';
 	if ( is_page() && amour_is_room() ) {
-		$room = locate_template( 'page-room.php' );
-		if ( $room ) {
-			return $room;
-		}
+		$file = 'page-room.php';
+	} elseif ( is_page() && amour_is_page( 'rooms' ) ) {
+		$file = 'page-rooms.php'; // the Rooms page under its German address too
 	}
-	return $template;
+	$found = $file ? locate_template( $file ) : '';
+	return $found ? $found : $template;
 }
 add_filter( 'template_include', 'amour_room_template' );
