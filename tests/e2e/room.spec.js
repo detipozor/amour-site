@@ -134,4 +134,81 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 		await page.locator( '[data-room-more]' ).click();
 		await expect( page.locator( '#am-room-all' ) ).toBeVisible();
 	} );
+
+	test( 'Almyrida, Crete: the camera comes down from the whole island to the hotel, then the road and nearby places', async ( { page } ) => {
+		await page.goto( ROOM );
+		const loc = page.locator( '[data-loc]' );
+		const canvas = page.locator( '[data-loc-canvas]' );
+		await putAt( page, '[data-loc]', 0 );
+		await expect( loc ).toHaveClass( /is-pinned/ );
+		expect( await cssVar( canvas, '--z' ) ).toBeCloseTo( 0.6, 1 );
+		expect( await cssVar( canvas, '--road-o' ) ).toBe( 0 );
+		await expect( loc ).toHaveClass( /is-hint/ );
+		await expect( page.locator( '[data-dock]' ) ).toHaveClass( /is-away/ ); // the map is under the capsule
+
+		await at( page, await page.evaluate( () => document.querySelector( '[data-loc]' ).getBoundingClientRect().top + window.scrollY + 760 ) );
+		expect( await cssVar( canvas, '--z' ) ).toBeCloseTo( 6.2, 1 );
+		expect( await cssVar( canvas, '--road-o' ) ).toBe( 1 );
+		expect( await cssVar( canvas, '--spot-o' ) ).toBe( 1 );
+		const hotel = await page.locator( '.am-loc__spot.is-main' ).boundingBox();
+		expect( hotel.x ).toBeGreaterThan( 0 );
+		expect( hotel.y ).toBeGreaterThan( 0 );
+		expect( hotel.y + hotel.height ).toBeLessThan( 900 );
+
+		const card = page.locator( '[data-loc-card]' );
+		await expect( card.getByRole( 'heading', { level: 2 } ) ).toHaveText( 'Almyrida, Crete' );
+		await expect( card.locator( 'dt' ) ).toHaveText( [ 'Almyrida beach', 'Chania old town', 'Rethymno', 'Chania airport' ] );
+		await expect( card.locator( 'dd' ).first() ).toHaveText( '1.2 km on foot' );
+		await expect( card.locator( '.am-loc__maps' ) ).toHaveText( '[Open in Google Maps]' ); // no link yet: a placeholder on the test copy
+		await expect( page.locator( '.am-loc__spot .am-loc__long', { hasText: 'Chania · 40 min' } ) ).toBeVisible();
+	} );
+
+	test( 'Other ways to stay: the other two rooms and the villa, with a link to all of them', async ( { page } ) => {
+		await page.goto( ROOM );
+		const others = page.locator( '[data-others]' );
+		await expect( others.getByRole( 'heading', { level: 2 } ) ).toHaveText( 'Other ways to stay' );
+		await expect( others.locator( '.am-other__name' ) ).toHaveText( [ 'Standard', 'Superior', 'Villa Eudora' ] );
+		await expect( others.locator( '.am-other__link' ).first() ).toHaveAttribute( 'href', /\/rooms\/standard-queen-room\/$/ );
+		await expect( others.locator( '.am-other__link' ).last() ).toHaveAccessibleName( /^Villa Eudora/ );
+		await expect( others.getByRole( 'link', { name: /All rooms and the villa/ } ) ).toHaveAttribute( 'href', /\/rooms\/$/ );
+		await others.scrollIntoViewIfNeeded();
+		await expect( others ).toHaveClass( /is-in/ );
+	} );
+
+	test( 'phone: the map card below the island, short labels, the hotel in view all the way', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await page.goto( ROOM );
+		await putAt( page, '[data-loc]', 0 );
+		let hotel = await page.locator( '.am-loc__spot.is-main' ).boundingBox();
+		expect( hotel.x ).toBeGreaterThanOrEqual( 0 );
+		const card = await page.locator( '[data-loc-card]' ).boundingBox();
+		expect( Math.round( card.x ) ).toBe( 16 );
+		expect( Math.round( card.y + card.height ) ).toBe( 844 - 24 );
+		await at( page, await page.evaluate( () => document.querySelector( '[data-loc]' ).getBoundingClientRect().top + window.scrollY + 760 ) );
+		hotel = await page.locator( '.am-loc__spot.is-main' ).boundingBox();
+		expect( hotel.x ).toBeGreaterThanOrEqual( 0 );
+		expect( hotel.y + hotel.height ).toBeLessThan( card.y );
+		await expect( page.locator( '.am-loc__short', { hasText: /^Chania$/ } ) ).toBeVisible();
+	} );
+
+	test( 'reduced motion: the map stands close in, nothing pinned', async ( { page } ) => {
+		await page.emulateMedia( { reducedMotion: 'reduce' } );
+		await page.goto( ROOM );
+		const loc = page.locator( '[data-loc]' );
+		await loc.scrollIntoViewIfNeeded();
+		await expect( loc ).not.toHaveClass( /is-pinned/ );
+		expect( await cssVar( page.locator( '[data-loc-canvas]' ), '--z' ) ).toBeCloseTo( 6.2, 1 );
+		expect( await cssVar( page.locator( '[data-loc-canvas]' ), '--road-o' ) ).toBe( 1 );
+		await expect( page.locator( '[data-loc-card]' ) ).toBeVisible();
+	} );
+
+	test( 'axe: the map close in and Other ways to stay', async ( { page } ) => {
+		await page.goto( ROOM );
+		await at( page, await page.evaluate( () => document.querySelector( '[data-loc]' ).getBoundingClientRect().top + window.scrollY + 760 ) );
+		await page.waitForTimeout( 800 );
+		expect( await axe( page ) ).toEqual( [] );
+		await page.locator( '[data-others]' ).scrollIntoViewIfNeeded();
+		await page.waitForTimeout( 1000 );
+		expect( await axe( page ) ).toEqual( [] );
+	} );
 } );

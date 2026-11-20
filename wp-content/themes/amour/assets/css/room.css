@@ -377,7 +377,360 @@
 	transition-delay: calc(0.15s + var(--i) * 0.05s);
 }
 
-/* ---------- 4. The price capsule ---------- */
+/* ---------- 4. Almyrida, Crete: the map comes down to the hotel (location.js) ---------- */
+.am-loc {
+	position: relative;
+	margin-bottom: 180px;
+}
+
+.am-loc.is-pinned {
+	height: calc(100vh + 760px);
+}
+
+.am-loc__pin {
+	position: relative;
+	height: 900px;
+	max-height: 100svh;
+	min-height: 640px;
+	overflow: hidden;
+	background: var(--c-map-sea);
+	color: var(--text);
+}
+
+.am-loc.is-pinned .am-loc__pin {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	max-height: none;
+}
+
+/* The camera: the whole map, moved and scaled so the point --fx, --fy (in %) sits in the middle, at zoom --z */
+.am-loc__canvas {
+	--fx: 25;
+	--fy: 31;
+	--z: 6.2;
+	--u: 0.27;
+	--road-o: 1;
+	--spot-o: 1;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	aspect-ratio: 2400 / 1029;
+	transform-origin: 0 0;
+	transform: translate(calc(var(--fx) * var(--z) * -1%), calc(var(--fy) * var(--z) * -1%)) scale(var(--z));
+}
+
+.am-loc__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	user-select: none;
+	pointer-events: none;
+}
+
+.am-loc__roads {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	opacity: var(--road-o);
+}
+
+/* Widths in map units (--u: one screen pixel at this zoom), so the road stays 3 px wide however close */
+.am-loc__road {
+	fill: none;
+	stroke: var(--accent);
+	stroke-dasharray: calc(var(--u) * 7px) calc(var(--u) * 6px);
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: calc(var(--u) * 3px);
+}
+
+.am-loc__road--case {
+	stroke: var(--c-limestone);
+	stroke-dasharray: none;
+	stroke-width: calc(var(--u) * 7px);
+}
+
+.am-loc__spot {
+	--half: 5px;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	opacity: var(--spot-o);
+	transform: translate(calc(-1 * var(--half)), -50%) scale(calc(1 / var(--z)));
+	transform-origin: var(--half) 50%;
+}
+
+.am-loc__spot[data-side="row-reverse"] {
+	flex-direction: row-reverse;
+	transform: translate(calc(-100% + var(--half)), -50%) scale(calc(1 / var(--z)));
+	transform-origin: calc(100% - var(--half)) 50%;
+}
+
+.am-loc__spot.is-main {
+	--half: 9px;
+	opacity: 1;
+}
+
+.am-loc__dot {
+	display: block;
+	flex: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--text);
+	box-shadow: 0 0 0 3px var(--c-limestone);
+}
+
+.am-loc__spot.is-main .am-loc__dot {
+	width: 18px;
+	height: 18px;
+	background: var(--accent);
+}
+
+.am-loc__label {
+	display: block;
+	padding: 6px 12px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	color: var(--text);
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.am-loc__short {
+	display: none;
+}
+
+.am-loc__spot.is-main .am-loc__label {
+	background: var(--accent);
+	color: var(--c-limestone);
+}
+
+.am-loc__hint {
+	position: absolute;
+	bottom: 40px;
+	left: var(--gutter);
+	color: var(--text);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	opacity: 0;
+	transition: opacity 0.4s;
+}
+
+.am-loc.is-hint .am-loc__hint {
+	opacity: 1;
+}
+
+.am-loc__card {
+	position: absolute;
+	top: calc(50% + 44px);
+	right: var(--gutter);
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: min(380px, 34vw);
+	max-height: calc(100% - 200px);
+	overflow: auto;
+	padding: min(36px, 4vh) 32px;
+	border-radius: var(--r-card);
+	background: var(--surface);
+	box-shadow: 0 24px 48px color-mix(in srgb, var(--c-dark) 16%, transparent);
+	transform: translateY(-50%);
+}
+
+.am-loc.is-ready:not(.is-in) .am-loc__card {
+	opacity: 0;
+	filter: blur(8px);
+	transform: translateY(calc(-50% + 16px));
+}
+
+.am-loc.is-in .am-loc__card {
+	transition:
+		opacity 0.4s ease,
+		transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+		filter 0.4s ease;
+}
+
+.am-loc__title {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.08;
+	letter-spacing: -0.025em;
+}
+
+.am-loc__text {
+	font-size: 16px;
+	line-height: 1.55;
+}
+
+.am-loc__near {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+
+.am-loc__near > div {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 11px 0;
+	font-size: 15px;
+}
+
+.am-loc__near dd {
+	margin: 0;
+	color: var(--text-2);
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.am-loc__maps,
+.am-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 30px;
+	padding: 0 12px;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-dark) 7%, transparent);
+	color: var(--text);
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.am-loc__maps {
+	align-self: flex-start;
+	min-height: 44px;
+	padding: 0 16px;
+	text-decoration: none;
+}
+
+a.am-loc__maps:hover {
+	background: color-mix(in srgb, var(--c-dark) 12%, transparent);
+	color: var(--text);
+}
+
+/* ---------- 5. Other ways to stay ---------- */
+.am-others {
+	padding: var(--sec-m) var(--gutter);
+}
+
+.am-others__in {
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-others__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px 24px;
+	margin-bottom: 40px;
+}
+
+.am-others__title {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: clamp(36px, 3.9vw, 56px);
+	font-weight: 400;
+	line-height: 1.08;
+	letter-spacing: -0.03em;
+}
+
+.am-others__all {
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.am-others__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-other__link {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	color: var(--text);
+	text-decoration: none;
+}
+
+.am-other__link:hover {
+	color: var(--text);
+}
+
+.am-other__pic {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 5;
+	border-radius: var(--r-media);
+	background: var(--line);
+}
+
+.am-other__pic img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.am-other__link:hover .am-other__pic img {
+	transform: scale(1.05);
+}
+
+.am-other__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px 12px;
+}
+
+.am-other__name {
+	font-family: var(--font-head);
+	font-size: 24px;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+}
+
+.am-other__facts {
+	display: flex;
+	gap: 6px;
+}
+
+.am-others.is-ready:not(.is-in) .am-other {
+	opacity: 0;
+	filter: blur(8px);
+	transform: translateY(16px);
+}
+
+.am-others.is-in .am-other {
+	transition:
+		opacity 0.4s ease,
+		transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+		filter 0.4s ease;
+	transition-delay: calc(var(--i) * 0.08s);
+}
+
+/* ---------- 6. The price capsule ---------- */
 .am-dock {
 	position: sticky;
 	bottom: 24px;
@@ -486,6 +839,60 @@
 		grid-template-columns: minmax(0, 1fr);
 	}
 
+	/* The island higher, the card under it, full width */
+	.am-loc__canvas {
+		top: 38%;
+	}
+
+	.am-loc__card,
+	.am-loc.is-ready:not(.is-in) .am-loc__card {
+		top: auto;
+		right: var(--gutter);
+		bottom: 24px;
+		left: var(--gutter);
+		width: auto;
+		max-height: 58%;
+		padding: 24px;
+		transform: none;
+	}
+
+	.am-loc__title {
+		font-size: 32px;
+	}
+
+	.am-loc__long {
+		display: none;
+	}
+
+	.am-loc__short {
+		display: inline;
+	}
+
+	.am-loc__spot[data-side-phone="row"] {
+		flex-direction: row;
+		transform: translate(calc(-1 * var(--half)), -50%) scale(calc(1 / var(--z)));
+		transform-origin: var(--half) 50%;
+	}
+
+	.am-loc__spot[data-side-phone="row-reverse"] {
+		flex-direction: row-reverse;
+		transform: translate(calc(-100% + var(--half)), -50%) scale(calc(1 / var(--z)));
+		transform-origin: calc(100% - var(--half)) 50%;
+	}
+
+	.am-loc__hint {
+		display: none;
+	}
+
+	.am-loc {
+		margin-bottom: 96px;
+	}
+
+	.am-others__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 40px;
+	}
+
 	.am-dock__pill {
 		justify-content: space-between;
 		width: 100%;
@@ -502,7 +909,8 @@
 	}
 
 	.am-dock__pill,
-	.am-room__plus {
+	.am-room__plus,
+	.am-other__pic img {
 		transition: none;
 	}
 }

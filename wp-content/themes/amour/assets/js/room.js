@@ -76,6 +76,22 @@ if ( page ) {
 		);
 		seen.observe( details );
 
+		/* Other ways to stay: the cards come up one after another */
+		const others = document.querySelector( '[data-others]' );
+		if ( others ) {
+			others.classList.add( 'is-ready' );
+			const seenOthers = new IntersectionObserver(
+				( [ entry ] ) => {
+					if ( entry.isIntersecting ) {
+						others.classList.add( 'is-in' );
+						seenOthers.disconnect();
+					}
+				},
+				{ rootMargin: '0px 0px -15% 0px' }
+			);
+			seenOthers.observe( others );
+		}
+
 		/* 1–2. Photos and colour, every frame the page scrolls */
 		let dark = null;
 		onScroll( ( { vh, vw } ) => {

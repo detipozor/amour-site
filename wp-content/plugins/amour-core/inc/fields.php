@@ -196,6 +196,60 @@ function amour_register_fields() {
 
 	acf_add_local_field_group(
 		array(
+			'key'                   => 'group_amour_location',
+			'title'                 => __( 'Location card (map on the room and villa pages)', 'amour' ),
+			'location'              => $on_settings_page,
+			'menu_order'            => 6,
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				array(
+					'key'   => 'field_amour_location_title',
+					'name'  => 'amour_location_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_location_text',
+					'name'  => 'amour_location_text',
+					'label' => __( 'Text', 'amour' ),
+					'type'  => 'textarea',
+					'rows'  => 2,
+				),
+				array(
+					'key'          => 'field_amour_location_near',
+					'name'         => 'amour_location_near',
+					'label'        => __( 'Nearby, with distance or drive time', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a place', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_location_near_place',
+							'name'  => 'place',
+							'label' => __( 'Place', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_amour_location_near_value',
+							'name'  => 'value',
+							'label' => __( 'How far', 'amour' ),
+							'type'  => 'text',
+						),
+					),
+				),
+				array(
+					'key'          => 'field_amour_maps_url',
+					'name'         => 'amour_maps_url',
+					'label'        => __( 'The hotel on Google Maps (link)', 'amour' ),
+					'type'         => 'url',
+					'instructions' => __( 'A plain link that opens Google Maps; nothing from Google loads on the site.', 'amour' ),
+				),
+			),
+		)
+	);
+
+	acf_add_local_field_group(
+		array(
 			'key'                   => 'group_amour_ratings',
 			'title'                 => __( 'Booking.com ratings', 'amour' ),
 			'location'              => $on_settings_page,
