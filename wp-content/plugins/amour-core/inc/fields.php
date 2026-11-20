@@ -148,6 +148,54 @@ function amour_register_fields() {
 
 	acf_add_local_field_group(
 		array(
+			'key'                   => 'group_amour_stay',
+			'title'                 => __( 'Stay rules (every room page, All details)', 'amour' ),
+			'location'              => $on_settings_page,
+			'menu_order'            => 5,
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				array(
+					'key'          => 'field_amour_checkin',
+					'name'         => 'amour_checkin',
+					'label'        => __( 'Check-in from', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example 14:00.', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_checkout',
+					'name'         => 'amour_checkout',
+					'label'        => __( 'Check-out by', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example 11:00.', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_stay_rules',
+					'name'         => 'amour_stay_rules',
+					'label'        => __( 'More rules for every room', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a rule', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_stay_rule_label',
+							'name'  => 'label',
+							'label' => __( 'What', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_amour_stay_rule_value',
+							'name'  => 'value',
+							'label' => __( 'Value', 'amour' ),
+							'type'  => 'text',
+						),
+					),
+				),
+			),
+		)
+	);
+
+	acf_add_local_field_group(
+		array(
 			'key'                   => 'group_amour_ratings',
 			'title'                 => __( 'Booking.com ratings', 'amour' ),
 			'location'              => $on_settings_page,

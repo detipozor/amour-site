@@ -3,7 +3,7 @@
  * Card of a room type or the villa (HANDOFF, section 9: "Тип номера", "Вилла" — name, facts, price "from",
  * card photo and the photo for the hover). Shown on the home page now, on Rooms and "Other ways to stay" later.
  * The room pages are the pages under /rooms/; the villa is the page /villa-eudora/ (in every language).
- * The rest of the room and villa model comes with their pages (week 3).
+ * The page itself (first screen, photos, description, details): amour_register_room_fields() below.
  *
  * @package Amour
  */
@@ -29,13 +29,11 @@ function amour_core_page_ids( $path ) {
 }
 
 /**
- * Register the card field group.
+ * Where the room fields show: the pages under /rooms/ and the villa page, in every language.
+ *
+ * @return array<int, array<int, array<string, string>>> ACF location rules.
  */
-function amour_register_card_fields() {
-	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
-		return;
-	}
-
+function amour_room_locations() {
 	$location = array();
 	foreach ( amour_core_page_ids( 'rooms' ) as $id ) {
 		$location[] = array(
@@ -55,6 +53,18 @@ function amour_register_card_fields() {
 			),
 		);
 	}
+	return $location;
+}
+
+/**
+ * Register the card field group.
+ */
+function amour_register_card_fields() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+
+	$location = amour_room_locations();
 	if ( ! $location ) {
 		return;
 	}
@@ -132,3 +142,151 @@ function amour_register_card_fields() {
 	);
 }
 add_action( 'acf/init', 'amour_register_card_fields' );
+
+/**
+ * Fields of a room page (HANDOFF, section 9: "Тип номера"; board Room-*, design/generators/room_template.html):
+ * the wine first screen, the photos that rise over it, the description and the details.
+ * The villa page uses the same fields and adds its own (week 3, villa).
+ */
+function amour_register_room_fields() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	$location = amour_room_locations();
+	if ( ! $location ) {
+		return;
+	}
+	$tab = static fn( $key, $label ) => array(
+		'key'       => 'field_amour_room_tab_' . $key,
+		'label'     => $label,
+		'type'      => 'tab',
+		'placement' => 'top',
+	);
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_amour_room',
+			'title'                 => __( 'Room page', 'amour' ),
+			'location'              => $location,
+			'position'              => 'acf_after_title',
+			'hide_on_screen'        => array( 'the_content' ),
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				$tab( 'screen', __( 'First screen', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_room_kicker',
+					'name'         => 'room_kicker',
+					'label'        => __( 'Label above the name (capitals, up to 4 words)', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example Queen room · pool view. The big name is the short name of the card.', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_room_meta',
+					'name'         => 'room_meta',
+					'label'        => __( 'Line under the name', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example 32 m² · queen bed · kitchen · sitting corner · terrace.', 'amour' ),
+				),
+				array(
+					'key'           => 'field_amour_room_cue',
+					'name'          => 'room_cue',
+					'label'         => __( 'Hint to scroll', 'amour' ),
+					'type'          => 'text',
+					'default_value' => 'Scroll to see the room',
+				),
+				$tab( 'photos', __( 'Photos', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_room_gallery',
+					'name'         => 'room_gallery',
+					'label'        => __( 'Photos that rise over the name, in order', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a photo', 'amour' ),
+					'instructions' => __( 'Upright photos come out narrower, wide ones wider; they take turns left and right.', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'           => 'field_amour_room_photo',
+							'name'          => 'photo',
+							'label'         => __( 'Photo', 'amour' ),
+							'type'          => 'image',
+							'return_format' => 'id',
+							'preview_size'  => 'thumbnail',
+						),
+						array(
+							'key'   => 'field_amour_room_photo_caption',
+							'name'  => 'caption',
+							'label' => __( 'Caption', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'           => 'field_amour_room_photo_shape',
+							'name'          => 'shape',
+							'label'         => __( 'Shape', 'amour' ),
+							'type'          => 'select',
+							'choices'       => array(
+								'auto'    => __( 'As the photo', 'amour' ),
+								'wide'    => __( 'Wide, 3:2', 'amour' ),
+								'upright' => __( 'Upright, 3:4', 'amour' ),
+							),
+							'default_value' => 'auto',
+						),
+					),
+				),
+				$tab( 'details', __( 'Details', 'amour' ) ),
+				array(
+					'key'           => 'field_amour_room_details_title',
+					'name'          => 'room_details_title',
+					'label'         => __( 'Heading', 'amour' ),
+					'type'          => 'text',
+					'default_value' => 'Room details',
+				),
+				array(
+					'key'           => 'field_amour_room_desc_label',
+					'name'          => 'room_desc_label',
+					'label'         => __( 'Label of the description (capitals)', 'amour' ),
+					'type'          => 'text',
+					'default_value' => 'The room',
+				),
+				array(
+					'key'   => 'field_amour_room_description',
+					'name'  => 'room_description',
+					'label' => __( 'Description', 'amour' ),
+					'type'  => 'textarea',
+					'rows'  => 4,
+				),
+				array(
+					'key'          => 'field_amour_room_facts',
+					'name'         => 'room_facts',
+					'label'        => __( 'Details', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a detail', 'amour' ),
+					'instructions' => __( 'The first six are the key facts. The rest open with All details, followed by the rules for every room from Hotel settings.', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_room_fact_label',
+							'name'  => 'label',
+							'label' => __( 'What', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_amour_room_fact_value',
+							'name'  => 'value',
+							'label' => __( 'Value', 'amour' ),
+							'type'  => 'text',
+						),
+					),
+				),
+				$tab( 'booking', __( 'Booking', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_room_engine_code',
+					'name'         => 'room_engine_code',
+					'label'        => __( 'Room code in the booking engine', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'Filled in when the booking engine is connected (week 5). The price "from" is in the card on the right.', 'amour' ),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'amour_register_room_fields' );
