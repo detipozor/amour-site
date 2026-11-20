@@ -136,7 +136,7 @@ function amour_register_place_fields() {
 					'name'         => 'meta',
 					'label'        => __( 'Distance and time', 'amour' ),
 					'type'         => 'text',
-					'instructions' => __( 'For example 25 km · 40 min by car.', 'amour' ),
+					'instructions' => __( 'For example 23 km · 40 min by car.', 'amour' ),
 				),
 				array(
 					'key'   => 'field_amour_place_text',

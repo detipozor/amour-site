@@ -429,3 +429,172 @@ test.describe( 'home: map (HANDOFF, section 6.8)', () => {
 		await expect( cardTitle( page ) ).toHaveText( 'Lake Kournas' );
 	} );
 } );
+
+test.describe( 'home: guest reviews (HANDOFF, sections 5 and 6.9)', () => {
+	const reviewsAt = ( k ) => {
+		const el = document.querySelector( '[data-reviews]' );
+		return el.getBoundingClientRect().top + window.scrollY + k * el.offsetHeight - window.innerHeight / 3;
+	};
+	const shift = ( page ) => page.locator( '[data-reviews-track]' ).evaluate( ( el ) => Number( /translate3d\((-?[\d.]+)px/.exec( el.style.transform )?.[ 1 ] ?? 0 ) );
+	const pause = ( page ) => page.locator( '[data-reviews-pause]' );
+
+	test( 'the heading, the Booking.com score and the reviews from the admin; the loop copies are hidden', async ( { page } ) => {
+		await page.goto( '/' );
+		await expect( page.getByRole( 'heading', { name: 'Guest reviews: 9.1 out of 10 on Booking.com' } ) ).toBeAttached();
+		await expect( page.locator( '.am-reviews__score' ) ).toHaveText( '9.1 out of 10 on Booking.com · [number] reviews' );
+		const cards = page.locator( '.am-review:not(.is-copy)' );
+		await expect( cards ).toHaveCount( 5 );
+		await expect( cards.first().locator( '.am-review__text' ) ).toHaveText( /^“\[A real review from Booking\.com, word for word/ );
+		await expect( cards.first().locator( '.am-review__name' ) ).toHaveText( '[Name] · [Country]' );
+		await expect( cards.first().locator( '.am-review__when' ) ).toHaveText( '[Month Year] · Deluxe Queen Room' );
+		await expect( cards.last().locator( '.am-review__when' ) ).toHaveText( /Villa Eudora$/ );
+		const copies = page.locator( '.am-review.is-copy' );
+		await expect( copies ).toHaveCount( 5 );
+		await expect( copies.first() ).toHaveAttribute( 'aria-hidden', 'true' );
+		await expect( copies.first() ).toHaveAttribute( 'inert', '' );
+	} );
+
+	test( 'the cards drift right to left and stand still after Pause (WCAG 2.2.2)', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, reviewsAt, 0.5 );
+		await page.mouse.move( 5, 5 );
+		await page.waitForTimeout( 1200 ); // speeding up
+		const a = await shift( page );
+		await page.waitForTimeout( 1000 );
+		const b = await shift( page );
+		expect( a - b ).toBeGreaterThan( 25 ); // about 34 px a second, to the left
+		expect( a - b ).toBeLessThan( 45 );
+		await expect( page.locator( '[data-reviews]' ) ).toHaveClass( /is-moving/ );
+		await expect( page.locator( '.am-review.is-on' ) ).toHaveCount( 1 );
+
+		await pause( page ).click();
+		await expect( pause( page ) ).toHaveText( 'Play reviews' );
+		await page.mouse.move( 5, 5 );
+		await page.waitForTimeout( 300 );
+		const c = await shift( page );
+		await page.waitForTimeout( 800 );
+		expect( await shift( page ) ).toBe( c );
+		await expect( page.locator( '[data-reviews]' ) ).not.toHaveClass( /is-moving/ ); // stopped, every card reads in full
+
+		await pause( page ).click();
+		await expect( pause( page ) ).toHaveText( 'Pause reviews' );
+		await page.mouse.move( 5, 5 );
+		await page.waitForTimeout( 1500 );
+		expect( await shift( page ) ).toBeLessThan( c );
+	} );
+
+	test( 'the pointer over the cards stops them', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, reviewsAt, 0.5 );
+		const box = await page.locator( '[data-reviews-scroller]' ).boundingBox();
+		await page.mouse.move( box.x + box.width / 2, box.y + box.height / 2 );
+		await page.waitForTimeout( 1500 ); // it slows down softly
+		const a = await shift( page );
+		await page.waitForTimeout( 800 );
+		expect( await shift( page ) ).toBe( a );
+		await page.mouse.move( 5, 5 );
+		await page.waitForTimeout( 1500 );
+		expect( await shift( page ) ).toBeLessThan( a );
+	} );
+
+	test( 'the keyboard: focus on the strip stops it, the arrows move it one card', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, reviewsAt, 0.5 );
+		await page.mouse.move( 5, 5 );
+		await pause( page ).focus();
+		await page.keyboard.press( 'Tab' );
+		const scroller = page.locator( '[data-reviews-scroller]' );
+		await expect( scroller ).toBeFocused();
+		await expect( scroller ).toHaveAccessibleName( 'Review cards: arrow keys move them' );
+		await page.waitForTimeout( 1500 );
+		const a = await shift( page );
+		await page.waitForTimeout( 500 );
+		expect( await shift( page ) ).toBe( a );
+		const step = await page.locator( '.am-review' ).evaluateAll( ( cards ) => cards[ 1 ].offsetLeft - cards[ 0 ].offsetLeft );
+		await page.keyboard.press( 'ArrowRight' );
+		expect( Math.round( a - ( await shift( page ) ) ) ).toBe( step );
+	} );
+
+	test( 'phone: a finger stops the strip and drags it', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await page.goto( '/' );
+		await goTo( page, reviewsAt, 0.5 );
+		const scroller = page.locator( '[data-reviews-scroller]' );
+		const touch = ( type, clientX ) => scroller.evaluate( ( el, [ t, cx ] ) => el.dispatchEvent( new PointerEvent( t, { pointerType: 'touch', clientX: cx, bubbles: true } ) ), [ type, clientX ] );
+		await touch( 'pointerdown', 300 );
+		const a = await shift( page );
+		await touch( 'pointermove', 200 );
+		await page.waitForTimeout( 100 );
+		expect( Math.round( a - ( await shift( page ) ) ) ).toBe( 100 );
+		await page.waitForTimeout( 600 );
+		const held = await shift( page );
+		await page.waitForTimeout( 400 );
+		expect( await shift( page ) ).toBe( held ); // the finger is still down
+		await touch( 'pointerup', 200 );
+	} );
+
+	test( 'axe: the reviews after Pause and Book direct', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, reviewsAt, 0.5 );
+		await pause( page ).click();
+		await page.waitForTimeout( 900 );
+		await page.locator( '[data-direct]' ).scrollIntoViewIfNeeded();
+		await expect( page.locator( '[data-direct]' ) ).toHaveClass( /is-in/ );
+		await page.waitForTimeout( 1200 );
+		const results = await new AxeBuilder( { page } )
+			.include( '[data-reviews]' )
+			.include( '[data-direct]' )
+			.withTags( [ 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa' ] )
+			.analyze();
+		const serious = results.violations.filter( ( v ) => [ 'serious', 'critical' ].includes( v.impact ) );
+		expect( serious.map( ( v ) => `${ v.id }: ${ v.help } (${ v.nodes.length })` ) ).toEqual( [] );
+	} );
+
+	test( 'reduced motion: the cards stand, no Pause button, they scroll by hand', async ( { page } ) => {
+		await page.emulateMedia( { reducedMotion: 'reduce' } );
+		await page.goto( '/' );
+		const reviews = page.locator( '[data-reviews]' );
+		await reviews.scrollIntoViewIfNeeded();
+		await expect( reviews ).not.toHaveClass( /is-live/ );
+		await expect( pause( page ) ).toBeHidden();
+		await expect( page.locator( '.am-review.is-copy' ).first() ).toBeHidden();
+		const scrolled = await page.locator( '[data-reviews-scroller]' ).evaluate( ( el ) => {
+			el.scrollLeft = 400;
+			return el.scrollLeft;
+		} );
+		expect( scrolled ).toBeGreaterThan( 300 );
+		// The keyboard reaches the strip and scrolls it with the arrows.
+		await page.locator( '[data-reviews-scroller]' ).evaluate( ( el ) => {
+			el.scrollLeft = 0;
+			el.focus();
+		} );
+		await page.keyboard.press( 'ArrowRight' );
+		await expect.poll( () => page.locator( '[data-reviews-scroller]' ).evaluate( ( el ) => el.scrollLeft ) ).toBeGreaterThan( 0 );
+	} );
+} );
+
+test.describe( 'home: Book direct (HANDOFF, section 6.10)', () => {
+	test( 'the text comes up once in view; Check dates goes to the date search', async ( { page } ) => {
+		await page.goto( '/' );
+		const block = page.locator( '[data-direct]' );
+		await expect( block ).toHaveClass( /is-ready/ );
+		await expect( block ).not.toHaveClass( /is-in/ );
+		await block.scrollIntoViewIfNeeded();
+		await expect( block ).toHaveClass( /is-in/ );
+		await expect( block.getByRole( 'heading', { level: 2 } ) ).toHaveText( 'Same price, straight to us' );
+		await expect( block.locator( '.am-eyebrow' ) ).toHaveText( 'Book direct' );
+		await block.getByRole( 'link', { name: 'Check dates' } ).click();
+		await expect( page ).toHaveURL( /#book$/ );
+		await expect( page.locator( '#book' ) ).toBeInViewport();
+	} );
+
+	test( 'phone: the text keeps to the gutters', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await page.goto( '/' );
+		const text = page.locator( '[data-direct-text]' );
+		await text.scrollIntoViewIfNeeded();
+		const box = await text.boundingBox();
+		expect( Math.round( box.x ) ).toBe( 16 );
+		expect( Math.round( box.x + box.width ) ).toBe( 390 - 16 );
+	} );
+} );

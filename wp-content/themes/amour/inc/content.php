@@ -407,3 +407,51 @@ function amour_map_places() {
 	}
 	return $places;
 }
+
+/**
+ * Reviews for the home page (Reviews in the admin, in their order). Reviews stay in the language they were
+ * written in, so both languages show the same ones; the room name follows the page language.
+ * A review still in square brackets (the board's placeholder) never reaches the live site.
+ *
+ * @return array<int, array{name: string, initial: string, who: string, when: string, text: string, score: string, source: string}>
+ */
+function amour_reviews() {
+	if ( ! post_type_exists( 'amour_review' ) || ! function_exists( 'get_field' ) ) {
+		return array();
+	}
+	$live    = 'production' === wp_get_environment_type();
+	$joined  = static fn( $parts ) => implode( ' · ', array_filter( $parts, static fn( $p ) => '' !== $p ) );
+	$reviews = array();
+	$posts   = get_posts(
+		array(
+			'post_type'      => 'amour_review',
+			'posts_per_page' => 30,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+		)
+	);
+	foreach ( $posts as $post ) {
+		$text = trim( (string) get_field( 'text', $post->ID ) );
+		if ( '' === $text || ! get_field( 'on_home', $post->ID ) || ( $live && str_starts_with( $text, '[' ) ) ) {
+			continue;
+		}
+		$name  = amour_or_placeholder( get_the_title( $post ), 'Name' );
+		$room  = (int) get_field( 'room', $post->ID, false );
+		$room  = $room && function_exists( 'pll_get_post' ) && pll_get_post( $room ) ? pll_get_post( $room ) : $room;
+		$month = (string) get_field( 'month', $post->ID );
+		$month = $month ? date_i18n( 'F Y', strtotime( $month ) ) : '';
+		$score = get_field( 'score', $post->ID );
+		$first = function_exists( 'mb_substr' ) ? mb_substr( $name, 0, 1 ) : substr( $name, 0, 1 );
+
+		$reviews[] = array(
+			'name'    => $name,
+			'initial' => '' === $first || '[' === $first ? '·' : $first,
+			'who'     => $joined( array( $name, amour_or_placeholder( (string) get_field( 'country', $post->ID ), 'Country' ) ) ),
+			'when'    => $joined( array( amour_or_placeholder( $month, 'Month Year' ), $room ? get_the_title( $room ) : '' ) ),
+			'text'    => $text,
+			'score'   => is_numeric( $score ) ? rtrim( rtrim( number_format( (float) $score, 1, '.', '' ), '0' ), '.' ) : amour_or_placeholder( '', 'Score' ),
+			'source'  => (string) get_field( 'source', $post->ID ),
+		);
+	}
+	return $reviews;
+}

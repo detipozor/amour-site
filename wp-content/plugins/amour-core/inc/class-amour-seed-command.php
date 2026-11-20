@@ -148,6 +148,7 @@ class Amour_Seed_Command {
 		$this->cards( $ids );
 		$this->places();
 		$this->home_map( $ids );
+		$this->reviews( $ids );
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -651,6 +652,16 @@ class Amour_Seed_Command {
 			'field_amour_home_villa_meta'       => 'Up to 11 guests · own pool · 256 m²',
 			'field_amour_home_villa_button'     => 'Discover the villa',
 			'field_amour_home_villa_link'       => 'Weddings and gatherings',
+			'field_amour_home_reviews_title'    => 'Guest reviews',
+			'field_amour_home_direct_label'     => 'Book direct',
+			'field_amour_home_direct_title'     => 'Same price, straight to us',
+			'field_amour_home_direct_text'      => 'The same price as on Booking.com, with the hosts a message away.',
+			'field_amour_home_direct_link'      => array(
+				'title'  => 'Check dates',
+				'url'    => '#book',
+				'target' => '',
+			),
+			'field_amour_home_direct_photo'     => $this->attachment_by_blob( '16e92c844577adb7ca466250469281b0' ),
 		);
 		foreach ( $values as $key => $value ) {
 			$field = acf_get_field( $key );
@@ -739,6 +750,51 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_card_photo_hover', $this->attachment_by_blob( $card[3] ), $id );
 		}
 		WP_CLI::log( 'Cards: rooms and villa' );
+	}
+
+	/**
+	 * Reviews: the five placeholders of the board Main-v2-b, in square brackets, until the real ones from
+	 * Booking.com are copied in word for word. Never made up (CLAUDE.md, HANDOFF section 19).
+	 * Runs only when there are no reviews yet.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function reviews( $ids ) {
+		if ( ! function_exists( 'update_field' ) || ! post_type_exists( 'amour_review' ) ) {
+			return;
+		}
+		$any = get_posts(
+			array(
+				'post_type'      => 'amour_review',
+				'post_status'    => 'any',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+		if ( $any ) {
+			return;
+		}
+		$reviews = array(
+			array( 'deluxe-queen-room', '[A real review from Booking.com, word for word: about the court and an early game before breakfast.]' ),
+			array( 'superior-queen-room', '[A real review, word for word: about the kitchen, the terrace and slow mornings.]' ),
+			array( 'standard-queen-room', '[A real review, word for word: about the hosts and their tips for the area.]' ),
+			array( 'deluxe-queen-room', '[A real review, word for word: about the walk down to Almyrida beach and the tavernas.]' ),
+			array( 'villa-eudora', '[A real review from a family or group at Villa Eudora, word for word.]' ),
+		);
+		foreach ( $reviews as $i => $review ) {
+			$id = wp_insert_post(
+				array(
+					'post_type'   => 'amour_review',
+					'post_status' => 'publish',
+					'post_title'  => '[Name]',
+					'menu_order'  => $i + 1,
+				)
+			);
+			update_field( 'field_amour_review_text', $review[1], $id );
+			update_field( 'field_amour_review_room', $ids[ $review[0] ] ?? 0, $id );
+			update_field( 'field_amour_review_home', 1, $id );
+		}
+		WP_CLI::log( 'Reviews: placeholders from the board' );
 	}
 
 	/**
