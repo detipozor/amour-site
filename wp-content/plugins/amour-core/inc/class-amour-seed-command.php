@@ -643,6 +643,12 @@ class Amour_Seed_Command {
 			'field_amour_home_day_title'        => 'A day at Amour',
 			'field_amour_home_day_frames'       => $this->day_frames(),
 			'field_amour_home_rooms_title'      => "Stay like\nyou live here",
+			'field_amour_home_villa_words'      => "Room for\neveryone",
+			'field_amour_home_villa_captions'   => "The villa next door\n4 minutes from the hotel",
+			'field_amour_home_villa_title'      => "Five bedrooms,\none long table",
+			'field_amour_home_villa_meta'       => 'Up to 11 guests · own pool · 256 m²',
+			'field_amour_home_villa_button'     => 'Discover the villa',
+			'field_amour_home_villa_link'       => 'Weddings and gatherings',
 		);
 		foreach ( $values as $key => $value ) {
 			$field = acf_get_field( $key );
