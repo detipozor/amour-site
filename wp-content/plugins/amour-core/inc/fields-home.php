@@ -122,6 +122,67 @@ function amour_register_home_fields() {
 					'return_format' => 'id',
 					'preview_size'  => 'medium',
 				),
+
+				$tab( 'day', __( 'A day at Amour', 'amour' ) ),
+				array(
+					'key'   => 'field_amour_home_day_title',
+					'name'  => 'home_day_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'          => 'field_amour_home_day_frames',
+					'name'         => 'home_day_frames',
+					'label'        => __( 'Frames of the day, from morning to evening', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'block',
+					'min'          => 2,
+					'button_label' => __( 'Add a frame', 'amour' ),
+					'instructions' => __( 'The frame in the middle is the colour arch; scrolling moves the strip one frame at a time.', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'           => 'field_amour_home_day_photo',
+							'name'          => 'photo',
+							'label'         => __( 'Photo (upright)', 'amour' ),
+							'type'          => 'image',
+							'return_format' => 'id',
+							'preview_size'  => 'thumbnail',
+							'required'      => 1,
+						),
+						array(
+							'key'       => 'field_amour_home_day_label',
+							'name'      => 'label',
+							'label'     => __( 'Time of day (capitals, up to 4 words)', 'amour' ),
+							'type'      => 'text',
+							'maxlength' => 30,
+						),
+						array(
+							'key'   => 'field_amour_home_day_line',
+							'name'  => 'line',
+							'label' => __( 'Line under the arch', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'           => 'field_amour_home_day_focus',
+							'name'          => 'focus',
+							'label'         => __( 'Focus of the photo in the arch', 'amour' ),
+							'type'          => 'text',
+							'default_value' => '50% 50%',
+							'instructions'  => __( 'Across and down, for example 42% 50%. Moves the visible part of the photo.', 'amour' ),
+						),
+					),
+				),
+
+				$tab( 'rooms', __( 'Rooms', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_home_rooms_title',
+					'name'         => 'home_rooms_title',
+					'label'        => __( 'Heading of the rooms grid', 'amour' ),
+					'type'         => 'textarea',
+					'rows'         => 2,
+					'new_lines'    => '',
+					'instructions' => __( 'Each line is a line of the heading. The cards come from the room pages and the villa page (their "Card" fields).', 'amour' ),
+				),
 			),
 		)
 	);

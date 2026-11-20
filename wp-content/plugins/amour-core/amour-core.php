@@ -17,6 +17,7 @@ define( 'AMOUR_CORE_DIR', __DIR__ );
 
 require_once AMOUR_CORE_DIR . '/inc/fields.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-home.php';
+require_once AMOUR_CORE_DIR . '/inc/fields-rooms.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once AMOUR_CORE_DIR . '/inc/class-amour-seed-command.php';

@@ -15,6 +15,8 @@ get_header();
 	get_template_part( 'template-parts/home/search' );
 	get_template_part( 'template-parts/home/phrase' );
 	get_template_part( 'template-parts/home/estate' );
+	get_template_part( 'template-parts/home/day' );
+	get_template_part( 'template-parts/home/rooms' );
 	?>
 </main>
 <?php

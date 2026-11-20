@@ -293,3 +293,73 @@ function amour_page_field( $name, $post_id = null ) {
 	}
 	return $value;
 }
+
+/**
+ * Stroke icons of the card facts (board Main-v2, IC).
+ */
+const AMOUR_FACT_ICONS = array(
+	'area'   => 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5',
+	'guests' => 'M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM5 20.5v-1A5.5 5.5 0 0 1 10.5 14h3a5.5 5.5 0 0 1 5.5 5.5v1',
+	'bed'    => 'M3 19V6M3 15h18v4M21 15v-2a3 3 0 0 0-3-3h-8v5M6.5 12.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z',
+	'water'  => 'M3 9c2 0 2-1.5 4.5-1.5S10 9 12 9s2-1.5 4.5-1.5S19 9 21 9M3 15c2 0 2-1.5 4.5-1.5S10 15 12 15s2-1.5 4.5-1.5S19 15 21 15',
+);
+
+/**
+ * Cards of the rooms (pages under /rooms/, in menu order) and of the villa, in the current language.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function amour_cards() {
+	$rooms = get_page_by_path( 'rooms' );
+	$pages = array();
+	if ( $rooms ) {
+		$parent = function_exists( 'pll_get_post' ) && pll_get_post( $rooms->ID ) ? pll_get_post( $rooms->ID ) : $rooms->ID;
+		$pages  = get_pages(
+			array(
+				'parent'      => $parent,
+				'sort_column' => 'menu_order,post_title',
+			)
+		);
+	}
+	$villa = get_page_by_path( 'villa-eudora' );
+	if ( $villa ) {
+		$villa_id = function_exists( 'pll_get_post' ) && pll_get_post( $villa->ID ) ? pll_get_post( $villa->ID ) : $villa->ID;
+		$pages[]  = get_post( $villa_id );
+	}
+
+	$cards = array();
+	foreach ( $pages as $page ) {
+		$is_villa = $villa && in_array( (int) $page->ID, array_map( 'intval', amour_core_ids_or_self( $villa->ID ) ), true );
+		$name     = (string) amour_page_field( 'card_name', $page->ID );
+		$facts    = array_values( array_filter( (array) amour_page_field( 'card_facts', $page->ID ), static fn( $f ) => ! empty( $f['text'] ) ) );
+		$price    = amour_page_field( 'price_from', $page->ID );
+		$price    = $is_villa ? '' : amour_or_placeholder( null === $price || '' === $price ? '' : (string) $price, 'price' );
+		$say      = array_merge( wp_list_pluck( $facts, 'text' ), $price ? array( sprintf( /* translators: %s: price, e.g. 95 */ __( 'from €%s a night', 'amour' ), $price ) ) : array() );
+
+		$cards[] = array(
+			'url'   => get_permalink( $page ),
+			'name'  => $name ? $name : get_the_title( $page ),
+			'facts' => $facts,
+			'price' => $price,
+			'label' => ( $name ? $name : get_the_title( $page ) ) . ( $say ? ', ' . implode( ', ', $say ) : '' ),
+			'photo' => (int) amour_page_field( 'card_photo', $page->ID ),
+			'hover' => (int) amour_page_field( 'card_photo_hover', $page->ID ),
+			'villa' => $is_villa,
+		);
+	}
+	return $cards;
+}
+
+/**
+ * A page id with its translations (or just the id without Polylang).
+ *
+ * @param int $id Page id.
+ * @return int[]
+ */
+function amour_core_ids_or_self( $id ) {
+	$ids = array( (int) $id );
+	if ( function_exists( 'pll_get_post_translations' ) ) {
+		$ids = array_merge( $ids, array_map( 'intval', array_values( pll_get_post_translations( $id ) ) ) );
+	}
+	return $ids;
+}

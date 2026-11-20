@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.5.0' );
+define( 'AMOUR_VERSION', '0.6.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -67,17 +67,19 @@ function amour_assets() {
 		'@amour/home-hero'     => array( 'assets/js/home/hero.js', array( '@amour/motion' ) ),
 		'@amour/home-phrase'   => array( 'assets/js/home/phrase.js', array( '@amour/motion' ) ),
 		'@amour/home-estate'   => array( 'assets/js/home/estate.js', array( '@amour/motion' ) ),
+		'@amour/home-day'      => array( 'assets/js/home/day.js', array( '@amour/motion' ) ),
+		'@amour/parallax'      => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
 	}
 
-	$enqueue = array( '@amour/transitions', '@amour/header', '@amour/menu', '@amour/footer', '@amour/smooth-scroll', '@amour/date-search' );
+	$enqueue = array( '@amour/transitions', '@amour/header', '@amour/menu', '@amour/footer', '@amour/smooth-scroll', '@amour/date-search', '@amour/parallax' );
 
 	// Home page: its own styles and one module per scroll-linked block.
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
-		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate' );
+		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day' );
 	}
 
 	foreach ( $enqueue as $id ) {
