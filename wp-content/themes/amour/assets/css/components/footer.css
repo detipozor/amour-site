@@ -1,0 +1,305 @@
+/*
+ * Footer (boards About and Villa-v2-b; design/ds/components/bundle.css .am-footer;
+ * design/css/amour-motion.css .footer-live, .olive-field, .footer-word; phone rules from amour-soft.css).
+ */
+
+.am-footer {
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	margin-top: calc(-1 * var(--r-media)); /* tucks under the block above by its corner radius */
+	border-radius: var(--r-media) var(--r-media) 0 0;
+	background: var(--deep);
+	color: var(--on-deep);
+	content-visibility: auto;
+	contain-intrinsic-size: auto 760px;
+}
+
+/* ---------- The field: olive pictograms with a slow diagonal wave ---------- */
+
+.am-footer__field {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	grid-template-columns: repeat(var(--olive-cols, 16), minmax(0, 1fr));
+	gap: 40px 30px;
+	align-content: start;
+	padding: 40px;
+	pointer-events: none;
+}
+
+/* Each olive is the package pictogram used as a mask, so its colour is a token */
+.am-footer__field span {
+	display: block;
+	aspect-ratio: 1576 / 756;
+	background: var(--accent);
+	opacity: 0.06;
+	-webkit-mask: url("../../brand/olive.svg") center / contain no-repeat;
+	mask: url("../../brand/olive.svg") center / contain no-repeat;
+	animation: am-olive-wave 7s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+	animation-delay: var(--d, 0s);
+	animation-play-state: paused;
+}
+
+.am-footer.is-live .am-footer__field span {
+	animation-play-state: running;
+}
+
+@keyframes am-olive-wave {
+
+	0%,
+	100% {
+		opacity: 0.05;
+		transform: translateY(0) scale(1);
+	}
+
+	45% {
+		opacity: 0.2;
+		transform: translateY(-6px) scale(1.06);
+	}
+}
+
+/* Brighter olives around the cursor (assets/js/footer.js sets --mx, --my). The mask is a soft spot, not a colour gradient. */
+.am-footer__lens {
+	/* stylelint-disable function-disallowed-list, color-no-hex -- alpha mask, not a visible colour */
+	-webkit-mask-image: radial-gradient(circle 240px at var(--mx, -999px) var(--my, -999px), #000 0%, #0000008c 45%, #0000 100%);
+	mask-image: radial-gradient(circle 240px at var(--mx, -999px) var(--my, -999px), #000 0%, #0000008c 45%, #0000 100%);
+	/* stylelint-enable function-disallowed-list, color-no-hex */
+}
+
+.am-footer__lens span {
+	opacity: 0.55;
+	animation: none;
+}
+
+/* Villa: the sea lines (their own slow drift lives inside the SVG and stops with reduced motion) */
+.am-footer__field--waves {
+	display: block;
+	padding: 0;
+}
+
+.am-footer__field--waves img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.16;
+}
+
+.am-footer__field--waves.am-footer__lens img {
+	opacity: 0.85;
+}
+
+/* ---------- Content ---------- */
+
+.am-footer__in {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: 220px 1fr;
+	gap: var(--space-6) var(--space-8);
+	max-width: calc(var(--container) + 2 * var(--gutter));
+	margin-inline: auto;
+	padding: var(--space-12) var(--gutter) var(--space-4);
+}
+
+.am-footer .am-footer__brand {
+	display: block;
+	align-self: start;
+	color: var(--on-deep-accent);
+}
+
+.am-footer__brand .am-logo {
+	width: 200px;
+	height: auto;
+}
+
+.am-footer.am-footer--villa .am-footer__brand {
+	color: var(--on-deep);
+}
+
+/* On a desktop the footer links sit in the rhythm of the board; on a phone they grow to 44 px (below) */
+.am-footer nav a {
+	display: inline;
+	min-height: 0;
+}
+
+.am-footer--villa .am-footer__brand .am-logo {
+	width: 200px;
+}
+
+.am-footer__cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: var(--space-4);
+}
+
+.am-footer__col .am-eyebrow {
+	margin-bottom: var(--space-2);
+}
+
+.am-footer ul {
+	display: grid;
+	gap: var(--space-1);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-footer__in a,
+.am-footer__in span {
+	color: var(--on-deep);
+	font-size: 16px;
+	line-height: 1.5;
+	text-decoration: none;
+}
+
+.am-footer a:hover {
+	color: var(--on-deep-accent);
+}
+
+.am-footer .am-footer__social {
+	display: flex;
+	flex-wrap: wrap;
+	grid-column: 2;
+	gap: var(--space-3);
+}
+
+.am-footer .am-footer__social a,
+.am-footer .am-footer__social span {
+	color: var(--on-deep-accent);
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.am-footer__legal {
+	display: flex;
+	flex-wrap: wrap;
+	grid-column: 1 / -1;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-2);
+	margin-top: var(--space-4);
+}
+
+.am-footer__legal p {
+	margin: 0;
+	color: color-mix(in srgb, var(--on-deep) 72%, transparent);
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.am-footer__legal .am-footer__legal-small {
+	font-size: 13px;
+}
+
+.am-footer .am-footer__legal ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+}
+
+.am-footer .am-footer__legal a {
+	color: color-mix(in srgb, var(--on-deep) 72%, transparent);
+	font-size: 14px;
+}
+
+/* The big word rises in as the footer comes into view (--fw from assets/js/footer.js) */
+.am-footer .am-footer__word {
+	position: relative;
+	z-index: 1;
+	display: block;
+	width: calc(100% - 2 * var(--gutter));
+	height: auto;
+	margin: 0 auto;
+	padding-bottom: var(--space-4);
+	color: var(--on-deep);
+	opacity: var(--fw, 1);
+	transform: translateY(calc((1 - var(--fw, 1)) * 80px));
+	transition:
+		transform 1.2s var(--ease-soft),
+		opacity 1.2s var(--ease-soft);
+}
+
+/* ---------- Tablet and phone ---------- */
+
+@media (max-width: 768px) {
+
+	.am-footer__in {
+		grid-template-columns: minmax(0, 1fr);
+		padding-top: var(--space-8);
+	}
+
+	.am-footer .am-footer__social {
+		grid-column: 1;
+	}
+}
+
+@media (max-width: 760px) {
+
+	/* No cursor on a phone: a band of light runs over the olives by itself */
+	.am-footer__field {
+		--olive-cols: 6;
+		gap: 26px 22px;
+		padding: 24px;
+	}
+
+	.am-footer__lens {
+		/* stylelint-disable function-disallowed-list, color-no-hex -- alpha mask, not a visible colour */
+		-webkit-mask-image: linear-gradient(100deg, #0000 36%, #000 50%, #0000 64%);
+		mask-image: linear-gradient(100deg, #0000 36%, #000 50%, #0000 64%);
+		/* stylelint-enable function-disallowed-list, color-no-hex */
+		-webkit-mask-size: 300% 100%;
+		mask-size: 300% 100%;
+		-webkit-mask-repeat: no-repeat;
+		mask-repeat: no-repeat;
+		animation: am-olive-sweep 6.5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+		animation-play-state: paused;
+	}
+
+	.am-footer.is-live .am-footer__lens {
+		animation-play-state: running;
+	}
+
+	/* Links from 44 px for a finger (HANDOFF, section 5) */
+	.am-footer .am-footer__col ul {
+		gap: 0;
+	}
+
+	.am-footer ul a,
+	.am-footer .am-footer__social a,
+	.am-footer .am-footer__legal a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+	}
+
+	.am-footer .am-footer__social,
+	.am-footer .am-footer__legal ul {
+		gap: 0 24px;
+	}
+}
+
+@keyframes am-olive-sweep {
+
+	from {
+		-webkit-mask-position: 100% 0;
+		mask-position: 100% 0;
+	}
+
+	to {
+		-webkit-mask-position: 0% 0;
+		mask-position: 0% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-footer__field span,
+	.am-footer__lens {
+		animation: none;
+	}
+
+	.am-footer .am-footer__word {
+		transition: none;
+	}
+}

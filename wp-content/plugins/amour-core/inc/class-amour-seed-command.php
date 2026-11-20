@@ -60,8 +60,9 @@ class Amour_Seed_Command {
 				array( 'Contact', 'contacts', 'eb955df83df1fb9544e16d9e70a299c1', 'Directions, phone and WhatsApp.' ),
 			),
 		),
+		// Footer columns: the menu name is the column title on the site (boards About and Villa-v2-b).
 		'footer-stay'     => array(
-			'Footer: Stay',
+			'Stay',
 			array(
 				array( 'Rooms', 'rooms' ),
 				array( 'Villa Eudora', 'villa-eudora' ),
@@ -69,15 +70,32 @@ class Amour_Seed_Command {
 			),
 		),
 		'footer-discover' => array(
-			'Footer: Discover',
+			'Discover',
 			array(
 				array( 'Crete guide', 'crete-guide' ),
 				array( 'About us', 'about-us' ),
 				array( 'FAQ', 'questions' ),
 			),
 		),
+		'footer-villa'    => array(
+			'The villa',
+			array(
+				array( 'The house', 'villa-eudora#the-house' ),
+				array( 'Weddings and gatherings', 'villa-eudora#gatherings' ),
+				array( 'Check dates', 'book' ),
+			),
+		),
+		'footer-around'   => array(
+			'Around',
+			array(
+				array( 'Court and pool at the hotel', 'court-and-pool' ),
+				array( 'Crete guide', 'crete-guide' ),
+				array( 'Questions', 'questions' ),
+				array( 'Amour Relax Hotel', 'home' ),
+			),
+		),
 		'legal'           => array(
-			'Footer: legal links',
+			'Legal',
 			array(
 				array( 'Privacy', 'privacy-policy' ),
 				array( 'Cookies', 'cookies' ),
@@ -85,6 +103,11 @@ class Amour_Seed_Command {
 			),
 		),
 	);
+
+	/**
+	 * Menu names used by earlier versions of this command, removed on the next run.
+	 */
+	const OLD_MENUS = array( 'Footer: Stay', 'Footer: Discover', 'Footer: legal links' );
 
 	/**
 	 * Fill the site with pages, menus, languages and photos.
@@ -398,6 +421,13 @@ class Amour_Seed_Command {
 	private function menus( $ids ) {
 		$locations = get_theme_mod( 'nav_menu_locations', array() );
 
+		foreach ( self::OLD_MENUS as $old ) {
+			$old_menu = wp_get_nav_menu_object( $old );
+			if ( $old_menu ) {
+				wp_delete_nav_menu( $old_menu->term_id );
+			}
+		}
+
 		foreach ( self::MENUS as $location => $menu ) {
 			list( $name, $items ) = $menu;
 
@@ -417,6 +447,11 @@ class Amour_Seed_Command {
 				if ( str_starts_with( $target, '#' ) ) {
 					$data['menu-item-type'] = 'custom';
 					$data['menu-item-url']  = home_url( '/' . $target );
+				} elseif ( str_contains( $target, '#' ) ) {
+					// A section of another page, e.g. villa-eudora#the-house (the section ids come with the page).
+					list( $slug, $anchor )  = explode( '#', $target, 2 );
+					$data['menu-item-type'] = 'custom';
+					$data['menu-item-url']  = get_permalink( $ids[ $slug ] ) . '#' . $anchor;
 				} else {
 					$data['menu-item-type']      = 'post_type';
 					$data['menu-item-object']    = 'page';
@@ -536,11 +571,27 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * "Hotel" settings page: the social links that are public on the old site (docs/09, section 2).
-	 * Phone, WhatsApp, email and company details stay empty: they are filled in at the content stage.
+	 * "Hotel" settings page: only what is already public — the social links of the old site and the Booking.com
+	 * score (docs/09, section 2), the place name and the villa score from the boards. Phone, WhatsApp, email,
+	 * company details and licences stay empty: they are filled in at the content stage. Never overwrites a value.
 	 */
 	private function hotel_settings() {
-		if ( ! function_exists( 'update_field' ) || get_field( 'amour_social', 'option' ) ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+
+		$simple = array(
+			'field_amour_place'               => array( 'amour_place', 'Almyrida, Crete' ),
+			'field_amour_booking_score'       => array( 'amour_booking_score', '9.1' ),
+			'field_amour_villa_booking_score' => array( 'amour_villa_booking_score', '9.5' ),
+		);
+		foreach ( $simple as $key => $field ) {
+			if ( ! get_field( $field[0], 'option' ) ) {
+				update_field( $key, $field[1], 'option' );
+			}
+		}
+
+		if ( get_field( 'amour_social', 'option' ) ) {
 			return;
 		}
 		update_field(

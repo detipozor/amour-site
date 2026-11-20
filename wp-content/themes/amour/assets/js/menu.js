@@ -38,9 +38,11 @@ if ( menu && button ) {
 		}
 	};
 
+	// The first link gets focus when the menu opens; that must not undo a name the pointer has already chosen.
+	let placingFocus = false;
 	links.forEach( ( link, i ) => {
 		link.addEventListener( 'mouseenter', () => setActive( i ) );
-		link.addEventListener( 'focus', () => setActive( i ) );
+		link.addEventListener( 'focus', () => ! placingFocus && setActive( i ) );
 	} );
 
 	const outside = () => [ ...document.body.children ].filter( ( el ) => el !== menu && ! el.matches( 'script, .am-curtain, #wpadminbar' ) );
@@ -56,7 +58,11 @@ if ( menu && button ) {
 		outside().forEach( ( el ) => ( el.inert = true ) );
 		const current = links.findIndex( ( link ) => link.hasAttribute( 'aria-current' ) );
 		setActive( current > -1 ? current : 0 );
-		setTimeout( () => ( links[ 0 ] || menu.querySelector( '[data-menu-close]' ) ).focus( { preventScroll: true } ), reduceMotion() ? 0 : 400 );
+		setTimeout( () => {
+			placingFocus = true;
+			( links[ 0 ] || menu.querySelector( '[data-menu-close]' ) ).focus( { preventScroll: true } );
+			placingFocus = false;
+		}, reduceMotion() ? 0 : 400 );
 	};
 
 	const close = ( instant = false ) => {

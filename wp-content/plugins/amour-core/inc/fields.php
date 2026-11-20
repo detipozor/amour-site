@@ -69,10 +69,121 @@ function amour_register_fields() {
 					'type'  => 'email',
 				),
 				array(
-					'key'   => 'field_amour_address',
-					'name'  => 'amour_address',
-					'label' => __( 'Address', 'amour' ),
+					'key'          => 'field_amour_address',
+					'name'         => 'amour_address',
+					'label'        => __( 'Address', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'Postal address of the hotel; shown in the legal line of the footer.', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_place',
+					'name'         => 'amour_place',
+					'label'        => __( 'Short place name', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'In the footer under Contact, links to the Contact page. For example: Almyrida, Crete.', 'amour' ),
+				),
+			),
+		)
+	);
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_amour_villa',
+			'title'                 => __( 'Villa Eudora (footer of the villa pages)', 'amour' ),
+			'location'              => $on_settings_page,
+			'menu_order'            => 2,
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				array(
+					'key'   => 'field_amour_villa_company',
+					'name'  => 'amour_villa_company',
+					'label' => __( 'Owner company', 'amour' ),
 					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_villa_address',
+					'name'  => 'amour_villa_address',
+					'label' => __( 'Address of the villa', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_villa_gemi',
+					'name'  => 'amour_villa_gemi',
+					'label' => __( 'ΓΕΜΗ of the owner company', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_villa_afm',
+					'name'  => 'amour_villa_afm',
+					'label' => __( 'ΑΦΜ of the owner company', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'          => 'field_amour_villa_social',
+					'name'         => 'amour_villa_social',
+					'label'        => __( 'Networks of the villa', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a network', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'      => 'field_amour_villa_social_label',
+							'name'     => 'label',
+							'label'    => __( 'Name', 'amour' ),
+							'type'     => 'text',
+							'required' => 1,
+						),
+						array(
+							'key'      => 'field_amour_villa_social_url',
+							'name'     => 'url',
+							'label'    => __( 'Address', 'amour' ),
+							'type'     => 'url',
+							'required' => 1,
+						),
+					),
+				),
+			),
+		)
+	);
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_amour_ratings',
+			'title'                 => __( 'Booking.com ratings', 'amour' ),
+			'location'              => $on_settings_page,
+			'menu_order'            => 4,
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				array(
+					'key'          => 'field_amour_booking_score',
+					'name'         => 'amour_booking_score',
+					'label'        => __( 'Hotel: score', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'As on Booking.com, for example 9.1. Update it when it changes.', 'amour' ),
+				),
+				array(
+					'key'   => 'field_amour_booking_reviews',
+					'name'  => 'amour_booking_reviews',
+					'label' => __( 'Hotel: number of reviews', 'amour' ),
+					'type'  => 'number',
+				),
+				array(
+					'key'   => 'field_amour_booking_url',
+					'name'  => 'amour_booking_url',
+					'label' => __( 'Hotel: page on Booking.com', 'amour' ),
+					'type'  => 'url',
+				),
+				array(
+					'key'   => 'field_amour_villa_booking_score',
+					'name'  => 'amour_villa_booking_score',
+					'label' => __( 'Villa: score', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_villa_booking_url',
+					'name'  => 'amour_villa_booking_url',
+					'label' => __( 'Villa: page on Booking.com', 'amour' ),
+					'type'  => 'url',
 				),
 			),
 		)
@@ -125,7 +236,7 @@ function amour_register_fields() {
 			'key'                   => 'group_amour_social',
 			'title'                 => __( 'Social networks', 'amour' ),
 			'location'              => $on_settings_page,
-			'menu_order'            => 2,
+			'menu_order'            => 3,
 			'instruction_placement' => 'field',
 			'fields'                => array(
 				array(

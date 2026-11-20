@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.3.0' );
+define( 'AMOUR_VERSION', '0.4.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -28,6 +28,8 @@ function amour_setup() {
 			'primary'         => __( 'Main menu (overlay)', 'amour' ),
 			'footer-stay'     => __( 'Footer: Stay', 'amour' ),
 			'footer-discover' => __( 'Footer: Discover', 'amour' ),
+			'footer-villa'    => __( 'Villa footer: first column', 'amour' ),
+			'footer-around'   => __( 'Villa footer: second column', 'amour' ),
 			'legal'           => __( 'Footer: legal links', 'amour' ),
 		)
 	);
@@ -45,6 +47,7 @@ function amour_assets() {
 		'amour-header'      => 'assets/css/components/header.css',
 		'amour-menu'        => 'assets/css/components/menu.css',
 		'amour-transitions' => 'assets/css/components/transitions.css',
+		'amour-footer'      => 'assets/css/components/footer.css',
 	);
 	$deps = array();
 	foreach ( $css as $handle => $file ) {
@@ -58,7 +61,9 @@ function amour_assets() {
 	wp_register_script_module( '@amour/menu', get_theme_file_uri( 'assets/js/menu.js' ), array( '@amour/transitions' ), AMOUR_VERSION );
 	wp_enqueue_script_module( '@amour/transitions' );
 	wp_enqueue_script_module( '@amour/header' );
+	wp_register_script_module( '@amour/footer', get_theme_file_uri( 'assets/js/footer.js' ), array(), AMOUR_VERSION );
 	wp_enqueue_script_module( '@amour/menu' );
+	wp_enqueue_script_module( '@amour/footer' );
 }
 add_action( 'wp_enqueue_scripts', 'amour_assets' );
 
