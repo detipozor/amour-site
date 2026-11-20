@@ -144,6 +144,7 @@ class Amour_Seed_Command {
 
 		$this->menus( $ids );
 		$this->hotel_settings();
+		$this->home_content( $ids['home'] );
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -488,8 +489,8 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * Import the photos (WebP and JPG) with alt text and notes from assets/manifest.csv.
-	 * Logos, maps and patterns are theme files, videos come with the home page.
+	 * Import the photos (WebP and JPG) and videos (MP4) with alt text and notes from assets/manifest.csv.
+	 * Logos, maps and patterns are theme files.
 	 *
 	 * @param string $dir Folder with the photos.
 	 */
@@ -513,7 +514,7 @@ class Amour_Seed_Command {
 				continue;
 			}
 			$row = array_combine( $header, $cells );
-			if ( ! in_array( $row['type'], array( 'webp', 'jpg' ), true ) ) {
+			if ( ! in_array( $row['type'], array( 'webp', 'jpg', 'mp4' ), true ) ) {
 				continue;
 			}
 
@@ -616,6 +617,36 @@ class Amour_Seed_Command {
 			'option'
 		);
 		WP_CLI::log( 'Hotel settings: social links' );
+	}
+
+	/**
+	 * Home page fields with the texts and pictures of the boards Main-v2 and Main-v2-b.
+	 * Fills only empty fields, so edits in the admin survive a new run.
+	 *
+	 * @param int $home_id Home page id.
+	 */
+	private function home_content( $home_id ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		$values = array(
+			'field_amour_home_hero_line'        => 'A nine-room hotel with its own court, among olive groves above Almyrida bay, Crete.',
+			'field_amour_home_hero_note'        => 'Open from March to October.',
+			'field_amour_home_hero_video_label' => 'Drone view of Amour Relax Hotel among olive groves above Almyrida bay',
+			'field_amour_home_hero_poster'      => $this->attachment_by_blob( 'e9a2a1196453b8875bd0d496802f1fb9' ),
+			'field_amour_home_hero_video'       => $this->attachment_by_blob( 'b0bf041382d31b29afb9ccc9eb79bcef' ),
+			'field_amour_home_phrase'           => 'Nine rooms among olive groves. Your own kitchen, your own terrace, your own slow morning.',
+			'field_amour_home_estate_label'     => 'The estate',
+			'field_amour_home_estate_title'     => 'Stone terraces among olive groves',
+			'field_amour_home_estate_photo'     => $this->attachment_by_blob( 'c7c14ed99aa8d9c4132d959c37050de9' ),
+		);
+		foreach ( $values as $key => $value ) {
+			$field = acf_get_field( $key );
+			if ( $value && $field && ! get_field( $field['name'], $home_id, false ) ) {
+				update_field( $key, $value, $home_id );
+			}
+		}
+		WP_CLI::log( 'Home page: texts and pictures' );
 	}
 
 	/**
