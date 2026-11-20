@@ -291,12 +291,11 @@ nav a {
 
 /* ---------- Logos and icons ---------- */
 
+/* The logo takes the colour of where it stands: the header, the menu or the footer set it */
 .am-logo {
 	display: block;
 	width: auto;
 	height: 44px;
-	color: var(--accent);
-	forced-color-adjust: auto;
 }
 
 .am-icon {

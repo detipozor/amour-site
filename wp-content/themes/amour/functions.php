@@ -7,10 +7,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.2.0' );
+define( 'AMOUR_VERSION', '0.3.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
+require_once get_theme_file_path( 'inc/content.php' );
 
 /**
  * Theme supports and menu locations.
@@ -38,17 +39,57 @@ add_action( 'after_setup_theme', 'amour_setup' );
  */
 function amour_assets() {
 	$css  = array(
-		'amour-tokens' => 'assets/css/tokens.css',
-		'amour-base'   => 'assets/css/base.css',
-		'amour-button' => 'assets/css/components/button.css',
+		'amour-tokens'      => 'assets/css/tokens.css',
+		'amour-base'        => 'assets/css/base.css',
+		'amour-button'      => 'assets/css/components/button.css',
+		'amour-header'      => 'assets/css/components/header.css',
+		'amour-menu'        => 'assets/css/components/menu.css',
+		'amour-transitions' => 'assets/css/components/transitions.css',
 	);
 	$deps = array();
 	foreach ( $css as $handle => $file ) {
 		wp_enqueue_style( $handle, get_theme_file_uri( $file ), $deps, AMOUR_VERSION );
 		$deps = array( $handle );
 	}
+
+	// JavaScript modules, one per block (HANDOFF, section 1). Imports use these ids, so each file loads once.
+	wp_register_script_module( '@amour/transitions', get_theme_file_uri( 'assets/js/transitions.js' ), array(), AMOUR_VERSION );
+	wp_register_script_module( '@amour/header', get_theme_file_uri( 'assets/js/header.js' ), array(), AMOUR_VERSION );
+	wp_register_script_module( '@amour/menu', get_theme_file_uri( 'assets/js/menu.js' ), array( '@amour/transitions' ), AMOUR_VERSION );
+	wp_enqueue_script_module( '@amour/transitions' );
+	wp_enqueue_script_module( '@amour/header' );
+	wp_enqueue_script_module( '@amour/menu' );
 }
 add_action( 'wp_enqueue_scripts', 'amour_assets' );
+
+/**
+ * The arriving half of a page change (assets/js/transitions.js) has to start before the first paint,
+ * so a few lines go straight into <head>.
+ */
+function amour_arrival_script() {
+	wp_print_inline_script_tag(
+		"try{var k='amour-arrive',a=sessionStorage.getItem(k);sessionStorage.removeItem(k);" .
+		"if((a==='curtain'||a==='soft')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)" .
+		"{document.documentElement.classList.add('is-arriving','is-arriving--'+a)}}catch(e){}"
+	);
+}
+add_action( 'wp_head', 'amour_arrival_script', 0 );
+
+/**
+ * Start loading the next page while the pointer rests on a link (WordPress speculative loading),
+ * so the page is ready when the curtain lifts.
+ *
+ * @param array|null $config Speculation rules configuration.
+ * @return array|null
+ */
+function amour_speculation( $config ) {
+	if ( is_array( $config ) ) {
+		$config['mode']      = 'prefetch';
+		$config['eagerness'] = 'moderate';
+	}
+	return $config;
+}
+add_filter( 'wp_speculation_rules_configuration', 'amour_speculation' );
 
 /**
  * Preload the main text font (HANDOFF, section 13): Instrument Sans, Latin.

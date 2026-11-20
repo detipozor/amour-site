@@ -1,0 +1,249 @@
+/*
+ * Site header (HANDOFF, section 5; prototype: design/prototype-shell/build_site.py, .hdr).
+ * Three pieces pinned at the top with no bar behind them: Menu, the logo, language + Book.
+ * State classes come from assets/js/header.js:
+ *   is-light  the logo turns limestone over a photo or a dark block;
+ *   is-shift  over a block split down the middle (photo | text) the logo moves over the photo half;
+ *   is-edge   the logo sits on an edge between light and dark and steps out until it has passed;
+ *   is-up     reading down the page: the logo steps aside (Menu and Book stay);
+ *   is-swap   the logo fades while it changes between Amour and Eudora.
+ */
+
+.am-header {
+	position: fixed;
+	inset: 0 0 auto;
+	z-index: 900;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	align-items: center;
+	padding: 20px var(--gutter);
+	pointer-events: none;
+	transition: opacity 0.35s;
+}
+
+.am-header > * {
+	pointer-events: auto;
+}
+
+.admin-bar .am-header {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+
+	.admin-bar .am-header {
+		top: 46px;
+	}
+}
+
+/* Pills: Menu and language, limestone glass */
+.am-header__pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	min-height: 44px;
+	padding: 0 18px 0 14px;
+	border: 0;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-limestone) 84%, transparent);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-dark) 10%, transparent);
+	color: var(--c-dark);
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 1;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-backdrop-filter: blur(14px) saturate(1.15);
+	backdrop-filter: blur(14px) saturate(1.15);
+	transition: background-color 0.3s;
+}
+
+.am-header__pill:hover {
+	background: color-mix(in srgb, var(--c-paper) 96%, transparent);
+	color: var(--c-dark);
+}
+
+.am-header__pill:focus-visible {
+	box-shadow: var(--focus-ring);
+}
+
+.am-header__menu {
+	justify-self: start;
+}
+
+.am-header__menu-icon {
+	display: block;
+	flex: none;
+}
+
+/* Logo: two files (Amour, Eudora) on top of each other; the house in data-brand shows */
+.am-header__logo {
+	position: relative;
+	display: block;
+	width: 248px;
+	height: 44px;
+	color: var(--accent);
+	transition:
+		transform 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+		opacity 0.35s ease,
+		color 0.45s;
+}
+
+.am-header__logo .am-logo {
+	position: absolute;
+	top: -16px;
+	left: 50%;
+	height: 76px;
+	transform: translateX(-50%);
+	transition: opacity 0.45s;
+}
+
+.am-header[data-brand="amour"] .am-logo--eudora-horizontal,
+.am-header[data-brand="eudora"] .am-logo--amour-horizontal {
+	opacity: 0;
+}
+
+.am-header[data-brand="eudora"] .am-header__logo {
+	color: var(--c-sea);
+}
+
+.am-header.is-light .am-header__logo {
+	color: var(--c-limestone);
+	filter: drop-shadow(0 1px 8px color-mix(in srgb, var(--c-ink) 16%, transparent));
+}
+
+.am-header.is-shift .am-header__logo {
+	transform: translateX(max(-25vw, calc(304px - 50vw)));
+}
+
+.am-header.is-edge .am-header__logo {
+	opacity: 0;
+	transform: translateY(-10px);
+	pointer-events: none;
+}
+
+.am-header.is-up .am-header__logo,
+.am-header.is-swap .am-header__logo {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.am-header__right {
+	display: flex;
+	align-items: center;
+	justify-self: end;
+	gap: 16px;
+}
+
+/* Language: the pill opens a short list */
+.am-lang {
+	position: relative;
+}
+
+.am-lang__toggle {
+	padding: 0 16px;
+}
+
+.am-lang__list {
+	position: absolute;
+	top: calc(100% + 8px);
+	right: 0;
+	min-width: 168px;
+	margin: 0;
+	padding: 8px;
+	border-radius: var(--r-panel);
+	background: var(--surface);
+	box-shadow: var(--shadow-popover);
+	list-style: none;
+}
+
+.am-lang__list a {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 16px;
+	border-radius: var(--r-pill);
+	color: var(--text);
+	font-size: 15px;
+	text-decoration: none;
+}
+
+.am-lang__list a:hover {
+	background: var(--bg);
+	color: var(--text);
+}
+
+.am-lang__list a[aria-current] {
+	font-weight: 500;
+	text-decoration: underline;
+	text-underline-offset: 6px;
+}
+
+/* The menu has its own header */
+.menu-open .am-header {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.menu-open .am-header > * {
+	pointer-events: none;
+}
+
+/* Phone: compact; Menu keeps only its icon, the language moves into the menu (prototype) */
+@media (max-width: 760px) {
+
+	.am-header {
+		padding: 12px 16px;
+	}
+
+	.am-header__menu {
+		gap: 0;
+		width: 44px;
+		padding: 0;
+		justify-content: center;
+	}
+
+	.am-header__menu-label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.am-header__logo {
+		width: 124px;
+		height: 22px;
+	}
+
+	.am-header__logo .am-logo {
+		top: -8px;
+		height: 38px;
+	}
+
+	.am-header.is-shift .am-header__logo {
+		transform: none;
+	}
+
+	.am-lang {
+		display: none;
+	}
+
+	.am-header__right {
+		gap: 8px;
+	}
+}
+
+/* Stub pages before their templates: keep the title clear of the header */
+.am-stub {
+	padding-block: 144px var(--space-12);
+}
+
+@media (max-width: 760px) {
+
+	.am-stub {
+		padding-top: 120px;
+	}
+}

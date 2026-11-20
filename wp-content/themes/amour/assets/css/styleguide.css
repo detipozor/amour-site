@@ -76,6 +76,7 @@
 	padding: var(--space-4);
 	border: 1px solid var(--line);
 	border-radius: var(--r-card);
+	color: var(--accent);
 }
 
 .sg-wide {

@@ -1,0 +1,395 @@
+/*
+ * Full-screen menu (board design/boards/Menu-list.dc.html; motion from the prototype shell).
+ * Desktop: the 1440 × 900 composition of the board, scaled to fit the window (--fit from assets/js/menu.js).
+ * Phone (up to 760 px): page names as a list, no photo.
+ */
+
+.am-menu {
+	position: fixed;
+	inset: 0;
+	z-index: 940;
+	overflow: auto;
+	background: var(--deep);
+	color: var(--on-deep);
+	font-size: 18px;
+	line-height: 1.6;
+	--focus-ring: var(--focus-ring-deep);
+	clip-path: inset(0 0 100% 0);
+	transition: clip-path 0.72s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.am-menu[hidden] {
+	display: none;
+}
+
+.am-menu.is-open {
+	clip-path: inset(0);
+	transition: clip-path 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.am-menu a {
+	color: var(--on-deep);
+	text-decoration: none;
+}
+
+.am-menu a:hover {
+	color: var(--on-deep);
+}
+
+/* ---------- Head: Close, logo, Book ---------- */
+
+.am-menu__head {
+	position: absolute;
+	inset: 0 0 auto;
+	z-index: 4;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	align-items: center;
+	padding: 20px var(--gutter);
+}
+
+.am-menu__close {
+	display: inline-flex;
+	align-items: center;
+	justify-self: start;
+	gap: 12px;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0 18px 0 14px;
+	border: 0;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-limestone) 10%, transparent);
+	color: var(--on-deep);
+	font-family: var(--font-body);
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.am-menu__logo {
+	display: block;
+	color: var(--on-deep);
+}
+
+.am-menu__logo .am-logo {
+	height: 76px;
+	margin: -16px 0;
+}
+
+.am-menu__book {
+	justify-self: end;
+}
+
+/* ---------- Desktop stage ---------- */
+
+.am-menu__stage {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	width: 1440px;
+	height: 900px;
+	transform: translate(-50%, -50%) scale(var(--fit, 1));
+	transform-origin: 50% 50%;
+}
+
+.am-menu__pic {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 340px;
+	transform: translate(230px, var(--arch-y, 110px));
+	transition: transform 0.9s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.am-menu__arch {
+	position: relative;
+	width: 340px;
+	height: 452px;
+	overflow: hidden;
+	border-radius: var(--radius-arch) var(--radius-arch) var(--r-card) var(--r-card);
+	background: var(--c-dark);
+}
+
+.am-menu__arch img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transform: scale(1.08);
+	transition:
+		opacity 0.6s ease,
+		transform 1.2s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.am-menu__arch img.is-active {
+	opacity: 1;
+	transform: none;
+}
+
+.am-menu__line {
+	margin: 0;
+	/* 18 px as on the board; when the stage shrinks on a tablet, the line never reads smaller than 15 px */
+	font-size: max(18px, calc(15px / var(--fit, 1)));
+	line-height: 1.5;
+}
+
+.am-menu__nav {
+	position: absolute;
+	top: 190px;
+	left: 640px;
+	z-index: 3;
+	width: 744px;
+}
+
+.am-menu__nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-menu .am-menu__nav a {
+	display: inline-flex;
+	align-items: center;
+	gap: 20px;
+	height: 72px;
+	color: color-mix(in srgb, var(--on-deep) 42%, transparent);
+	font-family: var(--font-head);
+	font-size: 60px;
+	line-height: 1;
+	letter-spacing: -0.03em;
+	transition: color 0.5s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.am-menu .am-menu__nav a.is-active {
+	color: var(--on-deep);
+}
+
+.am-menu__dot {
+	display: block;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--on-deep-accent);
+	opacity: 0;
+	transform: scale(0);
+	transition:
+		opacity 0.4s,
+		transform 0.4s;
+}
+
+.am-menu__nav a.is-active .am-menu__dot {
+	opacity: 1;
+	transform: none;
+}
+
+/* ---------- Foot: language, contacts, networks ---------- */
+
+.am-menu__foot {
+	position: absolute;
+	right: var(--gutter);
+	bottom: 28px;
+	left: var(--gutter);
+	z-index: 3;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	background: var(--deep);
+	font-size: 15px;
+}
+
+.am-menu__foot ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-menu__foot .am-menu__contacts {
+	gap: 32px;
+}
+
+.am-menu__foot a,
+.am-menu__foot span {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+.am-menu .am-menu__langs a {
+	color: color-mix(in srgb, var(--on-deep) 60%, transparent);
+}
+
+.am-menu .am-menu__langs a[aria-current] {
+	color: var(--on-deep);
+	text-decoration: underline;
+	text-underline-offset: 6px;
+}
+
+/* ---------- Opening: the panel drops from the top, the names rise one after another ---------- */
+
+@keyframes am-menu-in {
+
+	from {
+		opacity: 0;
+		transform: translateY(56px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes am-menu-fade {
+
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes am-menu-pic {
+
+	from {
+		transform: scale(1.18);
+	}
+
+	to {
+		transform: none;
+	}
+}
+
+@keyframes am-menu-out {
+
+	to {
+		opacity: 0;
+		transform: translateY(-18px);
+	}
+}
+
+.am-menu.is-open .am-menu__nav li {
+	animation: am-menu-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+	animation-delay: calc(0.3s + var(--i, 0) * 0.06s);
+}
+
+.am-menu.is-open .am-menu__head {
+	animation: am-menu-fade 0.6s ease 0.45s both;
+}
+
+.am-menu.is-open .am-menu__arch {
+	animation: am-menu-pic 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+
+/* Leaving for another page from the menu: the names lift away one after another (30 ms apart),
+   then the panel dissolves over the new page (assets/js/transitions.js) */
+.am-menu.is-leaving .am-menu__nav a {
+	animation: am-menu-out 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
+	animation-delay: calc(var(--i, 0) * 0.03s);
+}
+
+.am-menu.is-leaving .am-menu__head,
+.am-menu.is-leaving .am-menu__foot,
+.am-menu.is-leaving .am-menu__pic {
+	opacity: 0;
+	transition: opacity 0.4s ease;
+}
+
+.menu-open {
+	overflow: hidden;
+}
+
+/* ---------- Phone ---------- */
+
+@media (max-width: 760px) {
+
+	.am-menu__head {
+		padding: 20px var(--gutter);
+	}
+
+	.am-menu__close {
+		justify-content: center;
+		width: 44px;
+		padding: 0;
+	}
+
+	.am-menu__close-label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.am-menu__logo .am-logo {
+		height: 36px;
+		margin: -2px 0;
+	}
+
+	.am-menu__stage {
+		position: absolute;
+		inset: 84px 0 0;
+		width: auto;
+		height: auto;
+		overflow-y: auto;
+		padding: 24px var(--gutter) 132px;
+		transform: none;
+	}
+
+	.am-menu__pic {
+		display: none;
+	}
+
+	.am-menu__nav {
+		position: static;
+		width: auto;
+	}
+
+	.am-menu .am-menu__nav a,
+	.am-menu .am-menu__nav a.is-active {
+		display: flex;
+		height: auto;
+		min-height: 64px;
+		color: var(--on-deep);
+		font-size: 32px;
+		line-height: 1.05;
+		letter-spacing: -0.02em;
+	}
+
+	.am-menu__dot {
+		display: none;
+	}
+
+	.am-menu__foot {
+		bottom: 0;
+		gap: 0 22px;
+		padding: 16px 0 22px;
+	}
+
+	.am-menu__foot ul,
+	.am-menu__foot .am-menu__contacts {
+		gap: 0 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-menu,
+	.am-menu.is-open {
+		transition: none;
+	}
+}

@@ -41,22 +41,23 @@ class Amour_Seed_Command {
 	);
 
 	/**
-	 * Menus: location => [ menu name, items ]. Item: [ label, page slug or "#anchor" on the home page ].
-	 * Labels from the Menu-list board and the footer on the boards.
+	 * Menus: location => [ menu name, items ]. Item: [ label, page slug or "#anchor" on the home page,
+	 * photo id from the boards (/_blob/<id>, see assets/manifest.csv), line under the photo ].
+	 * Labels, photos and lines from the Menu-list board; footer labels from the footer on the boards.
 	 *
-	 * @var array<string, array{0: string, 1: array<int, array{0: string, 1: string}>}>
+	 * @var array<string, array{0: string, 1: array<int, array<int, string>>}>
 	 */
 	const MENUS = array(
 		'primary'         => array(
 			'Main',
 			array(
-				array( 'Rooms', 'rooms' ),
-				array( 'Villa Eudora', 'villa-eudora' ),
-				array( 'A day at Amour', '#a-day-at-amour' ),
-				array( 'Court and pool', 'court-and-pool' ),
-				array( 'Crete guide', 'crete-guide' ),
-				array( 'About us', 'about-us' ),
-				array( 'Contact', 'contacts' ),
+				array( 'Rooms', 'rooms', 'd727d557c1b81f70ef2da9c77753cec0', 'Nine rooms, each with its own kitchen and terrace.' ),
+				array( 'Villa Eudora', 'villa-eudora', '5a3bd934ace28fc571185ce354dcf308', 'Five bedrooms and its own pool, four minutes from the hotel.' ),
+				array( 'A day at Amour', '#a-day-at-amour', 'deb2647ed7b0e40eb233a905c0be42ac', 'The breakfast basket, the court at sunset, evenings on the terraces.' ),
+				array( 'Court and pool', 'court-and-pool', '94833f4f7f37f38c5ee6ed7578db4a52', 'Stone terraces, a pool and our own court among olive groves.' ),
+				array( 'Crete guide', 'crete-guide', '6388b6418cdb641f6bd8e7b2792479ef', 'Beaches, villages and gorges, with drive times from the hotel.' ),
+				array( 'About us', 'about-us', '16e92c844577adb7ca466250469281b0', 'Who looks after you in Almyrida.' ),
+				array( 'Contact', 'contacts', 'eb955df83df1fb9544e16d9e70a299c1', 'Directions, phone and WhatsApp.' ),
 			),
 		),
 		'footer-stay'     => array(
@@ -112,11 +113,14 @@ class Amour_Seed_Command {
 		$ids['styleguide'] = $this->styleguide();
 		$this->front_page( $ids['home'] );
 		$this->languages( $ids );
-		$this->menus( $ids );
 
+		// Photos first: the menu items point at them.
 		if ( ! empty( $assoc_args['media'] ) ) {
 			$this->media( rtrim( $assoc_args['media'], '/' ) );
 		}
+
+		$this->menus( $ids );
+		$this->hotel_settings();
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -418,7 +422,16 @@ class Amour_Seed_Command {
 					$data['menu-item-object']    = 'page';
 					$data['menu-item-object-id'] = $ids[ $target ];
 				}
-				wp_update_nav_menu_item( $menu_id, 0, $data );
+				$item_id = wp_update_nav_menu_item( $menu_id, 0, $data );
+
+				// Photo in the arch and the line under it (Menu-list board).
+				if ( isset( $item[3] ) && function_exists( 'update_field' ) && ! is_wp_error( $item_id ) ) {
+					$photo = $this->attachment_by_blob( $item[2] );
+					if ( $photo ) {
+						update_field( 'field_amour_menu_photo', $photo, $item_id );
+					}
+					update_field( 'field_amour_menu_line', $item[3], $item_id );
+				}
 			}
 
 			$locations[ $location ] = $menu_id;
@@ -509,14 +522,67 @@ class Amour_Seed_Command {
 	 * @return int Attachment id or 0.
 	 */
 	private function attachment_by_source( $name ) {
+		return $this->attachment_by_meta( '_amour_source', $name );
+	}
+
+	/**
+	 * Find a photo by its id on the boards (/_blob/<id>).
+	 *
+	 * @param string $blob Board id.
+	 * @return int Attachment id or 0.
+	 */
+	private function attachment_by_blob( $blob ) {
+		return $this->attachment_by_meta( '_amour_blob', $blob );
+	}
+
+	/**
+	 * "Hotel" settings page: the social links that are public on the old site (docs/09, section 2).
+	 * Phone, WhatsApp, email and company details stay empty: they are filled in at the content stage.
+	 */
+	private function hotel_settings() {
+		if ( ! function_exists( 'update_field' ) || get_field( 'amour_social', 'option' ) ) {
+			return;
+		}
+		update_field(
+			'field_amour_social',
+			array(
+				array(
+					'field_amour_social_label'   => 'Instagram',
+					'field_amour_social_url'     => 'https://www.instagram.com/amourrelax/',
+					'field_amour_social_in_menu' => 1,
+				),
+				array(
+					'field_amour_social_label'   => 'Facebook',
+					'field_amour_social_url'     => 'https://m.facebook.com/people/Amour-Relax-Hotel/61561312883178/',
+					'field_amour_social_in_menu' => 1,
+				),
+				array(
+					'field_amour_social_label'   => 'TikTok',
+					'field_amour_social_url'     => 'https://www.tiktok.com/@amourrelax',
+					'field_amour_social_in_menu' => 0,
+				),
+			),
+			'option'
+		);
+		WP_CLI::log( 'Hotel settings: social links' );
+	}
+
+	/**
+	 * Find an attachment by one of the meta values the photo import writes.
+	 *
+	 * @param string $key   Meta key.
+	 * @param string $value Meta value.
+	 * @return int Attachment id or 0.
+	 */
+	private function attachment_by_meta( $key, $value ) {
 		$found = get_posts(
 			array(
 				'post_type'      => 'attachment',
 				'post_status'    => 'inherit',
 				'posts_per_page' => 1,
 				'fields'         => 'ids',
-				'meta_key'       => '_amour_source', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one-off CLI seed.
-				'meta_value'     => $name, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- one-off CLI seed.
+				'meta_key'       => $key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one-off CLI seed.
+				'meta_value'     => $value, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- one-off CLI seed.
 			)
 		);
 		return $found ? (int) $found[0] : 0;
