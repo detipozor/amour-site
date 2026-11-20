@@ -1,0 +1,362 @@
+/*
+ * Home page blocks (board design/boards/Main-v2.dc.html; numbers from its renderVals()).
+ * Scroll-linked values come from assets/js/home/*.js as unitless CSS variables from 0 to 1:
+ *   --p  first screen opening, --ph / --q  phrase block and its words, --r  estate photo.
+ */
+
+/* ---------- First screen ---------- */
+
+.am-hero {
+	--p: 0;
+	--H: clamp(520px, 100svh, 1100px);
+	position: relative;
+	height: calc(var(--H) + 520px); /* pinned while the first 520 px scroll */
+}
+
+.am-hero__stage {
+	position: sticky;
+	top: 0;
+	height: var(--H);
+	overflow: hidden;
+	background: var(--bg);
+}
+
+.am-hero__side {
+	position: absolute;
+	top: calc(var(--H) * 0.315);
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	opacity: max(0, 1 - var(--p) * 2.2);
+}
+
+.am-hero__side--left {
+	left: var(--gutter);
+	width: 260px;
+}
+
+.am-hero__side--right {
+	right: var(--gutter);
+	align-items: flex-end;
+	width: 240px;
+	text-align: right;
+}
+
+/* The page heading is a quiet line here, as on the board */
+.am-hero .am-hero__line {
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 1.5;
+	letter-spacing: 0;
+}
+
+.am-hero__note {
+	color: var(--text-2);
+	font-size: 16px;
+}
+
+.am-hero__arch {
+	position: absolute;
+	top: calc(128px * (1 - var(--p)));
+	left: 50%;
+	z-index: 1;
+	width: calc(456px + (100% - 456px) * var(--p));
+	height: calc(var(--H) - 312px + 312px * var(--p));
+	overflow: hidden;
+	border-radius:
+		calc(260px * (1 - var(--p))) calc(260px * (1 - var(--p)))
+		calc(24px * (1 - var(--p))) calc(24px * (1 - var(--p)));
+	background: var(--c-dark);
+	transform: translateX(-50%);
+}
+
+.am-hero__poster,
+.am-hero__video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* The video fades in over the poster once it really plays */
+.am-hero__video {
+	opacity: 0;
+	transition: opacity 0.8s ease;
+}
+
+.am-hero.is-playing .am-hero__video {
+	opacity: 1;
+}
+
+/* Darker as it opens, so the header and AMOUR read on the photo (no gradients: brand rule) */
+.am-hero__scrim {
+	position: absolute;
+	inset: 0;
+	background: var(--c-dark);
+	opacity: calc(0.36 * var(--p));
+}
+
+/* Pause for the video (WCAG 2.2.2, HANDOFF section 12): at the right edge of the arch, half way down */
+.am-hero__pause {
+	position: absolute;
+	top: calc(128px * (1 - var(--p)) + (var(--H) - 312px + 312px * var(--p)) / 2 - 22px);
+	right: calc((100% - (456px + (100% - 456px) * var(--p))) / 2 + 16px);
+	z-index: 4;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--c-limestone) 84%, transparent);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-dark) 10%, transparent);
+	color: var(--c-dark);
+	cursor: pointer;
+	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px);
+}
+
+.am-hero__pause[hidden] {
+	display: none;
+}
+
+.am-hero__play-icon,
+.am-hero.is-paused .am-hero__pause-icon {
+	display: none;
+}
+
+.am-hero.is-paused .am-hero__play-icon {
+	display: block;
+}
+
+/* AMOUR: terracotta on limestone, then limestone over the open photo */
+.am-hero .am-hero__word {
+	position: absolute;
+	bottom: 40px;
+	left: var(--gutter);
+	z-index: 2;
+	width: calc(100% - 2 * var(--gutter));
+	height: auto;
+	pointer-events: none;
+}
+
+.am-hero__word--dark {
+	color: var(--accent);
+	opacity: max(0, 1 - var(--p) * 1.6);
+	transform: translateY(calc(40px * var(--p)));
+}
+
+.am-hero__word--light {
+	color: var(--c-limestone);
+	opacity: clamp(0, (var(--p) - 0.55) / 0.45, 1);
+}
+
+/* Tablet (HANDOFF, section 4): the side texts would sit on the arch, so they go above it */
+@media (min-width: 761px) and (max-width: 1100px) {
+
+	.am-hero__side {
+		top: 104px;
+	}
+
+	.am-hero__arch {
+		top: calc(236px * (1 - var(--p)));
+		height: calc(var(--H) - 420px + 420px * var(--p));
+	}
+
+	.am-hero__pause {
+		top: calc(236px * (1 - var(--p)) + (var(--H) - 420px + 420px * var(--p)) / 2 - 22px);
+	}
+}
+
+@media (max-width: 760px) {
+
+	.am-hero__side--left {
+		top: 92px;
+		width: calc(100% - 2 * var(--gutter));
+	}
+
+	.am-hero__side--right {
+		display: none;
+	}
+
+	.am-hero__arch {
+		top: calc(200px * (1 - var(--p)));
+		width: calc(100% - 32px * (1 - var(--p)));
+		height: calc(var(--H) - 330px + 330px * var(--p));
+	}
+
+	.am-hero__pause {
+		top: calc(200px * (1 - var(--p)) + (var(--H) - 330px + 330px * var(--p)) / 2 - 22px);
+		right: calc(16px * (1 - var(--p)) + 16px);
+	}
+}
+
+/* Reduced motion: no pinning, the first screen stands as it is drawn */
+@media (prefers-reduced-motion: reduce) {
+
+	.am-hero {
+		height: auto;
+	}
+
+	.am-hero__stage {
+		position: relative;
+	}
+}
+
+/* ---------- Date search ---------- */
+
+.am-search {
+	position: relative;
+	z-index: 2;
+	padding: 56px var(--gutter) 64px;
+	background: var(--bg);
+}
+
+.am-search__in {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1.2fr auto;
+	gap: 12px;
+	align-items: stretch;
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-search__field {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	min-height: 76px;
+	padding: 12px 20px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--surface);
+	color: var(--text);
+	text-align: left;
+	text-decoration: none;
+	transition: border-color 0.3s;
+}
+
+.am-search__field:hover {
+	border-color: var(--control-border);
+	color: var(--text);
+}
+
+.am-search__label {
+	color: var(--text-2);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.am-search__value {
+	font-size: 18px;
+}
+
+.am-search .am-search__go {
+	min-height: 76px;
+	padding: 0 36px;
+	border-radius: 16px;
+}
+
+@media (max-width: 760px) {
+
+	.am-search__in {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.am-search__field--guests,
+	.am-search .am-search__go {
+		grid-column: 1 / -1;
+	}
+}
+
+/* ---------- Phrase ---------- */
+
+.am-phrase {
+	--ph: 0;
+	--q: 0;
+	display: flex;
+	align-items: center;
+	min-height: 100svh;
+	margin: 0 calc(var(--gutter) * (1 - var(--ph)));
+	padding: 160px var(--gutter);
+	border-radius: calc(24px * (1 - var(--ph)));
+	background: var(--deep);
+	color: var(--on-deep);
+}
+
+.am-phrase__in {
+	width: 100%;
+	max-width: 1180px;
+	margin: 0 auto;
+}
+
+.am-phrase__text {
+	font-family: var(--font-head);
+	font-size: clamp(36px, 5.3vw, 76px);
+	line-height: 1.18;
+	letter-spacing: -0.03em;
+}
+
+.am-phrase__text span {
+	opacity: calc(0.18 + 0.82 * clamp(0, var(--q) * var(--n) - var(--i), 1));
+	transition: opacity 0.5s;
+}
+
+@media (max-width: 760px) {
+
+	.am-phrase__text {
+		font-size: 44px;
+		line-height: 1.1;
+	}
+}
+
+/* ---------- The estate ---------- */
+
+.am-estate {
+	--r: 0;
+	padding: var(--sec-l) var(--gutter) max(24px, calc(var(--sec-m) - 100px));
+	overflow-x: clip;
+}
+
+.am-estate__in {
+	position: relative;
+	max-width: var(--container);
+	margin: 0 auto;
+	padding-top: 270px;
+}
+
+.am-estate__head {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	transform: translateY(calc(-40px * var(--r)));
+}
+
+/* Right-aligned at 48% of the container, then out to both screen edges */
+.am-estate__photo {
+	width: calc(48% + (100vw - 48%) * var(--r));
+	height: calc(520px + 180px * var(--r));
+	margin-left: calc(52% - (2% + 50vw) * var(--r));
+	overflow: hidden;
+	border-radius:
+		calc(170px * (1 - var(--r))) calc(170px * (1 - var(--r)))
+		calc(24px * (1 - var(--r))) calc(24px * (1 - var(--r)));
+}
+
+.am-estate__photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

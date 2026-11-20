@@ -270,3 +270,26 @@ function amour_footer_data( $brand ) {
 		'legal'   => array_values( array_filter( array( $line_1, $line_2 ) ) ),
 	);
 }
+
+/**
+ * A field of the current page. A translation without its own value shows the default-language value,
+ * so a German page is never empty while its texts are being written.
+ *
+ * @param string   $name    Field name.
+ * @param int|null $post_id Page id, the current page by default.
+ * @return mixed
+ */
+function amour_page_field( $name, $post_id = null ) {
+	if ( ! function_exists( 'get_field' ) ) {
+		return null;
+	}
+	$post_id = $post_id ? $post_id : get_queried_object_id();
+	$value   = get_field( $name, $post_id );
+	if ( ( null === $value || '' === $value || false === $value ) && function_exists( 'pll_get_post' ) && function_exists( 'pll_default_language' ) ) {
+		$source = pll_get_post( $post_id, pll_default_language() );
+		if ( $source && (int) $source !== (int) $post_id ) {
+			$value = get_field( $name, $source );
+		}
+	}
+	return $value;
+}

@@ -42,8 +42,10 @@ test.describe( 'accessibility (axe, WCAG 2.2 AA)', () => {
 			test( `${ path } at ${ width }px has no serious violations`, async ( { page } ) => {
 				await page.setViewportSize( { width, height: 900 } );
 				await page.goto( path );
+				// Text that lights up with the scroll is checked in its final state (reduced motion) below.
 				const results = await new AxeBuilder( { page } )
 					.withTags( [ 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa' ] )
+					.exclude( '[data-axe-motion]' )
 					.analyze();
 				const serious = results.violations.filter( ( v ) => [ 'serious', 'critical' ].includes( v.impact ) );
 				expect( serious.map( ( v ) => `${ v.id }: ${ v.help } (${ v.nodes.length })` ) ).toEqual( [] );
@@ -60,4 +62,21 @@ test( 'Skip to content is the first stop for the keyboard and moves focus to the
 	await expect( skip ).toBeVisible();
 	await page.keyboard.press( 'Enter' );
 	await expect( page.locator( '#main' ) ).toBeFocused();
+} );
+
+test.describe( 'accessibility in the final state of every animation (reduced motion)', () => {
+	test.use( { reducedMotion: 'reduce' } );
+	for ( const path of [ '/', '/de/' ] ) {
+		for ( const width of [ 1440, 390 ] ) {
+			test( `${ path } at ${ width }px has no serious violations`, async ( { page } ) => {
+				await page.setViewportSize( { width, height: 900 } );
+				await page.goto( path );
+				const results = await new AxeBuilder( { page } )
+					.withTags( [ 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa' ] )
+					.analyze();
+				const serious = results.violations.filter( ( v ) => [ 'serious', 'critical' ].includes( v.impact ) );
+				expect( serious.map( ( v ) => `${ v.id }: ${ v.help } (${ v.nodes.length })` ) ).toEqual( [] );
+			} );
+		}
+	}
 } );
