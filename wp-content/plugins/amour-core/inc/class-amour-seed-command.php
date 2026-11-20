@@ -305,6 +305,10 @@ class Amour_Seed_Command {
 			);
 			WP_CLI::log( 'Page /de/' );
 		}
+
+		// Polylang caches each language with its home page. The cache was built before the German
+		// home page existed, so without this /de/ shows a post list instead of the page on a fresh site.
+		$model->clean_languages_cache();
 	}
 
 	/**
