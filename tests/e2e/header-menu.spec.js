@@ -6,6 +6,9 @@ import { AUTH_FILE } from './auth.js';
  * HANDOFF, section 15: axe without serious problems, except in the middle of an animation — so wait for the
  * animations that end (the menu opening, colour fades). Endless ones, like the olive wave in the footer, are decor.
  */
+/** Wait until the smooth scroll has glided to where the wheel sent it. */
+const glidedTo = ( page, y ) => page.waitForFunction( ( target ) => Math.abs( window.scrollY - target ) < 2, y );
+
 const settle = ( page ) =>
 	page.waitForFunction( () =>
 		document.getAnimations().every( ( a ) => a.playState !== 'running' || a.effect?.getTiming().iterations === Infinity )
@@ -68,9 +71,13 @@ test.describe( 'header while scrolling (styleguide is long enough)', () => {
 	test( 'desktop: the logo steps aside reading down and returns scrolling up; light over dark blocks', async ( { page } ) => {
 		await page.goto( '/styleguide/' );
 		const header = page.locator( '.am-header' );
+		// The wheel glides (smooth scroll), so wait each time until the page stands still.
+		await page.mouse.move( 720, 450 );
 		await page.mouse.wheel( 0, 700 );
+		await glidedTo( page, 700 );
 		await expect( header ).toHaveClass( /is-up/ );
 		await page.mouse.wheel( 0, -150 );
+		await glidedTo( page, 550 );
 		await expect( header ).not.toHaveClass( /is-up/ );
 
 		// A wine block under the logo: the logo turns limestone.
