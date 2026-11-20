@@ -50,6 +50,8 @@
 	--c-foam: #ccdad9;
 	--c-depth: #1f3a47;
 	--c-ink: #1c2226;
+	--c-map-sea: #c7d5d3; /* the sea of the relief map (assets/maps/crete-relief.svg) */
+	--c-sky: #a8c0c5; /* the paper turns to sky as the map camera drops through the clouds */
 	--bg: var(--c-limestone);
 	--surface: var(--c-paper);
 	--text: var(--c-dark);

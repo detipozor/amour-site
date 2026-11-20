@@ -949,3 +949,587 @@
 		font-size: 30px;
 	}
 }
+
+/* ---------- Map (board Main-v2-b, "Home map"; state from assets/js/home/map.js) ---------- */
+
+.am-map {
+	position: relative;
+	background: var(--c-depth);
+}
+
+.am-map.is-pinned {
+	height: calc(100vh + 2300px);
+}
+
+.am-map__pin {
+	position: relative;
+	height: max(640px, 100svh);
+	overflow: hidden;
+}
+
+.am-map.is-pinned .am-map__pin {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+}
+
+/* From a framed card to the full screen as it comes up (--gk 0 → 1) */
+.am-map__frame {
+	--gk: 1;
+	position: absolute;
+	inset: 0 calc(var(--gutter) * (1 - var(--gk)));
+	overflow: hidden;
+	border-radius: calc(24px * (1 - var(--gk)));
+	background: var(--c-map-sea);
+}
+
+/* The camera: the whole map, moved and scaled to the view (--fx, --fy in %, --z) */
+.am-map__canvas {
+	--fx: 44;
+	--fy: 52;
+	--z: 1.18;
+	--inv: calc(1 / var(--z));
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	aspect-ratio: 2400 / 1029;
+	transform-origin: 0 0;
+	transform: translate(calc(var(--fx) * var(--z) * -1%), calc(var(--fy) * var(--z) * -1%)) scale(var(--z));
+	transition: transform 1.3s cubic-bezier(0.65, 0, 0.25, 1);
+	opacity: var(--map-o, 1);
+}
+
+.am-map__img {
+	width: 100%;
+	height: 100%;
+	user-select: none;
+	pointer-events: none;
+}
+
+/* Roads: dashed while day trips show, the chosen one drawn in terracotta */
+.am-map__roads {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+	fill: none;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.am-road {
+	stroke: color-mix(in srgb, var(--c-dark) 34%, transparent);
+	stroke-width: calc(2.6 * var(--inv));
+	stroke-dasharray: calc(8 * var(--inv)) calc(9 * var(--inv));
+	opacity: 0;
+	transition: opacity 0.6s;
+}
+
+.am-map.is-trips .am-road {
+	opacity: 1;
+}
+
+.am-road-on {
+	stroke: var(--accent);
+	stroke-width: calc(5.5 * var(--inv));
+	stroke-dasharray: 1 1;
+	stroke-dashoffset: 1;
+	opacity: 0;
+	transition:
+		stroke-dashoffset 1.5s cubic-bezier(0.65, 0, 0.25, 1),
+		opacity 0.4s;
+}
+
+.am-road-on--case {
+	stroke: var(--c-limestone);
+	stroke-width: calc(10 * var(--inv));
+}
+
+.am-road-on.is-on {
+	stroke-dashoffset: 0;
+	opacity: 1;
+}
+
+/* Pins keep their size while the map scales (scale(--inv)) */
+.am-pin,
+.am-far {
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0;
+	border: 0;
+	background: none;
+	font-family: var(--font-body);
+	transition:
+		transform 1.3s cubic-bezier(0.65, 0, 0.25, 1),
+		opacity 0.5s;
+}
+
+.am-pin {
+	--half: 6px;
+	cursor: pointer;
+	opacity: 0;
+	pointer-events: none;
+	transform: translate(calc(-1 * var(--half)), -50%) scale(var(--inv));
+	transform-origin: var(--half) 50%;
+}
+
+.am-pin[data-side="row-reverse"] {
+	flex-direction: row-reverse;
+	transform: translate(calc(-100% + var(--half)), -50%) scale(var(--inv));
+	transform-origin: calc(100% - var(--half)) 50%;
+}
+
+.am-pin--hotel,
+.am-pin--villa {
+	--half: 9px;
+	cursor: default; /* labels, not buttons */
+}
+
+.am-pin.is-shown {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.am-pin.is-on {
+	z-index: 3;
+}
+
+.am-pin__dot {
+	display: block;
+	flex: none;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--text);
+	box-shadow: 0 0 0 3px var(--c-limestone);
+	transition: background-color 0.3s;
+}
+
+.am-pin--hotel .am-pin__dot,
+.am-pin--villa .am-pin__dot,
+.am-pin.is-on .am-pin__dot {
+	width: 18px;
+	height: 18px;
+	background: var(--accent);
+}
+
+.am-pin:not(.am-pin--hotel, .am-pin--villa) .am-pin__dot {
+	width: 12px;
+	height: 12px;
+}
+
+.am-pin__label {
+	display: block;
+	padding: 6px 13px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	color: var(--text);
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-align: left;
+	white-space: pre; /* one line, or two where the script puts a line break */
+	transition:
+		background-color 0.3s,
+		color 0.3s;
+}
+
+.am-pin--hotel .am-pin__label,
+.am-pin--villa .am-pin__label {
+	font-size: 15px;
+}
+
+.am-pin.is-on .am-pin__label {
+	background: var(--accent);
+	color: var(--c-limestone);
+}
+
+.am-pin--villa.is-on .am-pin__label {
+	background: var(--c-sea);
+}
+
+.am-pin:focus-visible {
+	box-shadow: none;
+}
+
+.am-pin:focus-visible .am-pin__label {
+	box-shadow: var(--focus-ring);
+}
+
+.am-far {
+	transform: translate(-4px, -50%) scale(var(--inv));
+	transform-origin: 4px 50%;
+	opacity: var(--far-o, 1);
+	pointer-events: none;
+}
+
+.am-far__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--text-2);
+}
+
+.am-far__label {
+	padding: 4px 10px;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-paper) 70%, transparent);
+	color: var(--text-2);
+	font-size: 12px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+/* Clouds: soft blots of paper, blurred (no gradients: brand rule) */
+.am-clouds {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.am-clouds > span {
+	position: absolute;
+	top: -10%;
+	bottom: -10%;
+	width: 70%;
+	border-radius: 50%;
+	background: var(--c-paper);
+	opacity: 0;
+	filter: blur(60px);
+	will-change: transform, opacity;
+}
+
+.am-clouds > span:nth-child(1) {
+	left: -15%;
+}
+
+.am-clouds > span:nth-child(2) {
+	right: -15%;
+}
+
+.am-clouds > span:nth-child(3) {
+	left: 15%;
+}
+
+/* Flying between the whole island and a place: two names per animation so it restarts each time */
+.am-clouds--flight.is-a > span:nth-child(1) { animation: am-cloud-l-a 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.am-clouds--flight.is-b > span:nth-child(1) { animation: am-cloud-l-b 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.am-clouds--flight.is-a > span:nth-child(2) { animation: am-cloud-r-a 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.am-clouds--flight.is-b > span:nth-child(2) { animation: am-cloud-r-b 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.am-clouds--flight.is-a > span:nth-child(3) { animation: am-cloud-c-a 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.am-clouds--flight.is-b > span:nth-child(3) { animation: am-cloud-c-b 1.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+
+@keyframes am-cloud-l-a { 0% { opacity: 0; transform: translateX(15%) scale(0.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(-70%) scale(2.4); } }
+@keyframes am-cloud-l-b { 0% { opacity: 0; transform: translateX(15%) scale(0.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(-70%) scale(2.4); } }
+@keyframes am-cloud-r-a { 0% { opacity: 0; transform: translateX(-15%) scale(0.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(70%) scale(2.4); } }
+@keyframes am-cloud-r-b { 0% { opacity: 0; transform: translateX(-15%) scale(0.8); } 38% { opacity: 1; } 100% { opacity: 0; transform: translateX(70%) scale(2.4); } }
+@keyframes am-cloud-c-a { 0% { opacity: 0; transform: scale(0.6); } 42% { opacity: 0.92; transform: scale(1.3); } 100% { opacity: 0; transform: scale(2.8); } }
+@keyframes am-cloud-c-b { 0% { opacity: 0; transform: scale(0.6); } 42% { opacity: 0.92; transform: scale(1.3); } 100% { opacity: 0; transform: scale(2.8); } }
+
+/* Opening: the places first, then they part and the camera drops through the clouds */
+.am-map__intro {
+	position: absolute;
+	inset: 0;
+	z-index: 7;
+	pointer-events: none;
+	visibility: hidden;
+}
+
+.am-map.is-intro .am-map__intro {
+	visibility: visible;
+}
+
+.am-map__fig {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+}
+
+.am-map__fig-pic {
+	display: block;
+	overflow: hidden;
+	border-radius: 18px;
+	box-shadow: 0 24px 48px color-mix(in srgb, var(--c-dark) 18%, transparent);
+}
+
+.am-map__fig-pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.am-map__fig figcaption {
+	color: var(--text);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.am-map__intro-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	transform: translate(-50%, -50%);
+}
+
+.am-map__intro-text .am-eyebrow {
+	margin-bottom: 18px;
+}
+
+.am-map__intro-title {
+	color: var(--text);
+	font-family: var(--font-head);
+	font-size: min(6vw, 10vh, 96px);
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+/* The card */
+.am-map__card {
+	position: absolute;
+	right: var(--gutter);
+	bottom: 140px;
+	z-index: 4;
+	width: min(368px, 36vw);
+	max-height: calc(100% - 250px);
+	overflow: hidden;
+	border-radius: var(--r-card);
+	background: var(--surface);
+	box-shadow: 0 24px 48px color-mix(in srgb, var(--c-dark) 16%, transparent);
+	opacity: var(--map-o, 1);
+}
+
+.am-map__card-pics {
+	position: relative;
+	height: 0;
+	background: var(--line);
+	transition: height 0.6s cubic-bezier(0.65, 0, 0.25, 1);
+}
+
+.am-map__card.has-photo .am-map__card-pics {
+	height: min(196px, 21vh);
+}
+
+.am-map__card-pics img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity 0.6s ease;
+}
+
+.am-map__card-pics img.is-on {
+	opacity: 1;
+}
+
+.am-map__card-nophoto {
+	position: absolute;
+	bottom: 16px;
+	left: 24px;
+	color: var(--text-2);
+	font-size: 13px;
+	font-weight: 500;
+	opacity: 0;
+}
+
+.am-map__card.no-photo .am-map__card-nophoto {
+	opacity: 1;
+}
+
+@keyframes am-card-in {
+
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.am-map__card-body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 24px 28px 26px;
+}
+
+.am-map__card-body.is-new {
+	animation: am-card-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.am-map__card-meta {
+	color: var(--text-2);
+	font-size: 15px;
+	font-variant-numeric: tabular-nums;
+}
+
+.am-map__card-text {
+	color: var(--text);
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+.am-map__card-link {
+	margin-top: 6px;
+	font-size: 15px;
+	font-weight: 500;
+}
+
+/* Tabs */
+.am-map__tabs {
+	position: absolute;
+	bottom: 72px;
+	left: 50%;
+	z-index: 5;
+	display: flex;
+	gap: 4px;
+	padding: 5px;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-limestone) 88%, transparent);
+	transform: translateX(-50%);
+	opacity: var(--map-o, 1);
+	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px);
+}
+
+.am-map__tab {
+	position: relative;
+	min-height: 44px;
+	padding: 0 18px;
+	overflow: hidden;
+	border: 0;
+	border-radius: var(--r-pill);
+	background: transparent;
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		background-color 0.4s,
+		color 0.4s;
+}
+
+.am-map__tab[aria-selected="true"] {
+	background: var(--accent);
+	color: var(--c-limestone);
+}
+
+.am-map__tab-fill {
+	position: absolute;
+	right: 22px;
+	bottom: 9px;
+	left: 22px;
+	height: 1px;
+	background: currentcolor;
+	opacity: 0.5;
+	transform: scaleX(var(--fill, 0));
+	transform-origin: 0 50%;
+}
+
+.am-map__hint {
+	position: absolute;
+	bottom: 136px;
+	left: 50%;
+	z-index: 5;
+	color: var(--text);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	opacity: 0;
+	transform: translateX(-50%);
+	transition: opacity 0.5s;
+}
+
+.am-map.is-hint .am-map__hint {
+	opacity: 1;
+}
+
+/* Phone: the island higher, the card full width and compact, the tabs low */
+@media (max-width: 760px) {
+
+	.am-map__canvas {
+		top: 36%;
+	}
+
+	.am-map__card {
+		right: var(--gutter);
+		bottom: 80px;
+		left: var(--gutter);
+		width: auto;
+	}
+
+	.am-map__card.has-photo .am-map__card-pics {
+		height: 0;
+	}
+
+	.am-map__card-body {
+		gap: 4px;
+		padding: 18px 20px 20px;
+	}
+
+	.am-map__card-text {
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		font-size: 15px;
+	}
+
+	.am-map__tabs {
+		bottom: 18px;
+	}
+
+	.am-map__tab {
+		padding: 0 14px;
+	}
+
+	.am-pin__label {
+		font-size: 12px;
+	}
+
+	.am-pin--hotel .am-pin__dot,
+	.am-pin--villa .am-pin__dot,
+	.am-pin.is-on .am-pin__dot {
+		width: 14px;
+		height: 14px;
+	}
+
+	.am-pin:not(.am-pin--hotel, .am-pin--villa) .am-pin__dot {
+		width: 10px;
+		height: 10px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-map__canvas,
+	.am-pin,
+	.am-far {
+		transition: none;
+	}
+
+	.am-clouds {
+		display: none;
+	}
+}

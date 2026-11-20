@@ -146,6 +146,8 @@ class Amour_Seed_Command {
 		$this->hotel_settings();
 		$this->home_content( $ids['home'] );
 		$this->cards( $ids );
+		$this->places();
+		$this->home_map( $ids );
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -737,6 +739,153 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_card_photo_hover', $this->attachment_by_blob( $card[3] ), $id );
 		}
 		WP_CLI::log( 'Cards: rooms and villa' );
+	}
+
+	/**
+	 * Places of the home map and the guide (data/home-map.json, taken from the board Main-v2-b):
+	 * the hotel, the villa, six day trips with their roads, and the far label Heraklion.
+	 * Adds the places that are missing; never changes a place that exists.
+	 */
+	private function places() {
+		if ( ! function_exists( 'update_field' ) || ! post_type_exists( 'amour_place' ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_place_fields' ) ) {
+			amour_register_place_fields();
+		}
+		$data  = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/home-map.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		$all   = array_merge(
+			array_map( static fn( $p ) => $p + array( 'kind' => 'trip' ), $data['places'] ),
+			$data['special']
+		);
+		$added = 0;
+		foreach ( $all as $place ) {
+			$existing = get_posts(
+				array(
+					'post_type'      => 'amour_place',
+					'title'          => $place['name'],
+					'post_status'    => 'any',
+					'posts_per_page' => 1,
+					'fields'         => 'ids',
+				)
+			);
+			if ( $existing ) {
+				continue;
+			}
+			$id = wp_insert_post(
+				array(
+					'post_type'   => 'amour_place',
+					'post_status' => 'publish',
+					'post_title'  => $place['name'],
+					'menu_order'  => (int) $place['order'],
+				)
+			);
+			if ( function_exists( 'pll_set_post_language' ) ) {
+				pll_set_post_language( $id, 'en' );
+			}
+			$values = array(
+				'field_amour_place_kind'      => $place['kind'],
+				'field_amour_place_label'     => $place['label'],
+				'field_amour_place_short'     => $place['short'],
+				'field_amour_place_x'         => $place['x'],
+				'field_amour_place_y'         => $place['y'],
+				'field_amour_place_dir'       => $place['dir'],
+				'field_amour_place_dir_phone' => $place['dir_phone'] ?? $place['dir'],
+				'field_amour_place_meta'      => $place['meta'],
+				'field_amour_place_text'      => $place['text'],
+				'field_amour_place_route'     => $place['route'] ?? '',
+				'field_amour_place_home'      => 1,
+			);
+			if ( ! empty( $place['photo'] ) ) {
+				$values['field_amour_place_photo'] = $this->attachment_by_blob( $place['photo'] );
+			}
+			foreach ( $values as $key => $value ) {
+				update_field( $key, $value, $id );
+			}
+			++$added;
+		}
+		WP_CLI::log( 'Places added: ' . $added );
+	}
+
+	/**
+	 * Home map texts (board Main-v2-b): the opening and the four views with their cards.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function home_map( $ids ) {
+		$home = $ids['home'];
+		if ( ! function_exists( 'update_field' ) || get_field( 'home_map_views', $home, false ) ) {
+			return;
+		}
+		$guide = array(
+			'title'  => 'Open the Crete guide',
+			'url'    => get_permalink( $ids['crete-guide'] ),
+			'target' => '',
+		);
+		$view  = static fn( $tab, $eyebrow, $title, $meta, $text, $text_phone, $link, $photo ) => array(
+			'field_amour_home_map_view_tab'        => $tab,
+			'field_amour_home_map_view_eyebrow'    => $eyebrow,
+			'field_amour_home_map_view_title'      => $title,
+			'field_amour_home_map_view_meta'       => $meta,
+			'field_amour_home_map_view_text'       => $text,
+			'field_amour_home_map_view_text_phone' => $text_phone,
+			'field_amour_home_map_view_link'       => $link,
+			'field_amour_home_map_view_photo'      => $photo,
+		);
+		update_field( 'field_amour_home_map_intro_label', 'From our door', $home );
+		update_field( 'field_amour_home_map_intro_title', 'West Crete', $home );
+		$photos = array();
+		foreach ( array(
+			array( '2484380ac652a93e6f6b883171323ca7', 'Seitan Limania' ),
+			array( '6388b6418cdb641f6bd8e7b2792479ef', 'Arkadi Monastery' ),
+			array( '5d62234bcd2c3732bd843737474dc29b', 'Almyrida' ),
+			array( '167426f58d62fe435700966790505f2a', '' ),
+			array( '86e186194bfcc48918d797e665471892', '' ),
+			array( '16e92c844577adb7ca466250469281b0', '' ),
+		) as $photo ) {
+			$photos[] = array(
+				'field_amour_home_map_intro_photo'   => $this->attachment_by_blob( $photo[0] ),
+				'field_amour_home_map_intro_caption' => $photo[1],
+			);
+		}
+		update_field( 'field_amour_home_map_intro_photos', $photos, $home );
+		update_field(
+			'field_amour_home_map_views',
+			array(
+				$view( '', 'Where we are', 'Above Almyrida bay', 'Chania 40 min · Rethymno 55 min by car', 'Nine rooms and a villa among olive groves, a 15-minute walk from the village beach.', '', $guide, 0 ),
+				$view(
+					'The hotel',
+					'The hotel',
+					'Amour Relax Hotel',
+					'9 rooms · pool · our own court',
+					'Stone terraces among olive groves, with the bay of Almyrida below. The beach and tavernas are 1.2 km on foot.',
+					'',
+					array(
+						'title'  => 'See the rooms',
+						'url'    => home_url( '/#rooms' ),
+						'target' => '',
+					),
+					$this->attachment_by_blob( 'c7c14ed99aa8d9c4132d959c37050de9' )
+				),
+				$view(
+					'Villa Eudora',
+					'The villa',
+					'Villa Eudora',
+					'5 bedrooms · own pool · 4 min from the hotel',
+					'A whole house for a family or friends, up to 11 guests, with a private pool and a long table outside.',
+					'',
+					array(
+						'title'  => 'Discover the villa',
+						'url'    => get_permalink( $ids['villa-eudora'] ),
+						'target' => '',
+					),
+					$this->attachment_by_blob( '2aac80822b69d3836096e30d8c7de6da' )
+				),
+				$view( 'Day trips', 'Day trips', 'A base for west Crete', 'Drive times from the hotel', 'Point at a place on the map to see the road there.', 'Tap a place on the map to see the road there.', $guide, 0 ),
+			),
+			$home
+		);
+		WP_CLI::log( 'Home page: map' );
 	}
 
 	/**

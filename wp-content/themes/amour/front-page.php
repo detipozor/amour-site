@@ -18,6 +18,7 @@ get_header();
 	get_template_part( 'template-parts/home/day' );
 	get_template_part( 'template-parts/home/rooms' );
 	get_template_part( 'template-parts/home/villa' );
+	get_template_part( 'template-parts/home/map' );
 	?>
 </main>
 <?php

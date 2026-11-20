@@ -1,10 +1,18 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
 const hero = ( page ) => page.locator( '[data-hero]' );
 const cssVar = ( locator, name ) => locator.evaluate( ( el, n ) => Number( getComputedStyle( el ).getPropertyValue( n ) || el.style.getPropertyValue( n ) ), name );
 const at = async ( page, y ) => {
 	await page.evaluate( ( yy ) => window.scrollTo( 0, yy ), y );
 	await page.waitForTimeout( 150 );
+};
+/** Scroll to a point of a scene; positions move as blocks above grow, so measure again until it holds. */
+const goTo = async ( page, fn, arg ) => {
+	for ( let i = 0; i < 3; i++ ) {
+		await at( page, await page.evaluate( fn, arg ) );
+	}
+	await page.waitForTimeout( 300 );
 };
 
 test.describe( 'home: first screen (HANDOFF, section 6.1)', () => {
@@ -210,13 +218,6 @@ test.describe( 'home: rooms grid (HANDOFF, section 6.6)', () => {
 } );
 
 test.describe( 'home: rooms → villa (HANDOFF, section 6.7)', () => {
-	/** Scroll to a point of the scene; positions move as blocks above grow, so measure again until it holds. */
-	const goTo = async ( page, fn, arg ) => {
-		for ( let i = 0; i < 3; i++ ) {
-			await at( page, await page.evaluate( fn, arg ) );
-		}
-		await page.waitForTimeout( 300 );
-	};
 	const roomsAt = ( rk ) => {
 		const rooms = document.querySelector( '[data-rooms]' );
 		const pin = rooms.querySelector( '[data-rooms-pin]' );
@@ -266,5 +267,165 @@ test.describe( 'home: rooms → villa (HANDOFF, section 6.7)', () => {
 		expect( Math.round( ( await page.locator( '[data-villa-arch]' ).boundingBox() ).width ) ).toBe( 1440 );
 		expect( await opacity( page.locator( '[data-villa-text]' ) ) ).toBe( 1 );
 		await expect( page.locator( '[data-villa-pin]' ) ).toHaveAttribute( 'data-tone', 'dark' );
+	} );
+} );
+
+test.describe( 'home: map (HANDOFF, section 6.8)', () => {
+	/** A point of the pinned map: 0 is where it pins, 1 is 2300 px later. */
+	const mapAt = ( gp ) => document.querySelector( '[data-map]' ).getBoundingClientRect().top + window.scrollY + gp * 2300;
+	const map = ( page ) => page.locator( '[data-map]' );
+	const cardTitle = ( page ) => page.locator( '[data-map-card] [data-card="title"]' );
+	const cardLink = ( page ) => page.locator( '[data-map-card] [data-card="link"]' );
+	const tab = ( page, name ) => page.getByRole( 'tab', { name } );
+	const shownTrips = ( page ) => page.locator( '.am-pin--trip.is-shown' );
+	/** Point at or tap a place where it is on the screen (a locator would first scroll the pinned map away). */
+	const pointAt = async ( page, selector, click = false ) => {
+		const b = await page.locator( selector ).boundingBox();
+		await page.mouse[ click ? 'click' : 'move' ]( b.x + b.width / 2, b.y + b.height / 2 );
+	};
+	const overlaps = ( a, b ) => a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+
+	test( 'desktop: the opening, then the island, the hotel, the villa and day trips as the page scrolls', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, mapAt, 0.02 );
+		await expect( map( page ) ).toHaveClass( /is-intro/ );
+		await expect( page.locator( '.am-map__intro-title' ) ).toHaveText( 'West Crete' );
+		await expect( page.locator( '.am-map__fig' ) ).toHaveCount( 6 );
+
+		await goTo( page, mapAt, 0.2 );
+		await expect( map( page ) ).not.toHaveClass( /is-intro/ );
+		await expect( cardTitle( page ) ).toHaveText( 'Above Almyrida bay' );
+		await expect( page.locator( '.am-pin--hotel .am-pin__label' ) ).toHaveText( 'Amour Relax Hotel · Villa Eudora' );
+		await expect( page.locator( '.am-pin--villa' ) ).not.toHaveClass( /is-shown/ );
+		await expect( page.getByRole( 'tab', { selected: true } ) ).toHaveCount( 0 );
+
+		await goTo( page, mapAt, 0.4 );
+		await expect( cardTitle( page ) ).toHaveText( 'Amour Relax Hotel' );
+		await expect( tab( page, 'The hotel' ) ).toHaveAttribute( 'aria-selected', 'true' );
+		await expect( cardLink( page ) ).toHaveText( 'See the rooms' );
+		await expect( cardLink( page ) ).toHaveAttribute( 'href', /\/#rooms$/ );
+		await expect( page.locator( '[data-map-card] img.is-on' ) ).toHaveCount( 1 );
+		await expect( page.locator( '.am-pin--villa' ) ).toHaveClass( /is-shown/ );
+		await expect( shownTrips( page ) ).toHaveCount( 0 );
+
+		await goTo( page, mapAt, 0.6 );
+		await expect( cardTitle( page ) ).toHaveText( 'Villa Eudora' );
+		await expect( tab( page, 'Villa Eudora' ) ).toHaveAttribute( 'aria-selected', 'true' );
+		await expect( cardLink( page ) ).toHaveAttribute( 'href', /\/villa-eudora\/$/ );
+		await expect( page.locator( '.am-pin--villa' ) ).toHaveClass( /is-on/ );
+
+		await goTo( page, mapAt, 0.85 );
+		await expect( cardTitle( page ) ).toHaveText( 'A base for west Crete' );
+		await expect( tab( page, 'Day trips' ) ).toHaveAttribute( 'aria-selected', 'true' );
+		await expect( shownTrips( page ) ).toHaveCount( 6 );
+		await expect( page.locator( '.am-pin--villa' ) ).not.toHaveClass( /is-shown/ );
+		await expect( page.locator( '.am-pin[data-trip="1"] .am-pin__label' ) ).toHaveText( 'Chania · 40 min' );
+	} );
+
+	test( 'desktop: pointing at a place draws the road there and tells about it in the card', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, mapAt, 0.85 );
+		await expect( page.locator( '.am-road-on.is-on' ) ).toHaveCount( 0 );
+		await pointAt( page, '.am-pin[data-trip="1"]' );
+		await expect( cardTitle( page ) ).toHaveText( 'Chania old harbour' );
+		await expect( page.locator( '[data-map-card] [data-card="meta"]' ) ).toHaveText( /40 min by car/ );
+		await expect( page.locator( '.am-road-on[data-road="1"]' ) ).toHaveClass( [ /is-on/, /is-on/ ] );
+		await expect( page.locator( '.am-road-on.is-on' ) ).toHaveCount( 2 ); // the road and its casing
+		await expect( page.locator( '.am-pin[data-trip="1"]' ) ).toHaveClass( /is-on/ );
+		await expect( cardLink( page ) ).toHaveText( 'Open the Crete guide' );
+		await expect( page.locator( '[data-map-card]' ) ).toHaveClass( /has-photo/ );
+
+		// The keyboard reaches the places too.
+		await page.locator( '.am-pin[data-trip="0"]' ).focus();
+		await expect( cardTitle( page ) ).toHaveText( 'Seitan Limania' );
+		await expect( page.locator( '.am-road-on[data-road="0"]' ).last() ).toHaveClass( /is-on/ );
+		await expect( page.locator( '.am-road-on[data-road="1"]' ).last() ).not.toHaveClass( /is-on/ );
+	} );
+
+	test( 'the tabs take you to their view; the arrow keys move between them', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, mapAt, 0.2 );
+		await tab( page, 'Villa Eudora' ).click();
+		await expect( cardTitle( page ) ).toHaveText( 'Villa Eudora', { timeout: 5000 } );
+		await expect( tab( page, 'Villa Eudora' ) ).toHaveAttribute( 'aria-selected', 'true' );
+		await page.keyboard.press( 'ArrowRight' );
+		await expect( tab( page, 'Day trips' ) ).toBeFocused();
+		await expect( cardTitle( page ) ).toHaveText( 'A base for west Crete', { timeout: 5000 } );
+		await page.keyboard.press( 'ArrowRight' );
+		await expect( tab( page, 'The hotel' ) ).toBeFocused();
+		await expect( cardTitle( page ) ).toHaveText( 'Amour Relax Hotel', { timeout: 5000 } );
+	} );
+
+	test( 'phone: closer views, short labels, the card without a photo', async ( { page } ) => {
+		await page.setViewportSize( { width: 390, height: 844 } );
+		await page.goto( '/' );
+		await goTo( page, mapAt, 0.2 );
+		// Both names in two lines, so the label stays on the screen.
+		const both = page.locator( '.am-pin--hotel .am-pin__label' );
+		await expect( both ).toHaveText( 'Amour Relax Hotel\nVilla Eudora' );
+		const box = await both.boundingBox();
+		expect( box.x + box.width ).toBeLessThanOrEqual( 390 );
+
+		await goTo( page, mapAt, 0.85 );
+		await expect( cardTitle( page ) ).toHaveText( 'A base for west Crete' );
+		await expect( page.locator( '[data-map-card] [data-card="text"]' ) ).toHaveText( 'Tap a place on the map to see the road there.' );
+		await expect( page.locator( '.am-pin[data-trip="1"] .am-pin__label' ) ).toHaveText( 'Chania' );
+		await pointAt( page, '.am-pin[data-trip="1"]', true );
+		await expect( cardTitle( page ) ).toHaveText( 'Chania old harbour' );
+		expect( ( await page.locator( '[data-card-pics]' ).boundingBox() ).height ).toBe( 0 );
+		for ( const pin of await page.locator( '.am-pin.is-shown' ).all() ) {
+			const b = await pin.boundingBox();
+			expect( b.x ).toBeGreaterThanOrEqual( 0 );
+			expect( b.x + b.width ).toBeLessThanOrEqual( 390 );
+		}
+	} );
+
+	for ( const [ width, height ] of [ [ 768, 1024 ], [ 1024, 768 ] ] ) {
+		test( `tablet ${ width }×${ height }: the places stay clear of the card`, async ( { page } ) => {
+			await page.setViewportSize( { width, height } );
+			await page.goto( '/' );
+			for ( const gp of [ 0.4, 0.6, 0.85 ] ) {
+				await goTo( page, mapAt, gp );
+				await page.waitForTimeout( 1400 ); // the camera moves for 1.3 s
+				const card = await page.locator( '[data-map-card]' ).boundingBox();
+				const pins = page.locator( '.am-pin.is-shown' );
+				expect( await pins.count() ).toBeGreaterThan( 0 );
+				for ( const pin of await pins.all() ) {
+					const b = await pin.boundingBox();
+					expect( overlaps( b, card ), `${ await pin.getAttribute( 'aria-label' ) } at ${ gp }` ).toBe( false );
+					expect( b.x ).toBeGreaterThanOrEqual( 0 );
+					expect( b.x + b.width ).toBeLessThanOrEqual( width );
+				}
+			}
+		} );
+	}
+
+	test( 'axe: the day trips view with a road drawn', async ( { page } ) => {
+		await page.goto( '/' );
+		await goTo( page, mapAt, 0.85 );
+		await pointAt( page, '.am-pin[data-trip="2"]' );
+		await page.waitForTimeout( 700 );
+		const results = await new AxeBuilder( { page } )
+			.include( '[data-map]' )
+			.withTags( [ 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa' ] )
+			.analyze();
+		const serious = results.violations.filter( ( v ) => [ 'serious', 'critical' ].includes( v.impact ) );
+		expect( serious.map( ( v ) => `${ v.id }: ${ v.help } (${ v.nodes.length })` ) ).toEqual( [] );
+	} );
+
+	test( 'reduced motion: nothing pinned, no opening, the tabs switch the views', async ( { page } ) => {
+		await page.emulateMedia( { reducedMotion: 'reduce' } );
+		await page.goto( '/' );
+		await expect( map( page ) ).not.toHaveClass( /is-pinned/ );
+		await map( page ).scrollIntoViewIfNeeded();
+		await expect( map( page ) ).not.toHaveClass( /is-intro/ );
+		await expect( cardTitle( page ) ).toHaveText( 'Above Almyrida bay' );
+		await tab( page, 'The hotel' ).click();
+		await expect( cardTitle( page ) ).toHaveText( 'Amour Relax Hotel' );
+		await expect( tab( page, 'The hotel' ) ).toHaveAttribute( 'aria-selected', 'true' );
+		await tab( page, 'Day trips' ).click();
+		await expect( shownTrips( page ) ).toHaveCount( 6 );
+		await page.locator( '.am-pin[data-trip="3"]' ).click();
+		await expect( cardTitle( page ) ).toHaveText( 'Lake Kournas' );
 	} );
 } );
