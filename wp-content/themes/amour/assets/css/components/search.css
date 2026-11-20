@@ -1,0 +1,64 @@
+/**
+ * Date search (HANDOFF, section 5): Arrive, Leave, Guests and Check dates, as links to the booking page.
+ * On the home page under the first screen, on the Rooms page in the opening (template-parts/date-search.php).
+ */
+
+.am-search__in {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1.2fr auto;
+	gap: 12px;
+	align-items: stretch;
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-search__field {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	min-height: 76px;
+	padding: 12px 20px;
+	border: 1px solid var(--line);
+	border-radius: 16px;
+	background: var(--surface);
+	color: var(--text);
+	text-align: left;
+	text-decoration: none;
+	transition: border-color 0.3s;
+}
+
+.am-search__field:hover {
+	border-color: var(--control-border);
+	color: var(--text);
+}
+
+.am-search__label {
+	color: var(--text-2);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.am-search__value {
+	font-size: 18px;
+}
+
+.am-search__in .am-search__go {
+	min-height: 76px;
+	padding: 0 36px;
+	border-radius: 16px;
+}
+
+@media (max-width: 760px) {
+
+	.am-search__in {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.am-search__field--guests,
+	.am-search__in .am-search__go {
+		grid-column: 1 / -1;
+	}
+}
