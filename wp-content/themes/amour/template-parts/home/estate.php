@@ -31,9 +31,10 @@ if ( '' === $amour_title && ! $amour_photo ) {
 					'full',
 					false,
 					array(
-						'sizes'    => '100vw',
-						'loading'  => 'lazy',
-						'decoding' => 'async',
+						'sizes'         => '100vw',
+						'loading'       => 'lazy',
+						'decoding'      => 'async',
+						'data-parallax' => '',
 					)
 				);
 				?>

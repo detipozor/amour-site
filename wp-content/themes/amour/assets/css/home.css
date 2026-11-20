@@ -360,3 +360,392 @@
 	height: 100%;
 	object-fit: cover;
 }
+
+/* ---------- A day at Amour (board Main-v2, "dy"; geometry from assets/js/home/day.js) ---------- */
+
+.am-day {
+	--top-pad: 100px;
+	--head-fs: 63px;
+	--cap-h: 104px;
+	--line-fs: clamp(22px, 1.9vw, 28px);
+	position: relative;
+	height: calc(100vh + (var(--nf) - 1) * 45vh + 25vh); /* pinned: 45vh of scroll per frame */
+}
+
+.am-day__stage {
+	position: sticky;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+	padding: var(--top-pad) 0 24px;
+}
+
+.am-day__head {
+	flex: none;
+	width: 100%;
+	max-width: var(--container);
+	margin: 0 auto;
+	padding: 0 var(--gutter);
+	text-align: center;
+}
+
+.am-day .am-day__title {
+	font-size: var(--head-fs);
+	line-height: 1;
+	letter-spacing: -0.02em;
+}
+
+.am-day__strip {
+	position: relative;
+	flex: 1;
+	min-height: 0;
+}
+
+.am-day__card {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: 0;
+	overflow: hidden;
+	background: var(--line);
+}
+
+.am-day__card img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.am-day__caps {
+	position: relative;
+	flex: none;
+	height: var(--cap-h);
+}
+
+.am-day__cap {
+	position: absolute;
+	inset: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 0 var(--gutter);
+	text-align: center;
+	opacity: 0;
+}
+
+/* Before the script runs (and if it does not), the first caption is there */
+.am-day__cap.is-active {
+	opacity: 1;
+}
+
+.am-day__line {
+	max-width: 560px;
+	color: var(--text);
+	font-size: var(--line-fs);
+	line-height: 1.32;
+	text-wrap: balance;
+}
+
+/* Phone and reduced motion: a strip that scrolls with a finger (docs/12): the arch 78% wide,
+   the neighbours smaller and quiet at the edges; --ea per card from assets/js/home/day.js */
+.am-day.is-carousel {
+	--top-pad: 100px;
+	--head-fs: 34px;
+	--cap-h: 118px;
+	--line-fs: 19px;
+	height: auto;
+}
+
+.am-day.is-carousel .am-day__stage {
+	position: relative;
+	height: auto;
+	padding: var(--sec-s) 0 var(--sec-s);
+}
+
+.am-day.is-carousel .am-day__strip {
+	display: flex;
+	gap: 12px;
+	margin-top: 28px;
+	padding: 24px 11vw;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	overscroll-behavior-x: contain;
+}
+
+.am-day.is-carousel .am-day__strip::-webkit-scrollbar {
+	display: none;
+}
+
+.am-day.is-carousel .am-day__card {
+	--ea: 0;
+	position: relative;
+	top: auto;
+	left: auto;
+	flex: none;
+	width: 78vw;
+	max-width: 420px;
+	aspect-ratio: 3 / 4;
+	border-radius: calc(39vw * (1 - var(--ea))) calc(39vw * (1 - var(--ea))) 24px 24px;
+	scroll-snap-align: center;
+	transform: scale(calc(1 - 0.28 * var(--ea)));
+}
+
+.am-day.is-carousel .am-day__card img {
+	filter: grayscale(calc(0.88 * var(--ea))) sepia(calc(0.32 * var(--ea))) contrast(calc(1 - 0.08 * var(--ea)));
+}
+
+.am-day.is-carousel .am-day__card--repeat {
+	display: none;
+}
+
+.am-day.is-carousel .am-day__cap.is-active {
+	opacity: 1;
+	transition: opacity 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-day.is-carousel .am-day__card {
+		border-radius: var(--radius-arch) var(--radius-arch) 24px 24px;
+		transform: none;
+	}
+
+	.am-day.is-carousel .am-day__card img {
+		filter: none;
+	}
+}
+
+/* ---------- Rooms grid (board Main-v2, "units"; phone rules from amour-soft.css) ---------- */
+
+.am-rooms {
+	padding: var(--sec-l) var(--gutter) var(--sec-m);
+	overflow-x: clip;
+}
+
+.am-rooms__in {
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-rooms__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 32px;
+	margin-bottom: 56px;
+}
+
+.am-rooms__counts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.am-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 5px 18px 5px 5px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	color: var(--text);
+	font-size: 15px;
+}
+
+.am-chip__n {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 34px;
+	height: 34px;
+	padding: 0 8px;
+	border-radius: var(--r-pill);
+	background: var(--c-limestone);
+	font-weight: 500;
+}
+
+.am-rooms .am-rooms__title {
+	font-size: min(5.6vw, 9vh, 88px);
+	line-height: 1;
+	letter-spacing: -0.03em;
+	text-align: right;
+}
+
+.am-rooms__ln {
+	display: block;
+}
+
+.am-rooms__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	column-gap: 24px;
+	align-items: start;
+}
+
+.am-rooms__col {
+	display: flex;
+	flex-direction: column;
+	gap: 64px;
+}
+
+.am-unit {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	color: var(--text);
+	text-decoration: none;
+}
+
+.am-unit:hover {
+	color: var(--text);
+}
+
+.am-unit__pic {
+	position: relative;
+	display: block;
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+	border-radius: var(--r-card);
+	background: var(--line);
+}
+
+.am-unit--tall .am-unit__pic {
+	aspect-ratio: 6 / 7;
+}
+
+/* Short screens: the tall cards are square, so the villa card fits under the header */
+@media (max-height: 759px) {
+
+	.am-unit--tall .am-unit__pic {
+		aspect-ratio: 1 / 1;
+	}
+}
+
+.am-unit--villa .am-unit__pic {
+	border-radius: var(--radius-arch) var(--radius-arch) var(--r-card) var(--r-card);
+}
+
+.am-unit__img,
+.am-unit__alt {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition:
+		transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1),
+		opacity 0.6s ease;
+}
+
+.am-unit--villa .am-unit__img {
+	object-position: 62% 40%;
+}
+
+.am-unit__alt {
+	opacity: 0;
+}
+
+.am-unit:hover .am-unit__img,
+.am-unit:focus-visible .am-unit__img {
+	transform: scale(1.04);
+}
+
+.am-unit:hover .am-unit__alt,
+.am-unit:focus-visible .am-unit__alt {
+	opacity: 1;
+}
+
+.am-unit__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 20px;
+}
+
+.am-unit__name {
+	color: var(--text);
+	font-family: var(--font-head);
+	font-size: clamp(19px, 1.9vw, 28px);
+	font-weight: 500;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	white-space: nowrap;
+}
+
+.am-unit--villa .am-unit__name {
+	color: var(--c-sea);
+}
+
+.am-unit__facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.am-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 36px;
+	padding: 0 12px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	color: var(--text);
+	font-size: 15px;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.am-pill svg {
+	flex: none;
+}
+
+@media (max-width: 760px) {
+
+	.am-rooms__grid {
+		grid-template-columns: minmax(0, 1fr);
+		row-gap: 64px;
+	}
+
+	.am-rooms .am-rooms__title {
+		font-size: clamp(30px, 10vw, 44px);
+		line-height: 1.06;
+	}
+
+	/* As at Casa Momo: tall photos that drift with the scroll, one picture each, the facts clear of the photo */
+	.am-unit .am-unit__pic,
+	.am-unit--tall .am-unit__pic {
+		aspect-ratio: 4 / 5;
+		border-radius: 20px;
+	}
+
+	.am-unit__alt {
+		display: none;
+	}
+
+	.am-unit:hover .am-unit__img {
+		transform: none;
+	}
+
+	.am-unit {
+		gap: 20px;
+	}
+
+	.am-unit__row {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+}
+
+/* Blocks here change size with the scroll; the browser must not shift the page to "keep" a block in place */
+.am-home {
+	overflow-anchor: none;
+}
