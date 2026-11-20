@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<ruleset name="Amour">
+	<description>WordPress coding standards for the Amour theme and plugin.</description>
+
+	<file>wp-content/themes/amour</file>
+	<file>wp-content/plugins/amour-core</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<!-- The live hosting runs PHP 8.2 or newer (HANDOFF, section 1). -->
+	<config name="testVersion" value="8.2-"/>
+	<config name="minimum_wp_version" value="6.6"/>
+
+	<rule ref="WordPress-Extra"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="amour"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="amour"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

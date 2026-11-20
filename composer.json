@@ -1,0 +1,21 @@
+{
+  "name": "detipozor/amour-site",
+  "description": "PHP code checks for the Amour Relax Hotel theme and plugin",
+  "type": "project",
+  "license": "proprietary",
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "wp-coding-standards/wpcs": "^3.4"
+  },
+  "scripts": {
+    "lint": "phpcs",
+    "fix": "phpcbf"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  }
+}

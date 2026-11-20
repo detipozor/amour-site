@@ -1,0 +1,31 @@
+{
+  "name": "amour-site",
+  "private": true,
+  "description": "WordPress theme and tests for Amour Relax Hotel and Villa Eudora",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "wp:start": "wp-env start && npm run wp:seed",
+    "wp:seed": "wp-env run cli wp amour seed --media=/var/www/html/amour-assets/images",
+    "wp:stop": "wp-env stop",
+    "wp:reset": "wp-env reset && npm run wp:seed",
+    "lint": "npm run lint:php && npm run lint:js && npm run lint:css",
+    "lint:php": "composer lint",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"wp-content/**/*.css\"",
+    "test": "playwright test",
+    "check": "npm run lint && npm test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^10.0.0",
+    "@playwright/test": "^1.65.1",
+    "@wordpress/env": "^12.2.0",
+    "eslint": "^10.15.0",
+    "globals": "^17.0.0",
+    "stylelint": "^18.1.0"
+  }
+}
