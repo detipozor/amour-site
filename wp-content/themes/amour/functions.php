@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.9.0' );
+define( 'AMOUR_VERSION', '0.10.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -73,6 +73,7 @@ function amour_assets() {
 		'@amour/home-reviews'  => array( 'assets/js/home/reviews.js', array( '@amour/motion' ) ),
 		'@amour/home-direct'   => array( 'assets/js/home/direct.js', array( '@amour/motion' ) ),
 		'@amour/parallax'      => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
+		'@amour/room'          => array( 'assets/js/room.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -84,6 +85,12 @@ function amour_assets() {
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
+	}
+
+	// Room pages (the pages under /rooms/).
+	if ( amour_is_room() ) {
+		wp_enqueue_style( 'amour-room', get_theme_file_uri( 'assets/css/room.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		$enqueue[] = '@amour/room';
 	}
 
 	foreach ( $enqueue as $id ) {
@@ -145,3 +152,20 @@ function amour_html_theme( $output ) {
 	return $output . ' data-theme="' . esc_attr( amour_brand() ) . '"';
 }
 add_filter( 'language_attributes', 'amour_html_theme' );
+
+/**
+ * Every page under /rooms/ uses the room template (page-room.php), in every language.
+ *
+ * @param string $template Template WordPress picked.
+ * @return string
+ */
+function amour_room_template( $template ) {
+	if ( is_page() && amour_is_room() ) {
+		$room = locate_template( 'page-room.php' );
+		if ( $room ) {
+			return $room;
+		}
+	}
+	return $template;
+}
+add_filter( 'template_include', 'amour_room_template' );

@@ -1,0 +1,508 @@
+/**
+ * Room page (boards Room-*; design/generators/room_template.html). Logic: assets/js/room.js.
+ * The script writes --k on each photo (0 arch → 1 open) and --t on the page (0 wine → 1 limestone);
+ * without it (or with reduced motion) the photos stand open and the colours stand still.
+ */
+
+.am-room {
+	--t: 0;
+	position: relative;
+}
+
+/* ---------- 1. The wine screen ---------- */
+.am-room__stage {
+	position: relative;
+	background: var(--deep);
+	color: var(--c-limestone);
+}
+
+.am-room.is-live .am-room__stage {
+	background: color-mix(in srgb, var(--deep), var(--bg) calc(var(--t) * 100%));
+}
+
+.am-room__screen {
+	position: sticky;
+	top: 0;
+	z-index: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	height: 100vh;
+	min-height: 560px;
+	padding: 0 var(--gutter);
+	text-align: center;
+}
+
+.am-room__kicker {
+	color: color-mix(in srgb, var(--c-limestone) 78%, transparent);
+}
+
+.am-room__name {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: min(184px, 15vw);
+	font-weight: 400;
+	line-height: 0.98;
+	letter-spacing: -0.03em;
+}
+
+.am-room__meta {
+	color: color-mix(in srgb, var(--c-limestone) 85%, transparent);
+	font-size: 18px;
+}
+
+.am-room__cue {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	height: 34px;
+	margin-top: 12px;
+	padding: 0 14px 0 6px;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-limestone) 10%, transparent);
+	color: color-mix(in srgb, var(--c-limestone) 80%, transparent);
+	font-size: 13px;
+}
+
+.am-room__cue i {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--c-limestone) 14%, transparent);
+	font-style: normal;
+	animation: am-room-cue 1.8s ease-in-out infinite;
+}
+
+@keyframes am-room-cue {
+
+	0%,
+	100% {
+		transform: translateY(-2px);
+	}
+
+	50% {
+		transform: translateY(3px);
+	}
+}
+
+/* The name block comes up once the page is there (after the curtain when arriving through it) */
+.am-room__rise {
+	animation: am-room-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.am-room__kicker.am-room__rise { animation-delay: 0.1s; }
+.am-room__name.am-room__rise { animation-delay: 0.2s; }
+.am-room__meta.am-room__rise { animation-delay: 0.35s; }
+.am-room__cue.am-room__rise { animation-delay: 0.5s; }
+
+.is-arriving--curtain .am-room__rise {
+	animation-delay: 0.7s;
+}
+
+@keyframes am-room-rise {
+
+	from {
+		opacity: 0;
+		filter: blur(8px);
+		transform: translateY(24px);
+	}
+
+	to {
+		opacity: 1;
+		filter: none;
+		transform: none;
+	}
+}
+
+/* The photos rise over the name, left and right in turn */
+.am-room__stream {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	margin-top: -16vh;
+	padding: 0 var(--gutter) 160px;
+}
+
+.am-room__fig {
+	--k: 1;
+	position: relative;
+	align-self: flex-start;
+	width: var(--w);
+	margin: 120px 0 0 var(--indent);
+}
+
+.am-room__fig[data-side="right"] {
+	align-self: flex-end;
+	margin-right: var(--indent);
+	margin-left: 0;
+}
+
+.am-room__fig[data-top="first"] {
+	margin-top: 0;
+}
+
+.am-room__fig[data-top="beside"] {
+	margin-top: -240px;
+}
+
+.am-room__pic {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 3 / 2;
+	border-radius:
+		calc(50% * (1 - var(--k)) + 24px * var(--k))
+		calc(50% * (1 - var(--k)) + 24px * var(--k))
+		24px 24px /
+		calc(32% * (1 - var(--k)) + 24px * var(--k))
+		calc(32% * (1 - var(--k)) + 24px * var(--k))
+		24px 24px;
+	background: color-mix(in srgb, var(--c-limestone) 8%, transparent);
+}
+
+.am-room__fig[data-shape="upright"] .am-room__pic {
+	aspect-ratio: 3 / 4;
+}
+
+.am-room__pic img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transform: scale(calc(1.08 - 0.08 * var(--k)));
+}
+
+.am-room__cap {
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	margin-top: 12px;
+	color: color-mix(in srgb, var(--c-limestone) 72%, transparent);
+	font-size: 14px;
+}
+
+.am-room__count {
+	flex: none;
+	font-variant-numeric: tabular-nums;
+}
+
+.am-room__count b {
+	color: var(--c-limestone);
+	font-weight: 500;
+}
+
+/* Once the wine has run into limestone (tall screens: while the last photos are still up), captions turn dark */
+.am-room__cap,
+.am-room__count b {
+	transition: color 0.4s ease;
+}
+
+.am-room.is-live .am-room__stage[data-tone="light"] .am-room__cap {
+	color: var(--text-2);
+}
+
+.am-room.is-live .am-room__stage[data-tone="light"] .am-room__count b {
+	color: var(--text);
+}
+
+/* ---------- 2–3. Room details: wine runs into limestone as they come up ---------- */
+.am-room__details {
+	padding: var(--sec-l) var(--gutter) var(--sec-m);
+	background: var(--bg);
+	color: var(--text);
+}
+
+.am-room.is-live .am-room__details {
+	background: color-mix(in srgb, var(--deep), var(--bg) calc(var(--t) * 100%));
+}
+
+.am-room.is-live .am-room__details.is-dark {
+	color: var(--c-limestone);
+}
+
+.am-room__in {
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-room__giant {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: min(120px, 10vw);
+	font-weight: 400;
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+.am-room__row {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	margin-top: 48px;
+}
+
+.am-room__row--desc {
+	margin-top: 96px;
+}
+
+.am-room__row--facts {
+	margin-top: 112px;
+}
+
+.am-room__row--all {
+	margin-top: 40px;
+}
+
+.am-room__row--all[hidden] {
+	display: none;
+}
+
+.am-room__label {
+	grid-column: 1 / span 3;
+	margin: 0;
+	padding-top: 18px;
+	font-family: var(--font-label);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	opacity: 0.7;
+}
+
+.am-room__row--desc .am-room__label {
+	padding-top: 10px;
+}
+
+.am-room__desc {
+	grid-column: 5 / span 8;
+	font-size: 28px;
+	line-height: 1.45;
+}
+
+.am-room__facts {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column: 5 / span 8;
+	align-content: start;
+	column-gap: 48px;
+	margin: 0;
+}
+
+.am-room__fact {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+	gap: 16px;
+	align-items: center;
+	padding: 16px 0;
+}
+
+.am-room__fact dd {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.45;
+	text-align: right;
+	text-wrap: pretty;
+	opacity: 0.78;
+}
+
+.am-room__row:has(.am-room__more) > * {
+	grid-column: 5 / span 8;
+}
+
+.am-room__more {
+	display: inline-flex;
+	align-items: center;
+	justify-self: start;
+	gap: 12px;
+	min-height: 48px;
+	padding: 0 24px;
+	border: 0;
+	border-radius: var(--r-pill);
+	background: color-mix(in srgb, var(--c-dark) 7%, transparent);
+	color: inherit;
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.am-room.is-live .am-room__details.is-dark .am-room__more {
+	background: color-mix(in srgb, var(--c-limestone) 12%, transparent);
+}
+
+.am-room__plus {
+	display: inline-block;
+	font-size: 20px;
+	line-height: 1;
+	transition: transform 0.3s;
+}
+
+.am-room__more[aria-expanded="true"] .am-room__plus {
+	transform: rotate(45deg);
+}
+
+/* The details come up softly once in view (room.js adds is-ready, then is-in); without the script they stand */
+.am-room__details.is-ready:not(.is-in) .am-room__enter {
+	opacity: 0;
+	filter: blur(8px);
+	transform: translateY(16px);
+}
+
+.am-room__details.is-ready:not(.is-in) .am-room__row--facts .am-room__fact {
+	opacity: 0;
+	transform: translateY(12px);
+}
+
+.am-room__details.is-in .am-room__enter {
+	transition:
+		opacity 0.4s ease,
+		transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+		filter 0.4s ease;
+}
+
+.am-room__details.is-in .am-room__desc {
+	transition-delay: 0.1s;
+}
+
+.am-room__details.is-in .am-room__row--facts .am-room__fact {
+	transition:
+		opacity 0.5s ease,
+		transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+	transition-delay: calc(0.15s + var(--i) * 0.05s);
+}
+
+/* ---------- 4. The price capsule ---------- */
+.am-dock {
+	position: sticky;
+	bottom: 24px;
+	z-index: 20;
+	display: flex;
+	justify-content: center;
+	padding: 0 var(--gutter) 48px;
+	pointer-events: none;
+}
+
+.am-dock__pill {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	padding: 8px 8px 8px 26px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	box-shadow: 0 12px 32px color-mix(in srgb, var(--c-dark) 18%, transparent);
+	color: var(--text);
+	pointer-events: auto;
+	transition:
+		opacity 0.35s ease,
+		transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.am-dock__price {
+	font-size: 15px;
+	white-space: nowrap;
+}
+
+/* Steps aside over the facts, the buttons and the footer (room.js) */
+.am-dock.is-away .am-dock__pill {
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(28px);
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+
+	.am-room__screen {
+		height: 100svh;
+	}
+
+	.am-room__name {
+		font-size: 13.5vw;
+		line-height: 0.95;
+	}
+
+	.am-room__stream {
+		padding: 0 var(--gutter) 96px;
+	}
+
+	.am-room__fig,
+	.am-room__fig[data-side="right"],
+	.am-room__fig[data-top="beside"],
+	.am-room__fig[data-top="below"] {
+		width: 72vw;
+		margin: 88px 0 0;
+	}
+
+	.am-room__fig[data-shape="wide"] {
+		width: 86vw;
+	}
+
+	.am-room__fig[data-top="first"] {
+		margin-top: 0;
+	}
+
+	.am-room__cap {
+		font-size: 13px;
+	}
+
+	.am-room__row,
+	.am-room__row--desc,
+	.am-room__row--facts {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 20px;
+	}
+
+	.am-room__row--desc,
+	.am-room__row--facts {
+		margin-top: 56px;
+	}
+
+	.am-room__label,
+	.am-room__desc,
+	.am-room__facts,
+	.am-room__row:has(.am-room__more) > * {
+		grid-column: 1 / -1;
+	}
+
+	.am-room__label {
+		padding-top: 0;
+	}
+
+	.am-room__giant {
+		font-size: 44px;
+	}
+
+	.am-room__desc {
+		font-size: 22px;
+	}
+
+	.am-room__facts {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.am-dock__pill {
+		justify-content: space-between;
+		width: 100%;
+		max-width: 420px;
+		padding-left: 20px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-room__rise,
+	.am-room__cue i {
+		animation: none;
+	}
+
+	.am-dock__pill,
+	.am-room__plus {
+		transition: none;
+	}
+}

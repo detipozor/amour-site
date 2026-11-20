@@ -455,3 +455,110 @@ function amour_reviews() {
 	}
 	return $reviews;
 }
+
+/**
+ * Is this a room page (a page under /rooms/, in any language)?
+ *
+ * @param int|null $id Page id; the current page by default.
+ * @return bool
+ */
+function amour_is_room( $id = null ) {
+	$id = $id ? (int) $id : ( is_page() ? get_queried_object_id() : 0 );
+	if ( ! $id ) {
+		return false;
+	}
+	$source = function_exists( 'pll_get_post' ) && function_exists( 'pll_default_language' ) && pll_get_post( $id, pll_default_language() ) ? pll_get_post( $id, pll_default_language() ) : $id;
+	$parent = get_post_parent( $source );
+	return $parent && 'rooms' === $parent->post_name;
+}
+
+/**
+ * Everything a room page shows (board Room-*, design/generators/room_template.html), from the fields of the page.
+ * The photo stream is laid out here, as on the board: upright photos 34% wide, wide ones 52%, left and right in
+ * turn with small indents; a photo moves up beside the previous one when the two fit side by side.
+ *
+ * @param int|null $id Page id; the current page by default.
+ * @return array<string, mixed>
+ */
+function amour_room( $id = null ) {
+	$id     = $id ? (int) $id : get_queried_object_id();
+	$f      = static fn( $name ) => amour_page_field( $name, $id );
+	$price  = $f( 'price_from' );
+	$photos = array_values( array_filter( (array) $f( 'room_gallery' ), static fn( $p ) => ! empty( $p['photo'] ) ) );
+
+	$figs = array();
+	$prev = null;
+	foreach ( $photos as $i => $photo ) {
+		$meta  = wp_get_attachment_metadata( (int) $photo['photo'] );
+		$shape = $photo['shape'] ?? 'auto';
+		if ( 'auto' === $shape || '' === $shape ) {
+			$shape = ! empty( $meta['height'] ) && ! empty( $meta['width'] ) && $meta['height'] > $meta['width'] ? 'upright' : 'wide';
+		}
+		$width  = 'upright' === $shape ? 34 : 52;
+		$indent = array( 0, 0, 6, 4, 2, 8, 0 )[ $i % 7 ];
+		$reach  = $width + $indent;
+		$beside = null !== $prev && $prev + $reach + 4 <= 100;
+		$prev   = $reach;
+		$figs[] = array(
+			'photo'   => (int) $photo['photo'],
+			'caption' => (string) ( $photo['caption'] ?? '' ),
+			'shape'   => $shape,
+			'side'    => $i % 2 ? 'right' : 'left',
+			'width'   => $width,
+			'indent'  => $indent,
+			'top'     => 0 === $i ? 'first' : ( $beside ? 'beside' : 'below' ),
+		);
+	}
+
+	$facts = array_values(
+		array_filter(
+			array_map(
+				static fn( $row ) => array(
+					'label' => trim( (string) ( $row['label'] ?? '' ) ),
+					'value' => trim( (string) ( $row['value'] ?? '' ) ),
+				),
+				(array) $f( 'room_facts' )
+			),
+			static fn( $row ) => '' !== $row['label']
+		)
+	);
+
+	// The rules for every room close the list of all details.
+	$stay = array();
+	foreach ( array(
+		/* translators: %s: time, for example 14:00. */
+		'amour_checkin'  => array( __( 'Check-in', 'amour' ), __( 'From %s', 'amour' ) ),
+		/* translators: %s: time, for example 11:00. */
+		'amour_checkout' => array( __( 'Check-out', 'amour' ), __( 'By %s', 'amour' ) ),
+	) as $key => $words ) {
+		$time = trim( (string) amour_option( $key ) );
+		if ( '' !== $time ) {
+			$stay[] = array(
+				'label' => $words[0],
+				'value' => sprintf( $words[1], $time ),
+			);
+		}
+	}
+	foreach ( (array) amour_option( 'amour_stay_rules' ) as $rule ) {
+		if ( ! empty( $rule['label'] ) ) {
+			$stay[] = array(
+				'label' => (string) $rule['label'],
+				'value' => (string) ( $rule['value'] ?? '' ),
+			);
+		}
+	}
+
+	return array(
+		'name'        => (string) ( $f( 'card_name' ) ? $f( 'card_name' ) : get_the_title( $id ) ),
+		'kicker'      => (string) $f( 'room_kicker' ),
+		'meta'        => (string) $f( 'room_meta' ),
+		'cue'         => (string) $f( 'room_cue' ),
+		'figs'        => $figs,
+		'title'       => (string) $f( 'room_details_title' ),
+		'desc_label'  => (string) $f( 'room_desc_label' ),
+		'description' => (string) $f( 'room_description' ),
+		'key'         => array_slice( $facts, 0, 6 ),
+		'more'        => array_merge( array_slice( $facts, 6 ), $stay ),
+		'price'       => amour_or_placeholder( is_numeric( $price ) ? number_format_i18n( (float) $price ) : '', 'price' ),
+	);
+}

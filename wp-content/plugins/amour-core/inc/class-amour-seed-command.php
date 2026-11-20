@@ -146,6 +146,7 @@ class Amour_Seed_Command {
 		$this->hotel_settings();
 		$this->home_content( $ids['home'] );
 		$this->cards( $ids );
+		$this->rooms( $ids );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -795,6 +796,76 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_review_home', 1, $id );
 		}
 		WP_CLI::log( 'Reviews: placeholders from the board' );
+	}
+
+	/**
+	 * Room pages (data/rooms.json, from the boards Room-standard, Room-deluxe and Room-superior): label, line,
+	 * photos with captions, description and details; and the rules for every room in Hotel settings.
+	 * Fills only empty pages, so edits in the admin survive a new run.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function rooms( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_room_fields' ) ) {
+			amour_register_room_fields(); // the room pages may have been created by this very run
+		}
+		$data = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/rooms.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+
+		if ( ! get_field( 'amour_checkin', 'option' ) ) {
+			update_field( 'field_amour_checkin', '14:00', 'option' );
+			update_field( 'field_amour_checkout', '11:00', 'option' );
+			update_field(
+				'field_amour_stay_rules',
+				array_map(
+					static fn( $rule ) => array(
+						'field_amour_stay_rule_label' => $rule['label'],
+						'field_amour_stay_rule_value' => $rule['value'],
+					),
+					$data['stay']
+				),
+				'option'
+			);
+		}
+
+		foreach ( $data['rooms'] as $slug => $room ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( ! $id || get_field( 'room_kicker', $id, false ) ) {
+				continue;
+			}
+			update_field( 'field_amour_room_kicker', $room['kicker'], $id );
+			update_field( 'field_amour_room_meta', $room['meta'], $id );
+			update_field( 'field_amour_room_cue', 'Scroll to see the room', $id );
+			update_field( 'field_amour_room_details_title', 'Room details', $id );
+			update_field( 'field_amour_room_desc_label', 'The room', $id );
+			update_field( 'field_amour_room_description', $room['description'], $id );
+			$photos = array();
+			foreach ( $room['photos'] as $photo ) {
+				$photo_id = $this->attachment_by_blob( $photo['blob'] );
+				if ( $photo_id ) {
+					$photos[] = array(
+						'field_amour_room_photo'         => $photo_id,
+						'field_amour_room_photo_caption' => $photo['caption'],
+						'field_amour_room_photo_shape'   => $photo['shape'],
+					);
+				}
+			}
+			update_field( 'field_amour_room_gallery', $photos, $id );
+			update_field(
+				'field_amour_room_facts',
+				array_map(
+					static fn( $fact ) => array(
+						'field_amour_room_fact_label' => $fact['label'],
+						'field_amour_room_fact_value' => $fact['value'],
+					),
+					$room['facts']
+				),
+				$id
+			);
+		}
+		WP_CLI::log( 'Rooms: pages and stay rules' );
 	}
 
 	/**
