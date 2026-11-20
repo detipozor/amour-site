@@ -692,6 +692,11 @@ class Amour_Seed_Command {
 		if ( ! function_exists( 'update_field' ) ) {
 			return;
 		}
+		// The card fields attach to the pages under /rooms/ and the villa page. On a fresh site those pages are
+		// created by this very run, after the fields were set up, so set them up again now that the pages exist.
+		if ( function_exists( 'amour_register_card_fields' ) ) {
+			amour_register_card_fields();
+		}
 		$fact  = static fn( $icon, $text ) => array(
 			'field_amour_card_fact_icon' => $icon,
 			'field_amour_card_fact_text' => $text,
