@@ -148,6 +148,7 @@ class Amour_Seed_Command {
 		$this->cards( $ids );
 		$this->rooms( $ids );
 		$this->villa( $ids['villa-eudora'] ?? 0 );
+		$this->estate( $ids['court-and-pool'] ?? 0 );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1042,6 +1043,41 @@ class Amour_Seed_Command {
 			update_field( $key, $value, $id );
 		}
 		WP_CLI::log( 'Villa: page' );
+	}
+
+	/**
+	 * The Court and pool page (data/estate.json, from the board Estate). Only when the page is empty.
+	 *
+	 * @param int $id Court and pool page id.
+	 */
+	private function estate( $id ) {
+		if ( ! $id || ! function_exists( 'update_field' ) || get_field( 'estate_title', $id, false ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_estate_fields' ) ) {
+			amour_register_estate_fields();
+		}
+		$e     = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/estate.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		$photo = fn( $blob ) => $blob ? $this->attachment_by_blob( $blob ) : 0;
+		$rows  = fn( $key, $items ) => array_map(
+			static function ( $item ) use ( $key, $photo ) {
+				$row = array();
+				foreach ( $item as $name => $value ) {
+					$row[ 'field_amour_estate_' . $key . '_' . $name ] = 'photo' === $name ? $photo( $value ) : $value;
+				}
+				return $row;
+			},
+			$items
+		);
+		foreach ( $e as $name => $value ) {
+			if ( is_array( $value ) ) {
+				$value = $rows( $name, $value );
+			} elseif ( in_array( $name, array( 'video', 'poster', 'court_day', 'court_night', 'plan_photo' ), true ) ) {
+				$value = $photo( $value );
+			}
+			update_field( 'field_amour_estate_' . $name, $value, $id );
+		}
+		WP_CLI::log( 'Court and pool: page' );
 	}
 
 	/**

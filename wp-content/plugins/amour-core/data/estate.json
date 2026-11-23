@@ -1,0 +1,72 @@
+{
+ "title": "Game, set, sunset",
+ "text": "Our own tennis court and a pool with a sun terrace, free for every guest of the hotel and the villa.",
+ "facts": "Free · floodlit · rackets to borrow · [07:00–23:00] · [surface]",
+ "video": "ee3a0cf95a1b8e88deb975fb7351c5ad",
+ "poster": "04e7c13a0591f2eb4fc21fd583b503eb",
+ "video_label": "A serve on the hotel court at sunset",
+ "court_label": "The court",
+ "court_title": "Morning sets,\nevening sets",
+ "court_text": "Our own court in the middle of the estate. Play before the heat or after it: the lights come on when the sun goes down.",
+ "court_day": "deb2647ed7b0e40eb233a905c0be42ac",
+ "court_night": "eb955df83df1fb9544e16d9e70a299c1",
+ "pool_label": "The pool",
+ "pool_title": "Quiet days by the water",
+ "pool_text": "Sunbeds by day, daybeds for the slow hours, lights for a late swim.",
+ "pool_points": [
+  {
+   "title": "Sunbeds and parasols",
+   "text": "Along the limestone wall, for the long middle of the day.",
+   "photo": "0e96a56d5b0f7d9625ef1a65d94f4b68"
+  },
+  {
+   "title": "Daybeds with white curtains",
+   "text": "Shade, a book and a slow afternoon above the court.",
+   "photo": "3d4fe371301d6eb1243e6659e55b94e1"
+  },
+  {
+   "title": "Lit after dark",
+   "text": "Underwater lights for a late swim. [Open from … to …] · [pool towels]",
+   "photo": "3e03be045ef749e0d13cdb0ef58aa776"
+  }
+ ],
+ "plan_label": "The estate from above",
+ "plan_title": "Everything a few steps apart",
+ "plan_text": "Rooms on terraces stepping down the hill, the court in the middle, the pool above it and olive groves all around. Tap a place on the photo to see it.",
+ "plan_photo": "0e96a56d5b0f7d9625ef1a65d94f4b68",
+ "places": [
+  {
+   "name": "Pool",
+   "text": "The pool and its limestone sun terrace, with sunbeds and parasols. Lit after dark for a late swim.",
+   "photo": "3e03be045ef749e0d13cdb0ef58aa776"
+  },
+  {
+   "name": "Tennis court",
+   "text": "Our own court, free for guests and lit in the evening.",
+   "photo": "deb2647ed7b0e40eb233a905c0be42ac"
+  },
+  {
+   "name": "Daybeds",
+   "text": "Four daybeds with white curtains above the court.",
+   "photo": "3d4fe371301d6eb1243e6659e55b94e1"
+  },
+  {
+   "name": "Barbecue",
+   "text": "The barbecue corner right next to the court, for long evenings outside.",
+   "photo": "66ae1f1c9d57db92ed755f2ef7830d6e"
+  },
+  {
+   "name": "Lawns",
+   "text": "Lawns between the terraces, with places to sit: a quiet corner in the shade with a book.",
+   "photo": "8649725dd6bec50b156cded1cc97a537"
+  },
+  {
+   "name": "Olive grove",
+   "text": "Olive groves around the hotel, with paths to walk at golden hour.",
+   "photo": ""
+  }
+ ],
+ "end_label": "In every stay",
+ "end_title": "Pack a swimsuit, leave the racket",
+ "end_text": "The court and the pool are free for every guest, in the rooms and at the villa. Rackets and balls are waiting at the court."
+}
