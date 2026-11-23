@@ -47,7 +47,8 @@ if ( loc ) {
 			pinned = want;
 			loc.classList.toggle( 'is-pinned', pinned );
 		}
-		const mk = pinned ? clamp( -loc.getBoundingClientRect().top / 760 ) : 1;
+		const top = loc.getBoundingClientRect().top;
+		const mk = pinned ? clamp( -top / 760 ) : 1;
 		const me = smooth( mk );
 		const z = Math.exp( Math.log( far.z ) + ( Math.log( near.z ) - Math.log( far.z ) ) * me );
 		const ox = ( hx - far.dx ) * far.z + ( ( hx - near.dx ) * near.z - ( hx - far.dx ) * far.z ) * me;
@@ -59,6 +60,6 @@ if ( loc ) {
 		canvas.style.setProperty( '--u', ( 2400 / ( canvas.offsetWidth * z ) ).toFixed( 4 ) );
 		canvas.style.setProperty( '--road-o', clamp( ( me - 0.55 ) / 0.35 ).toFixed( 3 ) );
 		canvas.style.setProperty( '--spot-o', clamp( ( me - 0.6 ) / 0.3 ).toFixed( 3 ) );
-		loc.classList.toggle( 'is-hint', pinned && mk < 0.15 );
+		loc.classList.toggle( 'is-hint', pinned && mk < 0.15 && top < vh ); // only once the map is on the screen
 	} );
 }

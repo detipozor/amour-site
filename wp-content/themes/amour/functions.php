@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.10.0' );
+define( 'AMOUR_VERSION', '0.11.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -77,6 +77,7 @@ function amour_assets() {
 		'@amour/room'          => array( 'assets/js/room.js', array( '@amour/motion' ) ),
 		'@amour/location'      => array( 'assets/js/location.js', array( '@amour/motion' ) ),
 		'@amour/villa-page'    => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
+		'@amour/estate'        => array( 'assets/js/estate.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -88,6 +89,12 @@ function amour_assets() {
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
+	}
+
+	// Court and pool.
+	if ( amour_is_page( 'court-and-pool' ) ) {
+		wp_enqueue_style( 'amour-estate', get_theme_file_uri( 'assets/css/estate.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		$enqueue[] = '@amour/estate';
 	}
 
 	// The Rooms page.
@@ -178,6 +185,8 @@ function amour_room_template( $template ) {
 		$file = 'page-room.php';
 	} elseif ( is_page() && amour_is_page( 'rooms' ) ) {
 		$file = 'page-rooms.php'; // the Rooms page under its German address too
+	} elseif ( is_page() && amour_is_page( 'court-and-pool' ) ) {
+		$file = 'page-estate.php';
 	}
 	$found = $file ? locate_template( $file ) : '';
 	return $found ? $found : $template;
