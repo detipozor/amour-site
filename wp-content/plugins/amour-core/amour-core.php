@@ -18,6 +18,7 @@ define( 'AMOUR_CORE_DIR', __DIR__ );
 require_once AMOUR_CORE_DIR . '/inc/fields.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-home.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-rooms.php';
+require_once AMOUR_CORE_DIR . '/inc/fields-villa.php';
 require_once AMOUR_CORE_DIR . '/inc/places.php';
 require_once AMOUR_CORE_DIR . '/inc/reviews.php';
 
