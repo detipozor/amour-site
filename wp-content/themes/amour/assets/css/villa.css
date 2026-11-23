@@ -1,0 +1,482 @@
+/**
+ * The villa page: what it has on top of a room page (template-parts/villa-house.php, villa-events.php).
+ * Colours from the villa's palette (data-theme="eudora" on the page). Logic: assets/js/villa-page.js.
+ */
+
+/* ---------- Five bedrooms ---------- */
+.am-villa-beds {
+	padding: 0 var(--gutter) var(--sec-m);
+}
+
+.am-villa-beds__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px 32px;
+	margin-bottom: 48px;
+}
+
+.am-villa-beds__title {
+	font-size: min(96px, 9vw);
+}
+
+.am-villa-beds__text {
+	max-width: 400px;
+	margin-bottom: 8px;
+	color: var(--text-2);
+}
+
+.am-villa-beds__list {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-villa-bed {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.am-villa-bed__arch {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 3 / 4;
+	border-radius: 50% 50% 24px 24px / 30% 30% 24px 24px;
+	background: var(--c-foam);
+}
+
+.am-villa-bed__arch img {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.am-villa-bed__name {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: -0.01em;
+}
+
+.am-villa-bed__text {
+	margin-top: -10px;
+	color: var(--text-2);
+	font-size: 15px;
+	line-height: 1.45;
+}
+
+.am-villa-beds.is-ready:not(.is-in) .am-villa-beds__title,
+.am-villa-beds.is-ready:not(.is-in) .am-villa-bed {
+	opacity: 0;
+	filter: blur(8px);
+	transform: translateY(16px);
+}
+
+.am-villa-beds.is-in .am-villa-beds__title,
+.am-villa-beds.is-in .am-villa-bed {
+	transition:
+		opacity 0.4s ease,
+		transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+		filter 0.4s ease;
+}
+
+.am-villa-beds.is-in .am-villa-bed {
+	transition-delay: calc(var(--i) * 0.08s);
+}
+
+/* ---------- How the house works ---------- */
+.am-villa-floors {
+	padding: var(--sec-m) var(--gutter);
+}
+
+.am-villa-floors__in {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: center;
+}
+
+.am-villa-floors__fig {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 7;
+	gap: 14px;
+	margin: 0;
+}
+
+.am-villa-floors__pic {
+	overflow: hidden;
+	border-radius: var(--r-media);
+}
+
+.am-villa-floors__pic img,
+.am-house {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.am-villa-floors__fig figcaption {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+/* The drawing in the villa's palette; the floor in focus lights up */
+.am-house__sky { fill: color-mix(in srgb, var(--c-foam) 45%, var(--c-paper)); }
+.am-house__waves path { fill: none; stroke: color-mix(in srgb, var(--c-foam), var(--c-sea) 14%); stroke-width: 1.4; }
+.am-house__ground { fill: var(--c-rule); }
+.am-house__pool { fill: color-mix(in srgb, var(--c-sea) 62%, var(--c-foam)); }
+.am-house__ripple { fill: none; stroke: var(--c-foam); stroke-width: 2; stroke-linecap: round; }
+.am-house__line { fill: none; stroke: var(--c-depth); }
+.am-house__line--table { stroke-width: 5; stroke-linecap: round; }
+.am-house__line--legs { stroke-width: 3; }
+.am-house__line--roof { stroke-width: 5; stroke-linecap: square; }
+.am-house__chairs { fill: var(--c-depth); }
+.am-house__tree path { fill: none; stroke: var(--c-body); stroke-width: 5; }
+.am-house__tree ellipse { fill: color-mix(in srgb, var(--c-body) 42%, var(--c-rule)); }
+.am-house__tree .am-house__leaf { fill: color-mix(in srgb, var(--c-body) 55%, var(--c-rule)); }
+.am-house__windows { fill: var(--c-sea); }
+
+.am-house__floor {
+	fill: var(--c-limestone);
+	stroke: var(--c-depth);
+	stroke-width: 2.5;
+	transition: fill 0.4s;
+}
+
+.am-house__garden {
+	fill: var(--accent-soft);
+	opacity: 0;
+	transition: opacity 0.4s;
+}
+
+.am-house__label {
+	fill: var(--c-muted);
+	font-family: var(--font-body);
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	transition: fill 0.4s;
+}
+
+.am-villa-floors[data-on="0"] .am-house__floor[data-zone="0"],
+.am-villa-floors[data-on="1"] .am-house__floor[data-zone="1"] {
+	fill: var(--accent-soft);
+}
+
+.am-villa-floors[data-on="2"] .am-house__garden {
+	opacity: 1;
+}
+
+.am-villa-floors[data-on="0"] .am-house__label[data-zone="0"],
+.am-villa-floors[data-on="1"] .am-house__label[data-zone="1"],
+.am-villa-floors[data-on="2"] .am-house__label[data-zone="2"] {
+	fill: var(--accent);
+}
+
+.am-villa-floors__text {
+	display: flex;
+	flex-direction: column;
+	grid-column: 9 / span 4;
+	gap: 24px;
+}
+
+.am-villa-floors__title {
+	margin: 0;
+	font-size: 44px;
+	line-height: 1.1;
+}
+
+.am-villa-floors__list {
+	display: flex;
+	flex-direction: column;
+}
+
+.am-villa-floor {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0;
+	padding: 14px 0;
+	border: 0;
+	background: none;
+	color: var(--text);
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
+.am-villa-floor__name {
+	color: var(--text-2);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	transition: color 0.3s;
+}
+
+.am-villa-floor[aria-pressed="true"] .am-villa-floor__name {
+	color: var(--accent);
+}
+
+.am-villa-floor__text {
+	font-size: 17px;
+	line-height: 1.5;
+}
+
+/* ---------- Weddings and gatherings ---------- */
+.am-villa-events {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: max(640px, 100vh);
+	overflow: hidden;
+	background: var(--deep);
+	color: var(--c-limestone);
+}
+
+.am-villa-events__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* A flat shade (the board's gradient is against the brand rules) */
+.am-villa-events::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: color-mix(in srgb, var(--c-ink) 58%, transparent);
+}
+
+.am-villa-events__in {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: center;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: calc(var(--container) + 2 * var(--gutter));
+	margin: 0 auto;
+	padding: 120px var(--gutter);
+}
+
+.am-villa-events__text {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 7;
+	gap: 28px;
+}
+
+.am-villa-events .am-eyebrow {
+	color: var(--c-foam);
+}
+
+.am-villa-events__title {
+	max-width: 760px;
+	margin: 0;
+	font-size: min(4.4vw, 8.4vh, 66px);
+	line-height: 1.04;
+	letter-spacing: -0.03em;
+}
+
+.am-villa-events__ln {
+	display: block;
+	overflow: hidden;
+	padding-bottom: 0.04em;
+}
+
+.am-villa-events__ln > span {
+	display: block;
+}
+
+.am-villa-events__line {
+	max-width: 460px;
+	color: color-mix(in srgb, var(--c-limestone) 88%, transparent);
+	font-size: 18px;
+}
+
+.am-villa-events__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px 24px;
+	margin-top: 4px;
+}
+
+.am-villa-events .am-villa-events__go {
+	border-color: var(--c-limestone);
+	background: var(--c-limestone);
+	color: var(--c-depth);
+}
+
+.am-villa-events .am-villa-events__go:hover {
+	border-color: var(--c-foam);
+	background: var(--c-foam);
+	color: var(--c-depth);
+}
+
+.am-villa-events__wa {
+	color: var(--c-limestone);
+	font-size: 15px;
+	font-weight: 500;
+}
+
+a.am-villa-events__wa:hover {
+	color: var(--c-foam);
+}
+
+.am-villa-events__fig {
+	display: flex;
+	flex-direction: column;
+	grid-column: 9 / span 4;
+	gap: 12px;
+	margin: 0;
+}
+
+.am-villa-events__arch {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 3 / 4;
+	border-radius: 999px 999px 20px 20px;
+	box-shadow: 0 30px 60px color-mix(in srgb, var(--c-ink) 40%, transparent);
+}
+
+.am-villa-events__arch img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 75%;
+}
+
+.am-villa-events__fig figcaption {
+	color: color-mix(in srgb, var(--c-limestone) 85%, transparent);
+	font-size: 14px;
+}
+
+/* Comes up once in view: the heading line by line, the rest fades up, the arch opens from the bottom */
+.am-villa-events.is-ready:not(.is-in) .am-villa-events__ln > span {
+	transform: translateY(105%);
+}
+
+.am-villa-events.is-ready:not(.is-in) .am-villa-events__fade {
+	opacity: 0;
+	transform: translateY(22px);
+}
+
+.am-villa-events.is-ready:not(.is-in) .am-villa-events__arch {
+	clip-path: inset(100% 0 0 0 round 999px 999px 20px 20px);
+}
+
+.am-villa-events.is-in .am-villa-events__ln > span {
+	transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i) * 0.12s);
+}
+
+.am-villa-events.is-in .am-villa-events__fade {
+	transition:
+		opacity 0.9s ease 0.35s,
+		transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s;
+}
+
+.am-villa-events.is-in .am-villa-events__arch {
+	clip-path: inset(0 0 0 0 round 999px 999px 20px 20px);
+	transition: clip-path 1.5s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1024px) {
+
+	.am-villa-beds__list {
+		display: flex;
+		gap: 12px;
+		margin: 0 calc(-1 * var(--gutter));
+		padding: 0 var(--gutter) 8px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scroll-padding-inline: var(--gutter);
+		scrollbar-width: none;
+	}
+
+	.am-villa-beds__list::-webkit-scrollbar {
+		display: none;
+	}
+
+	.am-villa-beds__list:focus-visible {
+		border-radius: 0;
+		outline: 2px solid var(--accent);
+		outline-offset: -4px;
+		box-shadow: none;
+	}
+
+	.am-villa-bed {
+		flex: none;
+		width: min(64vw, 280px);
+		scroll-snap-align: start;
+	}
+}
+
+@media (max-width: 760px) {
+
+	.am-villa-beds__title {
+		font-size: 44px;
+	}
+
+	.am-villa-floors__in,
+	.am-villa-events__in {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+
+	.am-villa-floors__fig,
+	.am-villa-floors__text,
+	.am-villa-events__text,
+	.am-villa-events__fig {
+		grid-column: 1 / -1;
+	}
+
+	.am-villa-floors__title {
+		font-size: 36px;
+	}
+
+	.am-villa-events::before {
+		background: color-mix(in srgb, var(--c-ink) 66%, transparent);
+	}
+
+	.am-villa-events__in {
+		padding: 96px var(--gutter);
+	}
+
+	.am-villa-events__title {
+		font-size: 40px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-house__floor,
+	.am-house__garden,
+	.am-house__label,
+	.am-villa-floor__name {
+		transition: none;
+	}
+}

@@ -8,6 +8,7 @@
  *
  * $args:
  *   title (string) Heading. Default "Other ways to stay".
+ *   all   (string) The link to the Rooms page. Default "All rooms and the villa".
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,13 +23,14 @@ $amour_cards = array_values(
 if ( ! $amour_cards ) {
 	return;
 }
-$amour_title = $args['title'] ?? __( 'Other ways to stay', 'amour' );
+$amour_title = ! empty( $args['title'] ) ? $args['title'] : __( 'Other ways to stay', 'amour' );
+$amour_all   = ! empty( $args['all'] ) ? $args['all'] : __( 'All rooms and the villa', 'amour' );
 ?>
 <section class="am-others" data-others aria-labelledby="am-others-title">
 	<div class="am-others__in">
 		<div class="am-others__head">
 			<h2 id="am-others-title" class="am-others__title"><?php echo esc_html( $amour_title ); ?></h2>
-			<a class="am-others__all" href="<?php echo esc_url( amour_page_url( 'rooms' ) ); ?>"><?php esc_html_e( 'All rooms and the villa', 'amour' ); ?> <span aria-hidden="true">→</span></a>
+			<a class="am-others__all" href="<?php echo esc_url( amour_page_url( 'rooms' ) ); ?>"><?php echo esc_html( $amour_all ); ?> <span aria-hidden="true">→</span></a>
 		</div>
 		<ul class="am-others__grid" data-dock-avoid>
 			<?php foreach ( array_slice( $amour_cards, 0, 3 ) as $amour_i => $amour_card ) : ?>

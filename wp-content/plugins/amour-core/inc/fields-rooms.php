@@ -181,6 +181,13 @@ function amour_register_room_fields() {
 					'instructions' => __( 'For example Queen room · pool view. The big name is the short name of the card.', 'amour' ),
 				),
 				array(
+					'key'          => 'field_amour_room_name',
+					'name'         => 'room_name',
+					'label'        => __( 'Big name, if different from the short name of the card', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example Eudora on the villa page.', 'amour' ),
+				),
+				array(
 					'key'          => 'field_amour_room_meta',
 					'name'         => 'room_meta',
 					'label'        => __( 'Line under the name', 'amour' ),

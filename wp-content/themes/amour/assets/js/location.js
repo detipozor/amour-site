@@ -14,8 +14,8 @@ const loc = document.querySelector( '[data-loc]' );
 
 if ( loc ) {
 	const canvas = loc.querySelector( '[data-loc-canvas]' );
-	const hx = Number( loc.dataset.hotelX );
-	const hy = Number( loc.dataset.hotelY );
+	const hx = Number( loc.dataset.mainX ); // the hotel, or the villa on its page
+	const hy = Number( loc.dataset.mainY );
 	// Whole island: the focus point (%) and the zoom; the card is on the right, so the island sits left of it.
 	// A phone has the card below: the island a little larger, the hotel far enough in for its label.
 	const FAR = { z: 0.6, dx: 72, dy: 50 };
