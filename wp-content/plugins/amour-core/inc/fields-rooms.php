@@ -277,6 +277,43 @@ function amour_register_room_fields() {
 						),
 					),
 				),
+				$tab( 'list', __( 'On the Rooms page', 'amour' ) ),
+				array(
+					'key'          => 'field_amour_room_list_name',
+					'name'         => 'list_name',
+					'label'        => __( 'Name on the Rooms page', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example Standard Queen. The photo is the first of the photos above.', 'amour' ),
+				),
+				array(
+					'key'   => 'field_amour_room_list_text',
+					'name'  => 'list_text',
+					'label' => __( 'Short text', 'amour' ),
+					'type'  => 'textarea',
+					'rows'  => 2,
+				),
+				array(
+					'key'          => 'field_amour_room_list_facts',
+					'name'         => 'list_facts',
+					'label'        => __( 'Facts in short', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a fact', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_room_list_fact_label',
+							'name'  => 'label',
+							'label' => __( 'What', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_amour_room_list_fact_value',
+							'name'  => 'value',
+							'label' => __( 'Value', 'amour' ),
+							'type'  => 'text',
+						),
+					),
+				),
 				$tab( 'booking', __( 'Booking', 'amour' ) ),
 				array(
 					'key'          => 'field_amour_room_engine_code',
@@ -290,3 +327,180 @@ function amour_register_room_fields() {
 	);
 }
 add_action( 'acf/init', 'amour_register_room_fields' );
+
+/**
+ * Fields of the Rooms page (board Rooms): the opening, In every room, the villa for families and groups,
+ * Good to know. The rooms themselves come from their pages (tab "On the Rooms page").
+ */
+function amour_register_rooms_page_fields() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	$location = array_map(
+		static fn( $id ) => array(
+			array(
+				'param'    => 'page',
+				'operator' => '==',
+				'value'    => (string) $id,
+			),
+		),
+		amour_core_page_ids( 'rooms' )
+	);
+	if ( ! $location ) {
+		return;
+	}
+	$tab  = static fn( $key, $label ) => array(
+		'key'       => 'field_amour_rooms_tab_' . $key,
+		'label'     => $label,
+		'type'      => 'tab',
+		'placement' => 'top',
+	);
+	$pair = static fn( $key, $what, $value ) => array(
+		array(
+			'key'   => $key . '_label',
+			'name'  => 'label',
+			'label' => $what,
+			'type'  => 'text',
+		),
+		array(
+			'key'   => $key . '_value',
+			'name'  => 'value',
+			'label' => $value,
+			'type'  => 'text',
+		),
+	);
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_amour_rooms_page',
+			'title'                 => __( 'Rooms page', 'amour' ),
+			'location'              => $location,
+			'position'              => 'acf_after_title',
+			'hide_on_screen'        => array( 'the_content' ),
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				$tab( 'intro', __( 'Opening', 'amour' ) ),
+				array(
+					'key'   => 'field_amour_rooms_title',
+					'name'  => 'rooms_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_rooms_text',
+					'name'  => 'rooms_text',
+					'label' => __( 'Text next to it', 'amour' ),
+					'type'  => 'textarea',
+					'rows'  => 2,
+				),
+				$tab( 'every', __( 'In every room', 'amour' ) ),
+				array(
+					'key'   => 'field_amour_rooms_every_title',
+					'name'  => 'rooms_every_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'          => 'field_amour_rooms_every',
+					'name'         => 'rooms_every',
+					'label'        => __( 'What every room has', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'button_label' => __( 'Add a line', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_rooms_every_text',
+							'name'  => 'text',
+							'label' => __( 'Line', 'amour' ),
+							'type'  => 'text',
+						),
+					),
+				),
+				$tab( 'family', __( 'Families and groups', 'amour' ) ),
+				array(
+					'key'   => 'field_amour_rooms_family_title',
+					'name'  => 'family_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_amour_rooms_family_text',
+					'name'  => 'family_text',
+					'label' => __( 'Text', 'amour' ),
+					'type'  => 'textarea',
+					'rows'  => 3,
+				),
+				array(
+					'key'          => 'field_amour_rooms_family_facts',
+					'name'         => 'family_facts',
+					'label'        => __( 'Three figures', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'table',
+					'max'          => 3,
+					'button_label' => __( 'Add a figure', 'amour' ),
+					'sub_fields'   => $pair( 'field_amour_rooms_family_fact', __( 'What (capitals)', 'amour' ), __( 'Figure', 'amour' ) ),
+				),
+				array(
+					'key'           => 'field_amour_rooms_family_bg',
+					'name'          => 'family_bg',
+					'label'         => __( 'Photo behind', 'amour' ),
+					'type'          => 'image',
+					'return_format' => 'id',
+					'preview_size'  => 'thumbnail',
+				),
+				array(
+					'key'           => 'field_amour_rooms_family_photo',
+					'name'          => 'family_photo',
+					'label'         => __( 'Photo in the arch (upright)', 'amour' ),
+					'type'          => 'image',
+					'return_format' => 'id',
+					'preview_size'  => 'thumbnail',
+				),
+				array(
+					'key'   => 'field_amour_rooms_family_caption',
+					'name'  => 'family_caption',
+					'label' => __( 'Caption under the arch', 'amour' ),
+					'type'  => 'text',
+				),
+				$tab( 'know', __( 'Good to know', 'amour' ) ),
+				array(
+					'key'   => 'field_amour_rooms_know_title',
+					'name'  => 'know_title',
+					'label' => __( 'Heading', 'amour' ),
+					'type'  => 'text',
+				),
+				array(
+					'key'          => 'field_amour_rooms_know',
+					'name'         => 'know',
+					'label'        => __( 'Notes', 'amour' ),
+					'type'         => 'repeater',
+					'layout'       => 'block',
+					'button_label' => __( 'Add a note', 'amour' ),
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_amour_rooms_know_label',
+							'name'  => 'label',
+							'label' => __( 'Label (capitals)', 'amour' ),
+							'type'  => 'text',
+						),
+						array(
+							'key'          => 'field_amour_rooms_know_figure',
+							'name'         => 'figure',
+							'label'        => __( 'Big figure or word', 'amour' ),
+							'type'         => 'text',
+							'instructions' => __( 'For example 14:00, €15, 12+. Leave empty for the paw.', 'amour' ),
+						),
+						array(
+							'key'   => 'field_amour_rooms_know_text',
+							'name'  => 'text',
+							'label' => __( 'Text', 'amour' ),
+							'type'  => 'textarea',
+							'rows'  => 2,
+						),
+					),
+				),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'amour_register_rooms_page_fields' );

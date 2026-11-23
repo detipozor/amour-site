@@ -849,6 +849,21 @@ class Amour_Seed_Command {
 
 		foreach ( $data['rooms'] as $slug => $room ) {
 			$id = $ids[ $slug ] ?? 0;
+			if ( $id && ! get_field( 'list_name', $id, false ) ) {
+				update_field( 'field_amour_room_list_name', $room['list']['name'], $id );
+				update_field( 'field_amour_room_list_text', $room['list']['text'], $id );
+				update_field(
+					'field_amour_room_list_facts',
+					array_map(
+						static fn( $fact ) => array(
+							'field_amour_room_list_fact_label' => $fact['label'],
+							'field_amour_room_list_fact_value' => $fact['value'],
+						),
+						$room['list']['facts']
+					),
+					$id
+				);
+			}
 			if ( ! $id || get_field( 'room_kicker', $id, false ) ) {
 				continue;
 			}
@@ -882,7 +897,54 @@ class Amour_Seed_Command {
 				$id
 			);
 		}
+		$this->rooms_page( $ids['rooms'] ?? 0, $data['page'] );
 		WP_CLI::log( 'Rooms: pages and stay rules' );
+	}
+
+	/**
+	 * The Rooms page (board Rooms): opening, In every room, families and groups, Good to know. Only when empty.
+	 *
+	 * @param int                  $id   Rooms page id.
+	 * @param array<string, mixed> $page Texts from data/rooms.json.
+	 */
+	private function rooms_page( $id, $page ) {
+		if ( ! $id || get_field( 'rooms_title', $id, false ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_rooms_page_fields' ) ) {
+			amour_register_rooms_page_fields();
+		}
+		$pairs  = static fn( $rows, $key ) => array_map(
+			static fn( $row ) => array(
+				$key . '_label' => $row['label'],
+				$key . '_value' => $row['value'],
+			),
+			$rows
+		);
+		$values = array(
+			'field_amour_rooms_title'          => $page['title'],
+			'field_amour_rooms_text'           => $page['text'],
+			'field_amour_rooms_every_title'    => $page['every_title'],
+			'field_amour_rooms_every'          => array_map( static fn( $line ) => array( 'field_amour_rooms_every_text' => $line ), $page['every'] ),
+			'field_amour_rooms_family_title'   => $page['family']['title'],
+			'field_amour_rooms_family_text'    => $page['family']['text'],
+			'field_amour_rooms_family_facts'   => $pairs( $page['family']['facts'], 'field_amour_rooms_family_fact' ),
+			'field_amour_rooms_family_bg'      => $this->attachment_by_blob( $page['family']['bg'] ),
+			'field_amour_rooms_family_photo'   => $this->attachment_by_blob( $page['family']['photo'] ),
+			'field_amour_rooms_family_caption' => $page['family']['caption'],
+			'field_amour_rooms_know_title'     => $page['know_title'],
+			'field_amour_rooms_know'           => array_map(
+				static fn( $note ) => array(
+					'field_amour_rooms_know_label'  => $note['label'],
+					'field_amour_rooms_know_figure' => $note['figure'],
+					'field_amour_rooms_know_text'   => $note['text'],
+				),
+				$page['know']
+			),
+		);
+		foreach ( $values as $key => $value ) {
+			update_field( $key, $value, $id );
+		}
 	}
 
 	/**

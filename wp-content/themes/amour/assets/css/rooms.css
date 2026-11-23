@@ -1,0 +1,491 @@
+/**
+ * The Rooms page (board Rooms): page-rooms.php. No scroll effects: photos zoom softly under the pointer.
+ */
+
+.am-rl-in {
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+.am-crumbs {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.am-crumbs a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	color: var(--text-2);
+}
+
+/* ---------- Opening ---------- */
+.am-rl-open {
+	padding: calc(var(--header-h, 84px) + 56px) var(--gutter) var(--sec-m);
+}
+
+.am-rl-open .am-rl-in {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.am-rl-open__grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: end;
+}
+
+.am-rl-open__title {
+	grid-column: 1 / span 7; /* size: the h1 of the type scale (base.css) */
+}
+
+.am-rl-open__text {
+	grid-column: 8 / span 5;
+}
+
+/* ---------- The rooms ---------- */
+.am-rl-list {
+	padding: 0 var(--gutter) var(--sec-m);
+}
+
+.am-rl-list__in {
+	display: flex;
+	flex-direction: column;
+	gap: 140px;
+}
+
+.am-rl-room {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: center;
+}
+
+.am-rl-room__pic {
+	display: block;
+	grid-row: 1;
+	grid-column: 1 / span 6;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	border-radius: var(--r-media);
+	background: var(--line);
+}
+
+.am-rl-room__pic img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.am-rl-room:hover .am-rl-room__pic img {
+	transform: scale(1.04);
+}
+
+.am-rl-room__text {
+	display: flex;
+	flex-direction: column;
+	grid-row: 1;
+	grid-column: 8 / span 5;
+	gap: 24px;
+}
+
+.am-rl-room.is-flip .am-rl-room__pic {
+	grid-column: 7 / span 6;
+}
+
+.am-rl-room.is-flip .am-rl-room__text {
+	grid-column: 1 / span 5;
+}
+
+.am-rl-room__name {
+	margin: -8px 0 0;
+	font-family: var(--font-head);
+	font-size: clamp(36px, 3.4vw, 48px);
+	font-weight: 400;
+	line-height: 1.1;
+	letter-spacing: -0.025em;
+}
+
+.am-rl-room__facts {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 32px;
+	margin: 0;
+	font-size: 15px;
+}
+
+.am-rl-room__facts dt {
+	padding: 10px 0;
+	color: var(--text-2);
+}
+
+.am-rl-room__facts dd {
+	margin: 0;
+	padding: 10px 0;
+	color: var(--text);
+}
+
+.am-rl-room__foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+}
+
+.am-rl-room__price {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.am-rl-room__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+/* ---------- In every room ---------- */
+.am-rl-every {
+	padding: 0 var(--gutter) var(--sec-m);
+}
+
+.am-rl-every__in {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+}
+
+.am-rl-every__title {
+	grid-column: 1 / span 4;
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	letter-spacing: -0.025em;
+}
+
+.am-rl-every__list {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column: 6 / span 7;
+	column-gap: 32px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.am-rl-every__list li {
+	padding: 14px 0;
+}
+
+/* ---------- Families and groups: the villa (in its own colours) ---------- */
+.am-rl-family {
+	position: relative;
+	min-height: 760px;
+	margin-bottom: 160px;
+	padding: 120px var(--gutter);
+	overflow: hidden;
+	background: var(--deep);
+	color: var(--c-limestone);
+}
+
+.am-rl-family__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 50% 45%;
+}
+
+/* A flat shade of the deep sea over the photo (the board's gradient is against the brand rules) */
+.am-rl-family::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: color-mix(in srgb, var(--c-depth) 74%, transparent);
+}
+
+.am-rl-family__in {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: center;
+	min-height: 520px;
+}
+
+.am-rl-family__text {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 6;
+	align-items: flex-start;
+	gap: 24px;
+}
+
+.am-rl-family__logo {
+	display: block;
+	width: auto;
+	height: 72px;
+	margin: -12px 0 -8px -14px;
+	color: var(--c-limestone);
+}
+
+.am-rl-family__title {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: clamp(40px, 4.6vw, 68px);
+	font-weight: 400;
+	line-height: 1.04;
+	letter-spacing: -0.03em;
+}
+
+.am-rl-family__line {
+	max-width: 520px;
+	color: color-mix(in srgb, var(--c-limestone) 88%, transparent);
+}
+
+.am-rl-family__facts {
+	display: grid;
+	grid-template-columns: repeat(3, auto);
+	gap: 0 40px;
+	margin: 8px 0 12px;
+}
+
+.am-rl-family__facts > div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding-top: 14px;
+}
+
+.am-rl-family__facts dt {
+	color: var(--c-foam);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+.am-rl-family__facts dd {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: 40px;
+	line-height: 1;
+	letter-spacing: -0.025em;
+}
+
+.am-rl-family__fig {
+	display: flex;
+	flex-direction: column;
+	grid-column: 9 / span 4;
+	align-self: end;
+	gap: 12px;
+	margin: 0;
+}
+
+.am-rl-family__arch {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 3 / 4;
+	border-radius: 999px 999px 20px 20px;
+	box-shadow: 0 30px 60px color-mix(in srgb, var(--c-ink) 35%, transparent);
+}
+
+.am-rl-family__arch img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.am-rl-family__fig figcaption {
+	color: color-mix(in srgb, var(--c-limestone) 85%, transparent);
+	font-size: 14px;
+}
+
+/* ---------- Good to know ---------- */
+.am-rl-know {
+	padding: 0 var(--gutter) var(--sec-l);
+}
+
+.am-rl-know .am-rl-in {
+	display: flex;
+	flex-direction: column;
+	gap: 48px;
+}
+
+.am-rl-know__head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px 32px;
+}
+
+.am-rl-know__title {
+	margin: 0;
+	font-family: var(--font-head);
+	font-size: clamp(40px, 4.4vw, 64px);
+	font-weight: 400;
+	line-height: 1.05;
+	letter-spacing: -0.03em;
+}
+
+.am-rl-know__head a {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.am-rl-know__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 56px 48px;
+}
+
+.am-rl-note {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.am-rl-note__label {
+	color: var(--text-2);
+	font-family: var(--font-label);
+	font-size: 13px;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+}
+
+.am-rl-note__fig {
+	display: flex;
+	align-items: flex-end;
+	min-height: 62px;
+	color: var(--accent);
+	font-family: var(--font-head);
+	font-size: 62px;
+	line-height: 1;
+	letter-spacing: -0.03em;
+}
+
+.am-rl-note__fig svg {
+	display: block;
+	fill: currentcolor;
+}
+
+.am-rl-note__text {
+	font-size: 16px;
+	line-height: 1.55;
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1024px) {
+
+	.am-rl-know__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Narrow screens: each room in one column, the photo above the text */
+@media (max-width: 900px) {
+
+	.am-rl-room {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 28px;
+	}
+
+	.am-rl-room__pic,
+	.am-rl-room__text,
+	.am-rl-room.is-flip .am-rl-room__pic,
+	.am-rl-room.is-flip .am-rl-room__text {
+		grid-row: auto;
+		grid-column: 1 / -1;
+	}
+
+	.am-rl-list__in {
+		gap: 96px;
+	}
+}
+
+@media (max-width: 760px) {
+
+	.am-rl-open__grid,
+	.am-rl-room,
+	.am-rl-every__in,
+	.am-rl-family__in {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+	}
+
+	.am-rl-open__title,
+	.am-rl-open__text,
+	.am-rl-room__pic,
+	.am-rl-room__text,
+	.am-rl-room.is-flip .am-rl-room__pic,
+	.am-rl-room.is-flip .am-rl-room__text,
+	.am-rl-every__title,
+	.am-rl-every__list,
+	.am-rl-family__text,
+	.am-rl-family__fig {
+		grid-row: auto;
+		grid-column: 1 / -1;
+	}
+
+	.am-rl-list__in {
+		gap: 88px;
+	}
+
+	.am-rl-room__pic {
+		border-radius: 20px;
+	}
+
+	.am-rl-every__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.am-rl-every__title {
+		font-size: 32px;
+	}
+
+	.am-rl-family {
+		margin-bottom: 96px;
+		padding: 88px var(--gutter);
+	}
+
+	.am-rl-family::before {
+		background: color-mix(in srgb, var(--c-depth) 84%, transparent);
+	}
+
+	.am-rl-family__facts {
+		gap: 0 28px;
+	}
+
+	.am-rl-family__facts dd {
+		font-size: 32px;
+	}
+
+	.am-rl-know__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 48px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-rl-room__pic img {
+		transition: none;
+	}
+}
+
+.am-rl-open .am-search__in {
+	width: 100%;
+}
