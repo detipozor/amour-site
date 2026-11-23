@@ -76,6 +76,7 @@ function amour_assets() {
 		'@amour/parallax'      => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
 		'@amour/room'          => array( 'assets/js/room.js', array( '@amour/motion' ) ),
 		'@amour/location'      => array( 'assets/js/location.js', array( '@amour/motion' ) ),
+		'@amour/villa-page'    => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -94,10 +95,14 @@ function amour_assets() {
 		wp_enqueue_style( 'amour-rooms', get_theme_file_uri( 'assets/css/rooms.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 	}
 
-	// Room pages (the pages under /rooms/).
-	if ( amour_is_room() ) {
+	// Room pages (the pages under /rooms/) and the villa, which is built the same way.
+	if ( amour_is_room() || amour_is_villa() ) {
 		wp_enqueue_style( 'amour-room', get_theme_file_uri( 'assets/css/room.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/room', '@amour/location' );
+	}
+	if ( amour_is_villa() ) {
+		wp_enqueue_style( 'amour-villa', get_theme_file_uri( 'assets/css/villa.css' ), array( 'amour-room' ), AMOUR_VERSION );
+		$enqueue[] = '@amour/villa-page';
 	}
 
 	foreach ( $enqueue as $id ) {
@@ -169,7 +174,7 @@ add_filter( 'language_attributes', 'amour_html_theme' );
  */
 function amour_room_template( $template ) {
 	$file = '';
-	if ( is_page() && amour_is_room() ) {
+	if ( is_page() && ( amour_is_room() || amour_is_villa() ) ) {
 		$file = 'page-room.php';
 	} elseif ( is_page() && amour_is_page( 'rooms' ) ) {
 		$file = 'page-rooms.php'; // the Rooms page under its German address too

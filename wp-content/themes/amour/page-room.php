@@ -1,7 +1,9 @@
 <?php
 /**
  * A room page (boards Room-standard, Room-deluxe, Room-superior; design/generators/room_template.html;
- * HANDOFF, section 6 "Страница номера"). Used for every page under /rooms/ (amour_room_template()).
+ * HANDOFF, section 6 "Страница номера"). Used for every page under /rooms/ and for the villa
+ * (boards Villa-v2, Villa-v2-b: the same in the villa's colours, with its bedrooms, floors and gatherings
+ * after the details; amour_room_template()).
  *
  * 1. The wine screen: the huge name stands while the photos rise over it, left and right in turn; each comes in
  *    as an arch and opens into a soft rectangle as it rises. Caption and count under each.
@@ -116,15 +118,26 @@ $amour_total = count( $amour_room['figs'] );
 	</section>
 
 	<?php
-	get_template_part( 'template-parts/location' );
-	get_template_part( 'template-parts/other-stays' );
+	if ( $amour_room['villa'] ) {
+		get_template_part( 'template-parts/villa-house' );
+		get_template_part( 'template-parts/villa-events' );
+	}
+	get_template_part( 'template-parts/location', null, array( 'page' => $amour_room['villa'] ? 'villa' : 'rooms' ) );
+	get_template_part(
+		'template-parts/other-stays',
+		null,
+		$amour_room['villa'] ? array(
+			'title' => (string) amour_page_field( 'villa_others_title' ),
+			'all'   => __( 'All rooms at the hotel', 'amour' ),
+		) : array()
+	);
 	?>
 
 	<div class="am-dock" data-dock>
 		<div class="am-dock__pill">
 			<?php if ( '' !== $amour_room['price'] ) : ?>
 				<?php /* translators: %s: price in euros. */ ?>
-				<span class="am-dock__price"><?php echo esc_html( sprintf( __( 'From €%s a night', 'amour' ), $amour_room['price'] ) ); ?></span>
+				<span class="am-dock__price"><?php echo esc_html( sprintf( $amour_room['villa'] ? /* translators: %s: price in euros. */ __( 'From €%s a night for the whole villa', 'amour' ) : __( 'From €%s a night', 'amour' ), $amour_room['price'] ) ); ?></span>
 			<?php endif; ?>
 			<a class="am-btn" href="<?php echo esc_url( amour_page_url( 'book' ) ); ?>"><?php esc_html_e( 'Check dates', 'amour' ); ?></a>
 		</div>

@@ -368,7 +368,7 @@ function amour_core_ids_or_self( $id ) {
 /**
  * Places on a map (plugin amour-core, type amour_place), in their order, in the current language.
  *
- * @param string $map Which map: on_home (the home page) or on_rooms (the room and villa pages).
+ * @param string $map Which map: on_home (the home page), on_rooms (the room pages) or on_villa (the villa page).
  * @return array<int, array<string, mixed>>
  */
 function amour_map_places( $map = 'on_home' ) {
@@ -405,6 +405,7 @@ function amour_map_places( $map = 'on_home' ) {
 			'text'      => (string) $f( 'text' ),
 			'photo'     => (int) $f( 'photo' ),
 			'route'     => (string) $f( 'route' ),
+			'villa'     => (string) $f( 'villa_label' ),
 		);
 	}
 	return $places;
@@ -525,9 +526,10 @@ function amour_room( $id = null ) {
 		)
 	);
 
-	// The rules for every room close the list of all details.
-	$stay = array();
-	foreach ( array(
+	// The rules for every room close the list of all details; the villa has its own, among its details.
+	$villa = amour_is_villa( $id );
+	$stay  = array();
+	foreach ( $villa ? array() : array(
 		/* translators: %s: time, for example 14:00. */
 		'amour_checkin'  => array( __( 'Check-in', 'amour' ), __( 'From %s', 'amour' ) ),
 		/* translators: %s: time, for example 11:00. */
@@ -541,7 +543,7 @@ function amour_room( $id = null ) {
 			);
 		}
 	}
-	foreach ( (array) amour_option( 'amour_stay_rules' ) as $rule ) {
+	foreach ( $villa ? array() : (array) amour_option( 'amour_stay_rules' ) as $rule ) {
 		if ( ! empty( $rule['label'] ) ) {
 			$stay[] = array(
 				'label' => (string) $rule['label'],
@@ -551,7 +553,7 @@ function amour_room( $id = null ) {
 	}
 
 	return array(
-		'name'        => (string) ( $f( 'card_name' ) ? $f( 'card_name' ) : get_the_title( $id ) ),
+		'name'        => (string) ( $f( 'room_name' ) ? $f( 'room_name' ) : ( $f( 'card_name' ) ? $f( 'card_name' ) : get_the_title( $id ) ) ),
 		'kicker'      => (string) $f( 'room_kicker' ),
 		'meta'        => (string) $f( 'room_meta' ),
 		'cue'         => (string) $f( 'room_cue' ),
@@ -562,20 +564,33 @@ function amour_room( $id = null ) {
 		'key'         => array_slice( $facts, 0, 6 ),
 		'more'        => array_merge( array_slice( $facts, 6 ), $stay ),
 		'price'       => amour_or_placeholder( is_numeric( $price ) ? number_format_i18n( (float) $price ) : '', 'price' ),
+		'villa'       => $villa,
 	);
 }
 
 /**
  * The location block of the room and villa pages (room_template.html, "Almyrida, Crete"): the card from
- * Hotel settings and the places marked for this map, the hotel first.
+ * Hotel settings and the places marked for this map, the main place (the hotel, or the villa on its page) first.
  *
+ * @param string $page Which page: rooms or villa.
  * @return array<string, mixed>
  */
-function amour_location() {
-	$places = amour_map_places( 'on_rooms' );
-	usort( $places, static fn( $a, $b ) => (int) ( 'hotel' !== $a['kind'] ) <=> (int) ( 'hotel' !== $b['kind'] ) );
+function amour_location( $page = 'rooms' ) {
+	$villa  = 'villa' === $page;
+	$main   = $villa ? 'villa' : 'hotel';
+	$places = amour_map_places( $villa ? 'on_villa' : 'on_rooms' );
+	foreach ( $places as &$place ) {
+		$place['main'] = $main === $place['kind'];
+		if ( $villa && '' !== $place['villa'] ) {
+			$place['label'] = $place['villa'];
+		}
+	}
+	unset( $place );
+	usort( $places, static fn( $a, $b ) => (int) ! $a['main'] <=> (int) ! $b['main'] );
+
+	$rows = $villa ? amour_page_field( 'villa_near' ) : amour_option( 'amour_location_near' );
 	$near = array();
-	foreach ( (array) amour_option( 'amour_location_near' ) as $row ) {
+	foreach ( (array) $rows as $row ) {
 		if ( ! empty( $row['place'] ) ) {
 			$near[] = array(
 				'place' => (string) $row['place'],
@@ -589,6 +604,9 @@ function amour_location() {
 		'near'   => $near,
 		'maps'   => (string) amour_option( 'amour_maps_url' ),
 		'places' => $places,
+		'alt'    => $villa
+			? __( 'Relief map of Apokoronas: the villa and the hotel above Almyrida bay, Chania and the airport to the north-west', 'amour' )
+			: __( 'Relief map of Apokoronas: the hotel above Almyrida bay, Chania and the airport to the north-west', 'amour' ),
 	);
 }
 
@@ -629,4 +647,16 @@ function amour_rooms_list() {
 		);
 	}
 	return $list;
+}
+
+/**
+ * Is this the villa page (in any language)?
+ *
+ * @param int|null $id Page id; the current page by default.
+ * @return bool
+ */
+function amour_is_villa( $id = null ) {
+	$id    = $id ? (int) $id : ( is_page() ? get_queried_object_id() : 0 );
+	$villa = get_page_by_path( 'villa-eudora' );
+	return $id && $villa && in_array( $id, array_map( 'intval', amour_core_ids_or_self( $villa->ID ) ), true );
 }

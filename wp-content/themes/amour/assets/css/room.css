@@ -893,6 +893,12 @@ a.am-loc__maps:hover {
 		gap: 40px;
 	}
 
+	.am-dock__price {
+		font-size: 14px;
+		line-height: 1.3;
+		white-space: normal;
+	}
+
 	.am-dock__pill {
 		justify-content: space-between;
 		width: 100%;
