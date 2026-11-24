@@ -58,7 +58,7 @@ test.describe( 'header (HANDOFF, section 5)', () => {
 		await expect( toggle ).toHaveAttribute( 'aria-expanded', 'true' );
 		const german = page.locator( '.am-lang__list a[hreflang="de-DE"]' );
 		await expect( german ).toBeVisible();
-		await expect( german ).toHaveAttribute( 'href', /\/de\/$/ );
+		await expect( german ).toHaveAttribute( 'href', /\/de\/fragen\/$/ );
 		await page.keyboard.press( 'Escape' );
 		await expect( page.locator( '.am-lang__list' ) ).toBeHidden();
 		await expect( toggle ).toBeFocused();
