@@ -13,8 +13,14 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 the_post();
 
-// The text, with an id on every Heading 2 (the contents link to them).
-$amour_html     = apply_filters( 'the_content', get_the_content() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
+// The text, with an id on every Heading 2 (the contents link to them). A German page without its own text shows
+// the English one until it is translated (decision 24.11, HANDOFF section 19).
+$amour_text = get_the_content();
+if ( '' === trim( $amour_text ) && function_exists( 'pll_get_post' ) && function_exists( 'pll_default_language' ) ) {
+	$amour_en   = (int) pll_get_post( get_the_ID(), pll_default_language() );
+	$amour_text = $amour_en && get_the_ID() !== $amour_en ? (string) get_post_field( 'post_content', $amour_en ) : $amour_text;
+}
+$amour_html     = apply_filters( 'the_content', $amour_text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- core filter.
 $amour_sections = array();
 $amour_html     = preg_replace_callback(
 	'/<h2([^>]*)>(.*?)<\/h2>/s',
