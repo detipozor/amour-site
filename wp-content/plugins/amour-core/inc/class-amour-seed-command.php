@@ -152,6 +152,7 @@ class Amour_Seed_Command {
 		$this->guide( $ids['crete-guide'] ?? 0 );
 		$this->faq_contact( $ids );
 		$this->about_legal_thanks( $ids );
+		$this->booking( $ids );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1300,6 +1301,48 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_404_photo', $this->attachment_by_blob( $data['error_photo'] ), 'option' );
 		}
 		WP_CLI::log( 'About, legal pages, thank-you: pages' );
+	}
+
+	/**
+	 * The booking page (board Book): its two lines, how each room and the villa shows in the search, and the season
+	 * the board sells (first night 1 March, last 31 October 2027). The cancellation days, the climate fee, the prices
+	 * and the engine address stay empty: they are placeholders until the engine and the price list are in.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function booking( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		// The fields attach to pages this very run may have created (see cards()).
+		if ( function_exists( 'amour_register_booking_fields' ) ) {
+			amour_register_booking_fields();
+		}
+		$data = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/pages.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		$book = $data['book'];
+
+		$page = $ids['book'] ?? 0;
+		if ( $page && ! get_field( 'bk_lead', $page, false ) ) {
+			update_field( 'field_amour_bk_lead', $book['lead'], $page );
+			update_field( 'field_amour_bk_hint', $book['hint'], $page );
+		}
+
+		if ( ! get_field( 'amour_season_first', 'option', false ) ) {
+			update_field( 'field_amour_season_first', $book['season'][0], 'option' );
+			update_field( 'field_amour_season_last', $book['season'][1], 'option' );
+		}
+
+		foreach ( $book['units'] as $slug => $unit ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( ! $id || get_field( 'max_guests', $id, false ) ) {
+				continue;
+			}
+			update_field( 'field_amour_max_guests', $unit['guests'], $id );
+			update_field( 'field_amour_book_facts', $unit['facts'], $id );
+			update_field( 'field_amour_book_text', $unit['text'], $id );
+			update_field( 'field_amour_book_photo', $this->attachment_by_blob( $unit['photo'] ), $id );
+		}
+		WP_CLI::log( 'Booking: page, season, rooms and villa in the search' );
 	}
 
 	/**

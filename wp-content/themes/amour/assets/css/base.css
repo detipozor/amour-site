@@ -260,6 +260,26 @@ nav a {
 	border: 0;
 }
 
+/* Breadcrumbs at the top of every inner page (boards Rooms, FAQ, Contact, About, Legal, Book) */
+.am-crumbs {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.am-crumbs a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 24px;
+	color: var(--text-2);
+}
+
+/* On a phone a finger needs 44 px (board phone layer) */
+@media (max-width: 760px) {
+	.am-crumbs a {
+		min-height: 44px;
+	}
+}
+
 /* Skip to content: the first stop for the keyboard (HANDOFF, section 12) */
 .skip-link {
 	position: fixed;

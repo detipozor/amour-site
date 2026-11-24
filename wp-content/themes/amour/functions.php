@@ -12,6 +12,7 @@ define( 'AMOUR_VERSION', '0.12.0' );
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
 require_once get_theme_file_path( 'inc/content.php' );
+require_once get_theme_file_path( 'inc/booking.php' );
 
 /**
  * Theme supports and menu locations.
@@ -58,31 +59,33 @@ function amour_assets() {
 
 	// JavaScript modules, one per block (HANDOFF, section 1). Imports use these ids, so each file loads once.
 	$modules = array(
-		'@amour/motion'        => array( 'assets/js/motion.js', array() ),
-		'@amour/transitions'   => array( 'assets/js/transitions.js', array() ),
-		'@amour/header'        => array( 'assets/js/header.js', array() ),
-		'@amour/menu'          => array( 'assets/js/menu.js', array( '@amour/transitions' ) ),
-		'@amour/footer'        => array( 'assets/js/footer.js', array() ),
-		'@amour/smooth-scroll' => array( 'assets/js/smooth-scroll.js', array( '@amour/motion' ) ),
-		'@amour/date-search'   => array( 'assets/js/date-search.js', array() ),
-		'@amour/home-hero'     => array( 'assets/js/home/hero.js', array( '@amour/motion' ) ),
-		'@amour/home-phrase'   => array( 'assets/js/home/phrase.js', array( '@amour/motion' ) ),
-		'@amour/home-estate'   => array( 'assets/js/home/estate.js', array( '@amour/motion' ) ),
-		'@amour/home-day'      => array( 'assets/js/home/day.js', array( '@amour/motion' ) ),
-		'@amour/home-villa'    => array( 'assets/js/home/villa.js', array( '@amour/motion' ) ),
-		'@amour/home-map'      => array( 'assets/js/home/map.js', array( '@amour/motion' ) ),
-		'@amour/home-reviews'  => array( 'assets/js/home/reviews.js', array( '@amour/motion' ) ),
-		'@amour/home-direct'   => array( 'assets/js/home/direct.js', array( '@amour/motion' ) ),
-		'@amour/parallax'      => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
-		'@amour/room'          => array( 'assets/js/room.js', array( '@amour/motion' ) ),
-		'@amour/location'      => array( 'assets/js/location.js', array( '@amour/motion' ) ),
-		'@amour/villa-page'    => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
-		'@amour/estate'        => array( 'assets/js/estate.js', array( '@amour/motion' ) ),
-		'@amour/guide'         => array( 'assets/js/guide.js', array( '@amour/motion' ) ),
-		'@amour/faq'           => array( 'assets/js/faq.js', array() ),
-		'@amour/contact'       => array( 'assets/js/contact.js', array() ),
-		'@amour/about'         => array( 'assets/js/about.js', array( '@amour/motion' ) ),
-		'@amour/thanks'        => array( 'assets/js/thanks.js', array() ),
+		'@amour/motion'           => array( 'assets/js/motion.js', array() ),
+		'@amour/transitions'      => array( 'assets/js/transitions.js', array() ),
+		'@amour/header'           => array( 'assets/js/header.js', array() ),
+		'@amour/menu'             => array( 'assets/js/menu.js', array( '@amour/transitions' ) ),
+		'@amour/footer'           => array( 'assets/js/footer.js', array() ),
+		'@amour/smooth-scroll'    => array( 'assets/js/smooth-scroll.js', array( '@amour/motion' ) ),
+		'@amour/date-search'      => array( 'assets/js/date-search.js', array() ),
+		'@amour/home-hero'        => array( 'assets/js/home/hero.js', array( '@amour/motion' ) ),
+		'@amour/home-phrase'      => array( 'assets/js/home/phrase.js', array( '@amour/motion' ) ),
+		'@amour/home-estate'      => array( 'assets/js/home/estate.js', array( '@amour/motion' ) ),
+		'@amour/home-day'         => array( 'assets/js/home/day.js', array( '@amour/motion' ) ),
+		'@amour/home-villa'       => array( 'assets/js/home/villa.js', array( '@amour/motion' ) ),
+		'@amour/home-map'         => array( 'assets/js/home/map.js', array( '@amour/motion' ) ),
+		'@amour/home-reviews'     => array( 'assets/js/home/reviews.js', array( '@amour/motion' ) ),
+		'@amour/home-direct'      => array( 'assets/js/home/direct.js', array( '@amour/motion' ) ),
+		'@amour/parallax'         => array( 'assets/js/parallax.js', array( '@amour/motion' ) ),
+		'@amour/room'             => array( 'assets/js/room.js', array( '@amour/motion' ) ),
+		'@amour/location'         => array( 'assets/js/location.js', array( '@amour/motion' ) ),
+		'@amour/villa-page'       => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
+		'@amour/estate'           => array( 'assets/js/estate.js', array( '@amour/motion' ) ),
+		'@amour/guide'            => array( 'assets/js/guide.js', array( '@amour/motion' ) ),
+		'@amour/faq'              => array( 'assets/js/faq.js', array() ),
+		'@amour/contact'          => array( 'assets/js/contact.js', array() ),
+		'@amour/about'            => array( 'assets/js/about.js', array( '@amour/motion' ) ),
+		'@amour/thanks'           => array( 'assets/js/thanks.js', array() ),
+		'@amour/booking-provider' => array( 'assets/js/booking-provider.js', array() ),
+		'@amour/book'             => array( 'assets/js/book.js', array( '@amour/booking-provider' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -110,6 +113,13 @@ function amour_assets() {
 	}
 	if ( array_filter( array_keys( $small ), 'amour_is_page' ) || amour_is_legal() || is_404() ) {
 		wp_enqueue_style( 'amour-pages', get_theme_file_uri( 'assets/css/pages.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+	}
+
+	// The booking page.
+	if ( amour_is_page( 'book' ) ) {
+		wp_enqueue_style( 'amour-pages', get_theme_file_uri( 'assets/css/pages.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		wp_enqueue_style( 'amour-book', get_theme_file_uri( 'assets/css/book.css' ), array( 'amour-pages' ), AMOUR_VERSION );
+		$enqueue[] = '@amour/book';
 	}
 
 	// The Crete guide.
@@ -226,6 +236,8 @@ function amour_room_template( $template ) {
 		$file = 'page-legal.php';
 	} elseif ( is_page() && amour_is_page( 'thank-you' ) ) {
 		$file = 'page-thanks.php';
+	} elseif ( is_page() && amour_is_page( 'book' ) ) {
+		$file = 'page-book.php';
 	}
 	$found = $file ? locate_template( $file ) : '';
 	return $found ? $found : $template;
