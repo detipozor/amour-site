@@ -1,0 +1,97 @@
+/*
+ * The cookie banner (HANDOFF, section 14): CookieBanner of the design system (design/ds/components/bundle.css,
+ * .am-cookie), with Reject all and Accept all equally visible and the two choices of Settings (decision 24.11).
+ */
+
+.am-cookie {
+	position: fixed;
+	z-index: 45;
+	right: var(--space-2);
+	bottom: var(--space-2);
+	left: var(--space-2);
+	display: grid;
+	gap: var(--space-2);
+	box-sizing: border-box;
+	max-width: 760px;
+	margin-inline: auto;
+	padding: var(--space-3);
+	border: 1px solid var(--line);
+	border-radius: var(--r-panel);
+	background: var(--surface);
+	box-shadow: var(--shadow-popover);
+	color: var(--text);
+}
+
+.am-cookie[hidden],
+.am-cookie [hidden] {
+	display: none;
+}
+
+.am-cookie__text {
+	margin: 0;
+	color: var(--text-2);
+	font-family: var(--font-body);
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.65;
+}
+
+.am-cookie__text a {
+	color: var(--accent);
+}
+
+.am-cookie__choices {
+	display: grid;
+	gap: 12px;
+	padding: var(--space-2) 0 0;
+	border-top: 1px solid var(--line);
+}
+
+.am-cookie__choice {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	color: var(--text-2);
+	font-size: 15px;
+	line-height: 1.5;
+	cursor: pointer;
+}
+
+.am-cookie__choice input {
+	flex: none;
+	width: 20px;
+	height: 20px;
+	margin: 1px 0 0;
+	accent-color: var(--accent);
+}
+
+.am-cookie__name {
+	color: var(--text);
+	font-weight: 500;
+}
+
+.am-cookie__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: var(--space-1);
+}
+
+.am-cookie .am-btn {
+	min-height: 44px;
+	padding: 14px var(--space-3);
+}
+
+/* Phone: Reject all and Accept all side by side, the same size; Settings (or Save choices) under them */
+@media (max-width: 760px) {
+	.am-cookie__actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.am-cookie__actions [data-consent-settings],
+	.am-cookie__actions [data-consent-save] {
+		grid-column: 1 / -1;
+		order: 1;
+	}
+}

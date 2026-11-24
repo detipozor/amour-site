@@ -76,6 +76,10 @@ $amour_privacy = (string) amour_option( 'amour_privacy_email' );
 					<a class="am-lg-docs__link<?php echo $amour_current ? ' is-on' : ''; ?>" href="<?php echo esc_url( amour_page_url( $amour_slug ) ); ?>"<?php echo $amour_current ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $amour_label ); ?></a>
 				<?php endforeach; ?>
 			</nav>
+			<?php if ( amour_is_page( 'cookies' ) ) : ?>
+				<?php // Change or take back the choice as easily as it was given (decision 24.11): reopens the banner. ?>
+				<p class="am-lg-top__consent"><button type="button" class="am-btn am-btn--ghost" data-consent-open><?php esc_html_e( 'Cookie settings', 'amour' ); ?></button></p>
+			<?php endif; ?>
 		</div>
 	</section>
 

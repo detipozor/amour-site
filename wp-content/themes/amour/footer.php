@@ -109,6 +109,7 @@ $amour_link = static function ( $link ) {
 
 	<?php echo amour_logo( $amour_villa ? 'eudora-word' : 'amour-word', '', 'am-footer__word' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
 </footer>
+<?php get_template_part( 'template-parts/cookie-banner' ); ?>
 <?php wp_footer(); ?>
 </body>
 </html>
