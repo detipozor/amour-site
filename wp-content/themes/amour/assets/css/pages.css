@@ -671,6 +671,10 @@
 	font-size: 14px;
 }
 
+.am-lg-top__consent {
+	margin: 0;
+}
+
 .am-lg-docs {
 	display: flex;
 	flex-wrap: wrap;

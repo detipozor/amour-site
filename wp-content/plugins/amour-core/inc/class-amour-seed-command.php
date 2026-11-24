@@ -179,6 +179,7 @@ class Amour_Seed_Command {
 		$this->faq_contact( $ids );
 		$this->about_legal_thanks( $ids );
 		$this->booking( $ids );
+		$this->consent();
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1447,6 +1448,17 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_book_photo', $this->attachment_by_blob( $unit['photo'] ), $id );
 		}
 		WP_CLI::log( 'Booking: page, season, rooms and villa in the search' );
+	}
+
+	/**
+	 * The cookie banner's text, from the CookieBanner component of the design system. The Tag Manager container
+	 * stays empty until the company account exists (question 30).
+	 */
+	private function consent() {
+		if ( function_exists( 'update_field' ) && ! get_field( 'amour_cookie_text', 'option', false ) ) {
+			update_field( 'field_amour_cookie_text', 'We use cookies to understand which pages help guests plan their stay. Analytics and ads stay off until you agree.', 'option' );
+			WP_CLI::log( 'Cookie banner: text' );
+		}
 	}
 
 	/**

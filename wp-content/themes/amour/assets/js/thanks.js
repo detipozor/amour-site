@@ -60,6 +60,22 @@ if ( page ) {
 		}
 	} );
 
+	// The purchase for Tag Manager (HANDOFF, section 14), once per booking: a reload does not count it again.
+	// It leaves the browser only when Tag Manager loads, after the guest agreed (consent.js).
+	if ( booking.room && ! booking.counted ) {
+		( window.dataLayer = window.dataLayer || [] ).push( {
+			event: 'purchase',
+			transaction_id: booking.number || undefined,
+			currency: 'EUR',
+			items: [ { item_name: booking.room } ],
+		} );
+		try {
+			window.sessionStorage.setItem( 'amour-booking', JSON.stringify( { ...booking, counted: true } ) );
+		} catch {
+			// Storage blocked: a reload may count it again.
+		}
+	}
+
 	const calendar = page.querySelector( '[data-thanks-calendar]' );
 	const dates = /^\d{4}-\d{2}-\d{2}$/;
 	if ( calendar && dates.test( booking.arrive || '' ) && dates.test( booking.leave || '' ) ) {
