@@ -41,6 +41,31 @@ class Amour_Seed_Command {
 	);
 
 	/**
+	 * German addresses of the pages (decision 24.11, HANDOFF section 19). Polylang without Pro cannot give two
+	 * languages the same address, so the German pages have German ones; the rooms keep theirs under /de/zimmer/.
+	 * The German home page is /de/ (startseite, made in languages()).
+	 *
+	 * @var array<string, string>
+	 */
+	const GERMAN = array(
+		'rooms'               => 'zimmer',
+		'standard-queen-room' => 'standard-queen-room',
+		'deluxe-queen-room'   => 'deluxe-queen-room',
+		'superior-queen-room' => 'superior-queen-room',
+		'villa-eudora'        => 'ferienvilla-eudora',
+		'court-and-pool'      => 'tennisplatz-und-pool',
+		'crete-guide'         => 'kreta-reisefuehrer',
+		'questions'           => 'fragen',
+		'contacts'            => 'kontakt',
+		'book'                => 'buchen',
+		'about-us'            => 'ueber-uns',
+		'privacy-policy'      => 'datenschutz',
+		'cookies'             => 'cookie-richtlinie',
+		'booking-terms'       => 'buchungsbedingungen',
+		'thank-you'           => 'danke',
+	);
+
+	/**
 	 * Menus: location => [ menu name, items ]. Item: [ label, page slug or "#anchor" on the home page,
 	 * photo id from the boards (/_blob/<id>, see assets/manifest.csv), line under the photo ].
 	 * Labels, photos and lines from the Menu-list board; footer labels from the footer on the boards.
@@ -136,6 +161,7 @@ class Amour_Seed_Command {
 		$ids['styleguide'] = $this->styleguide();
 		$this->front_page( $ids['home'] );
 		$this->languages( $ids );
+		$this->german_pages( $ids );
 
 		// Photos first: the menu items point at them.
 		if ( ! empty( $assoc_args['media'] ) ) {
@@ -282,8 +308,7 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * Polylang: English by default at /, German at /de/ (HANDOFF, section 1).
-	 * German pages other than the home page come with the content model (week 5).
+	 * Polylang: English by default at /, German at /de/ (HANDOFF, section 1). The other German pages: german_pages().
 	 *
 	 * @param array<string, int> $ids Page ids by slug.
 	 */
@@ -374,6 +399,55 @@ class Amour_Seed_Command {
 	}
 
 	/**
+	 * German pages (decision 24.11): each page gets its German translation at its German address (GERMAN above),
+	 * with the English title until the German texts come (week 7). A German page without its own fields shows the
+	 * English ones (amour_page_field()), and a legal page without its own text the English text (page-legal.php),
+	 * so nothing is copied. Never changes a German page that exists.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function german_pages( $ids ) {
+		if ( ! function_exists( 'pll_set_post_language' ) || ! function_exists( 'pll_get_post' ) ) {
+			return;
+		}
+		foreach ( self::GERMAN as $slug => $german ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( ! $id || pll_get_post( $id, 'de' ) ) {
+				continue;
+			}
+			$source = get_post( $id );
+			$parent = $source->post_parent ? (int) pll_get_post( $source->post_parent, 'de' ) : 0;
+			$de     = wp_insert_post(
+				array(
+					'post_type'   => 'page',
+					'post_status' => 'publish',
+					'post_title'  => $source->post_title,
+					'post_name'   => $german,
+					'post_parent' => $parent,
+					'menu_order'  => $source->menu_order,
+				),
+				true
+			);
+			if ( is_wp_error( $de ) ) {
+				WP_CLI::warning( 'German page ' . $german . ': ' . $de->get_error_message() );
+				continue;
+			}
+			pll_set_post_language( $de, 'de' );
+			pll_save_post_translations(
+				array_merge(
+					pll_get_post_translations( $id ),
+					array(
+						'en' => $id,
+						'de' => $de,
+					)
+				)
+			);
+			WP_CLI::log( 'Page ' . wp_make_link_relative( get_permalink( $de ) ) );
+		}
+		PLL()->model->clean_languages_cache();
+	}
+
+	/**
 	 * Polylang languages across Polylang versions (3.7+ keeps them in $model->languages).
 	 *
 	 * @param object $model Polylang model.
@@ -426,7 +500,9 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * Build the menus again from the list above and assign them to the theme locations.
+	 * Build the menus again from the list above and assign them to the theme locations: the English menus, and the
+	 * German ones when the German pages are there (the same labels until the German texts, week 7; the links lead
+	 * to the German pages). Polylang keeps the menu of each location per language.
 	 *
 	 * @param array<string, int> $ids Page ids by slug.
 	 */
@@ -440,72 +516,82 @@ class Amour_Seed_Command {
 			}
 		}
 
-		foreach ( self::MENUS as $location => $menu ) {
-			list( $name, $items ) = $menu;
-
-			$existing = wp_get_nav_menu_object( $name );
-			if ( $existing ) {
-				wp_delete_nav_menu( $existing->term_id );
-			}
-			$menu_id = wp_create_nav_menu( $name );
-
-			foreach ( $items as $position => $item ) {
-				list( $label, $target ) = $item;
-				$data                   = array(
-					'menu-item-title'    => $label,
-					'menu-item-status'   => 'publish',
-					'menu-item-position' => $position + 1,
-				);
-				if ( str_starts_with( $target, '#' ) ) {
-					$data['menu-item-type'] = 'custom';
-					$data['menu-item-url']  = home_url( '/' . $target );
-				} elseif ( str_contains( $target, '#' ) ) {
-					// A section of another page, e.g. villa-eudora#the-house (the section ids come with the page).
-					list( $slug, $anchor )  = explode( '#', $target, 2 );
-					$data['menu-item-type'] = 'custom';
-					$data['menu-item-url']  = get_permalink( $ids[ $slug ] ) . '#' . $anchor;
-				} else {
-					$data['menu-item-type']      = 'post_type';
-					$data['menu-item-object']    = 'page';
-					$data['menu-item-object-id'] = $ids[ $target ];
-				}
-				$item_id = wp_update_nav_menu_item( $menu_id, 0, $data );
-
-				// WordPress drops a label equal to the page's title and then shows whatever the page is called;
-				// the pages get their full names further down (Cookies becomes Cookie policy). Keep the board's label.
-				if ( 'post_type' === $data['menu-item-type'] && ! is_wp_error( $item_id ) ) {
-					wp_update_post(
-						array(
-							'ID'         => $item_id,
-							'post_title' => $label,
-						)
-					);
-				}
-
-				// Photo in the arch and the line under it (Menu-list board).
-				if ( isset( $item[3] ) && function_exists( 'update_field' ) && ! is_wp_error( $item_id ) ) {
-					$photo = $this->attachment_by_blob( $item[2] );
-					if ( $photo ) {
-						update_field( 'field_amour_menu_photo', $photo, $item_id );
-					}
-					update_field( 'field_amour_menu_line', $item[3], $item_id );
-				}
-			}
-
-			$locations[ $location ] = $menu_id;
-			WP_CLI::log( 'Menu ' . $name );
+		$languages = array( 'en' => '' );
+		if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_home_url' ) && pll_get_post( $ids['home'], 'de' ) ) {
+			$languages['de'] = ' · Deutsch';
 		}
 
-		set_theme_mod( 'nav_menu_locations', $locations );
+		$by_language = array();
+		foreach ( $languages as $lang => $suffix ) {
+			$page = static fn( $slug ) => 'en' === $lang ? (int) $ids[ $slug ] : (int) pll_get_post( $ids[ $slug ], $lang );
+			$home = 'en' === $lang ? home_url( '/' ) : pll_home_url( $lang );
 
-		// Polylang keeps menu locations per language in its own settings; the menus above are the English ones.
-		// German menus come with the German pages (week 5).
+			foreach ( self::MENUS as $location => $menu ) {
+				list( $name, $items ) = $menu;
+				$name                .= $suffix;
+
+				$existing = wp_get_nav_menu_object( $name );
+				if ( $existing ) {
+					wp_delete_nav_menu( $existing->term_id );
+				}
+				$menu_id = wp_create_nav_menu( $name );
+
+				foreach ( $items as $position => $item ) {
+					list( $label, $target ) = $item;
+					$data                   = array(
+						'menu-item-title'    => $label,
+						'menu-item-status'   => 'publish',
+						'menu-item-position' => $position + 1,
+					);
+					if ( str_starts_with( $target, '#' ) ) {
+						$data['menu-item-type'] = 'custom';
+						$data['menu-item-url']  = $home . $target;
+					} elseif ( str_contains( $target, '#' ) ) {
+						// A section of another page, e.g. villa-eudora#the-house (the section ids come with the page).
+						list( $slug, $anchor )  = explode( '#', $target, 2 );
+						$data['menu-item-type'] = 'custom';
+						$data['menu-item-url']  = get_permalink( $page( $slug ) ) . '#' . $anchor;
+					} else {
+						if ( ! $page( $target ) ) {
+							continue;
+						}
+						$data['menu-item-type']      = 'post_type';
+						$data['menu-item-object']    = 'page';
+						$data['menu-item-object-id'] = $page( $target );
+					}
+					$item_id = wp_update_nav_menu_item( $menu_id, 0, $data );
+
+					// WordPress drops a label equal to the page's title and then shows whatever the page is called;
+					// the pages get their full names further down (Cookies becomes Cookie policy). Keep the board's label.
+					if ( 'post_type' === $data['menu-item-type'] && ! is_wp_error( $item_id ) ) {
+						wp_update_post(
+							array(
+								'ID'         => $item_id,
+								'post_title' => $label,
+							)
+						);
+					}
+
+					// Photo in the arch and the line under it (Menu-list board).
+					if ( isset( $item[3] ) && function_exists( 'update_field' ) && ! is_wp_error( $item_id ) ) {
+						$photo = $this->attachment_by_blob( $item[2] );
+						if ( $photo ) {
+							update_field( 'field_amour_menu_photo', $photo, $item_id );
+						}
+						update_field( 'field_amour_menu_line', $item[3], $item_id );
+					}
+				}
+
+				$by_language[ $location ][ $lang ] = $menu_id;
+				WP_CLI::log( 'Menu ' . $name );
+			}
+		}
+
+		set_theme_mod( 'nav_menu_locations', array_merge( $locations, array_map( static fn( $menus ) => $menus['en'], $by_language ) ) );
+
 		if ( function_exists( 'PLL' ) ) {
 			$nav_menus                     = (array) ( PLL()->options['nav_menus'] ?? array() );
-			$nav_menus[ get_stylesheet() ] = array_map(
-				static fn( $menu_id ) => array( 'en' => $menu_id ),
-				$locations
-			);
+			$nav_menus[ get_stylesheet() ] = $by_language;
 			$this->polylang_options( array( 'nav_menus' => $nav_menus ) );
 		}
 	}
