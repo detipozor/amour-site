@@ -150,6 +150,7 @@ class Amour_Seed_Command {
 		$this->villa( $ids['villa-eudora'] ?? 0 );
 		$this->estate( $ids['court-and-pool'] ?? 0 );
 		$this->guide( $ids['crete-guide'] ?? 0 );
+		$this->faq_contact( $ids );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1109,6 +1110,89 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_guide_' . $name, $value, $id );
 		}
 		WP_CLI::log( 'Crete guide: page' );
+	}
+
+	/**
+	 * The FAQ (topics and questions from the board FAQ) and the texts of the FAQ and Contact pages
+	 * (data/pages.json). Questions only when there are none; page texts only when empty.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function faq_contact( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_page_fields' ) ) {
+			amour_register_page_fields();
+		}
+		$data = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/pages.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+
+		$any = get_posts(
+			array(
+				'post_type'      => 'amour_question',
+				'post_status'    => 'any',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+		if ( ! $any && taxonomy_exists( 'amour_topic' ) ) {
+			foreach ( $data['faq']['topics'] as $t => $topic ) {
+				$term = term_exists( $topic['slug'], 'amour_topic' );
+				$term = $term ? $term : wp_insert_term( $topic['name'], 'amour_topic', array( 'slug' => $topic['slug'] ) );
+				if ( is_wp_error( $term ) ) {
+					continue;
+				}
+				$term_id = (int) $term['term_id'];
+				update_field( 'field_amour_topic_order', $t + 1, 'amour_topic_' . $term_id );
+				if ( function_exists( 'pll_set_term_language' ) ) {
+					pll_set_term_language( $term_id, 'en' );
+				}
+				foreach ( $topic['questions'] as $q => $question ) {
+					$id = wp_insert_post(
+						array(
+							'post_type'   => 'amour_question',
+							'post_status' => 'publish',
+							'post_title'  => $question['q'],
+							'menu_order'  => $q + 1,
+						)
+					);
+					wp_set_object_terms( $id, $term_id, 'amour_topic' );
+					update_field( 'field_amour_question_answer', $question['a'], $id );
+					if ( function_exists( 'pll_set_post_language' ) ) {
+						pll_set_post_language( $id, 'en' );
+					}
+				}
+			}
+			WP_CLI::log( 'Questions: from the board' );
+		}
+
+		$faq = $ids['questions'] ?? 0;
+		if ( $faq && ! get_field( 'faq_title', $faq, false ) ) {
+			foreach ( array( 'title', 'text', 'note', 'cta' ) as $key ) {
+				update_field( 'field_amour_faq_' . $key, $data['faq'][ $key ], $faq );
+			}
+		}
+
+		$contact = $ids['contacts'] ?? 0;
+		$c       = $data['contact'];
+		if ( $contact && ! get_field( 'ct_title', $contact, false ) ) {
+			foreach ( array( 'title', 'hosts_line', 'text', 'routes_title', 'form_title', 'form_text' ) as $key ) {
+				update_field( 'field_amour_ct_' . $key, $c[ $key ], $contact );
+			}
+			update_field(
+				'field_amour_ct_routes',
+				array_map(
+					static fn( $r ) => array(
+						'field_amour_ct_route_by'   => $r['by'],
+						'field_amour_ct_route_from' => $r['from'],
+						'field_amour_ct_route_text' => $r['text'],
+					),
+					$c['routes']
+				),
+				$contact
+			);
+		}
+		WP_CLI::log( 'FAQ and Contact: pages' );
 	}
 
 	/**
