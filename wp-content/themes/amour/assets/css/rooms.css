@@ -7,18 +7,6 @@
 	margin: 0 auto;
 }
 
-.am-crumbs {
-	color: var(--text-2);
-	font-size: 14px;
-}
-
-.am-crumbs a {
-	display: inline-flex;
-	align-items: center;
-	min-height: 24px;
-	color: var(--text-2);
-}
-
 /* ---------- Opening ---------- */
 .am-rl-open {
 	padding: calc(var(--header-h, 84px) + 56px) var(--gutter) var(--sec-m);
