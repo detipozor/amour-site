@@ -21,10 +21,18 @@ $amour_summary = array(
 	'guests' => array( __( 'Guests', 'amour' ), amour_or_placeholder( '', 'guests' ) ),
 	'paid'   => array( __( 'Paid', 'amour' ), amour_or_placeholder( '', 'amount' ) ),
 	/* translators: %s: the climate resilience fee for one night, paid at the hotel. */
-	'fee'    => array( __( 'At the hotel', 'amour' ), amour_or_placeholder( '', '€…' ), __( 'Climate fee %s a night', 'amour' ) ),
+	'fee'    => array( __( 'At the hotel', 'amour' ), amour_or_placeholder( (string) amour_option( 'amour_climate_fee' ), '€…' ), __( 'Climate fee %s a night', 'amour' ) ),
 );
-// On the live site a row without a value waits hidden until the booking fills it (assets/js/thanks.js).
-$amour_any = (bool) array_filter( array_column( $amour_summary, 1 ) );
+// On the live site a row without a value waits hidden until the booking fills it (assets/js/thanks.js); the fee
+// from Hotel settings alone does not open the summary.
+$amour_any = (bool) array_filter( array_column( array_diff_key( $amour_summary, array( 'fee' => 1 ) ), 1 ) );
+// Add to calendar: the stay as an all-day event from the arrival to the departure day (assets/js/thanks.js).
+$amour_cal = array(
+	'title' => get_bloginfo( 'name' ),
+	'place' => (string) amour_option( 'amour_address' ),
+	/* translators: 1: check-in time, 2: check-out time. */
+	'note'  => sprintf( __( 'Check-in from %1$s, check-out by %2$s.', 'amour' ), (string) amour_option( 'amour_checkin' ), (string) amour_option( 'amour_checkout' ) ),
+);
 ?>
 <main id="main" tabindex="-1" class="am-thanks" data-thanks>
 
@@ -75,6 +83,7 @@ $amour_any = (bool) array_filter( array_column( $amour_summary, 1 ) );
 						<a class="am-btn" href="<?php echo esc_url( $amour_wa ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Write on WhatsApp', 'amour' ); ?></a>
 					<?php endif; ?>
 					<a class="am-btn am-btn--ghost" href="<?php echo esc_url( amour_page_url( 'crete-guide' ) ); ?>"><?php esc_html_e( 'Plan your days', 'amour' ); ?></a>
+					<button type="button" class="am-btn am-btn--ghost" data-thanks-calendar data-event="<?php echo esc_attr( wp_json_encode( $amour_cal ) ); ?>" hidden><?php esc_html_e( 'Add to calendar', 'amour' ); ?></button>
 				</div>
 			</div>
 		</section>

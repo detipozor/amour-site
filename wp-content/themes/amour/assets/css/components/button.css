@@ -29,6 +29,10 @@
 		transform 0.35s var(--ease-soft);
 }
 
+.am-btn[hidden] {
+	display: none;
+}
+
 .am-btn:hover {
 	border-color: var(--accent-hover);
 	background: var(--accent-hover);
