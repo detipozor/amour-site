@@ -158,7 +158,7 @@ test.describe( 'menu (board Menu-list)', () => {
 		await page.getByRole( 'button', { name: 'Menu', exact: true } ).click();
 		await page.locator( '.am-menu__nav a', { hasText: 'About us' } ).click();
 		await page.waitForURL( /\/about-us\/$/ );
-		await expect( page.locator( 'h1' ) ).toHaveText( 'About us' );
+		await expect( page.locator( 'h1' ) ).toHaveText( 'About Amour' );
 		await expect( page.locator( 'html' ) ).not.toHaveClass( /is-arriving/, { timeout: 3000 } );
 		await expect( page.locator( '#am-menu' ) ).toBeHidden();
 	} );

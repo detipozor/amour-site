@@ -81,6 +81,8 @@ function amour_assets() {
 		'@amour/guide'         => array( 'assets/js/guide.js', array( '@amour/motion' ) ),
 		'@amour/faq'           => array( 'assets/js/faq.js', array() ),
 		'@amour/contact'       => array( 'assets/js/contact.js', array() ),
+		'@amour/about'         => array( 'assets/js/about.js', array( '@amour/motion' ) ),
+		'@amour/thanks'        => array( 'assets/js/thanks.js', array() ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -94,10 +96,20 @@ function amour_assets() {
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
 	}
 
-	// Questions and Contact.
-	if ( amour_is_page( 'questions' ) || amour_is_page( 'contacts' ) ) {
+	// The smaller pages: Questions, Contact, About, the legal pages, Thank you, Page not found.
+	$small = array(
+		'questions' => '@amour/faq',
+		'contacts'  => '@amour/contact',
+		'about-us'  => '@amour/about',
+		'thank-you' => '@amour/thanks',
+	);
+	foreach ( $small as $path => $module ) {
+		if ( amour_is_page( $path ) ) {
+			$enqueue[] = $module;
+		}
+	}
+	if ( array_filter( array_keys( $small ), 'amour_is_page' ) || amour_is_legal() || is_404() ) {
 		wp_enqueue_style( 'amour-pages', get_theme_file_uri( 'assets/css/pages.css' ), array( 'amour-footer' ), AMOUR_VERSION );
-		$enqueue[] = amour_is_page( 'questions' ) ? '@amour/faq' : '@amour/contact';
 	}
 
 	// The Crete guide.
@@ -208,8 +220,28 @@ function amour_room_template( $template ) {
 		$file = 'page-faq.php';
 	} elseif ( is_page() && amour_is_page( 'contacts' ) ) {
 		$file = 'page-contact.php';
+	} elseif ( is_page() && amour_is_page( 'about-us' ) ) {
+		$file = 'page-about.php';
+	} elseif ( is_page() && amour_is_legal() ) {
+		$file = 'page-legal.php';
+	} elseif ( is_page() && amour_is_page( 'thank-you' ) ) {
+		$file = 'page-thanks.php';
 	}
 	$found = $file ? locate_template( $file ) : '';
 	return $found ? $found : $template;
 }
 add_filter( 'template_include', 'amour_room_template' );
+
+/**
+ * The thank-you page is for the guest who has just booked, not for search engines.
+ *
+ * @param array<string, bool> $robots Robots directives.
+ * @return array<string, bool>
+ */
+function amour_noindex_thanks( $robots ) {
+	if ( amour_is_page( 'thank-you' ) ) {
+		$robots['noindex'] = true;
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'amour_noindex_thanks' );

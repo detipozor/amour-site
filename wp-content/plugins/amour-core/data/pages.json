@@ -113,5 +113,48 @@
   ],
   "form_title": "Write to us",
   "form_text": "A question about dates, the villa or a special occasion. We reply by email within {reply}."
- }
+ },
+ "about": {
+  "title": "About Amour",
+  "text": "A small hotel on stone terraces above Almyrida bay, and a villa four minutes away. Built around one idea: stay like you live here.",
+  "photo": "16e92c844577adb7ca466250469281b0",
+  "label": "Our philosophy",
+  "phrase": "We believe a place to stay should feel like a home, not a hotel corridor. Your own kitchen, your own terrace, stone and olive trees around you, nothing that shouts. A quiet base to live by your own rhythm and to set out to see Crete.",
+  "gallery": [
+   [
+    "deb2647ed7b0e40eb233a905c0be42ac",
+    "Our court at sunset"
+   ],
+   [
+    "94833f4f7f37f38c5ee6ed7578db4a52",
+    "The stairs to the pool"
+   ],
+   [
+    "1c8b6c14e093b7b1da7fc5f2887bcb7c",
+    "One of the nine rooms"
+   ]
+  ],
+  "cta": "Stay like you live here"
+ },
+ "thanks": {
+  "label": "Booking confirmed",
+  "text": "Your stay is booked and paid. The confirmation is on its way to your email; keep it for check-in.",
+  "photo": "3d4fe371301d6eb1243e6659e55b94e1",
+  "next_title": "What happens next",
+  "next": [
+   [
+    "Before you travel",
+    "[… days] before arrival we send a link for online check-in, so you skip the paperwork at the desk."
+   ],
+   [
+    "Getting here",
+    "Chania airport is [… min] by car. Want a hire car waiting when you land? Tell us and our partner arranges it."
+   ],
+   [
+    "Arrival",
+    "Check-in from 14:00. Send us your arrival time on WhatsApp and we meet you at the hotel."
+   ]
+  ]
+ },
+ "error_photo": "16e92c844577adb7ca466250469281b0"
 }

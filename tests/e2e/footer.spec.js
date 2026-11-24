@@ -36,6 +36,7 @@ test.describe( 'footer (HANDOFF, section 5; boards About and Villa-v2-b)', () =>
 
 	test( 'the olives light up under the cursor', async ( { page } ) => {
 		await page.goto( '/about-us/' );
+		await footer( page ).scrollIntoViewIfNeeded();
 		const box = await footer( page ).boundingBox();
 		await page.mouse.move( box.x + 300, box.y + 200 );
 		await expect.poll( () => footer( page ).evaluate( ( el ) => el.style.getPropertyValue( '--mx' ) ) ).toBe( '300px' );
