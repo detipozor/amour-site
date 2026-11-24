@@ -22,6 +22,7 @@ require_once AMOUR_CORE_DIR . '/inc/fields-villa.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-estate.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-guide.php';
 require_once AMOUR_CORE_DIR . '/inc/fields-pages.php';
+require_once AMOUR_CORE_DIR . '/inc/fields-booking.php';
 require_once AMOUR_CORE_DIR . '/inc/questions.php';
 require_once AMOUR_CORE_DIR . '/inc/contact-form.php';
 require_once AMOUR_CORE_DIR . '/inc/places.php';

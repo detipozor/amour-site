@@ -156,5 +156,39 @@
    ]
   ]
  },
- "error_photo": "16e92c844577adb7ca466250469281b0"
+ "error_photo": "16e92c844577adb7ca466250469281b0",
+ "book": {
+  "lead": "Same price as on Booking.com, paid securely by card.",
+  "hint": "Choose your dates: we show only what is free, with the price for your whole stay.",
+  "season": [
+   "20270301",
+   "20271031"
+  ],
+  "units": {
+   "standard-queen-room": {
+    "guests": 2,
+    "facts": "20 m² · 2 guests",
+    "text": "A queen bed, a kitchenette and a quiet start to the day.",
+    "photo": "2b59c90b2750bdb3ac2476355da8d974"
+   },
+   "deluxe-queen-room": {
+    "guests": 2,
+    "facts": "32 m² · 2 guests",
+    "text": "More room, a full kitchen and a view over the pool.",
+    "photo": "1c8b6c14e093b7b1da7fc5f2887bcb7c"
+   },
+   "superior-queen-room": {
+    "guests": 2,
+    "facts": "Sea view · 2 guests",
+    "text": "A terrace of your own with the sea in front of it.",
+    "photo": "c52dc0b422d93e5648121425daaa19a4"
+   },
+   "villa-eudora": {
+    "guests": 11,
+    "facts": "5 bedrooms · Private pool",
+    "text": "A stone house for family and friends, four minutes from the hotel.",
+    "photo": "5a3bd934ace28fc571185ce354dcf308"
+   }
+  }
+ }
 }
