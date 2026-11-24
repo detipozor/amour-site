@@ -470,6 +470,17 @@ class Amour_Seed_Command {
 				}
 				$item_id = wp_update_nav_menu_item( $menu_id, 0, $data );
 
+				// WordPress drops a label equal to the page's title and then shows whatever the page is called;
+				// the pages get their full names further down (Cookies becomes Cookie policy). Keep the board's label.
+				if ( 'post_type' === $data['menu-item-type'] && ! is_wp_error( $item_id ) ) {
+					wp_update_post(
+						array(
+							'ID'         => $item_id,
+							'post_title' => $label,
+						)
+					);
+				}
+
 				// Photo in the arch and the line under it (Menu-list board).
 				if ( isset( $item[3] ) && function_exists( 'update_field' ) && ! is_wp_error( $item_id ) ) {
 					$photo = $this->attachment_by_blob( $item[2] );
