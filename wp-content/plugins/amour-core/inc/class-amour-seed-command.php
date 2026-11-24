@@ -151,6 +151,7 @@ class Amour_Seed_Command {
 		$this->estate( $ids['court-and-pool'] ?? 0 );
 		$this->guide( $ids['crete-guide'] ?? 0 );
 		$this->faq_contact( $ids );
+		$this->about_legal_thanks( $ids );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1193,6 +1194,101 @@ class Amour_Seed_Command {
 			);
 		}
 		WP_CLI::log( 'FAQ and Contact: pages' );
+	}
+
+	/**
+	 * About, the three legal pages (the drafts of the board Legal, as headings and paragraphs in the editor, the
+	 * cookie list as a table), the thank-you page and the photo of the error page. Only what is still empty.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function about_legal_thanks( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_page_fields' ) ) {
+			amour_register_page_fields();
+		}
+		$data = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/pages.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+
+		$about = $ids['about-us'] ?? 0;
+		$a     = $data['about'];
+		if ( $about && ! get_field( 'ab_title', $about, false ) ) {
+			foreach ( array( 'title', 'text', 'label', 'phrase', 'cta' ) as $key ) {
+				update_field( 'field_amour_ab_' . $key, $a[ $key ], $about );
+			}
+			update_field( 'field_amour_ab_photo', $this->attachment_by_blob( $a['photo'] ), $about );
+			update_field(
+				'field_amour_ab_gallery',
+				array_map(
+					fn( $g ) => array(
+						'field_amour_ab_gallery_photo'   => $this->attachment_by_blob( $g[0] ),
+						'field_amour_ab_gallery_caption' => $g[1],
+					),
+					$a['gallery']
+				),
+				$about
+			);
+		}
+
+		$docs  = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/legal.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		$pages = array(
+			'privacy' => 'privacy-policy',
+			'cookies' => 'cookies',
+			'terms'   => 'booking-terms',
+		);
+		foreach ( $pages as $key => $slug ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( ! $id || get_field( 'lg_lead', $id, false ) ) {
+				continue;
+			}
+			$blocks = '';
+			foreach ( $docs[ $key ]['sections'] as $section ) {
+				$blocks .= sprintf( "<!-- wp:heading {\"anchor\":\"%1\$s\"} -->\n<h2 class=\"wp-block-heading\" id=\"%1\$s\">%2\$s</h2>\n<!-- /wp:heading -->\n\n", esc_attr( $section['id'] ), esc_html( $section['h'] ) );
+				foreach ( $section['ps'] as $paragraph ) {
+					$blocks .= sprintf( "<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->\n\n", esc_html( $paragraph['t'] ) );
+				}
+				if ( $section['rows'] ) {
+					$head    = array_shift( $section['rows'] );
+					$cell    = static fn( $row, $tag ) => '<tr>' . implode( '', array_map( static fn( $k ) => "<{$tag}>" . esc_html( $row[ $k ] ) . "</{$tag}>", array( 'n', 'p', 'u', 'd' ) ) ) . '</tr>';
+					$body    = implode( '', array_map( static fn( $row ) => $cell( $row, 'td' ), $section['rows'] ) );
+					$blocks .= "<!-- wp:table -->\n<figure class=\"wp-block-table\"><table><thead>" . $cell( $head, 'th' ) . '</thead><tbody>' . $body . "</tbody></table></figure>\n<!-- /wp:table -->\n\n";
+				}
+			}
+			wp_update_post(
+				array(
+					'ID'           => $id,
+					'post_title'   => $docs[ $key ]['title'],
+					'post_content' => trim( $blocks ),
+				)
+			);
+			update_field( 'field_amour_lg_lead', $docs[ $key ]['lead'], $id );
+		}
+
+		$thanks = $ids['thank-you'] ?? 0;
+		$t      = $data['thanks'];
+		if ( $thanks && ! get_field( 'th_label', $thanks, false ) ) {
+			foreach ( array( 'label', 'text', 'next_title' ) as $key ) {
+				update_field( 'field_amour_th_' . $key, $t[ $key ], $thanks );
+			}
+			update_field( 'field_amour_th_photo', $this->attachment_by_blob( $t['photo'] ), $thanks );
+			update_field(
+				'field_amour_th_next',
+				array_map(
+					static fn( $n ) => array(
+						'field_amour_th_step_title' => $n[0],
+						'field_amour_th_step_text'  => $n[1],
+					),
+					$t['next']
+				),
+				$thanks
+			);
+		}
+
+		if ( ! get_field( 'amour_404_photo', 'option' ) ) {
+			update_field( 'field_amour_404_photo', $this->attachment_by_blob( $data['error_photo'] ), 'option' );
+		}
+		WP_CLI::log( 'About, legal pages, thank-you: pages' );
 	}
 
 	/**

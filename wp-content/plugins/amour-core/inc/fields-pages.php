@@ -183,5 +183,158 @@ function amour_register_page_fields() {
 			)
 		);
 	}
+
+	$about = amour_core_page_location( 'about-us' );
+	if ( $about ) {
+		acf_add_local_field_group(
+			array(
+				'key'                   => 'group_amour_about',
+				'title'                 => __( 'About page', 'amour' ),
+				'location'              => $about,
+				'position'              => 'acf_after_title',
+				'hide_on_screen'        => array( 'the_content' ),
+				'instruction_placement' => 'field',
+				'fields'                => array(
+					amour_core_field( 'ab', 'title', __( 'Heading', 'amour' ) ),
+					amour_core_field( 'ab', 'text', __( 'Text under it', 'amour' ), 'textarea' ),
+					amour_core_field( 'ab', 'photo', __( 'Photo in the arch (upright)', 'amour' ), 'image' ),
+					amour_core_field( 'ab', 'label', __( 'Label of the philosophy (capitals)', 'amour' ) ),
+					amour_core_field( 'ab', 'phrase', __( 'Philosophy (lights up word by word)', 'amour' ), 'textarea', array( 'rows' => 3 ) ),
+					array(
+						'key'          => 'field_amour_ab_gallery',
+						'name'         => 'ab_gallery',
+						'label'        => __( 'Three photos', 'amour' ),
+						'type'         => 'repeater',
+						'layout'       => 'table',
+						'max'          => 3,
+						'button_label' => __( 'Add a photo', 'amour' ),
+						'sub_fields'   => array(
+							array(
+								'key'           => 'field_amour_ab_gallery_photo',
+								'name'          => 'photo',
+								'label'         => __( 'Photo (upright)', 'amour' ),
+								'type'          => 'image',
+								'return_format' => 'id',
+								'preview_size'  => 'thumbnail',
+							),
+							array(
+								'key'   => 'field_amour_ab_gallery_caption',
+								'name'  => 'caption',
+								'label' => __( 'Caption', 'amour' ),
+								'type'  => 'text',
+							),
+						),
+					),
+					amour_core_field( 'ab', 'cta', __( 'Heading of the box at the bottom', 'amour' ) ),
+				),
+			)
+		);
+	}
+
+	$legal = array_merge( amour_core_page_location( 'privacy-policy' ), amour_core_page_location( 'cookies' ), amour_core_page_location( 'booking-terms' ) );
+	if ( $legal ) {
+		acf_add_local_field_group(
+			array(
+				'key'                   => 'group_amour_legal',
+				'title'                 => __( 'Legal page', 'amour' ),
+				'location'              => $legal,
+				'position'              => 'acf_after_title',
+				'instruction_placement' => 'field',
+				'fields'                => array(
+					amour_core_field( 'lg', 'lead', __( 'One line under the heading', 'amour' ), 'textarea' ),
+					amour_core_field(
+						'lg',
+						'updated',
+						__( 'Last updated', 'amour' ),
+						'date_picker',
+						array(
+							'display_format' => 'j F Y',
+							'return_format'  => 'Ymd',
+							'instructions'   => __( 'The text is below, in the editor. Each heading (Heading 2) becomes a line of the contents on the side.', 'amour' ),
+						)
+					),
+				),
+			)
+		);
+	}
+
+	$thanks = amour_core_page_location( 'thank-you' );
+	if ( $thanks ) {
+		acf_add_local_field_group(
+			array(
+				'key'                   => 'group_amour_thanks',
+				'title'                 => __( 'Thank-you page', 'amour' ),
+				'location'              => $thanks,
+				'position'              => 'acf_after_title',
+				'hide_on_screen'        => array( 'the_content' ),
+				'instruction_placement' => 'field',
+				'fields'                => array(
+					amour_core_field( 'th', 'label', __( 'Label (capitals)', 'amour' ) ),
+					amour_core_field( 'th', 'text', __( 'Text under "Thank you, …"', 'amour' ), 'textarea', array( 'instructions' => __( 'The name and the booking summary come from the booking engine.', 'amour' ) ) ),
+					amour_core_field( 'th', 'photo', __( 'Photo in the arch (upright)', 'amour' ), 'image' ),
+					amour_core_field( 'th', 'next_title', __( 'Heading of the next steps', 'amour' ) ),
+					array(
+						'key'          => 'field_amour_th_next',
+						'name'         => 'th_next',
+						'label'        => __( 'Next steps', 'amour' ),
+						'type'         => 'repeater',
+						'layout'       => 'table',
+						'max'          => 3,
+						'button_label' => __( 'Add a step', 'amour' ),
+						'sub_fields'   => array(
+							array(
+								'key'   => 'field_amour_th_step_title',
+								'name'  => 'title',
+								'label' => __( 'Title', 'amour' ),
+								'type'  => 'text',
+							),
+							array(
+								'key'   => 'field_amour_th_step_text',
+								'name'  => 'text',
+								'label' => __( 'Text', 'amour' ),
+								'type'  => 'textarea',
+								'rows'  => 2,
+							),
+						),
+					),
+				),
+			)
+		);
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_amour_more',
+			'title'                 => __( 'Privacy contact and the error page', 'amour' ),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'amour-hotel',
+					),
+				),
+			),
+			'menu_order'            => 7,
+			'instruction_placement' => 'field',
+			'fields'                => array(
+				array(
+					'key'          => 'field_amour_privacy_email',
+					'name'         => 'amour_privacy_email',
+					'label'        => __( 'Email for questions about personal data', 'amour' ),
+					'type'         => 'email',
+					'instructions' => __( 'Shown at the bottom of the legal pages.', 'amour' ),
+				),
+				array(
+					'key'           => 'field_amour_404_photo',
+					'name'          => 'amour_404_photo',
+					'label'         => __( 'Photo on the "page not found" page (upright)', 'amour' ),
+					'type'          => 'image',
+					'return_format' => 'id',
+					'preview_size'  => 'thumbnail',
+				),
+			),
+		)
+	);
 }
 add_action( 'acf/init', 'amour_register_page_fields' );
