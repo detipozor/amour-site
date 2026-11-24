@@ -80,7 +80,8 @@ test.describe( 'home: date search (HANDOFF, section 5)', () => {
 		await expect( page.locator( '.am-search__label' ) ).toHaveText( [ 'Arrive', 'Leave', 'Guests' ] );
 		await fields.first().click();
 		await page.waitForURL( /\/book\/$/ );
-		expect( await page.evaluate( () => window.sessionStorage.getItem( 'amour-cal' ) ) ).toBe( 'arr' );
+		await expect( page.getByRole( 'dialog', { name: 'Choose your dates' } ) ).toBeVisible();
+		await expect( page.locator( '[data-bk-open="arr"]' ) ).toHaveAttribute( 'aria-expanded', 'true' );
 	} );
 
 	test( 'phone: two columns, guests and the button full width', async ( { page } ) => {
