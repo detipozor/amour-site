@@ -1,0 +1,117 @@
+{
+ "faq": {
+  "title": "Questions and house rules",
+  "text": "Everything guests usually ask us before they arrive. If your question is not here, write to us on WhatsApp.",
+  "note": "These answers describe how we work and are not legal terms. The full booking terms are shown before payment.",
+  "cta": "Still wondering about something?",
+  "topics": [
+   {
+    "slug": "booking",
+    "name": "Booking and payment",
+    "questions": [
+     {
+      "q": "Is the price the same as on Booking.com?",
+      "a": "Yes. Our prices here are the same as on Booking.com, and you pay us directly, with no middleman."
+     },
+     {
+      "q": "When do I pay?",
+      "a": "In full when you book, by card. You receive a confirmation and an invoice by email."
+     },
+     {
+      "q": "Can I cancel?",
+      "a": "[Free cancellation up to 14 days before arrival, or a non-refundable rate 10% cheaper. Terms to confirm.]"
+     },
+     {
+      "q": "Is the climate fee included?",
+      "a": "Greece charges a climate resilience fee per room and night. It is paid at the hotel: [€… a night for a room, €… for the villa, April to October]."
+     }
+    ]
+   },
+   {
+    "slug": "stay",
+    "name": "Arrival and stay",
+    "questions": [
+     {
+      "q": "What time is check-in and check-out?",
+      "a": "Check-in from 14:00, check-out by 11:00. [Ask us about an early arrival or a late departure; we will help if the room is free.]"
+     },
+     {
+      "q": "Is breakfast included?",
+      "a": "We do not serve breakfast: every room has its own kitchen. A breakfast basket from our partner bakery costs €15 for two; order it the day before."
+     },
+     {
+      "q": "Is there parking?",
+      "a": "[Free parking at the hotel.]"
+     }
+    ]
+   },
+   {
+    "slug": "family",
+    "name": "Children and pets",
+    "questions": [
+     {
+      "q": "Do you welcome children?",
+      "a": "We welcome all guests. Our rooms are best suited to guests aged 12 and over; for families with younger children, Villa Eudora has room for everyone."
+     },
+     {
+      "q": "Can I bring my dog?",
+      "a": "Yes, pets are welcome. [Size, number of pets and the fee to confirm.]"
+     }
+    ]
+   },
+   {
+    "slug": "estate",
+    "name": "Court and pool",
+    "questions": [
+     {
+      "q": "Is the tennis court free?",
+      "a": "Yes, for all guests of the hotel and the villa. Rackets and balls are there to borrow, and the court is lit in the evening."
+     },
+     {
+      "q": "When is the pool open?",
+      "a": "[From … to …, April to October.]"
+     }
+    ]
+   },
+   {
+    "slug": "villa",
+    "name": "Villa Eudora",
+    "questions": [
+     {
+      "q": "Can we hold a wedding or a party at the villa?",
+      "a": "Yes, weddings and celebrations are welcome. Send us the date and the number of guests from the villa page."
+     },
+     {
+      "q": "What is the shortest stay at the villa?",
+      "a": "[7 nights in July and August with Saturday arrivals, 5 nights in the rest of the season.]"
+     }
+    ]
+   }
+  ]
+ },
+ "contact": {
+  "title": "Find us in Almyrida",
+  "hosts_line": "On site every day · English, Greek, [German]",
+  "text": "The fastest way to reach us is WhatsApp: the hosts answer themselves, usually within the hour during the day.",
+  "routes_title": "Getting here",
+  "routes": [
+   {
+    "by": "By plane",
+    "from": "Chania airport",
+    "text": "[… km · … min] by car. Our partner can have a hire car waiting when you land."
+   },
+   {
+    "by": "By plane",
+    "from": "Heraklion airport",
+    "text": "[… km · … hr] by car along the north coast road."
+   },
+   {
+    "by": "By ferry",
+    "from": "Souda port",
+    "text": "[… km · … min] by car from the ferries from Piraeus."
+   }
+  ],
+  "form_title": "Write to us",
+  "form_text": "A question about dates, the villa or a special occasion. We reply by email within {reply}."
+ }
+}

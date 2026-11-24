@@ -728,3 +728,64 @@ function amour_guide() {
 		'hotel' => $hotel,
 	);
 }
+
+/**
+ * The questions of the FAQ page by topic, topics in their order (Questions in the admin), in the page language;
+ * a language with no questions yet shows those of the default language.
+ *
+ * @return array<int, array{slug: string, name: string, questions: array<int, array{q: string, a: string}>}>
+ */
+function amour_faq() {
+	if ( ! taxonomy_exists( 'amour_topic' ) ) {
+		return array();
+	}
+	$lang  = function_exists( 'pll_current_language' ) ? pll_current_language() : '';
+	$query = static fn( $language ) => get_terms(
+		array(
+			'taxonomy'   => 'amour_topic',
+			'hide_empty' => true,
+			'lang'       => $language,
+		)
+	);
+	$terms = $query( $lang );
+	if ( ( ! $terms || is_wp_error( $terms ) ) && function_exists( 'pll_default_language' ) ) {
+		$lang  = pll_default_language();
+		$terms = $query( $lang );
+	}
+	if ( ! $terms || is_wp_error( $terms ) ) {
+		return array();
+	}
+	$order = static fn( $term ) => (int) ( function_exists( 'get_field' ) ? get_field( 'order', 'amour_topic_' . $term->term_id ) : 0 );
+	usort( $terms, static fn( $a, $b ) => $order( $a ) <=> $order( $b ) );
+
+	$topics = array();
+	foreach ( $terms as $term ) {
+		$posts    = get_posts(
+			array(
+				'post_type'      => 'amour_question',
+				'posts_per_page' => 50,
+				'orderby'        => 'menu_order',
+				'order'          => 'ASC',
+				'lang'           => $lang,
+				'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- a few questions.
+					array(
+						'taxonomy' => 'amour_topic',
+						'terms'    => $term->term_id,
+					),
+				),
+			)
+		);
+		$topics[] = array(
+			'slug'      => $term->slug,
+			'name'      => $term->name,
+			'questions' => array_map(
+				static fn( $p ) => array(
+					'q' => get_the_title( $p ),
+					'a' => (string) ( function_exists( 'get_field' ) ? get_field( 'answer', $p->ID ) : '' ),
+				),
+				$posts
+			),
+		);
+	}
+	return array_values( array_filter( $topics, static fn( $t ) => $t['questions'] ) );
+}
