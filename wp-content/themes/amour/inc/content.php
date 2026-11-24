@@ -392,20 +392,22 @@ function amour_map_places( $map = 'on_home' ) {
 			continue;
 		}
 		$places[] = array(
-			'id'        => $id,
-			'kind'      => (string) $f( 'kind' ),
-			'name'      => get_the_title( $id ),
-			'label'     => (string) $f( 'label' ),
-			'short'     => (string) $f( 'short' ),
-			'x'         => (float) $f( 'x' ),
-			'y'         => (float) $f( 'y' ),
-			'dir'       => (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row',
-			'dir_phone' => (string) $f( 'dir_phone' ) ? (string) $f( 'dir_phone' ) : ( (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row' ),
-			'meta'      => (string) $f( 'meta' ),
-			'text'      => (string) $f( 'text' ),
-			'photo'     => (int) $f( 'photo' ),
-			'route'     => (string) $f( 'route' ),
-			'villa'     => (string) $f( 'villa_label' ),
+			'id'              => $id,
+			'kind'            => (string) $f( 'kind' ),
+			'name'            => get_the_title( $id ),
+			'label'           => (string) $f( 'label' ),
+			'short'           => (string) $f( 'short' ),
+			'x'               => (float) $f( 'x' ),
+			'y'               => (float) $f( 'y' ),
+			'dir'             => (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row',
+			'dir_phone'       => (string) $f( 'dir_phone' ) ? (string) $f( 'dir_phone' ) : ( (string) $f( 'dir' ) ? (string) $f( 'dir' ) : 'row' ),
+			'meta'            => (string) $f( 'meta' ),
+			'text'            => (string) $f( 'text' ),
+			'photo'           => (int) $f( 'photo' ),
+			'route'           => (string) $f( 'route' ),
+			'villa'           => (string) $f( 'villa_label' ),
+			'guide_dir'       => (string) $f( 'guide_dir' ),
+			'guide_dir_phone' => (string) $f( 'guide_dir_phone' ),
 		);
 	}
 	return $places;
@@ -659,4 +661,70 @@ function amour_is_villa( $id = null ) {
 	$id    = $id ? (int) $id : ( is_page() ? get_queried_object_id() : 0 );
 	$villa = get_page_by_path( 'villa-eudora' );
 	return $id && $villa && in_array( $id, array_map( 'intval', amour_core_ids_or_self( $villa->ID ) ), true );
+}
+
+/**
+ * The Crete guide (board Guide): the places on the big map, and the Days out cards with their small road maps.
+ * Drive times come from each place's "Distance and time" (for example 41 km · 1 hr by car), written short for
+ * the card (1 h); the small map frames the road from the hotel with some room around it.
+ *
+ * @return array{pins: array<int, array<string, mixed>>, days: array<int, array<string, mixed>>, hotel: ?array<string, mixed>}
+ */
+function amour_guide() {
+	$places = amour_map_places();
+	$hotel  = wp_list_filter( $places, array( 'kind' => 'hotel' ) );
+	$hotel  = $hotel ? reset( $hotel ) : null;
+	$villa  = wp_list_filter( $places, array( 'kind' => 'villa' ) );
+	$villa  = $villa ? reset( $villa ) : null;
+	$pins   = array();
+	$days   = array();
+	foreach ( $places as $place ) {
+		if ( 'villa' === $place['kind'] ) {
+			continue;
+		}
+		if ( 'hotel' === $place['kind'] && $villa ) {
+			$place['label'] = $place['label'] . ' · ' . $villa['label'];
+			$place['short'] = __( 'Amour · Villa Eudora', 'amour' );
+		}
+		$pins[] = $place;
+		if ( 'trip' !== $place['kind'] ) {
+			continue;
+		}
+
+		// "41 km · 1 hr by car" → 1 h, 41 km by car; "65 km · 1 hr 30 min to Xyloskalo" → 1 h 30, 65 km to Xyloskalo.
+		$parts = array_map( 'trim', explode( '·', $place['meta'] ) );
+		$where = str_contains( $place['meta'], 'Xyloskalo' ) ? __( 'to Xyloskalo', 'amour' ) : __( 'by car', 'amour' );
+		$time  = preg_replace( array( '/ by car$/', '/ to Xyloskalo$/', '/ hr (\d+) min/', '/ hr$/' ), array( '', '', ' h $1', ' h' ), $parts[1] ?? '' );
+
+		// The small map: the road's box, as a 4:3 view that a 4:5 card cuts to its middle, with room around.
+		$mini = null;
+		if ( $place['route'] && preg_match_all( '/-?\d+(?:\.\d+)?/', $place['route'], $nums ) ) {
+			$xs   = array_map( 'floatval', array_values( array_filter( $nums[0], static fn( $k ) => 0 === $k % 2, ARRAY_FILTER_USE_KEY ) ) );
+			$ys   = array_map( 'floatval', array_values( array_filter( $nums[0], static fn( $k ) => 1 === $k % 2, ARRAY_FILTER_USE_KEY ) ) );
+			$h    = max( max( $ys ) - min( $ys ), ( max( $xs ) - min( $xs ) ) * 5 / 4 ) * 1.35;
+			$w    = $h * 4 / 3;
+			$cx   = ( min( $xs ) + max( $xs ) ) / 2;
+			$cy   = ( min( $ys ) + max( $ys ) ) / 2;
+			$mini = array(
+				'vb'    => sprintf( '%.1f %.1f %.1f %.1f', $cx - $w / 2, $cy - $h / 2, $w, $h ),
+				'u'     => round( $w / 250, 3 ), // one "unit" of line width at this size
+				'start' => array( $xs[0], $ys[0] ),
+				'end'   => array( end( $xs ), end( $ys ) ),
+			);
+		}
+		$days[] = array(
+			'name'  => $place['name'],
+			'time'  => $time,
+			'km'    => trim( ( $parts[0] ?? '' ) . ' ' . $where ),
+			'note'  => (string) amour_page_field( 'note', $place['id'] ),
+			'photo' => $place['photo'],
+			'route' => $place['route'],
+			'mini'  => $mini,
+		);
+	}
+	return array(
+		'pins'  => $pins,
+		'days'  => $days,
+		'hotel' => $hotel,
+	);
 }
