@@ -13,6 +13,7 @@ require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
 require_once get_theme_file_path( 'inc/content.php' );
 require_once get_theme_file_path( 'inc/booking.php' );
+require_once get_theme_file_path( 'inc/seo.php' );
 
 /**
  * Theme supports and menu locations.
