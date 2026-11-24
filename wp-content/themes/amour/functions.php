@@ -78,6 +78,7 @@ function amour_assets() {
 		'@amour/location'      => array( 'assets/js/location.js', array( '@amour/motion' ) ),
 		'@amour/villa-page'    => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
 		'@amour/estate'        => array( 'assets/js/estate.js', array( '@amour/motion' ) ),
+		'@amour/guide'         => array( 'assets/js/guide.js', array( '@amour/motion' ) ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -89,6 +90,12 @@ function amour_assets() {
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
+	}
+
+	// The Crete guide.
+	if ( amour_is_page( 'crete-guide' ) ) {
+		wp_enqueue_style( 'amour-guide', get_theme_file_uri( 'assets/css/guide.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		$enqueue[] = '@amour/guide';
 	}
 
 	// Court and pool.
@@ -187,6 +194,8 @@ function amour_room_template( $template ) {
 		$file = 'page-rooms.php'; // the Rooms page under its German address too
 	} elseif ( is_page() && amour_is_page( 'court-and-pool' ) ) {
 		$file = 'page-estate.php';
+	} elseif ( is_page() && amour_is_page( 'crete-guide' ) ) {
+		$file = 'page-guide.php';
 	}
 	$found = $file ? locate_template( $file ) : '';
 	return $found ? $found : $template;
