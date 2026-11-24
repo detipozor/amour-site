@@ -263,9 +263,16 @@ if ( page ) {
 		guestsText: guestsText(),
 	} );
 
+	// Events for Tag Manager (HANDOFF, section 14): the search, the room chosen, the way to the engine. They wait in
+	// dataLayer and leave the browser only when Tag Manager loads, after the guest agreed (consent.js).
+	const track = ( data ) => ( window.dataLayer = window.dataLayer || [] ).push( data );
+	const item = ( unit ) => ( { item_id: unit.code || String( unit.id ), item_name: unit.name } );
+
 	const run = async () => {
 		state.searched = true;
-		state.found = await provider.search( query() );
+		const q = query();
+		state.found = await provider.search( q );
+		track( { event: 'search', search_term: q.arrive + ' – ' + q.leave, arrive: q.arrive, leave: q.leave, nights: q.nights, guests: q.guests } );
 		render();
 	};
 
@@ -279,6 +286,8 @@ if ( page ) {
 		if ( unit ) {
 			const q = query();
 			q.paidText = typeof unit.total === 'number' ? text.paid.replace( '%s', money.format( unit.total ) ) : '';
+			track( { event: 'select_item', items: [ item( unit ) ] } );
+			track( { event: 'begin_checkout', currency: 'EUR', value: typeof unit.total === 'number' ? unit.total : undefined, items: [ item( unit ) ] } );
 			window.location.assign( provider.handoff( unit, q ) );
 		}
 	} );
