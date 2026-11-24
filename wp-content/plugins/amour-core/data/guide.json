@@ -1,0 +1,51 @@
+{
+ "title": "Your home base for Crete",
+ "text": "The places we send our guests to, with honest drive times from the hotel. Out to the gorges by day, home by golden hour.",
+ "bay_label": "On foot from the hotel",
+ "bay_title": "Almyrida bay",
+ "bay_text": "The village beach is 1.2 km away, about 15 minutes on foot: a sandy bay with tavernas along the water and a small island off the shore. Kalyves, the next village, is 6 km along the coast.",
+ "bay_short": "A sandy bay with tavernas along the water and a small island off the shore.",
+ "bay_photo": "5d62234bcd2c3732bd843737474dc29b",
+ "bay_facts": [
+  [
+   "Almyrida beach",
+   "1.2 km · 15 min on foot"
+  ],
+  [
+   "Kalyves",
+   "6 km · 15 min by car"
+  ]
+ ],
+ "bay_figures": [
+  [
+   "15 min",
+   "on foot to the beach, 1.2 km"
+  ],
+  [
+   "6 km",
+   "to Kalyves, 15 min by car"
+  ]
+ ],
+ "days_title": "Days out",
+ "days_text": "Gorges, harbours and monasteries, all within an easy drive.",
+ "days_photo": "86e186194bfcc48918d797e665471892",
+ "getting_title": "Getting here and around",
+ "getting": [
+  [
+   "From Chania airport",
+   "[… km · … min] by car to the hotel."
+  ],
+  [
+   "From Heraklion airport",
+   "[… km · … hr] by car along the north coast."
+  ],
+  [
+   "A car when you land",
+   "Our partner can have a hire car waiting at the airport. Ask us when you book."
+  ],
+  [
+   "Without a car",
+   "[Taxi from the airport, about €…; buses from Chania to Almyrida.]"
+  ]
+ ]
+}

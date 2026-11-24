@@ -134,11 +134,41 @@ function amour_register_place_fields() {
 					),
 				),
 				array(
+					'key'          => 'field_amour_place_guide_dir',
+					'name'         => 'guide_dir',
+					'label'        => __( 'Label side on the guide map (if different)', 'amour' ),
+					'type'         => 'select',
+					'allow_null'   => 1,
+					'choices'      => array(
+						'row'         => __( 'Right of the dot', 'amour' ),
+						'row-reverse' => __( 'Left of the dot', 'amour' ),
+					),
+					'instructions' => __( 'The guide shows the whole island, so a label may sit on the other side than on the home page.', 'amour' ),
+				),
+				array(
+					'key'        => 'field_amour_place_guide_dir_phone',
+					'name'       => 'guide_dir_phone',
+					'label'      => __( 'Label side on the guide map, on a tablet or phone (if different)', 'amour' ),
+					'type'       => 'select',
+					'allow_null' => 1,
+					'choices'    => array(
+						'row'         => __( 'Right of the dot', 'amour' ),
+						'row-reverse' => __( 'Left of the dot', 'amour' ),
+					),
+				),
+				array(
 					'key'          => 'field_amour_place_meta',
 					'name'         => 'meta',
 					'label'        => __( 'Distance and time', 'amour' ),
 					'type'         => 'text',
 					'instructions' => __( 'For example 23 km · 40 min by car.', 'amour' ),
+				),
+				array(
+					'key'          => 'field_amour_place_note',
+					'name'         => 'note',
+					'label'        => __( 'A few words for the card in the guide', 'amour' ),
+					'type'         => 'text',
+					'instructions' => __( 'For example go early, little shade.', 'amour' ),
 				),
 				array(
 					'key'   => 'field_amour_place_text',

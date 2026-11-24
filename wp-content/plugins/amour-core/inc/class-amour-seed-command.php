@@ -149,6 +149,7 @@ class Amour_Seed_Command {
 		$this->rooms( $ids );
 		$this->villa( $ids['villa-eudora'] ?? 0 );
 		$this->estate( $ids['court-and-pool'] ?? 0 );
+		$this->guide( $ids['crete-guide'] ?? 0 );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1081,6 +1082,36 @@ class Amour_Seed_Command {
 	}
 
 	/**
+	 * The Crete guide (data/guide.json, from the board Guide). Only when the page is empty.
+	 *
+	 * @param int $id Guide page id.
+	 */
+	private function guide( $id ) {
+		if ( ! $id || ! function_exists( 'update_field' ) || get_field( 'guide_title', $id, false ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_guide_fields' ) ) {
+			amour_register_guide_fields();
+		}
+		$g = json_decode( (string) file_get_contents( AMOUR_CORE_DIR . '/data/guide.json' ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local plugin file.
+		foreach ( $g as $name => $value ) {
+			if ( is_array( $value ) ) {
+				$value = array_map(
+					static fn( $pair ) => array(
+						'field_amour_guide_' . $name . '_a' => $pair[0],
+						'field_amour_guide_' . $name . '_b' => $pair[1],
+					),
+					$value
+				);
+			} elseif ( str_ends_with( $name, '_photo' ) ) {
+				$value = $this->attachment_by_blob( $value );
+			}
+			update_field( 'field_amour_guide_' . $name, $value, $id );
+		}
+		WP_CLI::log( 'Crete guide: page' );
+	}
+
+	/**
 	 * Places of the home map and the guide (data/home-map.json, taken from the board Main-v2-b):
 	 * the hotel, the villa, six day trips with their roads, and the far label Heraklion.
 	 * Adds the places that are missing; never changes a place that exists.
@@ -1113,6 +1144,11 @@ class Amour_Seed_Command {
 				if ( ! empty( $place['on_rooms'] ) && '' === get_post_meta( $existing[0], 'on_rooms', true ) ) {
 					update_field( 'field_amour_place_rooms', 1, $existing[0] );
 				}
+				if ( ! empty( $place['note'] ) && '' === (string) get_post_meta( $existing[0], 'note', true ) ) {
+					update_field( 'field_amour_place_note', $place['note'], $existing[0] );
+					update_field( 'field_amour_place_guide_dir', $place['guide_dir'] ?? '', $existing[0] );
+					update_field( 'field_amour_place_guide_dir_phone', $place['guide_dir_phone'] ?? '', $existing[0] );
+				}
 				if ( ! empty( $place['on_villa'] ) && '' === get_post_meta( $existing[0], 'on_villa', true ) ) {
 					update_field( 'field_amour_place_villa', 1, $existing[0] );
 					update_field( 'field_amour_place_villa_label', $place['villa_label'] ?? '', $existing[0] );
@@ -1131,20 +1167,23 @@ class Amour_Seed_Command {
 				pll_set_post_language( $id, 'en' );
 			}
 			$values = array(
-				'field_amour_place_kind'        => $place['kind'],
-				'field_amour_place_label'       => $place['label'],
-				'field_amour_place_short'       => $place['short'],
-				'field_amour_place_x'           => $place['x'],
-				'field_amour_place_y'           => $place['y'],
-				'field_amour_place_dir'         => $place['dir'],
-				'field_amour_place_dir_phone'   => $place['dir_phone'] ?? $place['dir'],
-				'field_amour_place_meta'        => $place['meta'],
-				'field_amour_place_text'        => $place['text'],
-				'field_amour_place_route'       => $place['route'] ?? '',
-				'field_amour_place_home'        => isset( $place['on_home'] ) ? (int) $place['on_home'] : 1,
-				'field_amour_place_rooms'       => empty( $place['on_rooms'] ) ? 0 : 1,
-				'field_amour_place_villa'       => empty( $place['on_villa'] ) ? 0 : 1,
-				'field_amour_place_villa_label' => $place['villa_label'] ?? '',
+				'field_amour_place_kind'            => $place['kind'],
+				'field_amour_place_label'           => $place['label'],
+				'field_amour_place_short'           => $place['short'],
+				'field_amour_place_x'               => $place['x'],
+				'field_amour_place_y'               => $place['y'],
+				'field_amour_place_dir'             => $place['dir'],
+				'field_amour_place_dir_phone'       => $place['dir_phone'] ?? $place['dir'],
+				'field_amour_place_meta'            => $place['meta'],
+				'field_amour_place_text'            => $place['text'],
+				'field_amour_place_note'            => $place['note'] ?? '',
+				'field_amour_place_guide_dir'       => $place['guide_dir'] ?? '',
+				'field_amour_place_guide_dir_phone' => $place['guide_dir_phone'] ?? '',
+				'field_amour_place_route'           => $place['route'] ?? '',
+				'field_amour_place_home'            => isset( $place['on_home'] ) ? (int) $place['on_home'] : 1,
+				'field_amour_place_rooms'           => empty( $place['on_rooms'] ) ? 0 : 1,
+				'field_amour_place_villa'           => empty( $place['on_villa'] ) ? 0 : 1,
+				'field_amour_place_villa_label'     => $place['villa_label'] ?? '',
 			);
 			if ( ! empty( $place['photo'] ) ) {
 				$values['field_amour_place_photo'] = $this->attachment_by_blob( $place['photo'] );
