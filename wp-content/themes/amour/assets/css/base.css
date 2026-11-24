@@ -337,3 +337,20 @@ nav a {
 		scroll-behavior: auto !important;
 	}
 }
+
+/* A test copy only: the German pages still show the English text (functions.php, amour_german_note()) */
+.am-test-note {
+	position: fixed;
+	z-index: 40;
+	bottom: 16px;
+	left: 16px;
+	max-width: calc(100vw - 32px);
+	margin: 0;
+	padding: 8px 14px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	box-shadow: var(--shadow-popover);
+	color: var(--text-2);
+	font-size: 13px;
+	pointer-events: none;
+}
