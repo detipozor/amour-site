@@ -180,6 +180,7 @@ class Amour_Seed_Command {
 		$this->about_legal_thanks( $ids );
 		$this->booking( $ids );
 		$this->consent();
+		$this->seo( $ids );
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
@@ -1459,6 +1460,71 @@ class Amour_Seed_Command {
 			update_field( 'field_amour_cookie_text', 'We use cookies to understand which pages help guests plan their stay. Analytics and ads stay off until you agree.', 'option' );
 			WP_CLI::log( 'Cookie banner: text' );
 		}
+	}
+
+	/**
+	 * Search and sharing: the titles that differ from "page · Amour Relax Hotel" (the page titles of the prototype,
+	 * design/prototype-shell/build_site.py), the home page poster as the picture pages share, the old checkout page
+	 * leading to the booking page (HANDOFF, section 2), and the 1200 × 630 cut of the photos pages share.
+	 * The descriptions come with the texts (week 7).
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function seo( $ids ) {
+		if ( ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		if ( function_exists( 'amour_register_seo_fields' ) ) {
+			amour_register_seo_fields();
+		}
+		$titles = array(
+			'home'         => 'Amour Relax Hotel · Almyrida, Crete',
+			'villa-eudora' => 'Villa Eudora · Almyrida, Crete',
+			'crete-guide'  => 'Almyrida and Crete guide · Amour Relax Hotel',
+		);
+		foreach ( $titles as $slug => $title ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( $id && ! get_field( 'seo_title', $id, false ) ) {
+				update_field( 'field_amour_seo_title', $title, $id );
+			}
+		}
+		if ( ! get_field( 'amour_share_image', 'option', false ) ) {
+			$poster = (int) get_field( 'home_hero_poster', $ids['home'], false );
+			if ( $poster ) {
+				update_field( 'field_amour_share_image', $poster, 'option' );
+			}
+		}
+		if ( ! get_field( 'amour_redirects', 'option', false ) ) {
+			update_field(
+				'field_amour_redirects',
+				array(
+					array(
+						'field_amour_redirect_from' => '/checkout-page/',
+						'field_amour_redirect_to'   => '/book/',
+					),
+				),
+				'option'
+			);
+		}
+
+		// New uploads get the 1200 × 630 cut by themselves; the photos already in the library get it here.
+		$photos = array( (int) get_field( 'amour_share_image', 'option', false ) );
+		foreach ( array( 'standard-queen-room', 'deluxe-queen-room', 'superior-queen-room', 'villa-eudora' ) as $slug ) {
+			$photos[] = (int) get_field( 'card_photo', $ids[ $slug ] ?? 0, false );
+		}
+		foreach ( array_unique( array_filter( $photos ) ) as $photo ) {
+			$meta = wp_get_attachment_metadata( $photo );
+			$file = get_attached_file( $photo );
+			if ( ! $meta || ! $file || isset( $meta['sizes']['amour-share'] ) ) {
+				continue;
+			}
+			$size = image_make_intermediate_size( $file, 1200, 630, true );
+			if ( $size ) {
+				$meta['sizes']['amour-share'] = $size;
+				wp_update_attachment_metadata( $photo, $meta );
+			}
+		}
+		WP_CLI::log( 'Search and sharing: titles, picture, old addresses' );
 	}
 
 	/**
