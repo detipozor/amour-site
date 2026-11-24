@@ -789,3 +789,12 @@ function amour_faq() {
 	}
 	return array_values( array_filter( $topics, static fn( $t ) => $t['questions'] ) );
 }
+
+/**
+ * Is this one of the legal pages: Privacy, Cookies, Booking terms (in any language)?
+ *
+ * @return bool
+ */
+function amour_is_legal() {
+	return amour_is_page( 'privacy-policy' ) || amour_is_page( 'cookies' ) || amour_is_page( 'booking-terms' );
+}
