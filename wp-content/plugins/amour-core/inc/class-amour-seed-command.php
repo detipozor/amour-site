@@ -842,6 +842,24 @@ class Amour_Seed_Command {
 				);
 			}
 		}
+		// The German rooms: on a fresh site they are made (german_pages()) before this order is set, so a German room
+		// without its own order takes the English one; otherwise they would stand in the order of their titles.
+		foreach ( array_keys( $cards ) as $slug ) {
+			if ( empty( $ids[ $slug ] ) || ! function_exists( 'pll_get_post_translations' ) ) {
+				continue;
+			}
+			$english = (int) get_post_field( 'menu_order', $ids[ $slug ] );
+			foreach ( pll_get_post_translations( $ids[ $slug ] ) as $translation ) {
+				if ( (int) $translation !== (int) $ids[ $slug ] && 0 === (int) get_post_field( 'menu_order', $translation ) && $english ) {
+					wp_update_post(
+						array(
+							'ID'         => (int) $translation,
+							'menu_order' => $english,
+						)
+					);
+				}
+			}
+		}
 
 		foreach ( $cards as $slug => $card ) {
 			$id = $ids[ $slug ] ?? 0;
