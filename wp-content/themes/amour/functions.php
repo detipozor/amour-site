@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.11.0' );
+define( 'AMOUR_VERSION', '0.12.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
@@ -79,6 +79,8 @@ function amour_assets() {
 		'@amour/villa-page'    => array( 'assets/js/villa-page.js', array( '@amour/motion' ) ),
 		'@amour/estate'        => array( 'assets/js/estate.js', array( '@amour/motion' ) ),
 		'@amour/guide'         => array( 'assets/js/guide.js', array( '@amour/motion' ) ),
+		'@amour/faq'           => array( 'assets/js/faq.js', array() ),
+		'@amour/contact'       => array( 'assets/js/contact.js', array() ),
 	);
 	foreach ( $modules as $id => $module ) {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
@@ -90,6 +92,12 @@ function amour_assets() {
 	if ( is_front_page() ) {
 		wp_enqueue_style( 'amour-home', get_theme_file_uri( 'assets/css/home.css' ), array( 'amour-footer' ), AMOUR_VERSION );
 		array_push( $enqueue, '@amour/home-hero', '@amour/home-phrase', '@amour/home-estate', '@amour/home-day', '@amour/home-villa', '@amour/home-map', '@amour/home-reviews', '@amour/home-direct' );
+	}
+
+	// Questions and Contact.
+	if ( amour_is_page( 'questions' ) || amour_is_page( 'contacts' ) ) {
+		wp_enqueue_style( 'amour-pages', get_theme_file_uri( 'assets/css/pages.css' ), array( 'amour-footer' ), AMOUR_VERSION );
+		$enqueue[] = amour_is_page( 'questions' ) ? '@amour/faq' : '@amour/contact';
 	}
 
 	// The Crete guide.
@@ -196,6 +204,10 @@ function amour_room_template( $template ) {
 		$file = 'page-estate.php';
 	} elseif ( is_page() && amour_is_page( 'crete-guide' ) ) {
 		$file = 'page-guide.php';
+	} elseif ( is_page() && amour_is_page( 'questions' ) ) {
+		$file = 'page-faq.php';
+	} elseif ( is_page() && amour_is_page( 'contacts' ) ) {
+		$file = 'page-contact.php';
 	}
 	$found = $file ? locate_template( $file ) : '';
 	return $found ? $found : $template;

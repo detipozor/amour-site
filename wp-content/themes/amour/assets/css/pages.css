@@ -1,0 +1,617 @@
+/**
+ * The smaller pages: Questions (page-faq.php, board FAQ) and Contact (page-contact.php, board Contact).
+ */
+
+.am-pg-in {
+	max-width: var(--container);
+	margin: 0 auto;
+}
+
+/* ---------- Opening (shared) ---------- */
+.am-pg-open {
+	padding: calc(84px + 40px) var(--gutter) 80px;
+}
+
+.am-pg-open__grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: end;
+}
+
+.am-pg-open__left {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 7;
+	gap: 24px;
+}
+
+.am-pg-open__text {
+	grid-column: 8 / span 5;
+}
+
+/* ---------- Questions ---------- */
+.am-faq-body {
+	padding: 0 var(--gutter) var(--sec-m);
+}
+
+.am-faq-body__grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: start;
+}
+
+.am-faq-nav {
+	position: sticky;
+	top: 112px;
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 3;
+	gap: 4px;
+}
+
+.am-faq-nav__link {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 16px;
+	border-radius: var(--r-pill);
+	color: var(--text);
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: none;
+	transition: background-color 0.3s;
+}
+
+.am-faq-nav__link:hover {
+	color: var(--text);
+	background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+
+.am-faq-nav__link.is-on {
+	background: var(--surface);
+}
+
+.am-faq-list {
+	display: flex;
+	flex-direction: column;
+	grid-column: 5 / span 8;
+	gap: 64px;
+}
+
+.am-faq-topic {
+	display: flex;
+	flex-direction: column;
+	scroll-margin-top: 112px;
+}
+
+.am-faq-topic__title {
+	margin: 0 0 16px;
+	font-size: 32px;
+	letter-spacing: -0.02em;
+}
+
+.am-faq-q {
+	border-top: 1px solid var(--line);
+}
+
+.am-faq-q summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	min-height: 64px;
+	padding: 12px 0;
+	font-size: 19px;
+	font-weight: 500;
+	list-style: none;
+	cursor: pointer;
+}
+
+.am-faq-q summary::-webkit-details-marker {
+	display: none;
+}
+
+.am-faq-q__plus {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--line);
+	border-radius: 50%;
+	font-size: 18px;
+	transition: transform 0.3s;
+}
+
+.am-faq-q[open] .am-faq-q__plus {
+	transform: rotate(45deg);
+}
+
+.am-faq-q p {
+	max-width: 680px;
+	margin: 0 0 24px;
+}
+
+.am-faq-note {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.am-faq-cta {
+	margin: 0 var(--gutter) var(--sec-l);
+	padding: 72px 64px;
+	border-radius: var(--r-card);
+	background: var(--surface);
+}
+
+.am-faq-cta__in {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 32px;
+}
+
+.am-faq-cta__title {
+	margin: 0;
+	font-size: 40px;
+	line-height: 1.15;
+}
+
+.am-faq-cta__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+/* ---------- Contact ---------- */
+.am-ct-top {
+	padding-bottom: var(--sec-m);
+}
+
+.am-ct-top__grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: start;
+}
+
+.am-ct-top__text {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 5;
+	gap: 28px;
+}
+
+.am-ct-hosts {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.am-ct-hosts__pics {
+	display: flex;
+}
+
+.am-ct-hosts__pic {
+	display: grid;
+	place-items: center;
+	width: 56px;
+	height: 56px;
+	overflow: hidden;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--c-rule) 80%, var(--c-body));
+	box-shadow: 0 0 0 3px var(--bg);
+	color: var(--text);
+	font-size: 11px;
+}
+
+.am-ct-hosts__pic + .am-ct-hosts__pic {
+	margin-left: -14px;
+}
+
+.am-ct-hosts__pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.am-ct-hosts__text {
+	display: flex;
+	flex-direction: column;
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.am-ct-hosts__text strong {
+	font-weight: 500;
+}
+
+.am-ct-hosts__text span {
+	color: var(--text-2);
+}
+
+.am-ct-list {
+	display: grid;
+	grid-template-columns: 140px 1fr;
+	margin: 0;
+}
+
+.am-ct-list > div {
+	display: contents;
+}
+
+.am-ct-list dt {
+	padding: 14px 0;
+	color: var(--text-2);
+}
+
+.am-ct-list dd {
+	margin: 0;
+	padding: 14px 0;
+	font-weight: 500;
+}
+
+.am-ct-list dd a {
+	color: var(--text);
+	text-decoration: none;
+}
+
+.am-ct-list dd a:hover {
+	color: var(--accent);
+}
+
+.am-ct-top__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+/* The Apokoronas map: a window on the relief of Crete, from 368, 176.4, 448 × 313.6 of its 2400 × 1029 */
+.am-ct-map {
+	position: relative;
+	grid-column: 7 / span 6;
+	overflow: hidden;
+	aspect-ratio: 2000 / 1403;
+	border-radius: var(--r-card);
+	background: var(--c-map-sea);
+}
+
+.am-ct-map__img {
+	position: absolute;
+	top: -56.25%;
+	left: -82.14%;
+	display: block;
+	width: 535.71%;
+	max-width: none;
+	height: 328.13%;
+}
+
+.am-ct-pin {
+	--half: 5px;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transform: translate(calc(-1 * var(--half)), -50%);
+}
+
+.am-ct-pin[data-side="row-reverse"] {
+	flex-direction: row-reverse;
+	transform: translate(calc(-100% + var(--half)), -50%);
+}
+
+.am-ct-pin--main {
+	--half: 9px;
+}
+
+.am-ct-pin__dot {
+	display: block;
+	flex: none;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--text);
+	box-shadow: 0 0 0 3px var(--c-limestone);
+}
+
+.am-ct-pin--main .am-ct-pin__dot {
+	width: 18px;
+	height: 18px;
+	background: var(--accent);
+}
+
+.am-ct-pin__label {
+	display: block;
+	padding: 5px 12px;
+	border-radius: var(--r-pill);
+	background: var(--surface);
+	color: var(--text);
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.am-ct-pin--main .am-ct-pin__label {
+	background: var(--accent);
+	color: var(--c-limestone);
+}
+
+.am-ct-h2 {
+	margin: 0;
+	font-size: 44px;
+	line-height: 1.1;
+}
+
+.am-ct-routes {
+	padding: 0 var(--gutter) var(--sec-m);
+}
+
+.am-ct-routes .am-pg-in {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+}
+
+.am-ct-routes__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.am-ct-route {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 32px;
+	border-radius: var(--r-card);
+	background: var(--surface);
+}
+
+.am-ct-route h3 {
+	margin: 0;
+	font-size: 26px;
+	letter-spacing: -0.01em;
+}
+
+.am-ct-route p:last-child {
+	font-size: 16px;
+}
+
+.am-ct-write {
+	padding: 0 var(--gutter) var(--sec-l);
+	scroll-margin-top: 96px;
+}
+
+.am-ct-write__grid {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: 32px;
+	align-items: start;
+}
+
+.am-ct-write__text {
+	display: flex;
+	flex-direction: column;
+	grid-column: 1 / span 4;
+	gap: 16px;
+}
+
+/* The form */
+.am-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	grid-column: 6 / span 7;
+	gap: 20px;
+	padding: 40px;
+	border-radius: var(--r-card);
+	background: var(--surface);
+}
+
+.am-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin: 0;
+}
+
+.am-form__field--wide,
+.am-form__end,
+.am-form__privacy {
+	grid-column: 1 / -1;
+}
+
+.am-form__field label {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.am-form__field input,
+.am-form__field textarea {
+	padding: 10px 0;
+	border: 0;
+	border-bottom: 1px solid var(--control-border);
+	border-radius: 0;
+	background: transparent;
+	color: var(--text);
+	font-family: var(--font-body);
+	font-size: 17px;
+}
+
+.am-form__field textarea {
+	resize: vertical;
+}
+
+.am-form__field input::placeholder {
+	color: var(--text-muted);
+}
+
+.am-form__field [aria-invalid="true"] {
+	border-bottom-color: var(--accent);
+}
+
+.am-form__error {
+	color: var(--accent);
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.am-form__end {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+}
+
+.am-form__status {
+	margin-right: auto;
+	font-size: 16px;
+}
+
+.am-form__status:empty {
+	display: none;
+}
+
+.am-form__privacy {
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.am-form__trap {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1024px) {
+
+	.am-ct-routes__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 900px) {
+
+	.am-ct-top__grid,
+	.am-ct-write__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.am-ct-top__text,
+	.am-ct-map,
+	.am-ct-write__text,
+	.am-form {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 760px) {
+
+	.am-pg-open {
+		padding-bottom: 40px;
+	}
+
+	.am-pg-open__grid,
+	.am-faq-body__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 20px;
+	}
+
+	.am-pg-open__left,
+	.am-pg-open__text,
+	.am-faq-list {
+		grid-column: 1 / -1;
+	}
+
+	/* The topics: a row of chips that scrolls with a finger */
+	.am-faq-nav {
+		position: static;
+		flex-direction: row;
+		grid-column: 1 / -1;
+		gap: 8px;
+		margin: 0 calc(-1 * var(--gutter));
+		padding: 0 var(--gutter) 4px;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.am-faq-nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	.am-faq-nav__link {
+		flex: none;
+		border: 1px solid var(--line);
+		white-space: nowrap;
+	}
+
+	.am-faq-q summary {
+		flex-wrap: nowrap;
+		gap: 16px;
+		font-size: 17px;
+		line-height: 1.4;
+	}
+
+	.am-faq-topic__title {
+		font-size: 28px;
+	}
+
+	.am-faq-cta {
+		padding: 48px 24px;
+	}
+
+	.am-faq-cta__in,
+	.am-faq-cta__actions {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 28px;
+	}
+
+	.am-faq-cta__actions {
+		gap: 12px;
+	}
+
+	.am-faq-cta__title {
+		font-size: 30px;
+	}
+
+	.am-faq-cta .am-btn {
+		justify-content: center;
+		width: 100%;
+	}
+
+	.am-ct-list {
+		grid-template-columns: 120px 1fr;
+	}
+
+	.am-ct-h2 {
+		font-size: 36px;
+	}
+
+	.am-form {
+		grid-template-columns: minmax(0, 1fr);
+		padding: 28px 20px;
+	}
+
+	.am-form__end {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.am-form__end .am-btn {
+		justify-content: center;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.am-faq-q__plus,
+	.am-faq-nav__link {
+		transition: none;
+	}
+}
