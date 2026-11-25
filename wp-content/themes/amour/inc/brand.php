@@ -35,13 +35,18 @@ function amour_brand() {
  * Logo markup. The outlines come from the package (assets/brand, built by bin/build-brand.py);
  * the colour comes from the surrounding text colour, so it is always a token.
  *
+ * A logo that is not on the first screen (the footer, the other house in the header and the curtain) can
+ * get its file after the page has loaded (assets/js/logos.js), so it does not hold up the first screen
+ * on a phone (HANDOFF, section 13). Without JavaScript such a logo stays empty; its link keeps its name.
+ *
  * @param string $name  File name in assets/brand without .svg: amour-horizontal, amour-main, amour-word,
  *                      eudora-horizontal, eudora-word, olive, jug.
  * @param string $label Accessible name, or empty for a decorative logo.
  * @param string $classes Extra class names.
+ * @param bool   $later   Load the file after the page.
  * @return string SVG markup.
  */
-function amour_logo( $name, $label = '', $classes = '' ) {
+function amour_logo( $name, $label = '', $classes = '', $later = false ) {
 	static $view_boxes = array();
 
 	$file = get_theme_file_path( 'assets/brand/' . $name . '.svg' );
@@ -66,11 +71,12 @@ function amour_logo( $name, $label = '', $classes = '' ) {
 	$href = get_theme_file_uri( 'assets/brand/' . $name . '.svg' ) . '?v=' . AMOUR_VERSION . '#logo';
 
 	return sprintf(
-		'<svg class="am-logo am-logo--%1$s %2$s" xmlns="http://www.w3.org/2000/svg" viewBox="%3$s" fill="currentColor"%4$s><use href="%5$s"/></svg>',
+		'<svg class="am-logo am-logo--%1$s %2$s" xmlns="http://www.w3.org/2000/svg" viewBox="%3$s" fill="currentColor"%4$s><use %5$s="%6$s"/></svg>',
 		esc_attr( $name ),
 		esc_attr( $classes ),
 		esc_attr( $view_boxes[ $name ] ),
 		$a11y,
+		$later ? 'data-href' : 'href',
 		esc_url( $href )
 	);
 }

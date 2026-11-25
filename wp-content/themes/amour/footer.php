@@ -48,7 +48,7 @@ $amour_link = static function ( $link ) {
 
 	<div class="am-footer__in">
 		<a class="am-footer__brand" href="<?php echo esc_url( amour_home_url() ); ?>" aria-label="<?php echo esc_attr( $amour_villa ? __( 'Villa Eudora, home', 'amour' ) : __( 'Amour Relax Hotel, home', 'amour' ) ); ?>">
-			<?php echo $amour_villa ? amour_logo( 'eudora-horizontal' ) : amour_logo( 'amour-main' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
+			<?php echo $amour_villa ? amour_logo( 'eudora-horizontal', '', '', true ) : amour_logo( 'amour-main', '', '', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
 		</a>
 
 		<div class="am-footer__cols">
@@ -107,7 +107,7 @@ $amour_link = static function ( $link ) {
 		</div>
 	</div>
 
-	<?php echo amour_logo( $amour_villa ? 'eudora-word' : 'amour-word', '', 'am-footer__word' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
+	<?php echo amour_logo( $amour_villa ? 'eudora-word' : 'amour-word', '', 'am-footer__word', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
 </footer>
 <?php get_template_part( 'template-parts/cookie-banner' ); ?>
 <?php wp_footer(); ?>
