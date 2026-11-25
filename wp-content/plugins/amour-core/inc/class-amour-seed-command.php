@@ -184,6 +184,7 @@ class Amour_Seed_Command {
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
+		$this->german_texts( $ids );
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -355,6 +356,17 @@ class Amour_Seed_Command {
 
 		$model->clean_languages_cache();
 
+		// WordPress's own German (month and day names in the booking calendar, dates): the language pack from
+		// wordpress.org, as Polylang fetches it when a language is added in the admin.
+		require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+		if ( ! in_array( 'de_DE', get_available_languages(), true ) ) {
+			if ( wp_download_language_pack( 'de_DE' ) ) {
+				WP_CLI::log( 'WordPress in German' );
+			} else {
+				WP_CLI::warning( 'The German language pack of WordPress could not be downloaded: month names stay in English.' );
+			}
+		}
+
 		// Addresses: /de/… for German, no prefix for English; the German home page lives at /de/
 		// (redirect_lang: the front page address is the language code, not the page name); no redirects by browser language.
 		$this->polylang_options(
@@ -522,6 +534,15 @@ class Amour_Seed_Command {
 		if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_home_url' ) && pll_get_post( $ids['home'], 'de' ) ) {
 			$languages['de'] = ' · Deutsch';
 		}
+		// The footer shows a menu's name as its column title, so the German menus are named in German (Stay → Wohnen);
+		// a name the dictionary does not know keeps the " · Deutsch" ending, as menu names must differ.
+		$menu_name = function ( $name, $lang ) {
+			if ( 'en' === $lang ) {
+				return $name;
+			}
+			$german = $this->german( $name );
+			return $german !== $name ? $german : $name . ' · Deutsch';
+		};
 
 		$by_language = array();
 		foreach ( $languages as $lang => $suffix ) {
@@ -530,16 +551,20 @@ class Amour_Seed_Command {
 
 			foreach ( self::MENUS as $location => $menu ) {
 				list( $name, $items ) = $menu;
-				$name                .= $suffix;
 
-				$existing = wp_get_nav_menu_object( $name );
-				if ( $existing ) {
-					wp_delete_nav_menu( $existing->term_id );
+				// The menu of an earlier seed, under its old name too (the German ones were "Stay · Deutsch").
+				foreach ( array_unique( array( $name . $suffix, $menu_name( $name, $lang ) ) ) as $old_name ) {
+					$existing = wp_get_nav_menu_object( $old_name );
+					if ( $existing ) {
+						wp_delete_nav_menu( $existing->term_id );
+					}
 				}
+				$name    = $menu_name( $name, $lang );
 				$menu_id = wp_create_nav_menu( $name );
 
 				foreach ( $items as $position => $item ) {
 					list( $label, $target ) = $item;
+					$label                  = 'en' === $lang ? $label : $this->german( $label );
 					$data                   = array(
 						'menu-item-title'    => $label,
 						'menu-item-status'   => 'publish',
@@ -580,7 +605,7 @@ class Amour_Seed_Command {
 						if ( $photo ) {
 							update_field( 'field_amour_menu_photo', $photo, $item_id );
 						}
-						update_field( 'field_amour_menu_line', $item[3], $item_id );
+						update_field( 'field_amour_menu_line', 'en' === $lang ? $item[3] : $this->german( $item[3] ), $item_id );
 					}
 				}
 
@@ -1489,6 +1514,28 @@ class Amour_Seed_Command {
 				update_field( 'field_amour_seo_title', $title, $id );
 			}
 		}
+
+		// Descriptions in Google (week 7): one or two sentences, up to about 155 characters, only facts that are checked.
+		$descriptions = array(
+			'home'                => 'A nine-room hotel with its own tennis court and pool among olive groves above Almyrida bay, Crete. Every room has a kitchen and a terrace.',
+			'rooms'               => 'Nine rooms in three kinds, each with its own kitchen and terrace, among olive groves above Almyrida bay. The same price as on Booking.com.',
+			'standard-queen-room' => 'A compact room for two with a queen bed, a kitchenette and a private terrace, a short walk from the pool and the court.',
+			'deluxe-queen-room'   => '32 m² for two: a queen bed, a sitting corner, a full kitchen and a terrace looking over the pool, in Almyrida, Crete.',
+			'superior-queen-room' => 'A room for two with a queen bed, a kitchen and a terrace looking over the olive groves to the bay of Almyrida, Crete.',
+			'villa-eudora'        => 'Villa Eudora in Almyrida, Crete: five bedrooms for up to 11 guests, a private pool and a long table on the terrace, about 250 m from the sea.',
+			'court-and-pool'      => 'Our own tennis court, lit in the evening, and a pool with a sun terrace, free for every guest of the hotel and of Villa Eudora.',
+			'crete-guide'         => 'Beaches, gorges and harbours of west Crete with honest drive times from Almyrida: the village beach 1.2 km on foot, Chania 23 km.',
+			'questions'           => 'Check-in and check-out, children, pets, the breakfast basket, the court, the pool and the villa: what guests ask us before they arrive.',
+			'contacts'            => 'How to reach us in Almyrida, Crete: WhatsApp, phone and email, and the way from Chania and Heraklion airports and Souda port.',
+			'about-us'            => 'A small hotel on stone terraces above Almyrida bay and a villa four minutes away, built around one idea: stay like you live here.',
+			'book'                => 'Choose your dates and book a room or Villa Eudora directly with the hosts, at the same price as on Booking.com.',
+		);
+		foreach ( $descriptions as $slug => $description ) {
+			$id = $ids[ $slug ] ?? 0;
+			if ( $id && ! get_field( 'seo_description', $id, false ) ) {
+				update_field( 'field_amour_seo_description', $description, $id );
+			}
+		}
 		if ( ! get_field( 'amour_share_image', 'option', false ) ) {
 			$poster = (int) get_field( 'home_hero_poster', $ids['home'], false );
 			if ( $poster ) {
@@ -1525,7 +1572,7 @@ class Amour_Seed_Command {
 				wp_update_attachment_metadata( $photo, $meta );
 			}
 		}
-		WP_CLI::log( 'Search and sharing: titles, picture, old addresses' );
+		WP_CLI::log( 'Search and sharing: titles, descriptions, picture, old addresses' );
 	}
 
 	/**
@@ -1692,6 +1739,250 @@ class Amour_Seed_Command {
 			$home
 		);
 		WP_CLI::log( 'Home page: map' );
+	}
+
+	/**
+	 * The German dictionary (data/de.json): page titles and English text → German text.
+	 *
+	 * @var array{titles: array<string, string>, strings: array<string, string>}|null
+	 */
+	private $german = null;
+
+	/**
+	 * A text in German: its translation from data/de.json, or the text itself (names, placeholders in square brackets).
+	 *
+	 * @param string $text English text.
+	 * @return string
+	 */
+	private function german( $text ) {
+		if ( null === $this->german ) {
+			$file         = AMOUR_CORE_DIR . '/data/de.json';
+			$data         = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local data file.
+			$this->german = is_array( $data ) ? $data + array(
+				'titles'  => array(),
+				'strings' => array(),
+			) : array(
+				'titles'  => array(),
+				'strings' => array(),
+			);
+		}
+		return $this->german['strings'][ $text ] ?? $text;
+	}
+
+	/**
+	 * A field value in German: every text through the dictionary, every link to an English page to its German page;
+	 * photos, numbers and choices stay as they are.
+	 *
+	 * @param mixed $value Raw field value (repeaters and groups are arrays).
+	 * @return mixed
+	 */
+	private function german_value( $value ) {
+		if ( is_array( $value ) ) {
+			$out = array();
+			foreach ( $value as $key => $part ) {
+				$out[ $key ] = 'url' === $key && is_string( $part ) ? $this->german_url( $part ) : $this->german_value( $part );
+			}
+			return $out;
+		}
+		if ( ! is_string( $value ) ) {
+			return $value;
+		}
+		return preg_match( '#^(https?:|/)#', $value ) ? $this->german_url( $value ) : $this->german( $value );
+	}
+
+	/**
+	 * A link to an English page, as the link to its German page (with the same #section); other links stay.
+	 *
+	 * @param string $url Link.
+	 * @return string
+	 */
+	private function german_url( $url ) {
+		$anchor = (string) strstr( $url, '#' );
+		$id     = url_to_postid( '' === $anchor ? $url : strstr( $url, '#', true ) );
+		$german = $id && function_exists( 'pll_get_post' ) ? (int) pll_get_post( $id, 'de' ) : 0;
+		return $german ? get_permalink( $german ) . $anchor : $url;
+	}
+
+	/**
+	 * Whether a raw field value is empty (an empty German field shows the English one, amour_page_field()).
+	 *
+	 * @param mixed $value Raw field value.
+	 * @return bool
+	 */
+	private function empty_value( $value ) {
+		return null === $value || false === $value || '' === $value || array() === $value;
+	}
+
+	/**
+	 * Copy the fields of an English post to its German translation, in German: only fields where the German post has
+	 * nothing yet and the dictionary changed something (the others keep showing the English value).
+	 *
+	 * @param int $en English post id.
+	 * @param int $de German post id.
+	 * @return int Fields written.
+	 */
+	private function german_fields( $en, $de ) {
+		$skip    = array( 'image', 'file', 'gallery', 'number', 'true_false', 'date_picker', 'select', 'radio', 'checkbox', 'post_object', 'relationship', 'page_link', 'email', 'color_picker' );
+		$written = 0;
+		$fields  = get_field_objects( $en, false );
+		foreach ( $fields ? $fields : array() as $name => $field ) {
+			if ( in_array( $field['type'], $skip, true ) || $this->empty_value( $field['value'] ) ) {
+				continue;
+			}
+			if ( ! $this->empty_value( get_field( $name, $de, false ) ) ) {
+				continue;
+			}
+			$german = $this->german_value( $field['value'] );
+			if ( $german === $field['value'] ) {
+				continue;
+			}
+			update_field( $field['key'], $german, $de );
+			++$written;
+		}
+		return $written;
+	}
+
+	/**
+	 * German texts (decision 25.11, HANDOFF section 19), from data/de.json: the German page titles, the fields of every
+	 * German page except the legal ones (they stay in English until the lawyer has checked them), the questions with
+	 * their topics, the map places, the texts of Hotel settings and the photo descriptions (Polylang strings). Never changes a German text
+	 * that is already there, so edits in the admin stay.
+	 *
+	 * @param array<string, int> $ids Page ids by slug.
+	 */
+	private function german_texts( $ids ) {
+		if ( ! function_exists( 'pll_get_post' ) || ! function_exists( 'update_field' ) ) {
+			return;
+		}
+		$this->german( '' );
+		$legal = array( 'privacy-policy', 'cookies', 'booking-terms' );
+
+		// Page titles and fields.
+		$fields = 0;
+		foreach ( array_merge( array( 'home' ), array_keys( self::GERMAN ) ) as $slug ) {
+			$en = (int) ( $ids[ $slug ] ?? 0 );
+			$de = $en ? (int) pll_get_post( $en, 'de' ) : 0;
+			if ( ! $de ) {
+				continue;
+			}
+			$title = $this->german['titles'][ $slug ] ?? '';
+			if ( $title && get_the_title( $de ) === get_the_title( $en ) ) {
+				wp_update_post(
+					array(
+						'ID'         => $de,
+						'post_title' => $title,
+					)
+				);
+			}
+			if ( ! in_array( $slug, $legal, true ) ) {
+				$fields += $this->german_fields( $en, $de );
+			}
+		}
+
+		// Topics, then the questions in them.
+		$topics = 0;
+		if ( taxonomy_exists( 'amour_topic' ) && function_exists( 'pll_get_term' ) ) {
+			foreach ( get_terms(
+				array(
+					'taxonomy'   => 'amour_topic',
+					'hide_empty' => false,
+					'lang'       => 'en',
+				)
+			) as $term ) {
+				if ( pll_get_term( $term->term_id, 'de' ) ) {
+					continue;
+				}
+				$name   = $this->german( $term->name );
+				$german = wp_insert_term( $name, 'amour_topic', array( 'slug' => sanitize_title( $name ) . '-de' ) );
+				if ( is_wp_error( $german ) ) {
+					WP_CLI::warning( 'German topic ' . $name . ': ' . $german->get_error_message() );
+					continue;
+				}
+				pll_set_term_language( $german['term_id'], 'de' );
+				pll_save_term_translations(
+					array(
+						'en' => $term->term_id,
+						'de' => $german['term_id'],
+					)
+				);
+				update_field( 'order', get_field( 'order', 'amour_topic_' . $term->term_id ), 'amour_topic_' . $german['term_id'] );
+				++$topics;
+			}
+		}
+		$posts = $this->german_posts( 'amour_question', 'amour_topic' ) + $this->german_posts( 'amour_place', '' );
+
+		// Texts of Hotel settings, as Polylang strings.
+		$strings = 0;
+		if ( class_exists( 'PLL_MO' ) && function_exists( 'amour_option_strings' ) ) {
+			$language = PLL()->model->get_language( 'de' );
+			$mo       = new PLL_MO();
+			$mo->import_from_db( $language );
+			$texts = array_merge( wp_list_pluck( amour_option_strings(), 'text' ), function_exists( 'amour_photo_alts' ) ? amour_photo_alts() : array() );
+			foreach ( array_unique( $texts ) as $text ) {
+				$german = $this->german( $text );
+				if ( $german === $text || $mo->translate( $text ) !== $text ) {
+					continue;
+				}
+				$mo->add_entry( $mo->make_entry( $text, $german ) );
+				++$strings;
+			}
+			$mo->export_to_db( $language );
+		}
+
+		WP_CLI::log( sprintf( 'German texts: %d page fields, %d topics, %d questions and places, %d settings texts and photo descriptions', $fields, $topics, $posts, $strings ) );
+	}
+
+	/**
+	 * German translations of the posts of a type (questions, map places): a German post with the German title and the
+	 * German text fields, in the German terms of the taxonomy given.
+	 *
+	 * @param string $type     Post type.
+	 * @param string $taxonomy Taxonomy to carry over, or "".
+	 * @return int Posts created.
+	 */
+	private function german_posts( $type, $taxonomy ) {
+		if ( ! post_type_exists( $type ) ) {
+			return 0;
+		}
+		$created = 0;
+		foreach ( get_posts(
+			array(
+				'post_type'      => $type,
+				'posts_per_page' => -1,
+				'lang'           => 'en',
+			)
+		) as $post ) {
+			$de = (int) pll_get_post( $post->ID, 'de' );
+			if ( ! $de ) {
+				$de = wp_insert_post(
+					array(
+						'post_type'   => $type,
+						'post_status' => 'publish',
+						'post_title'  => $this->german( $post->post_title ),
+						'menu_order'  => $post->menu_order,
+					),
+					true
+				);
+				if ( is_wp_error( $de ) ) {
+					WP_CLI::warning( 'German ' . $type . ': ' . $de->get_error_message() );
+					continue;
+				}
+				pll_set_post_language( $de, 'de' );
+				pll_save_post_translations(
+					array(
+						'en' => $post->ID,
+						'de' => $de,
+					)
+				);
+				if ( $taxonomy ) {
+					$terms = array_filter( array_map( static fn( $id ) => (int) pll_get_term( $id, 'de' ), wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) ) ) );
+					wp_set_object_terms( $de, array_values( $terms ), $taxonomy );
+				}
+				++$created;
+			}
+			$this->german_fields( $post->ID, $de );
+		}
+		return $created;
 	}
 
 	/**

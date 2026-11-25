@@ -671,6 +671,13 @@
 	font-size: 14px;
 }
 
+/* A German legal page shows the English text until it is translated */
+.am-lg-top__lang {
+	max-width: 620px;
+	margin: 0;
+	font-weight: 500;
+}
+
 .am-lg-top__consent {
 	margin: 0;
 }

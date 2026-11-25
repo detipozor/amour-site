@@ -29,6 +29,7 @@ require_once AMOUR_CORE_DIR . '/inc/questions.php';
 require_once AMOUR_CORE_DIR . '/inc/contact-form.php';
 require_once AMOUR_CORE_DIR . '/inc/places.php';
 require_once AMOUR_CORE_DIR . '/inc/reviews.php';
+require_once AMOUR_CORE_DIR . '/inc/translations.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once AMOUR_CORE_DIR . '/inc/class-amour-seed-command.php';
