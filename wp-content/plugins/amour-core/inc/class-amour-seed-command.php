@@ -66,6 +66,56 @@ class Amour_Seed_Command {
 	);
 
 	/**
+	 * Polish addresses of the pages (decision 25.11, HANDOFF section 19), Polish words as for German. Pages on one
+	 * level may not share an address, so Contact is kontakt-z-nami (the German one is kontakt). The rooms keep
+	 * theirs under /pl/pokoje/; the Polish home page is /pl/ (strona-glowna, made in languages()).
+	 *
+	 * @var array<string, string>
+	 */
+	const POLISH = array(
+		'rooms'               => 'pokoje',
+		'standard-queen-room' => 'standard-queen-room',
+		'deluxe-queen-room'   => 'deluxe-queen-room',
+		'superior-queen-room' => 'superior-queen-room',
+		'villa-eudora'        => 'willa-eudora',
+		'court-and-pool'      => 'kort-i-basen',
+		'crete-guide'         => 'przewodnik-po-krecie',
+		'questions'           => 'pytania',
+		'contacts'            => 'kontakt-z-nami',
+		'book'                => 'rezerwacja',
+		'about-us'            => 'o-nas',
+		'privacy-policy'      => 'polityka-prywatnosci',
+		'cookies'             => 'polityka-cookies',
+		'booking-terms'       => 'warunki-rezerwacji',
+		'thank-you'           => 'dziekujemy',
+	);
+
+	/**
+	 * The languages besides English (decisions 24.11 and 25.11): the Polylang language, the home page (title and
+	 * address), the addresses of the other pages; their texts are in data/<code>.json.
+	 *
+	 * @var array<string, array<string, mixed>>
+	 */
+	const TRANSLATIONS = array(
+		'de' => array(
+			'name'   => 'Deutsch',
+			'locale' => 'de_DE',
+			'flag'   => 'de',
+			'order'  => 1,
+			'home'   => array( 'Startseite', 'startseite' ),
+			'pages'  => self::GERMAN,
+		),
+		'pl' => array(
+			'name'   => 'Polski',
+			'locale' => 'pl_PL',
+			'flag'   => 'pl',
+			'order'  => 2,
+			'home'   => array( 'Strona główna', 'strona-glowna' ),
+			'pages'  => self::POLISH,
+		),
+	);
+
+	/**
 	 * Menus: location => [ menu name, items ]. Item: [ label, page slug or "#anchor" on the home page,
 	 * photo id from the boards (/_blob/<id>, see assets/manifest.csv), line under the photo ].
 	 * Labels, photos and lines from the Menu-list board; footer labels from the footer on the boards.
@@ -161,7 +211,9 @@ class Amour_Seed_Command {
 		$ids['styleguide'] = $this->styleguide();
 		$this->front_page( $ids['home'] );
 		$this->languages( $ids );
-		$this->german_pages( $ids );
+		foreach ( array_keys( self::TRANSLATIONS ) as $lang ) {
+			$this->translated_pages( $ids, $lang );
+		}
 
 		// Photos first: the menu items point at them.
 		if ( ! empty( $assoc_args['media'] ) ) {
@@ -184,7 +236,9 @@ class Amour_Seed_Command {
 		$this->places();
 		$this->home_map( $ids );
 		$this->reviews( $ids );
-		$this->german_texts( $ids );
+		foreach ( array_keys( self::TRANSLATIONS ) as $lang ) {
+			$this->translated_texts( $ids, $lang );
+		}
 
 		flush_rewrite_rules( false );
 		WP_CLI::success( 'Site structure is in place.' );
@@ -311,7 +365,7 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * Polylang: English by default at /, German at /de/ (HANDOFF, section 1). The other German pages: german_pages().
+	 * Polylang: English by default at /, German at /de/, Polish at /pl/ (HANDOFF, section 1). Their other pages: translated_pages().
 	 *
 	 * @param array<string, int> $ids Page ids by slug.
 	 */
@@ -333,15 +387,17 @@ class Amour_Seed_Command {
 				'term_group' => 0,
 				'flag'       => 'gb',
 			),
-			array(
-				'name'       => 'Deutsch',
-				'slug'       => 'de',
-				'locale'     => 'de_DE',
-				'rtl'        => false,
-				'term_group' => 1,
-				'flag'       => 'de',
-			),
 		);
+		foreach ( self::TRANSLATIONS as $code => $translation ) {
+			$languages[] = array(
+				'name'       => $translation['name'],
+				'slug'       => $code,
+				'locale'     => $translation['locale'],
+				'rtl'        => false,
+				'term_group' => $translation['order'],
+				'flag'       => $translation['flag'],
+			);
+		}
 
 		foreach ( $languages as $language ) {
 			if ( in_array( $language['slug'], $known, true ) ) {
@@ -356,18 +412,21 @@ class Amour_Seed_Command {
 
 		$model->clean_languages_cache();
 
-		// WordPress's own German (month and day names in the booking calendar, dates): the language pack from
-		// wordpress.org, as Polylang fetches it when a language is added in the admin.
+		// WordPress's own German and Polish (month and day names in the booking calendar, dates): the language packs
+		// from wordpress.org, as Polylang fetches them when a language is added in the admin.
 		require_once ABSPATH . 'wp-admin/includes/translation-install.php';
-		if ( ! in_array( 'de_DE', get_available_languages(), true ) ) {
-			if ( wp_download_language_pack( 'de_DE' ) ) {
-				WP_CLI::log( 'WordPress in German' );
+		foreach ( self::TRANSLATIONS as $translation ) {
+			if ( in_array( $translation['locale'], get_available_languages(), true ) ) {
+				continue;
+			}
+			if ( wp_download_language_pack( $translation['locale'] ) ) {
+				WP_CLI::log( 'WordPress in ' . $translation['name'] );
 			} else {
-				WP_CLI::warning( 'The German language pack of WordPress could not be downloaded: month names stay in English.' );
+				WP_CLI::warning( 'The language pack ' . $translation['locale'] . ' could not be downloaded: month names stay in English.' );
 			}
 		}
 
-		// Addresses: /de/… for German, no prefix for English; the German home page lives at /de/
+		// Addresses: /de/… and /pl/…, no prefix for English; each home page lives at /de/ and /pl/
 		// (redirect_lang: the front page address is the language code, not the page name); no redirects by browser language.
 		$this->polylang_options(
 			array(
@@ -386,77 +445,83 @@ class Amour_Seed_Command {
 			}
 		}
 
-		// German home page, so that /de/ answers.
-		$de_home = pll_get_post( $ids['home'], 'de' );
-		if ( ! $de_home ) {
-			$de_home = wp_insert_post(
+		// A home page in each language, so that /de/ and /pl/ answer.
+		foreach ( self::TRANSLATIONS as $code => $translation ) {
+			if ( pll_get_post( $ids['home'], $code ) ) {
+				continue;
+			}
+			$home = wp_insert_post(
 				array(
 					'post_type'   => 'page',
 					'post_status' => 'publish',
-					'post_title'  => 'Startseite',
-					'post_name'   => 'startseite',
+					'post_title'  => $translation['home'][0],
+					'post_name'   => $translation['home'][1],
 				)
 			);
-			pll_set_post_language( $de_home, 'de' );
+			pll_set_post_language( $home, $code );
 			pll_save_post_translations(
-				array(
-					'en' => $ids['home'],
-					'de' => $de_home,
+				array_merge(
+					pll_get_post_translations( $ids['home'] ),
+					array(
+						'en'  => $ids['home'],
+						$code => $home,
+					)
 				)
 			);
-			WP_CLI::log( 'Page /de/' );
+			WP_CLI::log( 'Page /' . $code . '/' );
 		}
 
-		// Polylang caches each language with its home page. The cache was built before the German
-		// home page existed, so without this /de/ shows a post list instead of the page on a fresh site.
+		// Polylang caches each language with its home page. The cache was built before these home pages
+		// existed, so without this /de/ shows a post list instead of the page on a fresh site.
 		$model->clean_languages_cache();
 	}
 
 	/**
-	 * German pages (decision 24.11): each page gets its German translation at its German address (GERMAN above),
-	 * with the English title until the German texts come (week 7). A German page without its own fields shows the
-	 * English ones (amour_page_field()), and a legal page without its own text the English text (page-legal.php),
-	 * so nothing is copied. Never changes a German page that exists.
+	 * The pages of a language (decisions 24.11 and 25.11): each page gets its translation at its address in that
+	 * language (GERMAN, POLISH above), with the English title for now; translated_texts() gives it its title and texts.
+	 * A translation without its own fields shows the English ones (amour_page_field()), and a legal page without
+	 * its own text the English text (page-legal.php). Never changes a page that exists.
 	 *
-	 * @param array<string, int> $ids Page ids by slug.
+	 * @param array<string, int> $ids  Page ids by slug.
+	 * @param string             $lang Language code, de or pl.
 	 */
-	private function german_pages( $ids ) {
+	private function translated_pages( $ids, $lang ) {
 		if ( ! function_exists( 'pll_set_post_language' ) || ! function_exists( 'pll_get_post' ) ) {
 			return;
 		}
-		foreach ( self::GERMAN as $slug => $german ) {
+		foreach ( self::TRANSLATIONS[ $lang ]['pages'] as $slug => $address ) {
 			$id = $ids[ $slug ] ?? 0;
-			if ( ! $id || pll_get_post( $id, 'de' ) ) {
+			if ( ! $id || pll_get_post( $id, $lang ) ) {
 				continue;
 			}
 			$source = get_post( $id );
-			$parent = $source->post_parent ? (int) pll_get_post( $source->post_parent, 'de' ) : 0;
-			$de     = wp_insert_post(
+			$parent = $source->post_parent ? (int) pll_get_post( $source->post_parent, $lang ) : 0;
+			$page   = wp_insert_post(
 				array(
 					'post_type'   => 'page',
 					'post_status' => 'publish',
 					'post_title'  => $source->post_title,
-					'post_name'   => $german,
+					'post_name'   => $address,
 					'post_parent' => $parent,
 					'menu_order'  => $source->menu_order,
 				),
 				true
 			);
-			if ( is_wp_error( $de ) ) {
-				WP_CLI::warning( 'German page ' . $german . ': ' . $de->get_error_message() );
+			if ( is_wp_error( $page ) ) {
+				WP_CLI::warning( 'Page ' . $lang . '/' . $address . ': ' . $page->get_error_message() );
 				continue;
 			}
-			pll_set_post_language( $de, 'de' );
+			pll_set_post_language( $page, $lang );
 			pll_save_post_translations(
 				array_merge(
 					pll_get_post_translations( $id ),
 					array(
-						'en' => $id,
-						'de' => $de,
+						'en'  => $id,
+						$lang => $page,
 					)
 				)
 			);
-			WP_CLI::log( 'Page ' . wp_make_link_relative( get_permalink( $de ) ) );
+			WP_CLI::log( 'Page ' . wp_make_link_relative( get_permalink( $page ) ) );
 		}
 		PLL()->model->clean_languages_cache();
 	}
@@ -531,17 +596,19 @@ class Amour_Seed_Command {
 		}
 
 		$languages = array( 'en' => '' );
-		if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_home_url' ) && pll_get_post( $ids['home'], 'de' ) ) {
-			$languages['de'] = ' · Deutsch';
+		foreach ( self::TRANSLATIONS as $code => $translation ) {
+			if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_home_url' ) && pll_get_post( $ids['home'], $code ) ) {
+				$languages[ $code ] = ' · ' . $translation['name'];
+			}
 		}
-		// The footer shows a menu's name as its column title, so the German menus are named in German (Stay → Wohnen);
-		// a name the dictionary does not know keeps the " · Deutsch" ending, as menu names must differ.
-		$menu_name = function ( $name, $lang ) {
+		// The footer shows a menu's name as its column title, so the menus of a language are named in it (Stay →
+		// Wohnen, Pobyt); a name the dictionary does not know keeps the " · Deutsch" ending, as menu names must differ.
+		$menu_name = function ( $name, $lang ) use ( $languages ) {
 			if ( 'en' === $lang ) {
 				return $name;
 			}
-			$german = $this->german( $name );
-			return $german !== $name ? $german : $name . ' · Deutsch';
+			$translated = $this->translate( $name, $lang );
+			return $translated !== $name ? $translated : $name . $languages[ $lang ];
 		};
 
 		$by_language = array();
@@ -564,7 +631,7 @@ class Amour_Seed_Command {
 
 				foreach ( $items as $position => $item ) {
 					list( $label, $target ) = $item;
-					$label                  = 'en' === $lang ? $label : $this->german( $label );
+					$label                  = 'en' === $lang ? $label : $this->translate( $label, $lang );
 					$data                   = array(
 						'menu-item-title'    => $label,
 						'menu-item-status'   => 'publish',
@@ -605,7 +672,7 @@ class Amour_Seed_Command {
 						if ( $photo ) {
 							update_field( 'field_amour_menu_photo', $photo, $item_id );
 						}
-						update_field( 'field_amour_menu_line', 'en' === $lang ? $item[3] : $this->german( $item[3] ), $item_id );
+						update_field( 'field_amour_menu_line', 'en' === $lang ? $item[3] : $this->translate( $item[3], $lang ), $item_id );
 					}
 				}
 
@@ -875,7 +942,7 @@ class Amour_Seed_Command {
 				);
 			}
 		}
-		// The German rooms: on a fresh site they are made (german_pages()) before this order is set, so a German room
+		// The translated rooms: on a fresh site they are made (translated_pages()) before this order is set, so a translated room
 		// without its own order takes the English one; otherwise they would stand in the order of their titles.
 		foreach ( array_keys( $cards ) as $slug ) {
 			if ( empty( $ids[ $slug ] ) || ! function_exists( 'pll_get_post_translations' ) ) {
@@ -1751,69 +1818,81 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * The German dictionary (data/de.json): page titles and English text → German text.
+	 * The dictionaries (data/de.json, data/pl.json): page titles and English text → text in the language.
 	 *
-	 * @var array{titles: array<string, string>, strings: array<string, string>}|null
+	 * @var array<string, array{titles: array<string, string>, strings: array<string, string>}>
 	 */
-	private $german = null;
+	private $dictionaries = array();
 
 	/**
-	 * A text in German: its translation from data/de.json, or the text itself (names, placeholders in square brackets).
+	 * The dictionary of a language, read once.
 	 *
-	 * @param string $text English text.
-	 * @return string
+	 * @param string $lang Language code.
+	 * @return array{titles: array<string, string>, strings: array<string, string>}
 	 */
-	private function german( $text ) {
-		if ( null === $this->german ) {
-			$file         = AMOUR_CORE_DIR . '/data/de.json';
-			$data         = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local data file.
-			$this->german = is_array( $data ) ? $data + array(
-				'titles'  => array(),
-				'strings' => array(),
-			) : array(
+	private function dictionary( $lang ) {
+		if ( ! isset( $this->dictionaries[ $lang ] ) ) {
+			$file = AMOUR_CORE_DIR . '/data/' . $lang . '.json';
+			$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local data file.
+
+			$this->dictionaries[ $lang ] = ( is_array( $data ) ? $data : array() ) + array(
 				'titles'  => array(),
 				'strings' => array(),
 			);
 		}
-		return $this->german['strings'][ $text ] ?? $text;
+		return $this->dictionaries[ $lang ];
 	}
 
 	/**
-	 * A field value in German: every text through the dictionary, every link to an English page to its German page;
-	 * photos, numbers and choices stay as they are.
+	 * A text in a language: its translation from data/<code>.json, or the text itself (names, placeholders in
+	 * square brackets).
 	 *
-	 * @param mixed $value Raw field value (repeaters and groups are arrays).
+	 * @param string $text English text.
+	 * @param string $lang Language code.
+	 * @return string
+	 */
+	private function translate( $text, $lang ) {
+		return $this->dictionary( $lang )['strings'][ $text ] ?? $text;
+	}
+
+	/**
+	 * A field value in a language: every text through the dictionary, every link to an English page to its page in
+	 * that language; photos, numbers and choices stay as they are.
+	 *
+	 * @param mixed  $value Raw field value (repeaters and groups are arrays).
+	 * @param string $lang  Language code.
 	 * @return mixed
 	 */
-	private function german_value( $value ) {
+	private function translated_value( $value, $lang ) {
 		if ( is_array( $value ) ) {
 			$out = array();
 			foreach ( $value as $key => $part ) {
-				$out[ $key ] = 'url' === $key && is_string( $part ) ? $this->german_url( $part ) : $this->german_value( $part );
+				$out[ $key ] = 'url' === $key && is_string( $part ) ? $this->translated_url( $part, $lang ) : $this->translated_value( $part, $lang );
 			}
 			return $out;
 		}
 		if ( ! is_string( $value ) ) {
 			return $value;
 		}
-		return preg_match( '#^(https?:|/)#', $value ) ? $this->german_url( $value ) : $this->german( $value );
+		return preg_match( '#^(https?:|/)#', $value ) ? $this->translated_url( $value, $lang ) : $this->translate( $value, $lang );
 	}
 
 	/**
-	 * A link to an English page, as the link to its German page (with the same #section); other links stay.
+	 * A link to an English page, as the link to its page in the language (with the same #section); other links stay.
 	 *
-	 * @param string $url Link.
+	 * @param string $url  Link.
+	 * @param string $lang Language code.
 	 * @return string
 	 */
-	private function german_url( $url ) {
-		$anchor = (string) strstr( $url, '#' );
-		$id     = url_to_postid( '' === $anchor ? $url : strstr( $url, '#', true ) );
-		$german = $id && function_exists( 'pll_get_post' ) ? (int) pll_get_post( $id, 'de' ) : 0;
-		return $german ? get_permalink( $german ) . $anchor : $url;
+	private function translated_url( $url, $lang ) {
+		$anchor     = (string) strstr( $url, '#' );
+		$id         = url_to_postid( '' === $anchor ? $url : strstr( $url, '#', true ) );
+		$translated = $id && function_exists( 'pll_get_post' ) ? (int) pll_get_post( $id, $lang ) : 0;
+		return $translated ? get_permalink( $translated ) . $anchor : $url;
 	}
 
 	/**
-	 * Whether a raw field value is empty (an empty German field shows the English one, amour_page_field()).
+	 * Whether a raw field value is empty (an empty translated field shows the English one, amour_page_field()).
 	 *
 	 * @param mixed $value Raw field value.
 	 * @return bool
@@ -1823,14 +1902,15 @@ class Amour_Seed_Command {
 	}
 
 	/**
-	 * Copy the fields of an English post to its German translation, in German: only fields where the German post has
+	 * Copy the fields of an English post to its translation, in that language: only fields where the translation has
 	 * nothing yet and the dictionary changed something (the others keep showing the English value).
 	 *
-	 * @param int $en English post id.
-	 * @param int $de German post id.
+	 * @param int    $en          English post id.
+	 * @param int    $translation Translated post id.
+	 * @param string $lang        Language code.
 	 * @return int Fields written.
 	 */
-	private function german_fields( $en, $de ) {
+	private function translated_fields( $en, $translation, $lang ) {
 		$skip    = array( 'image', 'file', 'gallery', 'number', 'true_false', 'date_picker', 'select', 'radio', 'checkbox', 'post_object', 'relationship', 'page_link', 'email', 'color_picker' );
 		$written = 0;
 		$fields  = get_field_objects( $en, false );
@@ -1838,53 +1918,55 @@ class Amour_Seed_Command {
 			if ( in_array( $field['type'], $skip, true ) || $this->empty_value( $field['value'] ) ) {
 				continue;
 			}
-			if ( ! $this->empty_value( get_field( $name, $de, false ) ) ) {
+			if ( ! $this->empty_value( get_field( $name, $translation, false ) ) ) {
 				continue;
 			}
-			$german = $this->german_value( $field['value'] );
-			if ( $german === $field['value'] ) {
+			$value = $this->translated_value( $field['value'], $lang );
+			if ( $value === $field['value'] ) {
 				continue;
 			}
-			update_field( $field['key'], $german, $de );
+			update_field( $field['key'], $value, $translation );
 			++$written;
 		}
 		return $written;
 	}
 
 	/**
-	 * German texts (decision 25.11, HANDOFF section 19), from data/de.json: the German page titles, the fields of every
-	 * German page except the legal ones (they stay in English until the lawyer has checked them), the questions with
-	 * their topics, the map places, the texts of Hotel settings and the photo descriptions (Polylang strings). Never changes a German text
-	 * that is already there, so edits in the admin stay.
+	 * The texts of a language (decisions 25.11, HANDOFF section 19), from data/<code>.json: the page titles, the fields
+	 * of every page except the legal ones (they stay in English until the lawyer has checked them), the questions
+	 * with their topics, the map places, the texts of Hotel settings and the photo descriptions (Polylang strings).
+	 * Never changes a text that is already there, so edits in the admin stay.
 	 *
-	 * @param array<string, int> $ids Page ids by slug.
+	 * @param array<string, int> $ids  Page ids by slug.
+	 * @param string             $lang Language code.
 	 */
-	private function german_texts( $ids ) {
+	private function translated_texts( $ids, $lang ) {
 		if ( ! function_exists( 'pll_get_post' ) || ! function_exists( 'update_field' ) ) {
 			return;
 		}
-		$this->german( '' );
-		$legal = array( 'privacy-policy', 'cookies', 'booking-terms' );
+		$dictionary = $this->dictionary( $lang );
+		$legal      = array( 'privacy-policy', 'cookies', 'booking-terms' );
+		$name       = self::TRANSLATIONS[ $lang ]['name'];
 
 		// Page titles and fields.
 		$fields = 0;
-		foreach ( array_merge( array( 'home' ), array_keys( self::GERMAN ) ) as $slug ) {
-			$en = (int) ( $ids[ $slug ] ?? 0 );
-			$de = $en ? (int) pll_get_post( $en, 'de' ) : 0;
-			if ( ! $de ) {
+		foreach ( array_merge( array( 'home' ), array_keys( self::TRANSLATIONS[ $lang ]['pages'] ) ) as $slug ) {
+			$en          = (int) ( $ids[ $slug ] ?? 0 );
+			$translation = $en ? (int) pll_get_post( $en, $lang ) : 0;
+			if ( ! $translation ) {
 				continue;
 			}
-			$title = $this->german['titles'][ $slug ] ?? '';
-			if ( $title && get_the_title( $de ) === get_the_title( $en ) ) {
+			$title = $dictionary['titles'][ $slug ] ?? '';
+			if ( $title && get_the_title( $translation ) === get_the_title( $en ) ) {
 				wp_update_post(
 					array(
-						'ID'         => $de,
+						'ID'         => $translation,
 						'post_title' => $title,
 					)
 				);
 			}
 			if ( ! in_array( $slug, $legal, true ) ) {
-				$fields += $this->german_fields( $en, $de );
+				$fields += $this->translated_fields( $en, $translation, $lang );
 			}
 		}
 
@@ -1898,58 +1980,72 @@ class Amour_Seed_Command {
 					'lang'       => 'en',
 				)
 			) as $term ) {
-				if ( pll_get_term( $term->term_id, 'de' ) ) {
+				// Polylang does not always filter terms by language from the command line: English ones only.
+				if ( 'en' !== pll_get_term_language( $term->term_id ) || pll_get_term( $term->term_id, $lang ) ) {
 					continue;
 				}
-				$name   = $this->german( $term->name );
-				$german = wp_insert_term( $name, 'amour_topic', array( 'slug' => sanitize_title( $name ) . '-de' ) );
-				if ( is_wp_error( $german ) ) {
-					WP_CLI::warning( 'German topic ' . $name . ': ' . $german->get_error_message() );
+				$topic = $this->translate( $term->name, $lang );
+				$slug  = sanitize_title( $topic ) . '-' . $lang;
+				$made  = wp_insert_term( $topic, 'amour_topic', array( 'slug' => $slug ) );
+				if ( is_wp_error( $made ) && 'term_exists' === $made->get_error_code() ) {
+					// A name another language has already (Villa Eudora): topics are nested, so WordPress wants a
+					// name of its own; give it one for a moment, then the real one.
+					$made = wp_insert_term( $topic . ' (' . $lang . ')', 'amour_topic', array( 'slug' => $slug ) );
+					if ( ! is_wp_error( $made ) ) {
+						wp_update_term( $made['term_id'], 'amour_topic', array( 'name' => $topic ) );
+					}
+				}
+				if ( is_wp_error( $made ) ) {
+					WP_CLI::warning( $name . ' topic ' . $topic . ': ' . $made->get_error_message() );
 					continue;
 				}
-				pll_set_term_language( $german['term_id'], 'de' );
+				pll_set_term_language( $made['term_id'], $lang );
 				pll_save_term_translations(
-					array(
-						'en' => $term->term_id,
-						'de' => $german['term_id'],
+					array_merge(
+						pll_get_term_translations( $term->term_id ),
+						array(
+							'en'  => $term->term_id,
+							$lang => $made['term_id'],
+						)
 					)
 				);
-				update_field( 'order', get_field( 'order', 'amour_topic_' . $term->term_id ), 'amour_topic_' . $german['term_id'] );
+				update_field( 'order', get_field( 'order', 'amour_topic_' . $term->term_id ), 'amour_topic_' . $made['term_id'] );
 				++$topics;
 			}
 		}
-		$posts = $this->german_posts( 'amour_question', 'amour_topic' ) + $this->german_posts( 'amour_place', '' );
+		$posts = $this->translated_posts( 'amour_question', 'amour_topic', $lang ) + $this->translated_posts( 'amour_place', '', $lang );
 
-		// Texts of Hotel settings, as Polylang strings.
+		// Texts of Hotel settings and photo descriptions, as Polylang strings.
 		$strings = 0;
 		if ( class_exists( 'PLL_MO' ) && function_exists( 'amour_option_strings' ) ) {
-			$language = PLL()->model->get_language( 'de' );
+			$language = PLL()->model->get_language( $lang );
 			$mo       = new PLL_MO();
 			$mo->import_from_db( $language );
 			$texts = array_merge( wp_list_pluck( amour_option_strings(), 'text' ), function_exists( 'amour_photo_alts' ) ? amour_photo_alts() : array() );
 			foreach ( array_unique( $texts ) as $text ) {
-				$german = $this->german( $text );
-				if ( $german === $text || $mo->translate( $text ) !== $text ) {
+				$translated = $this->translate( $text, $lang );
+				if ( $translated === $text || $mo->translate( $text ) !== $text ) {
 					continue;
 				}
-				$mo->add_entry( $mo->make_entry( $text, $german ) );
+				$mo->add_entry( $mo->make_entry( $text, $translated ) );
 				++$strings;
 			}
 			$mo->export_to_db( $language );
 		}
 
-		WP_CLI::log( sprintf( 'German texts: %d page fields, %d topics, %d questions and places, %d settings texts and photo descriptions', $fields, $topics, $posts, $strings ) );
+		WP_CLI::log( sprintf( '%s texts: %d page fields, %d topics, %d questions and places, %d settings texts and photo descriptions', $name, $fields, $topics, $posts, $strings ) );
 	}
 
 	/**
-	 * German translations of the posts of a type (questions, map places): a German post with the German title and the
-	 * German text fields, in the German terms of the taxonomy given.
+	 * Translations of the posts of a type (questions, map places): a post in the language with the translated title
+	 * and text fields, in the translated terms of the taxonomy given.
 	 *
 	 * @param string $type     Post type.
 	 * @param string $taxonomy Taxonomy to carry over, or "".
+	 * @param string $lang     Language code.
 	 * @return int Posts created.
 	 */
-	private function german_posts( $type, $taxonomy ) {
+	private function translated_posts( $type, $taxonomy, $lang ) {
 		if ( ! post_type_exists( $type ) ) {
 			return 0;
 		}
@@ -1961,35 +2057,41 @@ class Amour_Seed_Command {
 				'lang'           => 'en',
 			)
 		) as $post ) {
-			$de = (int) pll_get_post( $post->ID, 'de' );
-			if ( ! $de ) {
-				$de = wp_insert_post(
+			if ( 'en' !== pll_get_post_language( $post->ID ) ) {
+				continue; // English posts only, whatever Polylang's filter does from the command line
+			}
+			$translation = (int) pll_get_post( $post->ID, $lang );
+			if ( ! $translation ) {
+				$translation = wp_insert_post(
 					array(
 						'post_type'   => $type,
 						'post_status' => 'publish',
-						'post_title'  => $this->german( $post->post_title ),
+						'post_title'  => $this->translate( $post->post_title, $lang ),
 						'menu_order'  => $post->menu_order,
 					),
 					true
 				);
-				if ( is_wp_error( $de ) ) {
-					WP_CLI::warning( 'German ' . $type . ': ' . $de->get_error_message() );
+				if ( is_wp_error( $translation ) ) {
+					WP_CLI::warning( $type . ' (' . $lang . '): ' . $translation->get_error_message() );
 					continue;
 				}
-				pll_set_post_language( $de, 'de' );
+				pll_set_post_language( $translation, $lang );
 				pll_save_post_translations(
-					array(
-						'en' => $post->ID,
-						'de' => $de,
+					array_merge(
+						pll_get_post_translations( $post->ID ),
+						array(
+							'en'  => $post->ID,
+							$lang => $translation,
+						)
 					)
 				);
 				if ( $taxonomy ) {
-					$terms = array_filter( array_map( static fn( $id ) => (int) pll_get_term( $id, 'de' ), wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) ) ) );
-					wp_set_object_terms( $de, array_values( $terms ), $taxonomy );
+					$terms = array_filter( array_map( static fn( $id ) => (int) pll_get_term( $id, $lang ), wp_get_object_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) ) ) );
+					wp_set_object_terms( $translation, array_values( $terms ), $taxonomy );
 				}
 				++$created;
 			}
-			$this->german_fields( $post->ID, $de );
+			$this->translated_fields( $post->ID, $translation, $lang );
 		}
 		return $created;
 	}
