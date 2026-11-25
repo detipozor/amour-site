@@ -144,12 +144,12 @@ test.describe( 'menu (board Menu-list)', () => {
 		await expect( page.locator( '.am-menu__arch img.is-active' ) ).toHaveAttribute( 'data-index', '3' );
 	} );
 
-	test( 'footer of the menu: languages, contacts (placeholders on a test copy) and networks', async ( { page } ) => {
+	test( 'footer of the menu: languages, contacts from Hotel settings and networks', async ( { page } ) => {
 		await page.goto( '/questions/' );
 		await page.getByRole( 'button', { name: 'Menu', exact: true } ).click();
 		const foot = page.locator( '.am-menu__foot' );
 		await expect( foot.locator( '.am-menu__langs a' ) ).toHaveText( [ 'EN', 'DE' ] );
-		await expect( foot.locator( '.am-menu__contacts' ) ).toContainText( '[Phone]' );
+		await expect( foot.locator( '.am-menu__contacts' ) ).toContainText( '+30 697 333 8667' );
 		await expect( foot.locator( '.am-menu__social a' ) ).toHaveCount( 2 );
 	} );
 

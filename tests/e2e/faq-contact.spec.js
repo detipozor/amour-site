@@ -30,12 +30,12 @@ test.describe( 'Questions (board FAQ)', () => {
 		await expect( page.locator( '[data-faq-link="booking"]' ) ).not.toHaveClass( /is-on/ );
 	} );
 
-	test( 'the box at the bottom leads to WhatsApp and email (the contact page while there is no number)', async ( { page } ) => {
+	test( 'the box at the bottom leads to WhatsApp and email (the contact page while there is no WhatsApp number)', async ( { page } ) => {
 		await page.goto( '/questions/' );
 		const box = page.locator( '.am-faq-cta' );
 		await expect( box.getByRole( 'heading', { level: 2 } ) ).toHaveText( 'Still wondering about something?' );
 		await expect( box.getByRole( 'link', { name: 'Write on WhatsApp' } ) ).toHaveAttribute( 'href', /\/contacts\/$/ );
-		await expect( box.getByRole( 'link', { name: 'Email us' } ) ).toHaveAttribute( 'href', /\/contacts\/#write$/ );
+		await expect( box.getByRole( 'link', { name: 'Email us' } ) ).toHaveAttribute( 'href', /^mailto:/ );
 	} );
 
 	test( 'phone: the topics in a row of chips, the buttons full width', async ( { page } ) => {

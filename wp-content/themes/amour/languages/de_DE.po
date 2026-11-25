@@ -177,7 +177,7 @@ msgstr "%d Erwachsene"
 #: inc/booking.php:133
 #, php-format
 msgid "Free for %1$s – %2$s, %3$s."
-msgstr "Frei vom %1$s bis %2$s, %3$s."
+msgstr "Frei: %1$s – %2$s, %3$s."
 
 #: inc/booking.php:134
 msgid "For more than two guests: the villa, or several rooms booked one by one."
@@ -195,7 +195,7 @@ msgstr "Wir haben vom %1$s bis %2$s geöffnet."
 
 #: inc/booking.php:138
 msgid "Now the day you leave."
-msgstr "Jetzt den Abreisetag."
+msgstr "Jetzt den Abreisetag wählen."
 
 #: inc/booking.php:139
 msgid "closed"
@@ -205,7 +205,7 @@ msgstr "geschlossen"
 #: inc/booking.php:141
 #, php-format
 msgid "%s by card"
-msgstr "%s mit Karte"
+msgstr "%s per Karte"
 
 #: inc/content.php:232
 msgid "Villa licence"
@@ -274,7 +274,7 @@ msgstr "mit dem Auto"
 #: page-legal.php:64
 #: page-rooms.php:24
 msgid "Breadcrumb"
-msgstr "Brotkrumennavigation"
+msgstr "Brotkrümelnavigation"
 
 #: page-about.php:23
 #: page-book.php:27
@@ -600,7 +600,7 @@ msgstr "Zuletzt aktualisiert am %s"
 
 #: page-legal.php:79
 msgid "Draft: the lawyer checks it before launch"
-msgstr "Entwurf: Ein Anwalt prüft ihn vor dem Start"
+msgstr "Entwurf: Ein Anwalt prüft den Text vor dem Start"
 
 #: page-legal.php:82
 msgid "Documents"
@@ -856,7 +856,7 @@ msgstr "Sprache"
 
 #: template-parts/other-stays.php:26
 msgid "Other ways to stay"
-msgstr "Weitere Möglichkeiten zu wohnen"
+msgstr "Weitere Unterkünfte"
 
 #: template-parts/other-stays.php:27
 msgid "All rooms and the villa"

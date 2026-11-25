@@ -716,10 +716,15 @@ class Amour_Seed_Command {
 			return;
 		}
 
+		// Phone, email and the map link as on the old site (amourrelaxhotel.com, 25.11): for now, until the hosts
+		// confirm them in the questionnaire (open questions 21 and 31).
 		$simple = array(
 			'field_amour_place'               => array( 'amour_place', 'Almyrida, Crete' ),
 			'field_amour_booking_score'       => array( 'amour_booking_score', '9.1' ),
 			'field_amour_villa_booking_score' => array( 'amour_villa_booking_score', '9.5' ),
+			'field_amour_phone'               => array( 'amour_phone', '+30 697 333 8667' ),
+			'field_amour_email'               => array( 'amour_email', 'info.amourhotel@gmail.com' ),
+			'field_amour_maps_url'            => array( 'amour_maps_url', 'https://maps.app.goo.gl/wmRV75BGYVUVA2f88' ),
 		);
 		foreach ( $simple as $key => $field ) {
 			if ( ! get_field( $field[0], 'option' ) ) {
@@ -998,6 +1003,10 @@ class Amour_Seed_Command {
 
 		foreach ( $data['rooms'] as $slug => $room ) {
 			$id = $ids[ $slug ] ?? 0;
+			// The price from, as on the old site (25.11): until the hosts confirm it in the questionnaire.
+			if ( $id && ! empty( $room['price_from'] ) && ! get_field( 'price_from', $id, false ) ) {
+				update_field( 'field_amour_price_from', $room['price_from'], $id );
+			}
 			if ( $id && ! get_field( 'list_name', $id, false ) ) {
 				update_field( 'field_amour_room_list_name', $room['list']['name'], $id );
 				update_field( 'field_amour_room_list_text', $room['list']['text'], $id );

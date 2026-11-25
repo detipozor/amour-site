@@ -17,7 +17,7 @@ test.describe( 'Rooms page (board Rooms)', () => {
 		await expect( rooms.locator( '.am-eyebrow' ) ).toHaveText( [ 'Room 01', 'Room 02', 'Room 03' ] );
 		await expect( rooms.first().locator( 'dt' ) ).toHaveText( [ 'Size', 'Bed', 'Kitchen', 'Outside', 'Guests' ] );
 		await expect( rooms.first().locator( 'dd' ).first() ).toHaveText( 'about 20 m²' );
-		await expect( rooms.first().locator( '.am-rl-room__price' ) ).toHaveText( 'from €[price] a night' );
+		await expect( rooms.first().locator( '.am-rl-room__price' ) ).toHaveText( 'from €160 a night' );
 		await expect( page.getByRole( 'link', { name: /^View room\s*:\s*Standard Queen$/ } ) ).toHaveAttribute( 'href', /\/rooms\/standard-queen-room\/$/ );
 		await expect( page.getByRole( 'link', { name: /^Check dates\s*:\s*Deluxe Queen$/ } ) ).toHaveAttribute( 'href', /\/book\/$/ );
 
