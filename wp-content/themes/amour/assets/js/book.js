@@ -61,12 +61,14 @@ if ( page ) {
 	};
 	const long = ( t, year ) => {
 		const d = new Date( t );
-		return fill( text.date, d.getUTCDate(), config.months[ d.getUTCMonth() ] ) + ( year ? ' ' + d.getUTCFullYear() : '' );
+		return fill( text.date, d.getUTCDate(), ( config.genitive || config.months )[ d.getUTCMonth() ] ) + ( year ? ' ' + d.getUTCFullYear() : '' );
 	};
-	const count = ( n, one, many ) => ( n === 1 ? one : many ).replace( '%d', n );
+	// A count in the language's own forms: 1 night, 2 nights; 1 noc, 2 noce, 5 nocy (inc/booking.php).
+	const plural = new Intl.PluralRules( config.locale || 'en' );
+	const count = ( n, forms ) => ( forms[ plural.select( n ) ] || forms.other ).replace( '%d', n );
 	const nights = () => ( state.arr && state.dep ? Math.round( ( state.dep - state.arr ) / DAY ) : 0 );
-	const guestsText = () => count( state.guests, text.adult, text.adults );
-	const stayText = () => count( nights(), text.night, text.nights ) + ' · ' + guestsText();
+	const guestsText = () => count( state.guests, text.adults );
+	const stayText = () => count( nights(), text.nights ) + ' · ' + guestsText();
 	const money = new Intl.NumberFormat( config.locale || 'en', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 } );
 	const closedArrive = ( t ) => t < first || t > last;
 	const closedLeave = ( t ) => t < first || t > last + DAY;
@@ -261,7 +263,7 @@ if ( page ) {
 		leave: iso( state.dep ),
 		guests: state.guests,
 		nights: nights(),
-		stayText: fmt( state.arr ) + ' – ' + fmt( state.dep ) + ' · ' + count( nights(), text.night, text.nights ),
+		stayText: fmt( state.arr ) + ' – ' + fmt( state.dep ) + ' · ' + count( nights(), text.nights ),
 		guestsText: guestsText(),
 	} );
 

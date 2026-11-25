@@ -208,6 +208,11 @@ button.am-bk-field {
 	font-weight: 500;
 }
 
+/* Polish months are written in small letters (marzec): the heading starts with a capital */
+.am-bk-cal__month::first-letter {
+	text-transform: uppercase;
+}
+
 .am-bk-cal__week,
 .am-bk-cal__days {
 	display: grid;

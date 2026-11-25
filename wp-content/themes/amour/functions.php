@@ -226,7 +226,7 @@ function amour_room_template( $template ) {
 	if ( is_page() && ( amour_is_room() || amour_is_villa() ) ) {
 		$file = 'page-room.php';
 	} elseif ( is_page() && amour_is_page( 'rooms' ) ) {
-		$file = 'page-rooms.php'; // the Rooms page under its German address too
+		$file = 'page-rooms.php'; // the Rooms page under its address in every language
 	} elseif ( is_page() && amour_is_page( 'court-and-pool' ) ) {
 		$file = 'page-estate.php';
 	} elseif ( is_page() && amour_is_page( 'crete-guide' ) ) {

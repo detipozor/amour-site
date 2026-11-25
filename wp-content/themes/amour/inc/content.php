@@ -217,6 +217,7 @@ function amour_footer_data( $brand ) {
 			);
 		}
 		$score = $o( 'amour_villa_booking_score' );
+		$score = is_numeric( $score ) ? number_format_i18n( (float) $score, 1 ) : $score; // 9,5 in German and Polish
 		if ( '' !== $score ) {
 			$social[] = array(
 				'label' => 'Booking.com · ' . $score,

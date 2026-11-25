@@ -15,8 +15,10 @@ $amour_reviews = amour_reviews();
 if ( ! $amour_reviews ) {
 	return;
 }
+// The score reads 9.1 in English and 9,1 in German and Polish.
 $amour_title   = (string) amour_page_field( 'home_reviews_title' );
 $amour_score   = trim( (string) amour_option( 'amour_booking_score' ) );
+$amour_score   = is_numeric( $amour_score ) ? number_format_i18n( (float) $amour_score, 1 ) : $amour_score;
 $amour_count   = amour_or_placeholder( (string) amour_option( 'amour_booking_reviews' ), 'number' );
 $amour_all_url = (string) amour_option( 'amour_booking_url' );
 $amour_all     = __( 'Read all reviews on Booking.com', 'amour' );

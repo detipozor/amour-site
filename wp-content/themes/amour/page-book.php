@@ -54,7 +54,7 @@ $amour_max    = $amour_units ? max( array_column( $amour_units, 'guests' ) ) : 2
 					<div class="am-bk-field am-bk-guests" role="group" aria-labelledby="am-bk-guests">
 						<span class="am-bk-guests__text">
 							<span class="am-bk-field__label" id="am-bk-guests"><?php esc_html_e( 'Guests', 'amour' ); ?></span>
-							<output class="am-bk-field__value" data-bk-guests data-max="<?php echo (int) $amour_max; ?>" aria-live="polite"><?php echo esc_html( sprintf( /* translators: %d: number of guests. */ __( '%d adults', 'amour' ), 2 ) ); ?></output>
+							<output class="am-bk-field__value" data-bk-guests data-max="<?php echo (int) $amour_max; ?>" aria-live="polite"><?php echo esc_html( sprintf( /* translators: %d: number of guests. */ _n( '%d adult', '%d adults', 2, 'amour' ), 2 ) ); ?></output>
 						</span>
 						<span class="am-bk-guests__buttons">
 							<button type="button" class="am-bk-round" data-bk-guest="-1" aria-label="<?php esc_attr_e( 'Fewer guests', 'amour' ); ?>">−</button>
