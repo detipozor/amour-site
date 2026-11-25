@@ -17,11 +17,13 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"wp-content/**/*.css\"",
     "test": "playwright test",
+    "speed": "lhci autorun",
     "check": "npm run lint && npm test"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.0",
+    "@lhci/cli": "0.16.1",
     "@playwright/test": "^1.65.1",
     "@wordpress/env": "^12.2.0",
     "eslint": "^10.15.0",
