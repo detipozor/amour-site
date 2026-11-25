@@ -120,7 +120,7 @@ $amour_paw    = 'M14 34a6 8 0 1 0 0-16 6 8 0 0 0 0 16zM26 22.5a6 8.5 0 1 0 0-17 
 			?>
 			<div class="am-rl-in am-rl-family__in">
 				<div class="am-rl-family__text">
-					<?php echo amour_logo( 'eudora-horizontal', __( 'Villa Eudora', 'amour' ), 'am-rl-family__logo' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside. ?>
+					<?php echo amour_logo( 'eudora-horizontal', __( 'Villa Eudora', 'amour' ), 'am-rl-family__logo', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped inside. ?>
 					<h2 id="am-rl-family" class="am-rl-family__title"><?php echo esc_html( $amour_f( 'family_title' ) ); ?></h2>
 					<?php if ( $amour_f( 'family_text' ) ) : ?>
 						<p class="am-rl-family__line"><?php echo esc_html( $amour_f( 'family_text' ) ); ?></p>

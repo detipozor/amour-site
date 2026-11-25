@@ -38,7 +38,8 @@ blob_id,file,type,kb,size_px,alt_en,used_in,note
 9989fe9c7d128b11170156869f218802,images/a-long-table-at-the-villa-at.webp,webp,63,1200x1600,A long table at the villa at dusk | Guests raising glasses on the villa terrace at dusk,"Main-v2-b, Villa-v2, Villa-v2-b",
 a4bb2f0a434e76ccd05aa2c9e7fd58bc,images/two-friends-on-a-bench-above-a.webp,webp,131,1600x1067,Two friends on a bench above a green valley,"Guide, Main-v2-b",Stand-in: not Kournas
 a62e861ce9a97a8da8898a2f087c4970,images/waterfront-houses-and-tavernas-lit-at-dusk.webp,webp,100,1600x1067,Waterfront houses and tavernas lit at dusk,"Guide, Main-v2-b",Stand-in: not Chania
-b0bf041382d31b29afb9ccc9eb79bcef,images/home-hero-video.mp4,mp4,5951,,,Main-v2,"Muted, loop, playsinline; show the poster first"
+b0bf041382d31b29afb9ccc9eb79bcef,images/home-hero-video.mp4,mp4,2603,1920x1080,,Main-v2,"Muted, loop, playsinline; show the poster first. Compressed from the 5.9 MB master: bin/encode-video.swift, 1080 kbit/s"
+b0bf041382d31b29afb9ccc9eb79bcef-phone,images/home-hero-video-phone.mp4,mp4,1453,1280x720,,Main-v2,"720p for phones, made from the same master: bin/encode-video.swift, 600 kbit/s"
 b1c196ccffe7ccdfc16a183b6e2ef519,images/two-guests-at-a-table-on-a.webp,webp,188,1600x1067,Two guests at a table on a shaded terrace above the olive groves,Room-standard,
 b30babdbb27abc422be7864666db529c,images/crisp-white-linen-on-the-bed.webp,webp,17,1080x720,Crisp white linen on the bed,Room-standard,
 c3018ad0a4f2dc69bd0b3842bf8ebf21,images/logo-amour-horizontal.svg,svg,232,,Amour Relax Hotel,"About, Book, Contact, Estate, FAQ, Guide, Legal, Main-v2, NotFound, Rooms, Thanks",Production: SVG master from amour_eudora_package.zip

@@ -7,13 +7,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'AMOUR_VERSION', '0.12.0' );
+define( 'AMOUR_VERSION', '0.13.0' );
 
 require_once get_theme_file_path( 'inc/icons.php' );
 require_once get_theme_file_path( 'inc/brand.php' );
 require_once get_theme_file_path( 'inc/content.php' );
 require_once get_theme_file_path( 'inc/booking.php' );
 require_once get_theme_file_path( 'inc/seo.php' );
+require_once get_theme_file_path( 'inc/speed.php' );
 
 /**
  * Theme supports and menu locations.
@@ -62,8 +63,9 @@ function amour_assets() {
 	// JavaScript modules, one per block (HANDOFF, section 1). Imports use these ids, so each file loads once.
 	$modules = array(
 		'@amour/motion'           => array( 'assets/js/motion.js', array() ),
-		'@amour/transitions'      => array( 'assets/js/transitions.js', array() ),
-		'@amour/header'           => array( 'assets/js/header.js', array() ),
+		'@amour/logos'            => array( 'assets/js/logos.js', array() ),
+		'@amour/transitions'      => array( 'assets/js/transitions.js', array( '@amour/logos' ) ),
+		'@amour/header'           => array( 'assets/js/header.js', array( '@amour/logos' ) ),
 		'@amour/menu'             => array( 'assets/js/menu.js', array( '@amour/transitions' ) ),
 		'@amour/footer'           => array( 'assets/js/footer.js', array() ),
 		'@amour/smooth-scroll'    => array( 'assets/js/smooth-scroll.js', array( '@amour/motion' ) ),
@@ -94,7 +96,7 @@ function amour_assets() {
 		wp_register_script_module( $id, get_theme_file_uri( $module[0] ), $module[1], AMOUR_VERSION );
 	}
 
-	$enqueue = array( '@amour/consent', '@amour/transitions', '@amour/header', '@amour/menu', '@amour/footer', '@amour/smooth-scroll', '@amour/date-search', '@amour/parallax' );
+	$enqueue = array( '@amour/consent', '@amour/logos', '@amour/transitions', '@amour/header', '@amour/menu', '@amour/footer', '@amour/smooth-scroll', '@amour/date-search', '@amour/parallax' );
 
 	// Home page: its own styles and one module per scroll-linked block.
 	if ( is_front_page() ) {

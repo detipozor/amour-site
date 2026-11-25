@@ -5,6 +5,8 @@
  * Nothing here runs with reduced motion: links open as usual.
  */
 
+import { loadLogos } from '@amour/logos';
+
 const root = document.documentElement;
 const curtain = document.querySelector( '.am-curtain' );
 const villa = document.querySelector( '.am-header' )?.dataset.villa || '';
@@ -30,6 +32,7 @@ export const softGo = ( href ) => {
 const curtainGo = ( href ) => {
 	const target = new URL( href );
 	const house = villa && target.pathname.startsWith( new URL( villa ).pathname ) ? 'eudora' : 'amour';
+	loadLogos(); // a click before the page has loaded: the other house's logo is still waiting
 	curtain?.setAttribute( 'data-theme', house );
 	root.classList.add( 'is-leaving' );
 	remember( 'curtain' );

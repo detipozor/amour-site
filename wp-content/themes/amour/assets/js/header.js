@@ -9,6 +9,8 @@
  * - The language pill opens a short list.
  */
 
+import { loadLogos } from '@amour/logos';
+
 const header = document.querySelector( '.am-header' );
 
 if ( header ) {
@@ -66,6 +68,7 @@ if ( header ) {
 
 		const brand = under?.closest?.( '[data-brand]' )?.dataset.brand || homeBrand;
 		if ( brand !== header.dataset.brand ) {
+			loadLogos(); // the other house's logo, if the page has not given it yet
 			header.classList.add( 'is-swap' );
 			clearTimeout( swapTimer );
 			swapTimer = setTimeout( () => {

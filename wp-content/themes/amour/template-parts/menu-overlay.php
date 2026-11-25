@@ -26,7 +26,7 @@ $amour_first     = $amour_items ? (string) $amour_field( 'amour_menu_line', $amo
 			<span class="am-menu__close-label"><?php esc_html_e( 'Close', 'amour' ); ?></span>
 		</button>
 		<a class="am-menu__logo" href="<?php echo esc_url( function_exists( 'pll_home_url' ) ? pll_home_url() : home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Amour Relax Hotel, home', 'amour' ); ?>">
-			<?php echo amour_logo( 'amour-horizontal' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
+			<?php echo amour_logo( 'amour-horizontal', '', '', 'eudora' === amour_brand() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo(). ?>
 		</a>
 		<a class="am-btn am-btn--on-photo am-menu__book" href="<?php echo esc_url( amour_page_url( 'book' ) ); ?>"><?php esc_html_e( 'Book', 'amour' ); ?></a>
 	</div>

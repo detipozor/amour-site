@@ -28,8 +28,9 @@ $amour_current   = $amour_current ? reset( $amour_current ) : null;
 
 <div class="am-curtain" aria-hidden="true">
 	<?php
-	echo amour_logo( 'amour-horizontal', '', 'am-curtain__logo am-curtain__logo--amour' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
-	echo amour_logo( 'eudora-horizontal', '', 'am-curtain__logo am-curtain__logo--eudora' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
+	// The logo of this page's house is needed at once (the arriving curtain), the other one only on the way out.
+	echo amour_logo( 'amour-horizontal', '', 'am-curtain__logo am-curtain__logo--amour', 'eudora' === $amour_brand ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
+	echo amour_logo( 'eudora-horizontal', '', 'am-curtain__logo am-curtain__logo--eudora', 'amour' === $amour_brand ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
 	?>
 </div>
 
@@ -41,8 +42,8 @@ $amour_current   = $amour_current ? reset( $amour_current ) : null;
 
 	<a class="am-header__logo" href="<?php echo esc_url( amour_home_url() ); ?>" aria-label="<?php echo esc_attr( 'eudora' === $amour_brand ? __( 'Villa Eudora, home', 'amour' ) : __( 'Amour Relax Hotel, home', 'amour' ) ); ?>">
 		<?php
-		echo amour_logo( 'amour-horizontal' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
-		echo amour_logo( 'eudora-horizontal' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
+		echo amour_logo( 'amour-horizontal', '', '', 'eudora' === $amour_brand ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
+		echo amour_logo( 'eudora-horizontal', '', '', 'amour' === $amour_brand ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in amour_logo().
 		?>
 	</a>
 
