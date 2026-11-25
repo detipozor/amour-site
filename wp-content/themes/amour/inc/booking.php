@@ -116,6 +116,10 @@ function amour_booking_config( $units ) {
 		'short'    => $short,
 		'weekdays' => $weekdays,
 		'text'     => array(
+			/* translators: a day in the calendar: 1: weekday, 2: day, 3: month, e.g. Mon 1 Mar. */
+			'day'     => _x( '%1$s %2$s %3$s', 'calendar day', 'amour' ),
+			/* translators: a date: 1: day, 2: month, e.g. 1 March. */
+			'date'    => _x( '%1$s %2$s', 'date', 'amour' ),
 			'addDate' => __( 'Add date', 'amour' ),
 			/* translators: %d: number of nights. */
 			'night'   => __( '%d night', 'amour' ),

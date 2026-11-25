@@ -1,0 +1,923 @@
+# Copyright (C) 2026 
+# This file is distributed under the Proprietary.
+msgid ""
+msgstr ""
+"Project-Id-Version: Amour 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/amour\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-25T11:24:37+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: amour\n"
+
+#. Plugin Name of the plugin
+#: amour-core.php
+msgid "Amour Core"
+msgstr ""
+
+#. Description of the plugin
+#: amour-core.php
+msgid "Content model and site tools for Amour Relax Hotel and Villa Eudora: settings, content types, local seed data."
+msgstr ""
+
+#: inc/contact-form.php:54
+msgid "A message from the contact page:"
+msgstr ""
+
+#: inc/contact-form.php:56
+msgid "Name"
+msgstr ""
+
+#: inc/contact-form.php:57
+#: page-contact.php:32
+#: page-contact.php:157
+msgid "Email"
+msgstr ""
+
+#: inc/contact-form.php:58
+#: page-book.php:19
+#: page-contact.php:162
+msgid "Dates"
+msgstr ""
+
+#: inc/contact-form.php:59
+#: page-book.php:56
+#: page-contact.php:166
+#: page-thanks.php:21
+#: template-parts/date-search.php:27
+msgid "Guests"
+msgstr ""
+
+#. translators: %s: guest's name.
+#: inc/contact-form.php:69
+#, php-format
+msgid "Website: a message from %s"
+msgstr ""
+
+#: inc/contact-form.php:99
+msgid "The form has expired. Please go back, reload the page and send it again."
+msgstr ""
+
+#. Theme Name of the theme
+#: style.css
+msgid "Amour"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://amourrelaxhotel.com/"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Theme for Amour Relax Hotel and Villa Eudora, Almyrida, Crete."
+msgstr ""
+
+#: 404.php:23
+msgid "Error 404"
+msgstr ""
+
+#: 404.php:24
+#: index.php:14
+msgid "This path ends here"
+msgstr ""
+
+#: 404.php:25
+msgid "The page you were looking for has moved or never existed. Everything else is where we left it."
+msgstr ""
+
+#: 404.php:27
+msgid "Back to home"
+msgstr ""
+
+#: 404.php:28
+#: template-parts/estate-plan.php:61
+msgid "Rooms"
+msgstr ""
+
+#: 404.php:29
+#: page-estate.php:176
+#: page-rooms.php:123
+msgid "Villa Eudora"
+msgstr ""
+
+#: 404.php:30
+msgid "Crete guide"
+msgstr ""
+
+#: footer.php:50
+#: header.php:43
+msgid "Villa Eudora, home"
+msgstr ""
+
+#: footer.php:50
+#: header.php:43
+#: template-parts/menu-overlay.php:28
+msgid "Amour Relax Hotel, home"
+msgstr ""
+
+#: footer.php:68
+msgid "Contact"
+msgstr ""
+
+#: footer.php:83
+#: template-parts/menu-overlay.php:104
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: footer.php:99
+msgid "Legal"
+msgstr ""
+
+#: functions.php:31
+msgid "Main menu (overlay)"
+msgstr ""
+
+#: functions.php:32
+msgid "Footer: Stay"
+msgstr ""
+
+#: functions.php:33
+msgid "Footer: Discover"
+msgstr ""
+
+#: functions.php:34
+msgid "Villa footer: first column"
+msgstr ""
+
+#: functions.php:35
+msgid "Villa footer: second column"
+msgstr ""
+
+#: functions.php:36
+msgid "Footer: legal links"
+msgstr ""
+
+#: header.php:27
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:40
+#: template-parts/menu-overlay.php:22
+msgid "Menu"
+msgstr ""
+
+#. translators: %s: current language code, e.g. EN
+#: header.php:54
+#, php-format
+msgid "%s, choose language"
+msgstr ""
+
+#: header.php:68
+#: page-book.php:27
+#: template-parts/menu-overlay.php:31
+msgid "Book"
+msgstr ""
+
+#: inc/booking.php:76
+msgid "Climate fee paid at the hotel"
+msgstr ""
+
+#. translators: %s: number of days.
+#: inc/booking.php:79
+#, php-format
+msgid "Free cancellation until %s days before arrival · climate fee paid at the hotel"
+msgstr ""
+
+#. translators: a day in the calendar: 1: weekday, 2: day, 3: month, e.g. Mon 1 Mar.
+#: inc/booking.php:120
+#, php-format
+msgctxt "calendar day"
+msgid "%1$s %2$s %3$s"
+msgstr ""
+
+#. translators: a date: 1: day, 2: month, e.g. 1 March.
+#: inc/booking.php:122
+#, php-format
+msgctxt "date"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: inc/booking.php:123
+#: page-book.php:48
+#: page-book.php:52
+#: template-parts/date-search.php:25
+#: template-parts/date-search.php:26
+msgid "Add date"
+msgstr ""
+
+#. translators: %d: number of nights.
+#: inc/booking.php:125
+#, php-format
+msgid "%d night"
+msgstr ""
+
+#. translators: %d: number of nights.
+#: inc/booking.php:127
+#, php-format
+msgid "%d nights"
+msgstr ""
+
+#. translators: %d: number of guests.
+#: inc/booking.php:129
+#, php-format
+msgid "%d adult"
+msgstr ""
+
+#. translators: %d: number of guests.
+#: inc/booking.php:131
+#: page-book.php:57
+#, php-format
+msgid "%d adults"
+msgstr ""
+
+#. translators: 1: arrival day, 2: departure day, 3: nights and guests, e.g. 7 nights · 2 adults.
+#: inc/booking.php:133
+#, php-format
+msgid "Free for %1$s – %2$s, %3$s."
+msgstr ""
+
+#: inc/booking.php:134
+msgid "For more than two guests: the villa, or several rooms booked one by one."
+msgstr ""
+
+#: inc/booking.php:135
+msgid "Nothing free for these dates. Try other dates or write to us."
+msgstr ""
+
+#. translators: 1: first night of the season, 2: last night, e.g. 1 March and 31 October 2027.
+#: inc/booking.php:137
+#, php-format
+msgid "We are open from %1$s to %2$s."
+msgstr ""
+
+#: inc/booking.php:138
+msgid "Now the day you leave."
+msgstr ""
+
+#: inc/booking.php:139
+msgid "closed"
+msgstr ""
+
+#. translators: %s: the total, e.g. €1,190.
+#: inc/booking.php:141
+#, php-format
+msgid "%s by card"
+msgstr ""
+
+#: inc/content.php:232
+msgid "Villa licence"
+msgstr ""
+
+#: inc/content.php:254
+msgid "Villa Eudora licence"
+msgstr ""
+
+#. translators: %s: price, e.g. 95
+#. translators: %s: price in euros.
+#: inc/content.php:337
+#: page-rooms.php:73
+#, php-format
+msgid "from €%s a night"
+msgstr ""
+
+#. translators: %s: time, for example 14:00.
+#: inc/content.php:536
+msgid "Check-in"
+msgstr ""
+
+#. translators: %s: time, for example 14:00.
+#: inc/content.php:536
+#, php-format
+msgid "From %s"
+msgstr ""
+
+#. translators: %s: time, for example 11:00.
+#: inc/content.php:538
+msgid "Check-out"
+msgstr ""
+
+#. translators: %s: time, for example 11:00.
+#: inc/content.php:538
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: inc/content.php:610
+msgid "Relief map of Apokoronas: the villa and the hotel above Almyrida bay, Chania and the airport to the north-west"
+msgstr ""
+
+#: inc/content.php:611
+msgid "Relief map of Apokoronas: the hotel above Almyrida bay, Chania and the airport to the north-west"
+msgstr ""
+
+#: inc/content.php:687
+msgid "Amour · Villa Eudora"
+msgstr ""
+
+#: inc/content.php:696
+msgid "to Xyloskalo"
+msgstr ""
+
+#: inc/content.php:696
+msgid "by car"
+msgstr ""
+
+#: page-about.php:22
+#: page-book.php:26
+#: page-contact.php:54
+#: page-estate.php:70
+#: page-faq.php:23
+#: page-guide.php:33
+#: page-legal.php:64
+#: page-rooms.php:24
+msgid "Breadcrumb"
+msgstr ""
+
+#: page-about.php:23
+#: page-book.php:27
+#: page-contact.php:55
+#: page-estate.php:71
+#: page-faq.php:24
+#: page-guide.php:34
+#: page-legal.php:65
+#: page-rooms.php:25
+msgid "Home"
+msgstr ""
+
+#: page-about.php:63
+msgid "Photos of the hotel"
+msgstr ""
+
+#: page-about.php:93
+msgid "Book your stay"
+msgstr ""
+
+#: page-about.php:94
+#: page-estate.php:175
+msgid "See the rooms"
+msgstr ""
+
+#: page-book.php:19
+#: page-thanks.php:20
+#: template-parts/home/rooms.php:37
+msgid "Room"
+msgid_plural "Rooms"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-book.php:19
+msgid "Details"
+msgstr ""
+
+#: page-book.php:19
+msgid "Payment"
+msgstr ""
+
+#: page-book.php:38
+msgid "Steps"
+msgstr ""
+
+#: page-book.php:47
+#: template-parts/date-search.php:25
+msgid "Arrive"
+msgstr ""
+
+#: page-book.php:51
+#: template-parts/date-search.php:26
+msgid "Leave"
+msgstr ""
+
+#: page-book.php:60
+msgid "Fewer guests"
+msgstr ""
+
+#: page-book.php:61
+msgid "More guests"
+msgstr ""
+
+#: page-book.php:64
+msgid "Search"
+msgstr ""
+
+#: page-book.php:66
+msgid "Choose your dates"
+msgstr ""
+
+#: page-book.php:68
+msgid "Previous month"
+msgstr ""
+
+#: page-book.php:70
+msgid "Next month"
+msgstr ""
+
+#: page-book.php:84
+msgid "The search needs JavaScript. Write to us and we book for you."
+msgstr ""
+
+#: page-book.php:120
+msgid "Select"
+msgstr ""
+
+#: page-book.php:129
+msgid "Test booking engine: the prices are the price from × nights; Select opens the thank-you page as if paid"
+msgstr ""
+
+#: page-book.php:133
+msgid "Questions?"
+msgstr ""
+
+#: page-book.php:135
+#: page-book.php:137
+#: page-contact.php:103
+#: page-faq.php:68
+#: page-faq.php:70
+#: page-thanks.php:83
+#: template-parts/villa-events.php:60
+#: template-parts/villa-events.php:62
+msgid "Write on WhatsApp"
+msgstr ""
+
+#: page-book.php:139
+msgid "Booking terms"
+msgstr ""
+
+#: page-contact.php:30
+msgid "WhatsApp"
+msgstr ""
+
+#: page-contact.php:31
+msgid "Phone"
+msgstr ""
+
+#: page-contact.php:33
+msgid "Address"
+msgstr ""
+
+#: page-contact.php:34
+msgid "Hosts on site"
+msgstr ""
+
+#: page-contact.php:42
+msgid "Amour Relax Hotel"
+msgstr ""
+
+#. translators: the villa is about 4 minutes by car from the hotel.
+#: page-contact.php:44
+msgid "Villa Eudora · 4 min"
+msgstr ""
+
+#: page-contact.php:45
+msgid "Chania"
+msgstr ""
+
+#: page-contact.php:46
+msgid "Chania airport"
+msgstr ""
+
+#. translators: 1: first host, 2: second host.
+#: page-contact.php:75
+#, php-format
+msgid "%1$s and %2$s, your hosts"
+msgstr ""
+
+#: page-contact.php:106
+#: template-parts/location.php:71
+#: template-parts/location.php:73
+msgid "Open in Google Maps"
+msgstr ""
+
+#: page-contact.php:112
+msgid "Relief map of Apokoronas: the hotel and the villa in Almyrida, Chania and the airport to the north-west"
+msgstr ""
+
+#: page-contact.php:152
+msgid "Your name"
+msgstr ""
+
+#: page-contact.php:154
+msgid "Please add your name."
+msgstr ""
+
+#: page-contact.php:159
+msgid "Please add an email like name@example.com, so we can reply."
+msgstr ""
+
+#: page-contact.php:163
+msgid "e.g. 14 – 21 May"
+msgstr ""
+
+#: page-contact.php:167
+msgid "e.g. 2 adults"
+msgstr ""
+
+#: page-contact.php:170
+msgid "Message"
+msgstr ""
+
+#: page-contact.php:172
+msgid "Please write a few words."
+msgstr ""
+
+#. translators: %s: how soon the hosts reply, for example 24 hours.
+#: page-contact.php:178
+#: page-contact.php:184
+#, php-format
+msgid "Thank you. We reply by email within %s."
+msgstr ""
+
+#: page-contact.php:180
+msgid "The message did not go through. Please check the fields, or write to us on WhatsApp."
+msgstr ""
+
+#. translators: %s: how soon the hosts reply, for example 24 hours.
+#: page-contact.php:184
+msgid "The message did not go through. Please write to us on WhatsApp."
+msgstr ""
+
+#. translators: %s: how soon the hosts reply, for example 24 hours.
+#: page-contact.php:184
+msgid "Send"
+msgstr ""
+
+#. translators: %s: link to the privacy policy.
+#: page-contact.php:188
+#, php-format
+msgid "We use your details only to answer you. %s"
+msgstr ""
+
+#. translators: %s: link to the privacy policy.
+#: page-contact.php:188
+msgid "Privacy policy"
+msgstr ""
+
+#: page-estate.php:83
+#: page-room.php:142
+#: page-rooms.php:80
+#: template-parts/date-search.php:29
+#: template-parts/home/hero.php:28
+msgid "Check dates"
+msgstr ""
+
+#: page-estate.php:85
+#: page-estate.php:87
+msgid "Book a court slot on WhatsApp"
+msgstr ""
+
+#: page-estate.php:94
+#: template-parts/home/hero.php:59
+msgid "Pause video"
+msgstr ""
+
+#: page-estate.php:94
+#: template-parts/home/hero.php:59
+msgid "Play video"
+msgstr ""
+
+#: page-estate.php:121
+msgid "Day"
+msgstr ""
+
+#: page-estate.php:121
+msgid "Night"
+msgstr ""
+
+#: page-faq.php:24
+msgid "Questions"
+msgstr ""
+
+#: page-faq.php:37
+msgid "Topics"
+msgstr ""
+
+#: page-faq.php:73
+#: page-faq.php:75
+msgid "Email us"
+msgstr ""
+
+#: page-guide.php:46
+msgid "Map of Crete with day trips from the hotel"
+msgstr ""
+
+#: page-guide.php:49
+msgid "Relief map of Crete with the hotel in Almyrida and day trips around it"
+msgstr ""
+
+#: page-guide.php:104
+msgid "Open the map"
+msgstr ""
+
+#: page-guide.php:105
+msgid "Close the map"
+msgstr ""
+
+#: page-guide.php:107
+msgid "Scroll to zoom, drag to move"
+msgstr ""
+
+#: page-guide.php:108
+msgid "Pinch to zoom, tap a place"
+msgstr ""
+
+#. translators: 1: place, 2: drive time, 3: distance.
+#: page-guide.php:201
+#, php-format
+msgid "%1$s: %2$s, %3$s. Point at it or focus it to see the road from the hotel."
+msgstr ""
+
+#: page-guide.php:214
+msgid "The road from the hotel"
+msgstr ""
+
+#: page-legal.php:69
+msgid "This page is only in English for now."
+msgstr ""
+
+#. translators: %s: date.
+#: page-legal.php:77
+#, php-format
+msgid "Last updated %s"
+msgstr ""
+
+#. translators: %s: date.
+#: page-legal.php:77
+msgctxt "date format, see php.net/date"
+msgid "j F Y"
+msgstr ""
+
+#: page-legal.php:79
+msgid "Draft: the lawyer checks it before launch"
+msgstr ""
+
+#: page-legal.php:82
+msgid "Documents"
+msgstr ""
+
+#: page-legal.php:90
+#: template-parts/cookie-banner.php:21
+msgid "Cookie settings"
+msgstr ""
+
+#: page-legal.php:98
+msgid "On this page"
+msgstr ""
+
+#. translators: 1: email address, 2: link to the contact page.
+#: page-legal.php:113
+#, php-format
+msgid "Questions about this page? Write to %1$s or %2$s."
+msgstr ""
+
+#. translators: 1: email address, 2: link to the contact page.
+#: page-legal.php:113
+msgid "contact us"
+msgstr ""
+
+#: page-room.php:84
+msgid "Key facts"
+msgstr ""
+
+#: page-room.php:99
+msgid "Fewer details"
+msgstr ""
+
+#. translators: %d: number of further details.
+#: page-room.php:100
+#: page-room.php:101
+#, php-format
+msgid "All details · %d"
+msgstr ""
+
+#: page-room.php:106
+msgid "All details"
+msgstr ""
+
+#: page-room.php:131
+msgid "All rooms at the hotel"
+msgstr ""
+
+#. translators: %s: price in euros.
+#: page-room.php:140
+#, php-format
+msgid "From €%s a night for the whole villa"
+msgstr ""
+
+#. translators: %s: price in euros.
+#: page-room.php:140
+#, php-format
+msgid "From €%s a night"
+msgstr ""
+
+#: page-rooms.php:37
+msgid "The rooms"
+msgstr ""
+
+#. translators: %s: number of the room kind, 01, 02…
+#: page-rooms.php:57
+#, php-format
+msgid "Room %s"
+msgstr ""
+
+#: page-rooms.php:77
+msgid "View room"
+msgstr ""
+
+#: page-rooms.php:138
+#: template-parts/home/villa.php:56
+msgid "Discover the villa"
+msgstr ""
+
+#: page-rooms.php:170
+msgid "All questions and house rules"
+msgstr ""
+
+#: page-thanks.php:18
+msgid "Booking number"
+msgstr ""
+
+#: page-thanks.php:19
+msgid "Stay"
+msgstr ""
+
+#: page-thanks.php:22
+msgid "Paid"
+msgstr ""
+
+#. translators: %s: the climate resilience fee for one night, paid at the hotel.
+#: page-thanks.php:24
+msgid "At the hotel"
+msgstr ""
+
+#. translators: %s: the climate resilience fee for one night, paid at the hotel.
+#: page-thanks.php:24
+#, php-format
+msgid "Climate fee %s a night"
+msgstr ""
+
+#. translators: 1: check-in time, 2: check-out time.
+#: page-thanks.php:34
+#, php-format
+msgid "Check-in from %1$s, check-out by %2$s."
+msgstr ""
+
+#. translators: %s: guest's first name.
+#: page-thanks.php:46
+#, php-format
+msgid "Thank you, %s"
+msgstr ""
+
+#: page-thanks.php:85
+msgid "Plan your days"
+msgstr ""
+
+#: page-thanks.php:86
+msgid "Add to calendar"
+msgstr ""
+
+#: template-parts/cookie-banner.php:17
+msgid "Analytics"
+msgstr ""
+
+#: template-parts/cookie-banner.php:17
+msgid "Which pages help guests plan their stay (Google Analytics)."
+msgstr ""
+
+#: template-parts/cookie-banner.php:18
+msgid "Advertising"
+msgstr ""
+
+#: template-parts/cookie-banner.php:18
+msgid "Our ads on Facebook and Instagram remember your visit (Meta Pixel)."
+msgstr ""
+
+#: template-parts/cookie-banner.php:24
+msgid "Cookie policy"
+msgstr ""
+
+#: template-parts/cookie-banner.php:35
+msgid "Settings"
+msgstr ""
+
+#: template-parts/cookie-banner.php:36
+msgid "Save choices"
+msgstr ""
+
+#: template-parts/cookie-banner.php:37
+msgid "Reject all"
+msgstr ""
+
+#: template-parts/cookie-banner.php:38
+msgid "Accept all"
+msgstr ""
+
+#: template-parts/date-search.php:27
+msgid "2 adults"
+msgstr ""
+
+#: template-parts/estate-plan.php:39
+msgid "The hotel from above: the tennis court in the middle, the pool and sun terrace above it, the daybeds between them, rooms on terraces on both sides, lawns, a barbecue corner and an olive grove below"
+msgstr ""
+
+#: template-parts/estate-plan.php:105
+msgid "Places on the photo"
+msgstr ""
+
+#: template-parts/home/map.php:54
+msgid "Day trip"
+msgstr ""
+
+#: template-parts/home/map.php:55
+msgid "Open the Crete guide"
+msgstr ""
+
+#: template-parts/home/map.php:62
+msgid "Relief map of Crete with Amour Relax Hotel and Villa Eudora in Almyrida and day trips around them"
+msgstr ""
+
+#: template-parts/home/map.php:65
+msgid "Where we are: the hotel, the villa and day trips on a map of Crete"
+msgstr ""
+
+#: template-parts/home/map.php:172
+msgid "Map views"
+msgstr ""
+
+#: template-parts/home/map.php:179
+#: template-parts/location.php:52
+msgid "Scroll to come closer"
+msgstr ""
+
+#: template-parts/home/reviews.php:22
+msgid "Read all reviews on Booking.com"
+msgstr ""
+
+#. translators: 1: heading of the block, 2: score out of 10.
+#: template-parts/home/reviews.php:30
+#, php-format
+msgid "%1$s: %2$s out of 10 on Booking.com"
+msgstr ""
+
+#. translators: 1: score out of 10, 2: number of reviews.
+#: template-parts/home/reviews.php:52
+#, php-format
+msgid "<strong>%1$s out of 10</strong> on Booking.com · %2$s reviews"
+msgstr ""
+
+#: template-parts/home/reviews.php:66
+msgid "Pause reviews"
+msgstr ""
+
+#: template-parts/home/reviews.php:66
+msgid "Play reviews"
+msgstr ""
+
+#: template-parts/home/reviews.php:71
+msgid "Review cards: arrow keys move them"
+msgstr ""
+
+#: template-parts/home/rooms.php:39
+msgid "Villa"
+msgstr ""
+
+#. translators: %s: price, e.g. 95
+#: template-parts/home/rooms.php:101
+#, php-format
+msgid "from €%s"
+msgstr ""
+
+#: template-parts/location.php:55
+msgid "Location"
+msgstr ""
+
+#: template-parts/menu-overlay.php:26
+msgid "Close"
+msgstr ""
+
+#: template-parts/menu-overlay.php:61
+msgid "Main"
+msgstr ""
+
+#: template-parts/menu-overlay.php:80
+msgid "Language"
+msgstr ""
+
+#: template-parts/other-stays.php:26
+msgid "Other ways to stay"
+msgstr ""
+
+#: template-parts/other-stays.php:27
+msgid "All rooms and the villa"
+msgstr ""
+
+#: template-parts/villa-house.php:29
+msgid "Bedrooms"
+msgstr ""
+
+#: template-parts/villa-house.php:78
+msgid "Drawing of the villa: ground floor, upper floor and the garden with the pool"
+msgstr ""

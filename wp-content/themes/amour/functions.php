@@ -262,15 +262,3 @@ function amour_noindex_thanks( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'amour_noindex_thanks' );
-
-/**
- * A test copy says on every German page that its text is still the English one (decision 24.11, HANDOFF
- * section 19): the German texts come in week 7. The live site never shows it.
- */
-function amour_german_note() {
-	if ( 'production' === wp_get_environment_type() || ! function_exists( 'pll_current_language' ) || pll_current_language() === pll_default_language() ) {
-		return;
-	}
-	echo '<p class="am-test-note" lang="en">[' . esc_html__( 'German text to come: this page shows the English one', 'amour' ) . ']</p>';
-}
-add_action( 'wp_footer', 'amour_german_note' );

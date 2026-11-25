@@ -12,6 +12,7 @@
     "wp:seed": "wp-env run cli wp amour seed --media=/var/www/html/amour-assets/images",
     "wp:stop": "wp-env stop",
     "wp:reset": "wp-env reset && npm run wp:seed",
+    "i18n": "bin/i18n.sh",
     "lint": "npm run lint:php && npm run lint:js && npm run lint:css",
     "lint:php": "composer lint",
     "lint:js": "eslint .",

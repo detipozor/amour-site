@@ -4,6 +4,8 @@
 
 	<file>wp-content/themes/amour</file>
 	<file>wp-content/plugins/amour-core</file>
+	<!-- Translation files built by WP-CLI (npm run i18n), not written by hand. -->
+	<exclude-pattern>*/languages/*</exclude-pattern>
 
 	<arg name="extensions" value="php"/>
 	<arg name="colors"/>

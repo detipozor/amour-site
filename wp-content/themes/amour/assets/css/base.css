@@ -151,6 +151,7 @@ samp {
 	.am-phrase {
 		overflow-wrap: break-word;
 		hyphens: auto;
+		hyphenate-limit-chars: 10 4 4; /* only long words (German compounds), never "zwi-schen" */
 	}
 }
 
@@ -338,7 +339,7 @@ nav a {
 	}
 }
 
-/* A test copy only: the German pages still show the English text (functions.php, amour_german_note()) */
+/* A test copy only: a short note pinned to the bottom of the screen (the test booking engine, page-book.php) */
 .am-test-note {
 	position: fixed;
 	z-index: 40;

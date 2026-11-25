@@ -53,13 +53,15 @@ if ( page ) {
 		found: [],
 	};
 
+	// The order of the parts comes with the language (inc/booking.php): Mon 1 Mar, Mo., 1. März.
+	const fill = ( pattern, ...parts ) => parts.reduce( ( out, part, i ) => out.replace( `%${ i + 1 }$s`, part ), pattern );
 	const fmt = ( t ) => {
 		const d = new Date( t );
-		return config.weekdays[ d.getUTCDay() ] + ' ' + d.getUTCDate() + ' ' + config.short[ d.getUTCMonth() ];
+		return fill( text.day, config.weekdays[ d.getUTCDay() ], d.getUTCDate(), config.short[ d.getUTCMonth() ] );
 	};
 	const long = ( t, year ) => {
 		const d = new Date( t );
-		return d.getUTCDate() + ' ' + config.months[ d.getUTCMonth() ] + ( year ? ' ' + d.getUTCFullYear() : '' );
+		return fill( text.date, d.getUTCDate(), config.months[ d.getUTCMonth() ] ) + ( year ? ' ' + d.getUTCFullYear() : '' );
 	};
 	const count = ( n, one, many ) => ( n === 1 ? one : many ).replace( '%d', n );
 	const nights = () => ( state.arr && state.dep ? Math.round( ( state.dep - state.arr ) / DAY ) : 0 );

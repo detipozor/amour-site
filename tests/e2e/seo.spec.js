@@ -15,7 +15,8 @@ test.describe( 'Search and sharing (HANDOFF, section 13)', () => {
 			'/crete-guide/': 'Almyrida and Crete guide · Amour Relax Hotel',
 			'/book/': 'Book your stay · Amour Relax Hotel',
 			'/no-such-page-here/': 'Page not found · Amour Relax Hotel',
-			'/de/zimmer/': 'Rooms · Amour Relax Hotel',
+			'/de/zimmer/': 'Zimmer · Amour Relax Hotel',
+			'/de/': 'Amour Relax Hotel · Almyrida, Kreta',
 		};
 		for ( const [ path, title ] of Object.entries( titles ) ) {
 			await page.goto( path );
