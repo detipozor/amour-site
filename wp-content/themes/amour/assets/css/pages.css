@@ -977,24 +977,21 @@
 }
 
 /* ---------- Tablet and phone ---------- */
-@media (max-width: 1024px) {
+/* Tablet and phone (HANDOFF, section 4): split blocks in one column — the opening, the contact text and map,
+   the form and its text, the arches of About, Thank you and Page not found */
+@media (max-width: 1100px) {
 
-	.am-ct-routes__grid {
-		grid-template-columns: minmax(0, 1fr);
-	}
-}
-
-@media (max-width: 900px) {
-
+	.am-pg-open__grid,
 	.am-ct-top__grid,
 	.am-ct-write__grid,
 	.am-ab-top__grid,
 	.am-th-top__grid,
-	.am-nf__grid,
-	.am-lg-body__grid {
+	.am-nf__grid {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
+	.am-pg-open__left,
+	.am-pg-open__text,
 	.am-ct-top__text,
 	.am-ct-map,
 	.am-ct-write__text,
@@ -1004,15 +1001,51 @@
 	.am-th-top__text,
 	.am-th-top__arch,
 	.am-nf__arch,
-	.am-nf__text,
-	.am-lg-text {
+	.am-nf__text {
 		grid-column: 1 / -1;
+	}
+
+	.am-pg-open__text,
+	.am-ct-write__text {
+		max-width: 620px;
+	}
+
+	.am-ct-top__text {
+		max-width: 680px;
 	}
 
 	.am-ab-top__arch,
 	.am-th-top__arch,
 	.am-nf__arch {
 		max-width: 420px;
+	}
+}
+
+/* Tablet: card grids two in a row */
+@media (min-width: 761px) and (max-width: 1100px) {
+
+	.am-ct-routes__grid,
+	.am-th-next__list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Phone: one route under another */
+@media (max-width: 760px) {
+
+	.am-ct-routes__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 900px) {
+
+	.am-lg-body__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.am-lg-text {
+		grid-column: 1 / -1;
 	}
 
 	/* The contents of a legal page: hidden on narrow screens (HANDOFF) */

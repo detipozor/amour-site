@@ -435,6 +435,37 @@ a.am-villa-events__wa:hover {
 	}
 }
 
+/* ---------- Tablet, 761–1100 px (HANDOFF, section 4; docs/13, section 1): split blocks in one column,
+   card grids two in a row, fact tables in two columns, pinned blocks as on a desktop ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+
+	.am-villa-floors__in,
+	.am-villa-events__in {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 32px;
+	}
+
+	.am-villa-floors__fig,
+	.am-villa-floors__text,
+	.am-villa-events__text,
+	.am-villa-events__fig {
+		grid-column: 1 / -1;
+	}
+
+	.am-villa-floors__fig,
+	.am-villa-floors__text {
+		max-width: 680px;
+	}
+
+	.am-villa-events__fig {
+		width: min(300px, 44%);
+	}
+
+	.am-villa-events__title {
+		font-size: 52px;
+	}
+}
+
 @media (max-width: 760px) {
 
 	.am-villa-beds__title {
