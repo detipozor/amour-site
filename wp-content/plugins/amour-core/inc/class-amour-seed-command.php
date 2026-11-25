@@ -745,6 +745,7 @@ class Amour_Seed_Command {
 			'field_amour_home_hero_video_label' => 'Drone view of Amour Relax Hotel among olive groves above Almyrida bay',
 			'field_amour_home_hero_poster'      => $this->attachment_by_blob( 'e9a2a1196453b8875bd0d496802f1fb9' ),
 			'field_amour_home_hero_video'       => $this->attachment_by_blob( 'b0bf041382d31b29afb9ccc9eb79bcef' ),
+			'field_amour_home_hero_video_phone' => $this->attachment_by_blob( 'b0bf041382d31b29afb9ccc9eb79bcef-phone' ),
 			'field_amour_home_phrase'           => 'Nine rooms among olive groves. Your own kitchen, your own terrace, your own slow morning.',
 			'field_amour_home_estate_label'     => 'The estate',
 			'field_amour_home_estate_title'     => 'Stone terraces among olive groves',
