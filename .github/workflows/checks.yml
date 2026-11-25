@@ -72,7 +72,10 @@ jobs:
         run: npx wp-env start
       - name: Fill the site
         run: npm run wp:seed
-      # HANDOFF, section 15: a phone, speed from 85, accessibility from 95, the median of three runs.
+      # A live site answers from warm caches; the first request after the start does not.
+      - name: Warm up the pages
+        run: for page in / /rooms/superior-queen-room/ /book/; do curl -s -o /dev/null "http://localhost:8888$page"; done
+      # HANDOFF, section 15: a phone, speed from 85, accessibility from 95, the median score of three runs.
       # Reports stay in this run (no outside service).
       - run: npm run speed
       - uses: actions/upload-artifact@v7
