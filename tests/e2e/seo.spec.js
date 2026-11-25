@@ -29,7 +29,9 @@ test.describe( 'Search and sharing (HANDOFF, section 13)', () => {
 		await expect( meta( page, 'og:title' ) ).toHaveAttribute( 'content', 'Deluxe Queen Room · Amour Relax Hotel' );
 		await expect( meta( page, 'og:url' ) ).toHaveAttribute( 'content', /\/rooms\/deluxe-queen-room\/$/ );
 		await expect( meta( page, 'og:locale' ) ).toHaveAttribute( 'content', 'en_US' );
-		await expect( meta( page, 'og:locale:alternate' ) ).toHaveAttribute( 'content', 'de_DE' );
+		await expect( meta( page, 'og:locale:alternate' ) ).toHaveCount( 2 );
+		await expect( meta( page, 'og:locale:alternate' ).first() ).toHaveAttribute( 'content', 'de_DE' );
+		await expect( meta( page, 'og:locale:alternate' ).last() ).toHaveAttribute( 'content', 'pl_PL' );
 		await expect( meta( page, 'og:image' ) ).toHaveAttribute( 'content', /^https?:\/\/.+-1200x630\.\w+$/ );
 		await expect( meta( page, 'og:image:width' ) ).toHaveAttribute( 'content', '1200' );
 		await expect( page.locator( 'meta[name="twitter:card"]' ) ).toHaveAttribute( 'content', 'summary_large_image' );

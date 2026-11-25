@@ -148,7 +148,7 @@ test.describe( 'menu (board Menu-list)', () => {
 		await page.goto( '/questions/' );
 		await page.getByRole( 'button', { name: 'Menu', exact: true } ).click();
 		const foot = page.locator( '.am-menu__foot' );
-		await expect( foot.locator( '.am-menu__langs a' ) ).toHaveText( [ 'EN', 'DE' ] );
+		await expect( foot.locator( '.am-menu__langs a' ) ).toHaveText( [ 'EN', 'DE', 'PL' ] );
 		await expect( foot.locator( '.am-menu__contacts' ) ).toContainText( '+30 697 333 8667' );
 		await expect( foot.locator( '.am-menu__social a' ) ).toHaveCount( 2 );
 	} );

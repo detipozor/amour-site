@@ -40,6 +40,26 @@ export const PAGES_DE = [
 	'/de/danke/',
 ];
 
+/** The Polish pages at their Polish addresses (decision 25.11, HANDOFF section 19), in the same order. */
+export const PAGES_PL = [
+	'/pl/',
+	'/pl/pokoje/',
+	'/pl/pokoje/standard-queen-room/',
+	'/pl/pokoje/deluxe-queen-room/',
+	'/pl/pokoje/superior-queen-room/',
+	'/pl/willa-eudora/',
+	'/pl/kort-i-basen/',
+	'/pl/przewodnik-po-krecie/',
+	'/pl/pytania/',
+	'/pl/kontakt-z-nami/',
+	'/pl/rezerwacja/',
+	'/pl/o-nas/',
+	'/pl/polityka-prywatnosci/',
+	'/pl/polityka-cookies/',
+	'/pl/warunki-rezerwacji/',
+	'/pl/dziekujemy/',
+];
+
 export const NOT_FOUND = '/this-path-does-not-exist/';
 
 /** Widths from HANDOFF, section 4. */
