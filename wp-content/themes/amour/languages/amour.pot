@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T13:49:10+00:00\n"
+"POT-Creation-Date: 2026-11-25T14:45:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: amour\n"
@@ -189,20 +189,20 @@ msgid "Free cancellation until %s days before arrival · climate fee paid at the
 msgstr ""
 
 #. translators: a day in the calendar: 1: weekday, 2: day, 3: month, e.g. Mon 1 Mar.
-#: inc/booking.php:120
+#: inc/booking.php:124
 #, php-format
 msgctxt "calendar day"
 msgid "%1$s %2$s %3$s"
 msgstr ""
 
 #. translators: a date: 1: day, 2: month, e.g. 1 March.
-#: inc/booking.php:122
+#: inc/booking.php:126
 #, php-format
 msgctxt "date"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: inc/booking.php:123
+#: inc/booking.php:127
 #: page-book.php:48
 #: page-book.php:52
 #: template-parts/date-search.php:25
@@ -211,60 +211,58 @@ msgid "Add date"
 msgstr ""
 
 #. translators: %d: number of nights.
-#: inc/booking.php:125
+#: inc/booking.php:131
+#: inc/booking.php:133
+#: inc/booking.php:135
+#: inc/booking.php:137
 #, php-format
 msgid "%d night"
-msgstr ""
-
-#. translators: %d: number of nights.
-#: inc/booking.php:127
-#, php-format
-msgid "%d nights"
-msgstr ""
+msgid_plural "%d nights"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: %d: number of guests.
-#: inc/booking.php:129
-#, php-format
-msgid "%d adult"
-msgstr ""
-
-#. translators: %d: number of guests.
-#: inc/booking.php:131
+#: inc/booking.php:141
+#: inc/booking.php:143
+#: inc/booking.php:145
+#: inc/booking.php:147
 #: page-book.php:57
 #, php-format
-msgid "%d adults"
-msgstr ""
+msgid "%d adult"
+msgid_plural "%d adults"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: 1: arrival day, 2: departure day, 3: nights and guests, e.g. 7 nights · 2 adults.
-#: inc/booking.php:133
+#: inc/booking.php:150
 #, php-format
 msgid "Free for %1$s – %2$s, %3$s."
 msgstr ""
 
-#: inc/booking.php:134
+#: inc/booking.php:151
 msgid "For more than two guests: the villa, or several rooms booked one by one."
 msgstr ""
 
-#: inc/booking.php:135
+#: inc/booking.php:152
 msgid "Nothing free for these dates. Try other dates or write to us."
 msgstr ""
 
 #. translators: 1: first night of the season, 2: last night, e.g. 1 March and 31 October 2027.
-#: inc/booking.php:137
+#: inc/booking.php:154
 #, php-format
 msgid "We are open from %1$s to %2$s."
 msgstr ""
 
-#: inc/booking.php:138
+#: inc/booking.php:155
 msgid "Now the day you leave."
 msgstr ""
 
-#: inc/booking.php:139
+#: inc/booking.php:156
 msgid "closed"
 msgstr ""
 
 #. translators: %s: the total, e.g. €1,190.
-#: inc/booking.php:141
+#: inc/booking.php:158
 #, php-format
 msgid "%s by card"
 msgstr ""

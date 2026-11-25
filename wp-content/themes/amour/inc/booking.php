@@ -90,11 +90,14 @@ function amour_booking_config( $units ) {
 	$engine = trim( (string) amour_option( 'amour_engine_url' ) );
 	$test   = 'production' !== wp_get_environment_type();
 
-	$months = array();
-	$short  = array();
+	$months   = array();
+	$genitive = array();
+	$short    = array();
 	for ( $m = 1; $m <= 12; $m++ ) {
 		$months[] = $wp_locale->get_month( $m );
-		$short[]  = $wp_locale->get_month_abbrev( $wp_locale->get_month( $m ) );
+		// In a date the month takes its own form in some languages: 1 marca, not 1 marzec.
+		$genitive[] = $wp_locale->month_genitive[ zeroise( $m, 2 ) ] ?? $wp_locale->get_month( $m );
+		$short[]    = $wp_locale->get_month_abbrev( $wp_locale->get_month( $m ) );
 	}
 	$weekdays = array();
 	for ( $d = 0; $d <= 6; $d++ ) {
@@ -113,6 +116,7 @@ function amour_booking_config( $units ) {
 		'locale'   => str_replace( '_', '-', get_locale() ),
 		'price'    => $test ? '[price]' : '',
 		'months'   => $months,
+		'genitive' => $genitive,
 		'short'    => $short,
 		'weekdays' => $weekdays,
 		'text'     => array(
@@ -121,14 +125,27 @@ function amour_booking_config( $units ) {
 			/* translators: a date: 1: day, 2: month, e.g. 1 March. */
 			'date'    => _x( '%1$s %2$s', 'date', 'amour' ),
 			'addDate' => __( 'Add date', 'amour' ),
-			/* translators: %d: number of nights. */
-			'night'   => __( '%d night', 'amour' ),
-			/* translators: %d: number of nights. */
-			'nights'  => __( '%d nights', 'amour' ),
-			/* translators: %d: number of guests. */
-			'adult'   => __( '%d adult', 'amour' ),
-			/* translators: %d: number of guests. */
-			'adults'  => __( '%d adults', 'amour' ),
+			// The forms of a count, by the plural rules of the language (Intl.PluralRules in book.js): one, few, many.
+			'nights'  => array(
+				/* translators: %d: number of nights. */
+				'one'   => _n( '%d night', '%d nights', 1, 'amour' ),
+				/* translators: %d: number of nights. */
+				'few'   => _n( '%d night', '%d nights', 2, 'amour' ),
+				/* translators: %d: number of nights. */
+				'many'  => _n( '%d night', '%d nights', 5, 'amour' ),
+				/* translators: %d: number of nights. */
+				'other' => _n( '%d night', '%d nights', 2, 'amour' ),
+			),
+			'adults'  => array(
+				/* translators: %d: number of guests. */
+				'one'   => _n( '%d adult', '%d adults', 1, 'amour' ),
+				/* translators: %d: number of guests. */
+				'few'   => _n( '%d adult', '%d adults', 2, 'amour' ),
+				/* translators: %d: number of guests. */
+				'many'  => _n( '%d adult', '%d adults', 5, 'amour' ),
+				/* translators: %d: number of guests. */
+				'other' => _n( '%d adult', '%d adults', 2, 'amour' ),
+			),
 			/* translators: 1: arrival day, 2: departure day, 3: nights and guests, e.g. 7 nights · 2 adults. */
 			'free'    => __( 'Free for %1$s – %2$s, %3$s.', 'amour' ),
 			'many'    => __( 'For more than two guests: the villa, or several rooms booked one by one.', 'amour' ),

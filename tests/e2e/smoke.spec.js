@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { PAGES, PAGES_DE, NOT_FOUND, WIDTHS } from './pages.js';
+import { PAGES, PAGES_DE, PAGES_PL, NOT_FOUND, WIDTHS } from './pages.js';
 
-const ALL = [ ...PAGES, ...PAGES_DE ];
+const ALL = [ ...PAGES, ...PAGES_DE, ...PAGES_PL ];
 
 test.describe( 'every page answers', () => {
 	for ( const path of ALL ) {
@@ -12,7 +12,7 @@ test.describe( 'every page answers', () => {
 			await expect( page.locator( 'h1' ) ).toHaveCount( 1 );
 			await expect( page ).toHaveTitle( /\S/ );
 			const lang = await page.locator( 'html' ).getAttribute( 'lang' );
-			expect( lang ).toMatch( path.startsWith( '/de/' ) ? /^de/ : /^en/ );
+			expect( lang ).toMatch( new RegExp( '^' + ( path.match( /^\/(de|pl)\// )?.[ 1 ] ?? 'en' ) ) );
 		} );
 	}
 
