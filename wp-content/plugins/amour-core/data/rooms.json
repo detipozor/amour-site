@@ -29,6 +29,16 @@
      "blob": "b1c196ccffe7ccdfc16a183b6e2ef519",
      "caption": "Terrace",
      "shape": "wide"
+    },
+    {
+     "blob": "old-site-standard-kitchenette",
+     "caption": "Kitchenette",
+     "shape": "wide"
+    },
+    {
+     "blob": "old-site-standard-shower",
+     "caption": "Bathroom with a shower",
+     "shape": "upright"
     }
    ],
    "facts": [
@@ -50,23 +60,27 @@
     },
     {
      "label": "Kitchen",
-     "value": "Kitchenette: [hob, fridge, kettle]"
+     "value": "Kitchenette: electric hob, minibar, microwave, kettle, dishes for two"
     },
     {
      "label": "Outside",
      "value": "Private terrace"
     },
     {
+     "label": "Also in the room",
+     "value": "Sofa, armchair, flat-screen TV, iron"
+    },
+    {
      "label": "Bathroom",
-     "value": "[Shower]"
+     "value": "Shower, hair dryer"
     },
     {
      "label": "Air conditioning",
-     "value": "[Yes]"
+     "value": "Yes"
     },
     {
      "label": "Wi-Fi",
-     "value": "[Free]"
+     "value": "Free"
     },
     {
      "label": "Linen and towels",
@@ -106,7 +120,8 @@
       "value": "2"
      }
     ]
-   }
+   },
+   "price_from": 160
   },
   "deluxe-queen-room": {
    "kicker": "Queen room · pool view",
@@ -137,6 +152,11 @@
      "blob": "3e03be045ef749e0d13cdb0ef58aa776",
      "caption": "The pool, steps from your terrace",
      "shape": "upright"
+    },
+    {
+     "blob": "old-site-deluxe-kitchen",
+     "caption": "The kitchen",
+     "shape": "wide"
     }
    ],
    "facts": [
@@ -165,16 +185,20 @@
      "value": "Private terrace"
     },
     {
+     "label": "Also in the room",
+     "value": "Dining area, wardrobe"
+    },
+    {
      "label": "Sitting corner",
      "value": "Sofa and coffee table"
     },
     {
      "label": "Bathroom",
-     "value": "[Bath or shower]"
+     "value": "Bath and shower, hair dryer, bathrobes, toiletries"
     },
     {
      "label": "Air conditioning",
-     "value": "[Yes]"
+     "value": "Yes"
     },
     {
      "label": "Wi-Fi",
@@ -218,11 +242,12 @@
       "value": "2"
      }
     ]
-   }
+   },
+   "price_from": 180
   },
   "superior-queen-room": {
    "kicker": "Queen room · sea view",
-   "meta": "[m²] · queen bed · kitchen · terrace with a sea view",
+   "meta": "36 m² · queen bed · kitchen · terrace with a sea view",
    "description": "Our rooms with a view of the sea. The terrace looks over the olive groves to the bay of Almyrida, with a table for two for morning coffee and an evening glass of wine. Inside: a queen bed and a kitchen.",
    "photos": [
     {
@@ -249,12 +274,22 @@
      "blob": "16175242e07136a77226dd8cb574b487",
      "caption": "Evening on the terrace",
      "shape": "upright"
+    },
+    {
+     "blob": "old-site-superior-kitchen",
+     "caption": "The kitchen",
+     "shape": "wide"
+    },
+    {
+     "blob": "old-site-superior-bathroom",
+     "caption": "Bathroom",
+     "shape": "wide"
     }
    ],
    "facts": [
     {
      "label": "Room size",
-     "value": "[m²]"
+     "value": "36 m²"
     },
     {
      "label": "Guests",
@@ -277,12 +312,16 @@
      "value": "Private terrace with a table for two"
     },
     {
+     "label": "Also in the room",
+     "value": "Dining area"
+    },
+    {
      "label": "Bathroom",
-     "value": "[Shower]"
+     "value": "[Bath or shower]"
     },
     {
      "label": "Air conditioning",
-     "value": "[Yes]"
+     "value": "Yes"
     },
     {
      "label": "Wi-Fi",
@@ -307,7 +346,7 @@
     "facts": [
      {
       "label": "Size",
-      "value": "[m²]"
+      "value": "36 m²"
      },
      {
       "label": "Bed",
@@ -326,7 +365,8 @@
       "value": "2"
      }
     ]
-   }
+   },
+   "price_from": 200
   }
  },
  "stay": [

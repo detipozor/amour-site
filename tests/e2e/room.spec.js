@@ -29,8 +29,9 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 		await expect( page.locator( '.am-room__kicker' ) ).toHaveText( 'Queen room · pool view' );
 		await expect( page.locator( '.am-room__meta' ) ).toHaveText( '32 m² · queen bed · kitchen · sitting corner · terrace' );
 		const figs = page.locator( '[data-room-fig]' );
-		await expect( figs ).toHaveCount( 5 );
-		await expect( figs.first().locator( 'figcaption' ) ).toHaveText( /Bedroom and sitting corner\s*1 \/ 5/ );
+		// The five photos of the board and the kitchen from the old site (25.11).
+		await expect( figs ).toHaveCount( 6 );
+		await expect( figs.first().locator( 'figcaption' ) ).toHaveText( /Bedroom and sitting corner\s*1 \/ 6/ );
 		await expect( figs.first().locator( 'img' ) ).toHaveAttribute( 'alt', /\S/ );
 		await expect( figs.nth( 1 ) ).toHaveAttribute( 'data-shape', 'upright' );
 		await expect( figs.nth( 1 ) ).toHaveAttribute( 'data-side', 'right' );
@@ -69,7 +70,7 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 		await expect( page.locator( '.am-room__desc' ) ).toHaveText( /^More room to spread out: 32 m²/ );
 		await expect( page.locator( '.am-room__row--facts dt' ) ).toHaveText( [ 'Room size', 'Guests', 'Bed', 'View', 'Kitchen', 'Outside' ] );
 		const more = page.locator( '[data-room-more]' );
-		await expect( more ).toHaveText( /All details · 12/ );
+		await expect( more ).toHaveText( /All details · 13/ );
 		await expect( more ).toHaveAttribute( 'aria-expanded', 'false' );
 		const all = page.locator( '#am-room-all' );
 		await expect( all ).toBeHidden();
@@ -77,7 +78,7 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 		await expect( more ).toHaveAttribute( 'aria-expanded', 'true' );
 		await expect( more ).toHaveText( /Fewer details/ );
 		await expect( all ).toBeVisible();
-		await expect( all.locator( 'dt' ) ).toHaveCount( 12 );
+		await expect( all.locator( 'dt' ) ).toHaveCount( 13 );
 		await expect( all.locator( '.am-room__fact', { hasText: 'Check-in' } ).locator( 'dd' ) ).toHaveText( 'From 14:00' );
 		await expect( all.locator( '.am-room__fact', { hasText: 'Check-out' } ).locator( 'dd' ) ).toHaveText( 'By 11:00' );
 		await expect( all.locator( 'dt' ).last() ).toHaveText( 'Pool and sun terrace' );
@@ -88,7 +89,7 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 	test( 'the price capsule: price from the admin, Check dates to the booking page, steps aside at the footer', async ( { page } ) => {
 		await page.goto( ROOM );
 		const dock = page.locator( '[data-dock]' );
-		await expect( dock.locator( '.am-dock__price' ) ).toHaveText( 'From €[price] a night' );
+		await expect( dock.locator( '.am-dock__price' ) ).toHaveText( 'From €180 a night' );
 		await expect( dock.getByRole( 'link', { name: 'Check dates' } ) ).toHaveAttribute( 'href', /\/book\/$/ );
 		await expect( dock ).not.toHaveClass( /is-away/ );
 		const pill = await dock.locator( '.am-dock__pill' ).boundingBox();
@@ -159,7 +160,7 @@ test.describe( 'room page (HANDOFF, section 6 "Страница номера"; b
 		await expect( card.getByRole( 'heading', { level: 2 } ) ).toHaveText( 'Almyrida, Crete' );
 		await expect( card.locator( 'dt' ) ).toHaveText( [ 'Almyrida beach', 'Chania old town', 'Rethymno', 'Chania airport' ] );
 		await expect( card.locator( 'dd' ).first() ).toHaveText( '1.2 km on foot' );
-		await expect( card.locator( '.am-loc__maps' ) ).toHaveText( '[Open in Google Maps]' ); // no link yet: a placeholder on the test copy
+		await expect( card.getByRole( 'link', { name: /Open in Google Maps/ } ) ).toHaveAttribute( 'href', /^https:\/\/maps\.app\.goo\.gl\// );
 		await expect( page.locator( '.am-loc__spot .am-loc__long', { hasText: 'Chania · 40 min' } ) ).toBeVisible();
 	} );
 

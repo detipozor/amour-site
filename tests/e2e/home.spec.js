@@ -194,7 +194,7 @@ test.describe( 'home: rooms grid (HANDOFF, section 6.6)', () => {
 		await expect( cols.nth( 1 ).locator( '.am-unit__name' ) ).toHaveText( [ 'Deluxe', 'Villa Eudora' ] );
 		const standard = page.locator( '.am-unit', { hasText: 'Standard' } );
 		await expect( standard ).toHaveAttribute( 'href', /\/rooms\/standard-queen-room\/$/ );
-		await expect( standard ).toHaveAttribute( 'aria-label', 'Standard, 20 m², 2, from €[price] a night' );
+		await expect( standard ).toHaveAttribute( 'aria-label', 'Standard, 20 m², 2, from €160 a night' );
 		await expect( page.locator( '.am-unit--villa' ) ).toHaveAttribute( 'data-brand', 'eudora' );
 	} );
 

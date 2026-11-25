@@ -81,8 +81,8 @@ test.describe( 'Book your stay (board Book)', () => {
 		const first = units( page ).first();
 		await expect( first.locator( '.am-bk-pill' ) ).toHaveText( [ '20 m²', '2 guests' ] );
 		await expect( first.locator( '[data-bk-stay]' ) ).toHaveText( '7 nights · 2 adults' );
-		// No prices in the admin yet: a test copy shows the placeholder, never a made-up number.
-		await expect( first.locator( '[data-bk-total]' ) ).toHaveText( '[price]' );
+		// The test engine: the price from in the admin (for now the old site's 160 €) × 7 nights.
+		await expect( first.locator( '[data-bk-total]' ) ).toHaveText( '€1,120' );
 		await expect( first.locator( '.am-bk-unit__terms' ) ).toHaveText( 'Free cancellation until [14] days before arrival · climate fee paid at the hotel' );
 		await expect( first.getByRole( 'button', { name: 'Select' } ) ).toHaveAccessibleDescription( 'Standard Queen Room' );
 		await expect( page.locator( '[data-bk-test]' ) ).toBeVisible();

@@ -35,7 +35,7 @@ test.describe( 'German pages', () => {
 		await expect( footer.getByText( 'Wohnen', { exact: true } ) ).toBeVisible();
 		await expect( footer.getByText( 'Entdecken', { exact: true } ) ).toBeVisible();
 		const legal = footer.getByRole( 'navigation', { name: 'Rechtliches' } ).getByRole( 'link' );
-		await expect( legal ).toHaveText( [ 'Datenschutz', 'Cookies', 'Bedingungen' ] );
+		await expect( legal ).toHaveText( [ 'Datenschutz', 'Cookies', 'AGB' ] );
 		await expect( legal.nth( 0 ) ).toHaveAttribute( 'href', /\/de\/datenschutz\/$/ );
 		await expect( legal.nth( 2 ) ).toHaveAttribute( 'href', /\/de\/buchungsbedingungen\/$/ );
 		await expect( page.locator( '.am-search__go' ) ).toHaveAttribute( 'href', /\/de\/buchen\/$/ );
@@ -49,7 +49,7 @@ test.describe( 'German pages', () => {
 		await expect( page.locator( '.am-test-note' ) ).toHaveCount( 0 );
 
 		await page.goto( '/de/zimmer/' );
-		await expect( page.locator( 'h1' ) ).toHaveText( 'Neun Zimmer, drei Arten' );
+		await expect( page.locator( 'h1' ) ).toHaveText( 'Neun Zimmer, drei Kategorien' );
 		await expect( page.locator( 'main img[alt]' ).first() ).not.toHaveAttribute( 'alt', /\b(the|with|and)\b/ );
 
 		await page.goto( '/de/fragen/' );
